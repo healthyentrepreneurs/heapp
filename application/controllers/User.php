@@ -11,14 +11,12 @@ class User extends CI_Controller
         // $this->load->library('curl');
         // $this->load->model('moodle_model', '', TRUE);
     }
+    public function index($var = null)
+    {
+        echo "<h1>Api Users Api .....</h1>";
+    }
     public function test()
     {
-
-        array_map(function ($v1, $v2) {
-            echo $v1['id'] . "<br>";
-            echo $v2['shortname'] . "<br><br>";
-        }, $this->get_list_courses(), $this->get_list_courses());
-        // print_array($this->get_list_courses());
     }
     public function get_list_courses()
     {
