@@ -8,6 +8,42 @@
  *
  * i cant begin to stress how important these functions are
  */
+function curl_request($url, array $data = null, $method, array $app_auth = null)
+{
+    $ch = curl_init($url);
+    switch ($method) {
+        case 'get':
+            array_walk($data, function (&$a, $b) {
+                $a = "$b=$a";
+            });
+            $query =join("&", array_values($data));
+            curl_setopt($ch, CURLOPT_URL, "$url?$query");
+            break;
+        default:
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            break;
+    }
+
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $app_auth);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+    //$app_auth can include
+    /* array(
+            'Content-Type:application/json',
+            'App-Key: 123456',
+            'App-Secret: 1233'
+        )*/
+    // $ch = curl_init();
+    // curl_setopt($ch, CURLOPT_URL, "http://localhost/heapp/login");
+    // curl_setopt($ch, CURLOPT_POST, 1);
+    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#')));
+    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // $server_output = curl_exec($ch);
+    // curl_close ($ch);
+    // print_array($server_output);
+}
 function empty_response($mesg = "Empty Response")
 {
     $response = array(

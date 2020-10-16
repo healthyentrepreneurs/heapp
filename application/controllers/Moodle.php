@@ -9,6 +9,7 @@ class Moodle extends CI_Controller
         parent::__construct();
         $this->load->model('universal_model');
         $this->load->model('user_model', '', TRUE);
+        // $this->load->library('curl');
         // $this->load->model('moodle_model', '', TRUE);
     }
     public function index($var = null)
@@ -17,6 +18,8 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
+        // $_POST['email'] = "megasega91@gmail.com";
+        // $_POST['password'] = "Mega1java123!@#";
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $this->input->post('email');
             $password = $this->input->post('password');
@@ -41,5 +44,11 @@ class Moodle extends CI_Controller
         } else {
             echo empty_response("Credentials Are Required");
         }
+    }
+    public function test()
+    {
+
+        $server_output = curl_request('http://localhost/heapp/login', array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#'), "post", array('App-Key: 123456'));
+        print_array($server_output);
     }
 }
