@@ -16,7 +16,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
             array_walk($data, function (&$a, $b) {
                 $a = "$b=$a";
             });
-            $query =join("&", array_values($data));
+            $query = join("&", array_values($data));
             curl_setopt($ch, CURLOPT_URL, "$url?$query");
             break;
         default:
@@ -44,12 +44,12 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
     // curl_close ($ch);
     // print_array($server_output);
 }
-function empty_response($mesg = "Empty Response")
+function empty_response($mesg = "Empty Response",int $code = 500, array $data = null)
 {
     $response = array(
-        'code' => 500,
+        'code' => $code,
         'msg' => $mesg,
-        'data' => ""
+        'data' => $data
     );
     return json_encode($response);
 }
