@@ -15,9 +15,18 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function test()
+    public function test($var = null)
     {
+        $na = $this->get_moodle_courses();
+        print_array($na);
     }
+    public function get_moodle_courses()
+    {
+        $_courses = $this->get_list_courses();
+        $_courses_n = array_value_recursive('id', $_courses);
+        echo json_encode($this->get_course_get_courses_by_ids($_courses_n));
+    }
+
     public function get_list_courses()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
@@ -36,6 +45,52 @@ class User extends CI_Controller
             return array();
         } else {
             return $array_of_courses;
+        }
+    }
+    public function get_details_percourse($_courseid)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_course_get_contents';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'courseid' => $_courseid
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        // print_array($server_output);
+        $array_of_courses = json_decode($server_output, true);
+        if (array_key_exists('exception', $array_of_courses)) {
+            // message
+            return array();
+        } else {
+            return $array_of_courses;
+        }
+    }
+    public function get_course_get_courses_by_ids($_courseid)
+    {
+        $string = implode(',', $_courseid);
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_course_get_courses_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => "ids",
+            'value' =>  $string
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        // print_array($server_output);
+        $array_of_courses = json_decode($server_output, true);
+        if (array_key_exists('exception', $array_of_courses)) {
+            // message
+            return array();
+        } else {
+            return $array_of_courses['courses'];
         }
     }
     public function set_newuser()

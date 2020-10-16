@@ -44,7 +44,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
     // curl_close ($ch);
     // print_array($server_output);
 }
-function empty_response($mesg = "Empty Response",int $code = 500, array $data = null)
+function empty_response($mesg = "Empty Response", int $code = 500, array $data = null)
 {
     $response = array(
         'code' => $code,
@@ -1062,4 +1062,12 @@ function printvalues($key, $arrayn)
         $arrayn[$key] = '';
     }
     return $arrayn[$key];
+}
+
+function array_value_recursive($key, array $arr){
+    $val = array();
+    array_walk_recursive($arr, function($v, $k) use($key, &$val){
+        if($k == $key) array_push($val, $v);
+    });
+    return count($val) > 1 ? $val : array_pop($val);
 }
