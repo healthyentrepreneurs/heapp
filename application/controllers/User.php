@@ -17,17 +17,36 @@ class User extends CI_Controller
     }
     public function test($var = null)
     {
-        $na = $this->get_moodle_courses();
-        print_array($na);
+        // $na = $this->get_moodle_courses();
+        // unset_post('id',$na);
+        // print_array($na);
     }
     public function get_moodle_courses()
     {
-        $_courses = $this->get_list_courses();
+        $_courses = $this->get_list_courses_internal();
         $_courses_n = array_value_recursive('id', $_courses);
-        echo json_encode($this->get_course_get_courses_by_ids($_courses_n));
+        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n);
+        $merge_sanitized_courses = array();
+        foreach ($_courses_n_array as $key => $courses) {
+            $courses['source'] = "moodle";
+            $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
+            $courses['next_link']=base_url('user/get_details_percourse/'.$courses['id']);
+            $courses_overviewfiles = $courses['overviewfiles'];
+            if (empty($courses_overviewfiles)) {
+                $courses['image_url_small'] = "https://picsum.photos/100/100";
+                $courses['image_url'] = "https://picsum.photos/200/300";
+            } else {
+                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'].'?token=f84bf33b56e86a4664284d8a3dfb5280';
+                $courses['image_url'] = $courses['image_url_small'];
+            }
+            $sanitized_courses = array_slice_keys($courses, array('id', 'fullname', "summary_custome", 'source','next_link', 'image_url_small', 'image_url'));
+            array_push($merge_sanitized_courses, $sanitized_courses);
+        }
+        // print_array($merge_sanitized_courses);
+        echo json_encode($merge_sanitized_courses);
     }
 
-    public function get_list_courses()
+    public function get_list_courses_internal()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
@@ -66,6 +85,7 @@ class User extends CI_Controller
             // message
             return array();
         } else {
+            print_array($array_of_courses);
             return $array_of_courses;
         }
     }
@@ -138,7 +158,7 @@ class User extends CI_Controller
                 // array_map(function ($v1, $v2) {
                 //     echo $v1['id'] . " " . $v2['id'];
                 // }, $array_of_output, $this->get_list_courses());
-                foreach ($this->get_list_courses() as $key => $course) {
+                foreach ($this->get_list_courses_internal() as $key => $course) {
                     foreach ($array_of_output as $key => $user) {
                         $this->enrol($user['id'], $course['id']);
                     }

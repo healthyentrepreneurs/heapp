@@ -53,7 +53,7 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
-        // $_POST['username'] = "testuser_testuser";
+        // $_POST['username'] = "clare_atwine";
         // $_POST['password'] = "Newuser123!";
         if (isset($_POST['username']) && isset($_POST['password'])) {
             $username = $this->input->post('username');
@@ -67,9 +67,38 @@ class Moodle extends CI_Controller
             );
             $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
             $array_of_output = json_decode($server_output, true);
-            echo empty_response("New User Successfully Created", 200, $array_of_output);
+            if (array_key_exists('exception', $array_of_output)) {
+                echo empty_response(strip_tags($array_of_output['message']));
+            } else {
+                if (array_key_exists('errorcode', $array_of_output)) {
+                    echo empty_response(strip_tags($array_of_output['error']));
+                } else {
+                    $details_user = $this->get_userdetails_internal($username);
+                    $token_details = array_merge($array_of_output, $details_user[0]);
+                    // print_array($token_details);
+                    echo empty_response("successfully logged in", 200, $token_details);
+                }
+            }
         } else {
             echo empty_response("Credentials Are Required");
         }
+    }
+    public function get_userdetails_internal($username = null)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_user_get_users_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => 'username',
+            'values[0]' => $username
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
     }
 }
