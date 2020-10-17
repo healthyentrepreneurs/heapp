@@ -12,7 +12,7 @@
                 </div>
                 <div class="inline-block">
                     <h5 class="no-margin"> Welcome </h5>
-                    <h4 class="no-margin"> <?=$this->session->userdata('logged_in_lodda')['firstname']?> <?=$this->session->userdata('logged_in_lodda')['secondname']?></h4>
+                    <h4 class="no-margin"> <?=$this->session->userdata('logged_in_lodda')['firstname']?> <?=$this->session->userdata('logged_in_lodda')['lastname']?></h4>
                     <a class="btn user-options sb_toggle">
                         <i class="fa fa-cog"></i>
                     </a>
@@ -21,7 +21,7 @@
             <!-- start: MAIN NAVIGATION MENU -->
             <ul class="main-navigation-menu">
                 <li class="active open">
-                    <a href="<?=base_url()?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right "><?=$categoryname?></span> </a>
+                    <a href="<?=base_url()?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right ">SUPER</span> </a>
                 </li>
                 <li>
                     <a href="javascript:void(0)"><i class="fa fa-th-large"></i> <span class="title"> MEMBERS </span><i class="icon-arrow"></i> </a>
@@ -37,6 +37,9 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="active open">
+                    <a href="#"><i class="fa fa-home"></i> <span class="title"> CREATE ACTIVITY </span> </a>
                 </li>
             </ul>
             <!-- end: MAIN NAVIGATION MENU -->

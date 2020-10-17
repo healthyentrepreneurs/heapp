@@ -147,6 +147,51 @@ class Auth extends CI_Controller
     }
     public function check_database($password)
     {
+        $username = $this->input->post('username');
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $serverurl = $domainname . '/login/token.php';
+        $data = array(
+            'username' => $username,
+            'password' => $password,
+            'service' => 'moodle_mobile_app'
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        if (array_key_exists('exception', $array_of_output)) {
+            $this->form_validation->set_message('check_database', strip_tags($array_of_output['message']));
+            return false;
+        } else {
+            if (array_key_exists('errorcode', $array_of_output)) {
+                $this->form_validation->set_message('check_database', strip_tags($array_of_output['error']));
+                return false;
+            } else {
+                $details_user = $this->get_userdetails_internal($username);
+                $token_details = array_merge($array_of_output, $details_user[0]);
+                $this->session->set_userdata('logged_in_lodda', $token_details);
+                return TRUE;
+            }
+        }
+    }
+    public function get_userdetails_internal($username = null)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_user_get_users_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => 'username',
+            'values[0]' => $username
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
+    }
+    public function check_database_nn($password)
+    {
         $phonenumber = $this->input->post('phonenumber');
         //query the database
         $result = $this->user_model->login($phonenumber, $password);
@@ -166,7 +211,7 @@ class Auth extends CI_Controller
             $this->session->set_userdata('logged_in_lodda', $sess_array);
             return TRUE;
         } else {
-            $this->form_validation->set_message('check_database', 'Invalid  Phone Number or Password');
+            $this->form_validation->set_message('check_database', 'Invalid  Username or Password');
             return false;
         }
     }

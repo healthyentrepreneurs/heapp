@@ -12,10 +12,10 @@
                                 Phone Number
                             </label>
                             <div class="col-sm-9">
-                                <input type="text" placeholder="E.g 0700716751" id="phonenumber" name="phonenumber" class="form-control">
+                                <input type="text" placeholder="E.g johnen" id="username" name="username" class="form-control">
                                 <div class="control-group error">
                                     <h6 class="help-inline">
-                                        <font size="1" color="red"><?php echo $this->session->flashdata('phonenumber'); ?></font>
+                                        <font size="1" color="red"><?php echo $this->session->flashdata('username'); ?></font>
                                     </h6>
                                 </div>
                             </div>

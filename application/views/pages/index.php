@@ -4,7 +4,7 @@
     <div class="toolbar row">
         <div class="col-sm-6 hidden-xs">
             <div class="page-header">
-                <h1>LoDDCA here for you <small><b>To Champion our members interests by ensuring a conducive and safe working enviroment for our drivers and conductors.<br></b></small></h1>
+                <h1>HE here for you <small><b>Healthy Entrepreneurs provides basic health there where no one else will go<br></b></small></h1>
             </div>
         </div>
     </div>
@@ -43,15 +43,15 @@
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img src="<?= base_url() ?>assetsx/img/profiles/d.jpg" alt="LStress No" height="150" width="300">
+                                    <img src="https://picsum.photos/200/300" alt="LStress No" height="150" width="300">
                                 </div>
 
                                 <div class="item">
-                                    <img src="<?= base_url() ?>assetsx/img/profiles/d.jpg" alt="Stress No" height="150" width="300">
+                                    <img src="https://picsum.photos/200/300" alt="Stress No" height="150" width="300">
                                 </div>
 
                                 <div class="item">
-                                    <img src="<?= base_url() ?>assetsx/img/profiles/d.jpg" alt="Stress No" height="150" width="300">
+                                    <img src="https://picsum.photos/200/300" alt="Stress No" height="150" width="300">
                                 </div>
                             </div>
 
@@ -81,7 +81,7 @@
                         <div class="row">
                             <div class="col-lg-3 text-center">
                                 <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
-                                <h2>Anthony Mutua</h2>
+                                <h2>XXX XNNN</h2>
                                 <p>
                                     Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
                                 </p>
@@ -92,8 +92,8 @@
                                 </p>
                             </div>
                             <div class="col-lg-3 text-center">
-                                <img class="img-circle" src="<?= base_url() ?>assetsx/img/profiles/d.jpg" alt="Elijah Nyaga" height="140" width="140">
-                                <h2>Elijah Nyaga</h2>
+                                <img class="img-circle" data-src="holder.js/140x140" alt="Elijah Nyaga" height="140" width="140">
+                                <h2>NNN WNNN</h2>
                                 <p>
                                     Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
                                 </p>
@@ -104,8 +104,8 @@
                                 </p>
                             </div>
                             <div class="col-lg-3 text-center">
-                                <img class="img-circle" src="<?= base_url() ?>assetsx/img/profiles/e.jpg" alt="Elijah Nyaga" height="140" width="140">
-                                <h2>Colins Elvis</h2>
+                                <img class="img-circle" data-src="holder.js/140x140" alt="Elijah Nyaga" height="140" width="140">
+                                <h2>AAA ANNN</h2>
                                 <p>
                                     Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
                                 </p>
@@ -117,7 +117,7 @@
                             </div>
                             <div class="col-lg-3 text-center">
                                 <img class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image">
-                                <h2>Sammy Mberege</h2>
+                                <h2>PPP PNNN</h2>
                                 <p>
                                     Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit.
                                 </p>

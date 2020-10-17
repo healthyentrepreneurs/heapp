@@ -83,10 +83,12 @@ class User extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         if (array_key_exists('exception', $array_of_courses)) {
             // message
-            return array();
+            $result= array();
+            echo empty_response("Credentials Are Required");
         } else {
-            print_array($array_of_courses);
-            return $array_of_courses;
+            // print_array($array_of_courses);
+            // return $array_of_courses;
+            echo empty_response("course sections loaded", 200, $array_of_courses);
         }
     }
     public function get_course_get_courses_by_ids($_courseid)

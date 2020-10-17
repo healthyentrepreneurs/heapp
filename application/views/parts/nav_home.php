@@ -17,21 +17,6 @@
 								My Account
 							</a>
 						</li>
-						<li>
-							<a href="<?=base_url('welcome/landing/1')?>">
-								Register
-							</a>
-						</li>
-						<li class="active">
-							<a href="#">
-								loddca@gmail.com
-							</a>
-						</li>
-						<li class="active">
-							<a href="#">
-								+25472432124
-							</a>
-						</li>
 					</ul>
 				</div>
 
