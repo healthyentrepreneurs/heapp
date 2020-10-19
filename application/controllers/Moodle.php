@@ -53,11 +53,12 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
-        // $_POST['username'] = "clare_atwine";
-        // $_POST['password'] = "Newuser123!";
+        // $_POST['username'] = "mega";
+        // $_POST['password'] = "Mega1java123!@#";
         if (isset($_POST['username']) && isset($_POST['password'])) {
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
+            $username = str_replace(' ', '', $this->input->post('username'));
+            $password = str_replace('#', '%23', $this->input->post('password'));
+            // $password = $this->input->post('password');
             $domainname = 'https://app.healthyentrepreneurs.nl';
             $serverurl = $domainname . '/login/token.php';
             $data = array(
