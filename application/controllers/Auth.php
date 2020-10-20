@@ -107,10 +107,10 @@ class Auth extends CI_Controller
         if ($this->session->userdata('logged_in_lodda')) {
             redirect(base_url('welcome/admin'));
         } else {
-            $this->form_validation->set_rules('phonenumber', 'Phone Number', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
             if ($this->form_validation->run() == FALSE) {
-                $this->session->set_flashdata('phonenumber', form_error('phonenumber'));
+                $this->session->set_flashdata('username', form_error('username'));
                 $this->session->set_flashdata('password', form_error('password'));
                 redirect(base_url('welcome/landing/2'));
             } else {
@@ -147,12 +147,13 @@ class Auth extends CI_Controller
     }
     public function check_database($password)
     {
+        $passwordn = str_replace('#', '%23', $password);
         $username = $this->input->post('username');
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $serverurl = $domainname . '/login/token.php';
         $data = array(
             'username' => $username,
-            'password' => $password,
+            'password' => $passwordn,
             'service' => 'moodle_mobile_app'
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));

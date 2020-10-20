@@ -30,16 +30,16 @@ class User extends CI_Controller
         foreach ($_courses_n_array as $key => $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
-            $courses['next_link']=base_url('user/get_details_percourse/'.$courses['id']);
+            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id']);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
                 $courses['image_url_small'] = "https://picsum.photos/100/100";
                 $courses['image_url'] = "https://picsum.photos/200/300";
             } else {
-                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'].'?token=f84bf33b56e86a4664284d8a3dfb5280';
+                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=f84bf33b56e86a4664284d8a3dfb5280';
                 $courses['image_url'] = $courses['image_url_small'];
             }
-            $sanitized_courses = array_slice_keys($courses, array('id', 'fullname', "summary_custome", 'source','next_link', 'image_url_small', 'image_url'));
+            $sanitized_courses = array_slice_keys($courses, array('id', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
             array_push($merge_sanitized_courses, $sanitized_courses);
         }
         // print_array($merge_sanitized_courses);
@@ -83,9 +83,14 @@ class User extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         if (array_key_exists('exception', $array_of_courses)) {
             // message
-            $result= array();
+            $result = array();
             echo empty_response("Credentials Are Required");
         } else {
+            $array_merger=array();
+            foreach ($array_of_courses as $key => $_submodules) {
+                $_submodules['summary']=strip_tags($_submodules['summary']);
+              array_push($array_merger,$_submodules);
+            }
             // print_array($array_of_courses);
             // return $array_of_courses;
             echo empty_response("course sections loaded", 200, $array_of_courses);

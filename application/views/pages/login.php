@@ -8,7 +8,7 @@
                         echo '<font size="2" color="green">' . $this->session->flashdata('success') . '</font>';
                         ?>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="firstname">
+                            <label class="col-sm-2 control-label" for="username">
                                 Phone Number
                             </label>
                             <div class="col-sm-9">
