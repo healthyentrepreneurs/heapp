@@ -39,8 +39,10 @@ class User extends CI_Controller
                 $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=f84bf33b56e86a4664284d8a3dfb5280';
                 $courses['image_url'] = $courses['image_url_small'];
             }
-            $sanitized_courses = array_slice_keys($courses, array('id', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
-            array_push($merge_sanitized_courses, $sanitized_courses);
+            $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
+            if (!$courses['categoryid'] == 0) {
+                array_push($merge_sanitized_courses, $sanitized_courses);
+            }
         }
         // print_array($merge_sanitized_courses);
         echo json_encode($merge_sanitized_courses);
@@ -86,12 +88,21 @@ class User extends CI_Controller
             $result = array();
             echo empty_response("Credentials Are Required");
         } else {
-            $array_merger=array();
+            $array_merger = array();
             foreach ($array_of_courses as $key => $_submodules) {
-                $_submodules['summary']=strip_tags($_submodules['summary']);
-              array_push($array_merger,$_submodules);
+                $_submodules['summary'] = strip_tags($_submodules['summary']);
+                // array_push($array_merger, $_submodules);
+                $array_modules = array();
+                foreach ($_submodules['modules'] as $key => $_filter_modules) {
+                    if ($_filter_modules['modname'] == "forum" || $_filter_modules['modname'] == "book") {
+                        array_push($array_modules, $_filter_modules);
+                    }
+                }
+                $_submodules['modules'] = $array_modules;
+                array_push($array_merger, $_submodules);
+                // print_array($_submodules['modules']);
             }
-            // print_array($array_of_courses);
+            // print_array($array_merger);
             // return $array_of_courses;
             // Hello Sunshine 
             echo empty_response("course sections loaded", 200, $array_merger);
