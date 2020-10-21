@@ -94,7 +94,7 @@ class User extends CI_Controller
             // print_array($array_of_courses);
             // return $array_of_courses;
             // Hello Sunshine 
-            echo empty_response("course sections loaded", 200, $array_of_courses);
+            echo empty_response("course sections loaded", 200, $array_merger);
         }
     }
     public function get_course_get_courses_by_ids($_courseid)
