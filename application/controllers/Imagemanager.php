@@ -1,0 +1,159 @@
+<!-- Imagemanager.php -->
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Imagemanager extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('universal_model');
+        $this->load->model('user_model', '', TRUE);
+    }
+    public function index()
+    {
+        echo "<h1>Imagemanager Icon Manager ...</h1>";
+    }
+    public function couser_subcontent()
+    {
+        $_link_content = $this->input->get('link');
+        $fullname = $this->input->get('fullname');
+        $next_link_course = decryptValue($_link_content);
+        $server_output = curl_request($next_link_course, array(), "get", array('App-Key: 123456'));
+        $courses_content = json_decode($server_output, true);
+        // print_array($courses_content);
+        if (empty($courses_content)) {
+            $subcontents = array();
+            // print_array($subcontents);
+        } else {
+            $subcontents = $courses_content['data'];
+            // print_array($subcontents);
+            // $this->image_nav($subcontents, 0);
+        }
+        if ($this->session->userdata('logged_in_lodda')) {
+            $data['header'] = 'parts/header';
+            $data['coursename'] = $fullname;
+            $data['content_admin'] = 'pages/admin/admin_contentsub';
+            $data['sidenav'] = 'pages/admin/navadmin';
+            $data['courses_sub'] = $subcontents;
+            // print_array($server_output);
+            $this->load->view('pages/hometwo', $data);
+        } else {
+            $data['content'] = 'pages/index';
+            $this->load->view('pages/homeone', $data);
+        }
+    }
+    public function upload_image_sub()
+    {
+        $_link_content = $this->input->get('link');
+        $name = $this->input->get('name');
+        $type = $this->input->get('type');
+        $next_link_course = decryptValue($_link_content);
+        // echo $type;
+        if ($this->session->userdata('logged_in_lodda')) {
+            $data['header'] = 'parts/header';
+            $data['name'] = $name;
+            $data['type'] = $type;
+            $data['icon_image'] = $next_link_course;
+            $data['content_admin'] = 'pages/admin/upload_icon';
+            $data['sidenav'] = 'pages/admin/navadmin';
+            $this->load->view('pages/hometwo', $data);
+        } else {
+            $data['content'] = 'pages/index';
+            $this->load->view('pages/homeone', $data);
+        }
+    }
+    public function upload_resize()
+    {
+        $this->addemployee_subfunc();
+        $this->form_validation->set_rules('original', 'Original', 'required|callback_validate_image');
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('user_profile_pic', validation_errors());
+            redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
+            // print_array(validation_errors());
+        } else {
+            $this->session->set_flashdata('user_profile_pic_suc', "Icon Of " . $this->input->post('name') . ' Of Type ' . $this->input->post('type') . " Updated");
+            // $_POST['original'] = base_url('uploadicons' . $this->input->post('image_big'));
+            redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
+        }
+        // original
+        // print_array($_POST);
+    }
+    function addemployee_subfunc()
+    {
+        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+            $data = array(
+                'upload_data' => $this->upload->data()
+            );
+            $name_file = $data['upload_data'];
+            $_POST['user_profile_pic'] = $name_file['file_name'];
+            $_POST['original'] = $this->input->post('original');
+            $this->create_thumbnail(50, 50, './uploadicons/' . "50_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
+            $this->create_thumbnail(60, 60, './uploadicons/' . "60_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
+            $this->create_thumbnail(600, 600, './uploadicons/' . "600_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
+            $_POST['image_small'] = "50_" . $this->input->post('user_profile_pic');
+            $_POST['image_medium'] = "60_" . $this->input->post('user_profile_pic');
+            $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
+            unlink("uploadicons/" . $name_file['file_name']);
+            $user_add = array(
+                'name'=>$this->input->post('name'),
+                'type'=>$this->input->post('type'),
+                'original' => $this->input->post('original'),
+                'image_small' => $this->input->post('image_small'),
+                'image_medium' => $this->input->post('image_medium'),
+                'image_big' => $this->input->post('image_big'),
+            );
+            $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+        } else {
+            $_POST['user_image_small'] = "50_icon_user_default.png";
+            $_POST['user_image_medium'] = "60_icon_user_default.png";
+            $_POST['user_image_big'] = "500_icon_user_default.png";
+        }
+    }
+    public function validate_image($generatedname)
+    {
+        $config['overwrite'] = TRUE;
+        $config['upload_path'] = './uploadicons/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '10000';
+        $config['max_width'] = '2024';
+        $config['max_height'] = '1068';
+        $config['file_name'] = $generatedname;
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload('user_profile_pic')) {
+            $error = array(
+                'error' => $this->upload->display_errors()
+            );
+            // print_array($error);
+            if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
+                $this->form_validation->set_message('validate_image', 'Please Select Profile Picture');
+                return FALSE;
+            } elseif (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
+                $this->form_validation->set_message('validate_image', 'The filetype you are attempting to upload is not allowed');
+                return FALSE;
+            } elseif (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
+                // $this->session->set_flashdata('user_profile_pic_', "");
+                // redirect(base_url() . "admin/admin/admin/2");
+                $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        } else {
+            return TRUE;
+        }
+    }
+    public function create_thumbnail($width, $height, $new_image, $image_source)
+    {
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $image_source;
+        $config['maintain_ratio'] = TRUE;
+        $config['width'] = $width;
+        $config['height'] = $height;
+        $config['new_image'] = $new_image;
+        $this->load->library('image_lib');
+        $this->image_lib->initialize($config);
+        $this->image_lib->resize();
+    }
+}

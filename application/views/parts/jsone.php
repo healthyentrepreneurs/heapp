@@ -1,4 +1,8 @@
 <script src="<?=base_url()?>/assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+<!-- <script
+  src="https://code.jquery.com/jquery-2.1.1.min.js"
+  integrity="sha256-h0cGsrExGgcZtSZ/fRz4AwV+Nn6Urh/3v3jFRQ0w9dQ="
+  crossorigin="anonymous"></script> -->
 <!--<![endif]-->
 <script src="<?=base_url()?>/assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/bootstrap/js/bootstrap.min.js"></script>

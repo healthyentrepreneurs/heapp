@@ -25,12 +25,6 @@ class Welcome extends CI_Controller
 		// echo "<h1>Api Dashboard Comming .....</h1>";
 		$this->landing(0);
 	}
-	// public function test_q()
-	// {
-
-	// 	$result=$this->universal_model->selectallarray(array('category'=>1),'user');
-	// 	print_array($result);
-	// }
 	public function landing($id = 0)
 	{
 		if ($this->session->userdata('logged_in_lodda')) {
@@ -61,13 +55,17 @@ class Welcome extends CI_Controller
 		// print_array($this->session->userdata('logged_in_lodda'));
 		if ($this->session->userdata('logged_in_lodda')) {
 			$data['header'] = 'parts/header';
-			$data['conductors'] = array();
-			$data['drivers'] = array();
 			$data['content_admin'] = 'pages/admin/admin_content';
 			$data['sidenav'] = 'pages/admin/navadmin';
+			$server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
+			$data['courses'] = json_decode($server_output, true);
+			// print_array($server_output);
 			switch ($var) {
 				case 0:
 					$this->load->view('pages/hometwo', $data);
+					break;
+				case 1:
+					$this->load->view('pages/homethree', $data);
 					break;
 				default:
 					break;

@@ -23,8 +23,8 @@
                         <i class="fa fa-bars"></i>
                     </a>
                     <!-- start: LOGO -->
-                    <a class="navbar-brand" href="#">
-                        <img src="<?= base_url() ?>assets/images/logo.png" alt="Logo " height="40" />
+                    <a class="navbar-brand" href="<?=base_url()?>">
+                        <img src="<?= base_url() ?>assets/favicon/favicon-32x32.png" alt="Logo " height="30" />
                     </a>
                     <!-- end: LOGO -->
                 </div>
@@ -34,7 +34,7 @@
                         <!-- start: USER DROPDOWN -->
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-                                <img src="assets/images/avatar-1-small.jpg" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
+                                <img src="<?=base_url()?>assets/images/avatar-1-small.jpg" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
                             </a>
                             <ul class="dropdown-menu dropdown-dark">
                                 <li>
@@ -104,6 +104,18 @@
                     <!-- end: PAGE CONTENT-->
                 </div>
             </div>
+            <!-- Njovu's Problem -->
+            <div class="row">
+                <div class="col-lg-4 col-md-12">
+                    <div class="panel">
+                        <div class="col-md-12">
+                            <div class="progress progress-xs transparent-black no-radius space5">
+                                <div aria-valuetransitiongoal="88" class="progress-bar progress-bar-success partition-white animate-progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- end: PAGE -->
         </div>
         <!-- end: MAIN CONTAINER -->
@@ -126,7 +138,7 @@
     <script>
         jQuery(document).ready(function() {
             Main.init();
-            Index.init();
+            // Index.init();
         });
     </script>
 </body>

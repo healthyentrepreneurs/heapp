@@ -94,13 +94,20 @@ class User extends CI_Controller
                 // array_push($array_merger, $_submodules);
                 $array_modules = array();
                 foreach ($_submodules['modules'] as $key => $_filter_modules) {
-                    if ($_filter_modules['modname'] == "forum" || $_filter_modules['modname'] == "book") {
+                    $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
+                    if (!empty($value_check)) {
+                        $url_icon = array_shift($value_check)['image_big'];
+                        $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);
+                        // print_array($_filter_modules);
+                    }
+                    if ($_filter_modules['modname'] == "forum" || $_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
                         array_push($array_modules, $_filter_modules);
                     }
+
+                    // print_array($value_check);
                 }
                 $_submodules['modules'] = $array_modules;
                 array_push($array_merger, $_submodules);
-                // print_array($_submodules['modules']);
             }
             // print_array($array_merger);
             // return $array_of_courses;

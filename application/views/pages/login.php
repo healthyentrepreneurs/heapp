@@ -9,7 +9,7 @@
                         ?>
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="username">
-                                Phone Number
+                                Username
                             </label>
                             <div class="col-sm-9">
                                 <input type="text" placeholder="E.g johnen" id="username" name="username" class="form-control">
