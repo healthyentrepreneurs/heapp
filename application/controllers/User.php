@@ -94,7 +94,7 @@ class User extends CI_Controller
                 // array_push($array_merger, $_submodules);
                 $array_modules = array();
                 foreach ($_submodules['modules'] as $key => $_filter_modules) {
-                    $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
+                    $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original_one', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
                     if (!empty($value_check)) {
                         $url_icon = array_shift($value_check)['image_big'];
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);

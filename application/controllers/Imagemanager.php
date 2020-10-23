@@ -66,18 +66,9 @@ class Imagemanager extends CI_Controller
     public function upload_resize()
     {
         $this->addemployee_subfunc();
-        $this->form_validation->set_rules('original', 'Original', 'required|callback_validate_image');
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('user_profile_pic', validation_errors());
-            redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
-            // print_array(validation_errors());
-        } else {
-            $this->session->set_flashdata('user_profile_pic_suc', "Icon Of " . $this->input->post('name') . ' Of Type ' . $this->input->post('type') . " Updated");
-            // $_POST['original'] = base_url('uploadicons' . $this->input->post('image_big'));
-            redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
-        }
+        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
         // original
-        // print_array($_POST);
+        // print_array($this->input->post('original'));
     }
     function addemployee_subfunc()
     {
@@ -87,37 +78,54 @@ class Imagemanager extends CI_Controller
             );
             $name_file = $data['upload_data'];
             $_POST['user_profile_pic'] = $name_file['file_name'];
-            $_POST['original'] = $this->input->post('original');
+            $_POST['original_one'] = $this->input->post('original');
+            // $_POST['original'] = $this->input->post('original');
             $this->create_thumbnail(50, 50, './uploadicons/' . "50_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
             $this->create_thumbnail(60, 60, './uploadicons/' . "60_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
             $this->create_thumbnail(600, 600, './uploadicons/' . "600_" . $this->input->post('user_profile_pic'), './uploadicons/' . $this->input->post('user_profile_pic'));
             $_POST['image_small'] = "50_" . $this->input->post('user_profile_pic');
             $_POST['image_medium'] = "60_" . $this->input->post('user_profile_pic');
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
+            $_POST['original'] = base_url("uploadicons/600_" . $this->input->post('user_profile_pic'));
             unlink("uploadicons/" . $name_file['file_name']);
-            $user_add = array(
-                'name'=>$this->input->post('name'),
-                'type'=>$this->input->post('type'),
-                'original' => $this->input->post('original'),
-                'image_small' => $this->input->post('image_small'),
-                'image_medium' => $this->input->post('image_medium'),
-                'image_big' => $this->input->post('image_big'),
-            );
-            $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+            $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $this->input->post('original_one'), 'name', $this->input->post('name'), 'type', $this->input->post('type'));
+            if (empty($value_check)) {
+                $user_add = array(
+                    'name' => $this->input->post('name'),
+                    'type' => $this->input->post('type'),
+                    'original' => $this->input->post('original'),
+                    'original_one' => $this->input->post('original_one'),
+                    'image_small' => $this->input->post('image_small'),
+                    'image_medium' => $this->input->post('image_medium'),
+                    'image_big' => $this->input->post('image_big'),
+                );
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+            } else {
+                $_original = array_shift($value_check)['original_one'];
+                $user_add = array(
+                    'name' => $this->input->post('name'),
+                    'type' => $this->input->post('type'),
+                    'original' => $this->input->post('original'),
+                    'original_one' => $_original,
+                    'image_small' => $this->input->post('image_small'),
+                    'image_medium' => $this->input->post('image_medium'),
+                    'image_big' => $this->input->post('image_big'),
+                );
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+            }
         } else {
-            $_POST['user_image_small'] = "50_icon_user_default.png";
-            $_POST['user_image_medium'] = "60_icon_user_default.png";
-            $_POST['user_image_big'] = "500_icon_user_default.png";
+            $_POST['original'] = $this->input->post('original');
+            # code...
         }
     }
     public function validate_image($generatedname)
     {
         $config['overwrite'] = TRUE;
         $config['upload_path'] = './uploadicons/';
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
-        $config['max_width'] = '2024';
-        $config['max_height'] = '1068';
+        $config['max_width'] = '6000';
+        $config['max_height'] = '6000';
         $config['file_name'] = $generatedname;
         $this->load->library('upload');
         $this->upload->initialize($config);
@@ -127,20 +135,31 @@ class Imagemanager extends CI_Controller
             );
             // print_array($error);
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
-                $this->form_validation->set_message('validate_image', 'Please Select Profile Picture');
+                $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
+                $this->session->set_flashdata('validate_image', "Please Select An Image Icon");
+                // print_array("You did not select a file to uploads");
                 return FALSE;
-            } elseif (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
+            }
+            if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'The filetype you are attempting to upload is not allowed');
+                $this->session->set_flashdata('validate_image', "The filetype you are attempting to upload is not allowed");
+                // print_array("The filetype you are attempting to upload is not allowed");
                 return FALSE;
-            } elseif (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
-                // $this->session->set_flashdata('user_profile_pic_', "");
-                // redirect(base_url() . "admin/admin/admin/2");
+            }
+            if (strpos($error['error'], "The image you are attempting to upload doesn't fit into the allowed dimensions.") !== FALSE) {
+                $this->form_validation->set_message('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
+                $this->session->set_flashdata('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
+                // print_array("The filetype you are attempting to upload is not allowed");
+                return FALSE;
+            }
+            if (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The uploaded file exceeds the maximum allowed");
+                // print_array("The uploaded file exceeds the maximum allowed size in your");
                 $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
                 return FALSE;
-            } else {
-                return TRUE;
             }
         } else {
+            $this->session->set_flashdata('validate_image_success', "Successfully Uploaded");
             return TRUE;
         }
     }

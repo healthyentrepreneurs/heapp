@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <h6 class="success"><?php echo ($this->session->flashdata('user_profile_pic_suc')) ?></h6>
+                <h4 class="success"><?php echo ($this->session->flashdata('validate_image_success')) ?></h4>
                 <form id="upload_icon" method="post" class="form-horizontal" enctype="multipart/form-data" role="form" action="<?= base_url('imagemanager/upload_resize') ?>">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
@@ -49,7 +49,7 @@
                         <div class="col-sm-9">
                             <img id="uploadPreview" src="<?= $icon_image ?>" onclick="Call_Uploader()" width="300" height="200" />
                             <br><br>
-                            <h6 class="error"><?php echo ($this->session->flashdata('user_profile_pic')) ?></h6>
+                            <h6 class="error"><?php echo ($this->session->flashdata('validate_image')) ?></h6>
                             <input id="user_profile_pic" class="hidden" type="file" name="user_profile_pic" onChange="PreviewImage();" placeholder="Profile Picture" />
                             <script type="text/javascript">
                                 function PreviewImage() {
