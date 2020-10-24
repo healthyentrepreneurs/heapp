@@ -53,6 +53,7 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
+        header('Access-Control-Allow-Origin: *');
         // $_POST['username'] = "mega";
         // $_POST['password'] = "Mega1java123!@#";
         if (isset($_POST['username']) && isset($_POST['password'])) {
