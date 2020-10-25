@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+header('Access-Control-Allow-Origin: *');
 class Quiz extends CI_Controller
 {
     public function __construct()
