@@ -100,7 +100,7 @@ class User extends CI_Controller
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);
                         // print_array($_filter_modules);
                     }
-                    if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
+                    if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz" || $_filter_modules['modname'] == "forum") {
                         // $_filter_modules['modname'] == "forum" || 
                         array_push($array_modules, $_filter_modules);
                     }
