@@ -44,7 +44,7 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // print_array($_courses_n_array);
+        // print_array($merge_sanitized_courses);
         echo json_encode($merge_sanitized_courses);
     }
 
@@ -100,11 +100,13 @@ class User extends CI_Controller
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);
                         // print_array($_filter_modules);
                     }
-                    if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz" || $_filter_modules['modname'] == "forum") {
+                    if ($_filter_modules['modname'] == "quiz") {
+                        $_filter_modules['next_link'] =base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
+                    }
+                    if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
                         // $_filter_modules['modname'] == "forum" || 
                         array_push($array_modules, $_filter_modules);
                     }
-
                     // print_array($value_check);
                 }
                 $_submodules['modules'] = $array_modules;

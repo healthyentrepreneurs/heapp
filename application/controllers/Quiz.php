@@ -68,37 +68,64 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
-    public function quiz_start_attempt()
+    public function quiz_start_attempt($quizid = null, $token)
     {
         # mod_quiz_start_attempt
+        #de81bb4eb4e8303a15b00a5c61554e2a
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        // $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
         $functionname = 'mod_quiz_start_attempt';
         // preflightdata
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'forcenew' => 1,
+            // 'forcenew' => 1,
             'preflightdata[0][name]' => 'quizpassword',
             'preflightdata[0][value]' => '123!@#',
-            'quizid' => 3,
+            'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
-        print_array($array_of_courses);
+        if (empty($array_of_courses)) {
+            return array();
+            // echo empty_response("No Quiz Started .. ");
+        } else {
+            unset_post($array_of_courses, 'warnings');
+            // print_array($array_of_courses);
+            return $array_of_courses;
+        }
     }
-    public function quiz_get_attempt_data()
+    //This is it
+    public function get_quiz_em($quizid, $page = 0, $token)
+    {
+
+        $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
+        if (array_key_exists('exception', $check_start_quiz)) {
+            $attempt_d_n = $this->session->userdata('attempt_d_n');
+            $attempdata = $attempt_d_n['id'];
+            // $this->session->unset_userdata('attempt_d_n');
+            // print_array($attempdata);
+        } else {
+            $this->session->set_userdata(array("attempt_d_n" => $check_start_quiz['attempt']));
+            $attempdata = $check_start_quiz['attempt']['id'];
+            // print_array($attempdata);
+        }
+        $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
+        echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
+        // print_array($attempt_data_now);
+    }
+    public function quiz_get_attempt_data($attemptid = null, $page = 0, $token)
     {
         // https://app.healthyentrepreneurs.nl/webservice/rest/server.php?moodlewsrestformat=json&quizid=3&wsfunction=mod_quiz_get_attempt_access_information&wstoken=f84bf33b56e86a4664284d8a3dfb5280
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        // $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
         $functionname = 'mod_quiz_get_attempt_data';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'attemptid' => 19,
-            'page' => 0,
+            'attemptid' => $attemptid,
+            'page' => $page,
             'preflightdata[0][name]' => 'quizpassword',
             'preflightdata[0][value]' => '123!@#',
             'wstoken' => $token,
@@ -107,11 +134,8 @@ class Quiz extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
-        // foreach ($array_of_courses['questions'] as $key => $value) {
-        //     print_array($value['html']);
-        // }
-        echo empty_response("Quiz Loaded .. ", 200, $array_of_courses);
-        // print_array($array_of_courses);
+        // echo empty_response("Quiz Loaded .. ", 200, $array_of_courses);
+        return $array_of_courses;
     }
     public function get_user_attempts()
     {
