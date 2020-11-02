@@ -102,15 +102,15 @@ class Quiz extends CI_Controller
     {
 
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
+
         if (array_key_exists('exception', $check_start_quiz)) {
-            $attempt_d_n = $this->session->userdata('attempt_d_n');
+            $attempt_d_n_n = $this->universal_model->selectzy('*', 'quiz_track', 'token', $token, 'quiz', $quizid);
+            $attempt_d_n = array_shift($attempt_d_n_n);
             $attempdata = $attempt_d_n['id'];
-            // $this->session->unset_userdata('attempt_d_n');
-            // print_array($attempdata);
         } else {
-            $this->session->set_userdata(array("attempt_d_n" => $check_start_quiz['attempt']));
+            $check_start_quiz['attempt']['token'] = $token;
+            $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
             $attempdata = $check_start_quiz['attempt']['id'];
-            // print_array($attempdata);
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
