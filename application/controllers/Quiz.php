@@ -118,6 +118,7 @@ class Quiz extends CI_Controller
         foreach ($questions_n1 as $key => $value) {
             $mama = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value['html']);
             // $mama_two = htmlentities($mama);
+            // html_entity_decode($html_one);
             $DOM = new DOMDocument();
             @$DOM->loadHTML($mama);
             // https://gist.github.com/yosko/6991691
@@ -152,8 +153,8 @@ class Quiz extends CI_Controller
             // array_push($formatter_clean, $next_array);
         }
         terminateLoop:
-        unset_post($attempt_data_now, 'questions');
-        $attempt_data_now['questions'] = $formatter_clean;
+        // unset_post($attempt_data_now, 'questions');
+        // $attempt_data_now['questions'] = $formatter_clean;
         // $attempt_data_now['url_niwogaba'] = base_url();
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
         // print_array($attempt_data_now);
@@ -195,15 +196,6 @@ class Quiz extends CI_Controller
         }
 
         return $array;
-    }
-    //For Webview Simplicity
-    public function webview_call_quiz()
-    {
-
-        $html_one = $this->input->post('html');
-        echo html_entity_decode($html_one);
-        // return  $_POST;
-        // print_array($_POST);
     }
     public function quiz_get_attempt_data($attemptid = null, $page = 0, $token)
     {
