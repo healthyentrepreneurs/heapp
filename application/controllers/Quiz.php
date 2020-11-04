@@ -153,8 +153,8 @@ class Quiz extends CI_Controller
             // array_push($formatter_clean, $next_array);
         }
         terminateLoop:
-        // unset_post($attempt_data_now, 'questions');
-        // $attempt_data_now['questions'] = $formatter_clean;
+        unset_post($attempt_data_now, 'questions');
+        $attempt_data_now['questions'] = $formatter_clean;
         // $attempt_data_now['url_niwogaba'] = base_url();
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
         // print_array($attempt_data_now);
