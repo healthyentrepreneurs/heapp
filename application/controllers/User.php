@@ -101,7 +101,7 @@ class User extends CI_Controller
                         // print_array($_filter_modules);
                     }
                     if ($_filter_modules['modname'] == "quiz") {
-                        $_filter_modules['next_link'] =base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
+                        $_filter_modules['next_link'] = base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
                     }
                     if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
                         // $_filter_modules['modname'] == "forum" || 
