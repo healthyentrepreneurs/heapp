@@ -116,27 +116,42 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $formatter_clean = array();
         foreach ($questions_n1 as $key => $value) {
-            // htmlentities($value['html']);
             $mama = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value['html']);
-            $mama_two = htmlentities($mama);
-            $next_array = array(
-                'html' => $mama_two,
-                'page' => $value['page'],
-                'type' => $value['type'],
-                'slot' => $value['slot'],
-                'sequencecheck' => $value['sequencecheck'],
-                'lastactiontime' => $value['lastactiontime'],
-                'hasautosavedstep' => $value['hasautosavedstep'],
-                'flagged' => $value['flagged'],
-                'number' => $value['number'],
-                'status' => $value['status'],
-                'blockedbyprevious' => $value['blockedbyprevious'],
-                'maxmark' => $value['maxmark'],
+            // $mama_two = htmlentities($mama);
+            $DOM = new DOMDocument();
+            @$DOM->loadHTML($mama);
+            // https://gist.github.com/yosko/6991691
+            $Header = $DOM->getElementsByTagName('div');
+            $_element_array = array();
+            foreach ($Header as $key_nn => $value_nn) {
+                // $children = $value_nn->childNodes;
+                $children = $value_nn->parentNode;
+                // $xml = $children->ownerDocument->saveXML($children);
+                $_element_array = $this->Dom2Array($children);
+                // print_array($_element_array);
+                $next_array = array(
+                    'html' =>  $_element_array,
+                    'page' => $value['page'],
+                    'type' => $value['type'],
+                    'slot' => $value['slot'],
+                    'sequencecheck' => $value['sequencecheck'],
+                    'lastactiontime' => $value['lastactiontime'],
+                    'hasautosavedstep' => $value['hasautosavedstep'],
+                    'flagged' => $value['flagged'],
+                    'number' => $value['number'],
+                    'status' => $value['status'],
+                    'blockedbyprevious' => $value['blockedbyprevious'],
+                    'maxmark' => $value['maxmark'],
 
-            );
-            array_push($formatter_clean, $next_array);
-            // $attempt_data_now['url_niwogaba' . $key] = curl_request(base_url('quiz/webview_call_quiz'), $data, "post", array('App-Key: 123456'));
+                );
+                array_push($formatter_clean, $next_array);
+                // $aDataTableHeaderHTMLn[] = $_element_array;
+                goto terminateLoop;
+            }
+            // print_array($_element_array);
+            // array_push($formatter_clean, $next_array);
         }
+        terminateLoop:
         unset_post($attempt_data_now, 'questions');
         $attempt_data_now['questions'] = $formatter_clean;
         // $attempt_data_now['url_niwogaba'] = base_url();
@@ -144,9 +159,47 @@ class Quiz extends CI_Controller
         // print_array($attempt_data_now);
         // echo json_encode($attempt_data_now);
     }
+    function Dom2Array($root)
+    {
+        $array = array();
+
+        //list attributes
+        if ($root->hasAttributes()) {
+            foreach ($root->attributes as $attribute) {
+                $array['_attributes'][$attribute->name] = $attribute->value;
+            }
+        }
+
+        //handle classic node
+        if ($root->nodeType == XML_ELEMENT_NODE) {
+            $array['_type'] = $root->nodeName;
+            if ($root->hasChildNodes()) {
+                $children = $root->childNodes;
+                for ($i = 0; $i < $children->length; $i++) {
+                    $child = $this->Dom2Array($children->item($i));
+
+                    //don't keep textnode with only spaces and newline
+                    if (!empty($child)) {
+                        $array['_children'][] = $child;
+                    }
+                }
+            }
+
+            //handle text node
+        } elseif ($root->nodeType == XML_TEXT_NODE || $root->nodeType == XML_CDATA_SECTION_NODE) {
+            $value = $root->nodeValue;
+            if (!empty($value)) {
+                $array['_type'] = '_text';
+                $array['_content'] = $value;
+            }
+        }
+
+        return $array;
+    }
     //For Webview Simplicity
     public function webview_call_quiz()
     {
+
         $html_one = $this->input->post('html');
         echo html_entity_decode($html_one);
         // return  $_POST;
