@@ -1029,7 +1029,16 @@ function aasort(&$array, $key)
     }
     $array = $ret;
 }
-
+function recursive_array_search($needle,$haystack) {
+    foreach($haystack as $key=>$value) {
+        if($needle===$value) {
+            return array($key);
+        } else if (is_array($value) && $subkey = recursive_array_search($needle,$value)) {
+            array_unshift($subkey, $key);
+            return $subkey;
+        }
+    }
+}
 function humanreadable_date($date)
 {
     return date("F jS, Y", strtotime($date));

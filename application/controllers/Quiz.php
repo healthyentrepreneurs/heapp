@@ -114,50 +114,11 @@ class Quiz extends CI_Controller
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         $questions_n1 = $attempt_data_now['questions'];
-        $formatter_clean = array();
-        foreach ($questions_n1 as $key => $value) {
-            $mama = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value['html']);
-            // $mama_two = htmlentities($mama);
-            // html_entity_decode($html_one);
-            $DOM = new DOMDocument();
-            @$DOM->loadHTML($mama);
-            // https://gist.github.com/yosko/6991691
-            $Header = $DOM->getElementsByTagName('div');
-            $_element_array = array();
-            foreach ($Header as $key_nn => $value_nn) {
-                // $children = $value_nn->childNodes;
-                $children = $value_nn->parentNode;
-                // $xml = $children->ownerDocument->saveXML($children);
-                $_element_array = $this->Dom2Array($children);
-                // print_array($_element_array);
-                $next_array = array(
-                    'html' =>  $_element_array,
-                    'page' => $value['page'],
-                    'type' => $value['type'],
-                    'slot' => $value['slot'],
-                    'sequencecheck' => $value['sequencecheck'],
-                    'lastactiontime' => $value['lastactiontime'],
-                    'hasautosavedstep' => $value['hasautosavedstep'],
-                    'flagged' => $value['flagged'],
-                    'number' => $value['number'],
-                    'status' => $value['status'],
-                    'blockedbyprevious' => $value['blockedbyprevious'],
-                    'maxmark' => $value['maxmark'],
-
-                );
-                array_push($formatter_clean, $next_array);
-                // $aDataTableHeaderHTMLn[] = $_element_array;
-                goto terminateLoop;
-            }
-            // print_array($_element_array);
-            // array_push($formatter_clean, $next_array);
-        }
-        terminateLoop:
-        unset_post($attempt_data_now, 'questions');
-        $attempt_data_now['questions'] = $formatter_clean;
-        // $attempt_data_now['url_niwogaba'] = base_url();
+        // $formatter_clean = array();
+        // unset_post($attempt_data_now, 'questions');
+        // $attempt_data_now['questions'] = $formatter_clean;
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
-        // print_array($attempt_data_now);
+        // print_array($questions_n1);
         // echo json_encode($attempt_data_now);
     }
     function Dom2Array($root)
