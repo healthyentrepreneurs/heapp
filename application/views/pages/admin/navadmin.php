@@ -24,7 +24,7 @@
                     <a href="<?= base_url() ?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right ">SUPER</span> </a>
                 </li>
                 <li class="active open">
-                    <a href="#"><i class="fa fa-home"></i> <span class="title"> ENHANCED ACTIVITIES</span> </a>
+                    <a href="<?=base_url('welcome/admin/1')?>"><i class="fa fa-home"></i> <span class="title"> ENHANCED ACTIVITIES</span> </a>
                 </li>
                 <!-- <li class="active open">
                     <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Activity Icon Settings </span><i class="icon-arrow"></i> </a>

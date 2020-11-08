@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require "vendor/autoload.php";
+
+use PHPHtmlParser\Dom;
+
 header('Access-Control-Allow-Origin: *');
 class Quiz extends CI_Controller
 {
@@ -114,9 +118,28 @@ class Quiz extends CI_Controller
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         $questions_n1 = $attempt_data_now['questions'];
-        // $formatter_clean = array();
-        // unset_post($attempt_data_now, 'questions');
-        // $attempt_data_now['questions'] = $formatter_clean;
+        $formatter_clean = array();
+        foreach ($questions_n1 as $key => $value) {
+            $mama = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value['html']);
+            $next_array = array(
+                'html' =>  "Hey Html",
+                'page' => $value['page'],
+                'type' => $value['type'],
+                'slot' => $value['slot'],
+                'sequencecheck' => $value['sequencecheck'],
+                'lastactiontime' => $value['lastactiontime'],
+                'hasautosavedstep' => $value['hasautosavedstep'],
+                'flagged' => $value['flagged'],
+                'number' => $value['number'],
+                'status' => $value['status'],
+                'blockedbyprevious' => $value['blockedbyprevious'],
+                'maxmark' => $value['maxmark'],
+
+            );
+            array_push($formatter_clean, $next_array);
+        }
+        unset_post($attempt_data_now, 'questions');
+        $attempt_data_now['questions']=$formatter_clean;
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
         // print_array($questions_n1);
         // echo json_encode($attempt_data_now);
@@ -211,5 +234,68 @@ class Quiz extends CI_Controller
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
+    }
+    //This is it
+    public function get_quiz_em_format($quizid, $page = 0, $token)
+    {
+
+        $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
+
+        if (array_key_exists('exception', $check_start_quiz)) {
+            $attempt_d_n_n = $this->universal_model->selectzy('*', 'quiz_track', 'token', $token, 'quiz', $quizid);
+            $attempt_d_n = array_shift($attempt_d_n_n);
+            $attempdata = $attempt_d_n['id'];
+        } else {
+            $check_start_quiz['attempt']['token'] = $token;
+            $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
+            $attempdata = $check_start_quiz['attempt']['id'];
+        }
+        $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
+        $questions_n1 = $attempt_data_now['questions'];
+        $array_questions = array();
+        foreach ($questions_n1 as $key => $value) {
+            // $dom = new Dom;
+            // $dom->loadStr($value['html']);
+            // $contents = $dom->find('.info');
+            // foreach ($contents as $content) {
+            //     // get the class attr
+            //     $class = $content->getElementById('class');
+            //     // do something with the html
+            //     $html = $content->innerHtml;
+            //     // or refine the find some more
+            //     $child = $content->firstChild();
+            //     $child->find('.no');
+            //     $classatr1 = $child->getAttribute('class');
+            //     $html1 = $child->innerHtml;
+            //     $sibling = $child->nextSibling();
+            //     $html2 = $sibling->innerHtml;
+            // }
+            $DOM = new DOMDocument();
+            $DOM->preserveWhiteSpace = false;
+            @$DOM->loadHTML($value['html']);
+            $namamam = $this->html_to_obj($value['html']);
+            // print_array($namamam);
+        }
+    }
+    function html_to_obj($html)
+    {
+        $dom = new DOMDocument();
+        $dom->loadHTML($html);
+        return $this->element_to_obj($dom->documentElement);
+    }
+    function element_to_obj($element)
+    {
+        $obj = array("tag" => $element->tagName);
+        foreach ($element->attributes as $attribute) {
+            $obj[$attribute->name] = $attribute->value;
+        }
+        foreach ($element->childNodes as $subElement) {
+            if ($subElement->nodeType == XML_TEXT_NODE) {
+                $obj["html"] = $subElement->wholeText;
+            } else {
+                $obj["children"][] = $this->element_to_obj($subElement);
+            }
+        }
+        return $obj;
     }
 }
