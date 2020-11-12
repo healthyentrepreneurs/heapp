@@ -6,6 +6,7 @@
 <link href="https://surveyjs.azureedge.net/1.8.12/survey-creator.min.css" type="text/css" rel="stylesheet" />
 <script src="https://surveyjs.azureedge.net/1.8.12/survey-creator.min.js"></script>
 <div class="row">
+     <!-- WALAH CRAP -->
     <div class="col-lg-12 col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading border-light">

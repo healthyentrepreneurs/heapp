@@ -3,6 +3,7 @@
 ?>
 <div class="row">
     <div class="col-md-12">
+         <!-- WALAH CRAP -->
         <!-- start: TABLE WITH IMAGES PANEL -->
         <div class="panel panel-white">
             <div class="panel-heading">

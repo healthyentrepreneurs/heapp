@@ -12,6 +12,7 @@ class Survey extends CI_Controller
 
     public function index()
     {
+        // WRAP NJWA
         echo "<h1>Survey Api ..</h1>";
     }
     public function updatesurvey()

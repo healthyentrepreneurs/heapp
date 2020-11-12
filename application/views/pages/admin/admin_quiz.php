@@ -7,6 +7,7 @@
 <script src="https://surveyjs.azureedge.net/1.8.12/survey-creator.min.js"></script>
 <div class="row">
     <div class="col-lg-12 col-md-12">
+        <!-- WALAH CRAP -->
         <div class="panel panel-white">
             <div class="panel-heading border-light">
                 <h4 class="panel-title">Add New <span class="text-bold">Survey</span></h4>
