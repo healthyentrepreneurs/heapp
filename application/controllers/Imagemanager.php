@@ -12,7 +12,7 @@ class Imagemanager extends CI_Controller
     }
     public function index()
     {
-        echo "<h1>Imagemanager Icon Manager ...</h1>";
+        echo "<h1>Imagemanager Icon Manager Njovu...</h1>";
     }
     public function couser_subcontent()
     {

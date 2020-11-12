@@ -105,17 +105,6 @@
                 </div>
             </div>
             <!-- Njovu's Problem -->
-            <div class="row">
-                <div class="col-lg-4 col-md-12">
-                    <div class="panel">
-                        <div class="col-md-12">
-                            <div class="progress progress-xs transparent-black no-radius space5">
-                                <div aria-valuetransitiongoal="88" class="progress-bar progress-bar-success partition-white animate-progress-bar"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- end: PAGE -->
         </div>
         <!-- end: MAIN CONTAINER -->

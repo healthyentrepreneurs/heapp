@@ -65,12 +65,31 @@ class Welcome extends CI_Controller
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 1:
+					$data['icon_image'] = 'https://picsum.photos/200/300';
 					$data['content_admin'] = 'pages/admin/admin_quiz';
 					$this->load->view('pages/hometwo', $data);
 					break;
-				// case 2:
-				// 	$this->load->view('pages/homequiz', $data);
-				// 	break;
+				case 2:
+					// public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+					$attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+					$data['content_admin'] = 'pages/admin/surveylist';
+					$data['surveydatas'] = $attempt_n_n;
+					$this->load->view('pages/hometwo', $data);
+					// $this->load->view('pages/homequiz', $data);
+					break;
+				case 3:
+					$id=$this->input->get('id');
+					$attempt_n_n_one = $this->universal_model->selectzy('*', 'survey', 'slug', 1,'id',$id);
+					// public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
+					// echo "Hey Hey".$id;
+					$data['content_admin'] = 'pages/admin/surveyinstance';
+					$data['surveydataone'] = array_shift($attempt_n_n_one);
+					$data['id'] = $id;
+					$this->load->view('pages/hometwo', $data);
+					break;
+				case 4:
+					echo "Hey Hey 6";
+					break;
 				default:
 					break;
 			}
