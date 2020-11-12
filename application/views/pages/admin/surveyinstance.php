@@ -5,8 +5,9 @@
 <!-- Uncomment to enable Select2 <script src="https://unpkg.com/jquery"></script> <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> -->
 <link href="https://surveyjs.azureedge.net/1.8.12/survey-creator.min.css" type="text/css" rel="stylesheet" />
 <script src="https://surveyjs.azureedge.net/1.8.12/survey-creator.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <div class="row">
-     <!-- WALAH CRAP -->
+    <!-- WALAH CRAP -->
     <div class="col-lg-12 col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading border-light">

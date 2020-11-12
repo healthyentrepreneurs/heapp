@@ -85,7 +85,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script>
     var url_addsurvey = "<?php echo base_url("survey/addsurvey"); ?>";
     var addsurvey_n = "<?php echo base_url("survey/addsurvey_n"); ?>";
