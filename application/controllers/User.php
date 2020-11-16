@@ -62,8 +62,8 @@ class User extends CI_Controller
             array_push($array_object, $custome_onw);
         }
         $njovu = array_merge($merge_sanitized_courses, $array_object);
-        print_array($njovu);
-        // echo json_encode($njovu);
+        // print_array($njovu);
+        echo json_encode($njovu);
     }
 
     public function get_list_courses_internal()
