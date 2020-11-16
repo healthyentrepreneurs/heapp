@@ -245,21 +245,32 @@ class Universal_model extends CI_Model
         $this->db->replace($tablename, $arrayvalues);
     }
 
+    // public function updateOnDuplicate($table, $data)
+    // {
+    //     if (empty($table) || empty($data)) {
+    //         return false;
+    //     }
+
+    //     $duplicate_data = array();
+    //     foreach ($data as $key => $value) {
+    //         $duplicate_data[] = sprintf("%s='%s'", $key, $value);
+    //     }
+    //     $sql = sprintf("%s ON DUPLICATE KEY UPDATE %s", $this->db->insert_string($table, $data), implode(',', $duplicate_data));
+    //     $this->db->query($sql);
+    //     return $this->db->insert_id();
+    // }
     public function updateOnDuplicate($table, $data)
     {
-        if (empty($table) || empty($data)) {
+        if (empty($table) || empty($data))
             return false;
-        }
-
         $duplicate_data = array();
         foreach ($data as $key => $value) {
-            $duplicate_data[] = sprintf("%s='%s'", $key, $value);
+            $duplicate_data[] = sprintf("%s='%s'", $key, mssql_escape($value));
         }
         $sql = sprintf("%s ON DUPLICATE KEY UPDATE %s", $this->db->insert_string($table, $data), implode(',', $duplicate_data));
         $this->db->query($sql);
         return $this->db->insert_id();
     }
-
     public function selectallarray($array_table_n, $table_n)
     {
         // print_array($array_table_n);

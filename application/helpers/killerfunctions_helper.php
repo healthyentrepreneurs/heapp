@@ -8,6 +8,11 @@
  *
  * i cant begin to stress how important these functions are
  */
+function mssql_escape($str)
+{
+    $str = stripslashes($str);
+    return str_replace("'", "''", $str);
+}
 function curl_request($url, array $data = null, $method, array $app_auth = null)
 {
     $ch = curl_init($url);
@@ -1029,11 +1034,12 @@ function aasort(&$array, $key)
     }
     $array = $ret;
 }
-function recursive_array_search($needle,$haystack) {
-    foreach($haystack as $key=>$value) {
-        if($needle===$value) {
+function recursive_array_search($needle, $haystack)
+{
+    foreach ($haystack as $key => $value) {
+        if ($needle === $value) {
             return array($key);
-        } else if (is_array($value) && $subkey = recursive_array_search($needle,$value)) {
+        } else if (is_array($value) && $subkey = recursive_array_search($needle, $value)) {
             array_unshift($subkey, $key);
             return $subkey;
         }
@@ -1073,10 +1079,11 @@ function printvalues($key, $arrayn)
     return $arrayn[$key];
 }
 
-function array_value_recursive($key, array $arr){
+function array_value_recursive($key, array $arr)
+{
     $val = array();
-    array_walk_recursive($arr, function($v, $k) use($key, &$val){
-        if($k == $key) array_push($val, $v);
+    array_walk_recursive($arr, function ($v, $k) use ($key, &$val) {
+        if ($k == $key) array_push($val, $v);
     });
     return count($val) > 1 ? $val : array_pop($val);
 }

@@ -24,15 +24,15 @@
                     <a href="<?= base_url() ?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right ">SUPER</span> </a>
                 </li>
                 <li>
-                    <a href="<?=base_url('welcome/admin/1')?>"><i class="fa fa-spinner fa-spin"></i> <span class="title"> ENHANCED ACTIVITIES</span> </a>
+                    <a href="<?= base_url('welcome/admin/1') ?>"><i class="fa fa-spinner fa-spin"></i> <span class="title"> ENHANCED ACTIVITIES</span> </a>
                 </li>
                 <li>
-                    <a href="<?=base_url('welcome/admin/2')?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">SURVEYS</span> </a>
+                    <a href="<?= base_url('welcome/admin/2') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">SURVEYS</span> </a>
                 </li>
                 <!-- <li class="active open">
-                    <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Activity Icon Settings </span><i class="icon-arrow"></i> </a>
+                    <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Forms </span><i class="icon-arrow"></i> </a>
                     <ul class="sub-menu">
-                        <li>
+                        <li class="active">
                             <a href="form_elements.html">
                                 <span class="title">Form Elements</span>
                             </a>
@@ -67,7 +67,7 @@
                                 <span class="title">Multiple File Upload</span>
                             </a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="form_dropzone.html">
                                 <span class="title">Dropzone File Upload</span>
                             </a>

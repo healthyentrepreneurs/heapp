@@ -78,10 +78,9 @@ class Welcome extends CI_Controller
 					// $this->load->view('pages/homequiz', $data);
 					break;
 				case 3:
-					$id=$this->input->get('id');
-					$attempt_n_n_one = $this->universal_model->selectzy('*', 'survey', 'slug', 1,'id',$id);
-					// public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
-					// echo "Hey Hey".$id;
+					$id = $this->input->get('id');
+					$attempt_n_n_one = $this->universal_model->selectzy('*', 'survey', 'slug', 1, 'id', $id);
+					// print_array($attempt_n_n_one);
 					$data['content_admin'] = 'pages/admin/surveyinstance';
 					$data['surveydataone'] = array_shift($attempt_n_n_one);
 					$data['id'] = $id;

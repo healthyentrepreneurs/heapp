@@ -44,8 +44,26 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // print_array($merge_sanitized_courses);
-        echo json_encode($merge_sanitized_courses);
+
+        //New Addition Baby
+        $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+        $array_object = array();
+        foreach ($attempt_d_n_n as $key => $value) {
+            $custome_onw = array(
+                'id' => $value['id'] . "x",
+                'fullname' => $value['name'],
+                'categoryid' => 2,
+                'source' => $value['type'],
+                'summary_custome' => $value['surveydesc'],
+                "next_link" => base_url('survey/getnexlink/') . $value['id'],
+                'image_url_small' => base_url('uploadscustome/') . $value['image'],
+                'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+            );
+            array_push($array_object, $custome_onw);
+        }
+        $njovu = array_merge($merge_sanitized_courses, $array_object);
+        print_array($njovu);
+        // echo json_encode($njovu);
     }
 
     public function get_list_courses_internal()

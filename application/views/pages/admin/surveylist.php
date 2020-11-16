@@ -1,9 +1,6 @@
-<?php
-// print_array($courses_sub);
-?>
 <div class="row">
     <div class="col-md-12">
-         <!-- WALAH CRAP -->
+        <!-- WALAH CRAP -->
         <!-- start: TABLE WITH IMAGES PANEL -->
         <div class="panel panel-white">
             <div class="panel-heading">
@@ -28,10 +25,10 @@
                             </li>
                         </ul>
                     </div>
-                    <a class="btn btn-xs btn-link panel-close" href="#"> <i class="fa fa-times"></i> </a>
+                    <!-- <a class="btn btn-xs btn-link panel-close" href="#"> <i class="fa fa-times"></i> </a> -->
                 </div>
             </div>
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover" id="myTable">
                 <thead>
                     <tr>
                         <th class="center"></th>
@@ -51,7 +48,7 @@
                             <td class="center">
                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                     <a href="<?= base_url('welcome/admin/3?id=' . $value_in_sub['id']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="View/Edit"><i class="fa fa-share"></i></a>
-                                    <a href="<?= base_url('welcome/admin/3') ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-terminal"></i></a>
+                                    <a href="#" onclick="heyhey(<?= $value_in_sub['id'] ?>);" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-minus"></i></a>
                                 </div>
                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                     <div class="btn-group">
@@ -66,7 +63,7 @@
                                             </li>
                                             <li>
                                                 <a role="menuitem" tabindex="-1" href="">
-                                                    <i class="fa fa-terminal"></i> Delete
+                                                    <i class="fa fa-minus"></i> Delete
                                                 </a>
                                             </li>
                                         </ul>
@@ -83,3 +80,67 @@
         <!-- end: TABLE WITH IMAGES PANEL -->
     </div>
 </div>
+<script>
+    // $(document).ready(function() {
+
+    // });
+    function heyhey(id) {
+        const notyf = new Notyf({
+            duration: 1000,
+            position: {
+                x: 'right',
+                y: 'top',
+            },
+            types: [{
+                    type: 'warning',
+                    background: 'orange',
+                    icon: {
+                        className: 'material-icons',
+                        tagName: 'i',
+                        text: 'warning'
+                    }
+                },
+                {
+                    type: 'error',
+                    background: 'indianred',
+                    duration: 2000,
+                    dismissible: true
+                }
+            ]
+        });
+        notyf
+            .error({
+                message: 'Are you Sure You Want To Delete.',
+                dismissible: true
+            })
+            .on('dismiss', ({
+                target,
+                event
+            }) => foobar(id));
+
+    }
+
+    function foobar(id) {
+        var url_updatesurvey = "<?php echo base_url("survey/deletesurvey"); ?>";
+        $.ajax({
+            type: 'POST',
+            url: url_updatesurvey,
+            data: {
+                surveyid: id
+            },
+            success: function(result) {
+                // console.log(result);
+                var notyf = new Notyf();
+                notyf.success('Your changes have been successfully saved!');
+                window.setTimeout(function() {
+                    location.reload()
+                }, 1500)
+
+            },
+            error: function() {
+                alert('Some error found. Please try again!');
+            }
+        });
+        // alert("Hello Hello "+id);
+    }
+</script>

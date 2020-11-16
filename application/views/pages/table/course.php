@@ -50,9 +50,22 @@
                                 </a></td>
                             <td><?= $value['source'] ?></td>
                             <td class="center">
-                                <div class="visible-md visible-lg hidden-sm hidden-xs">
-                                    <a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Check"><i class="fa fa-share"></i></a>
-                                </div>
+                                <?php
+                                if ($value['source'] == "moodle") {
+                                ?>
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                        <a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Check"><i class="fa fa-share"></i></a>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs">
+                                        <a href="#" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Check"><i class="fa fa-share"></i></a>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+
                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                     <div class="btn-group">
                                         <a class="btn btn-green dropdown-toggle btn-sm" data-toggle="dropdown" href="#">

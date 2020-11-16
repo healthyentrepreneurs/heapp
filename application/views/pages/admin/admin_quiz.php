@@ -65,6 +65,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="form-field-1">
+                            <b>Survey Description</b>
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" placeholder="Survey Description" name="surveydesc" id="surveydesc" class="form-control">
+                            <div class="control-group error">
+                                <h6 class="help-inline">
+                                    <font size="2" color="red"><span id="error_message_now"></span></font>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
                     <div class="control-group error">
                         <h6 class="help-inline">
                             <font size="3" color="green"><span id="sucess_message_now"></span></font>
@@ -85,10 +98,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 <script>
-    var url_addsurvey = "<?php echo base_url("survey/addsurvey"); ?>";
-    var addsurvey_n = "<?php echo base_url("survey/addsurvey_n"); ?>";
     // Show Designer, Test Survey, JSON Editor and additionally Logic tabs
     var options = {
         showLogicTab: true
@@ -176,6 +186,8 @@
             .localStorage
             .setItem(localStorageName, creator.text);
         creator.text = JSON.stringify(defaultJSON);
-        window.setTimeout(function(){location.reload()},3000)
+        window.setTimeout(function() {
+            location.reload()
+        }, 1500)
     }
 </script>
