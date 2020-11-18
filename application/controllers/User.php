@@ -50,7 +50,7 @@ class User extends CI_Controller
         $array_object = array();
         foreach ($attempt_d_n_n as $key => $value) {
             $custome_onw = array(
-                'id' => $value['id'] . "x",
+                'id' => $value['id'],
                 'fullname' => $value['name'],
                 'categoryid' => 2,
                 'source' => $value['type'],
