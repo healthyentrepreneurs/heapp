@@ -24,7 +24,7 @@ class User extends CI_Controller
         foreach ($_courses_n_array as $key => $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
-            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id']);
+            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'].'/'.$token);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
                 $courses['image_url_small'] = "https://picsum.photos/100/100";
@@ -79,10 +79,10 @@ class User extends CI_Controller
             return $array_of_courses;
         }
     }
-    public function get_details_percourse($_courseid)
+    public function get_details_percourse($_courseid,$token)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
         $functionname = 'core_course_get_contents';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
