@@ -15,15 +15,9 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function test($var = null)
+    public function get_moodle_courses($token = "f84bf33b56e86a4664284d8a3dfb5280")
     {
-        // $na = $this->get_moodle_courses();
-        // unset_post('id',$na);
-        // print_array($na);
-    }
-    public function get_moodle_courses()
-    {
-        $_courses = $this->get_list_courses_internal();
+        $_courses = $this->get_list_courses_internal($token);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n);
         $merge_sanitized_courses = array();
@@ -36,7 +30,7 @@ class User extends CI_Controller
                 $courses['image_url_small'] = "https://picsum.photos/100/100";
                 $courses['image_url'] = "https://picsum.photos/200/300";
             } else {
-                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=f84bf33b56e86a4664284d8a3dfb5280';
+                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
                 $courses['image_url'] = $courses['image_url_small'];
             }
             $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
@@ -66,10 +60,9 @@ class User extends CI_Controller
         echo json_encode($njovu);
     }
 
-    public function get_list_courses_internal()
+    public function get_list_courses_internal($token)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
         $functionname = 'core_course_get_courses';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -118,10 +111,14 @@ class User extends CI_Controller
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);
                         // print_array($_filter_modules);
                     }
-                    if ($_filter_modules['modname'] == "quiz") {
-                        $_filter_modules['next_link'] = base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
-                    }
-                    if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
+                    // if ($_filter_modules['modname'] == "quiz") {
+                    //     $_filter_modules['next_link'] = base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
+                    // }
+                    // if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
+                    //     // $_filter_modules['modname'] == "forum" || 
+                    //     array_push($array_modules, $_filter_modules);
+                    // }
+                    if ($_filter_modules['modname'] == "book") {
                         // $_filter_modules['modname'] == "forum" || 
                         array_push($array_modules, $_filter_modules);
                     }
@@ -205,7 +202,7 @@ class User extends CI_Controller
                 // array_map(function ($v1, $v2) {
                 //     echo $v1['id'] . " " . $v2['id'];
                 // }, $array_of_output, $this->get_list_courses());
-                foreach ($this->get_list_courses_internal() as $key => $course) {
+                foreach ($this->get_list_courses_internal($token) as $key => $course) {
                     foreach ($array_of_output as $key => $user) {
                         $this->enrol($user['id'], $course['id']);
                     }
