@@ -54,8 +54,8 @@ class Moodle extends CI_Controller
     public function login($var = null)
     {
         // header('Access-Control-Allow-Origin: *');
-        // $_POST['username'] = "mega";
-        // $_POST['password'] = "Mega1java123!@#";
+        // $_POST['username'] = "nakafeero_teddy";
+        // $_POST['password'] = "He0800211040!";
         if (isset($_POST['username']) && isset($_POST['password'])) {
             $username = str_replace(' ', '', $this->input->post('username'));
             $password = str_replace('#', '%23', $this->input->post('password'));

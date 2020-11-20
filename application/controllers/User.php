@@ -19,12 +19,12 @@ class User extends CI_Controller
     {
         $_courses = $this->get_list_courses_internal($token);
         $_courses_n = array_value_recursive('id', $_courses);
-        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n);
+        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
         $merge_sanitized_courses = array();
         foreach ($_courses_n_array as $key => $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
-            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'].'/'.$token);
+            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
                 $courses['image_url_small'] = "https://picsum.photos/100/100";
@@ -79,7 +79,7 @@ class User extends CI_Controller
             return $array_of_courses;
         }
     }
-    public function get_details_percourse($_courseid,$token)
+    public function get_details_percourse($_courseid, $token)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
@@ -133,28 +133,32 @@ class User extends CI_Controller
             echo empty_response("course sections loaded", 200, $array_merger);
         }
     }
-    public function get_course_get_courses_by_ids($_courseid)
+    public function get_course_get_courses_by_ids($_courseid, $token)
     {
-        $string = implode(',', $_courseid);
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
-        $functionname = 'core_course_get_courses_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $token,
-            'wsfunction' => $functionname,
-            'moodlewsrestformat' => 'json',
-            'field' => "ids",
-            'value' =>  $string
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        // print_array($server_output);
-        $array_of_courses = json_decode($server_output, true);
-        if (array_key_exists('exception', $array_of_courses)) {
-            // message
-            return array();
+        if (is_array($_courseid)) {
+            $string = implode(',', $_courseid);
+            $domainname = 'https://app.healthyentrepreneurs.nl';
+            // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+            $functionname = 'core_course_get_courses_by_field';
+            $serverurl = $domainname . '/webservice/rest/server.php';
+            $data = array(
+                'wstoken' => $token,
+                'wsfunction' => $functionname,
+                'moodlewsrestformat' => 'json',
+                'field' => "ids",
+                'value' =>  $string
+            );
+            $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+            // print_array($server_output);
+            $array_of_courses = json_decode($server_output, true);
+            if (array_key_exists('exception', $array_of_courses)) {
+                // message
+                return array();
+            } else {
+                return $array_of_courses['courses'];
+            }
         } else {
-            return $array_of_courses['courses'];
+            return array();
         }
     }
     public function set_newuser()
