@@ -17,9 +17,15 @@ class User extends CI_Controller
     }
     public function get_moodle_courses($token = "f84bf33b56e86a4664284d8a3dfb5280")
     {
-        $_courses = $this->get_list_courses_internal($token);
+        $_courses = $this->get_list_courses_internal();
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
+        // $courses_uganda = array();
+        // foreach ($_courses_n_array as $key => $value_uga) {
+        //     if ($value_uga['categoryname'] == "Content_UG_LU") {
+        //         array_push($courses_uganda, $value_uga);
+        //     }
+        // }
         $merge_sanitized_courses = array();
         foreach ($_courses_n_array as $key => $courses) {
             $courses['source'] = "moodle";
@@ -33,13 +39,14 @@ class User extends CI_Controller
                 $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
                 $courses['image_url'] = $courses['image_url_small'];
             }
-            $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
-            if (!$courses['categoryid'] == 0) {
+            $server_output = $this->get_details_percourse($courses['id'], $token, 2);
+            if (!empty($server_output) && $courses['categoryid'] != 0) {
+                $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-
-        //New Addition Baby
+        // print_array($merge_sanitized_courses);
+        // //New Addition Baby
         $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
         $array_object = array();
         foreach ($attempt_d_n_n as $key => $value) {
@@ -60,10 +67,11 @@ class User extends CI_Controller
         echo json_encode($njovu);
     }
 
-    public function get_list_courses_internal($token)
+    public function get_list_courses_internal()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'core_course_get_courses';
+        $token = "f84bf33b56e86a4664284d8a3dfb5280";
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
@@ -79,7 +87,7 @@ class User extends CI_Controller
             return $array_of_courses;
         }
     }
-    public function get_details_percourse($_courseid, $token)
+    public function get_details_percourse($_courseid, $token, $show = 1)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
@@ -97,7 +105,11 @@ class User extends CI_Controller
         if (array_key_exists('exception', $array_of_courses)) {
             // message
             $result = array();
-            echo empty_response("Credentials Are Required");
+            if ($show == 1) {
+                echo empty_response("Credentials Are Required");
+            } else {
+                return $result;
+            }
         } else {
             $array_merger = array();
             foreach ($array_of_courses as $key => $_submodules) {
@@ -130,7 +142,11 @@ class User extends CI_Controller
             // print_array($array_merger);
             // return $array_of_courses;
             // Hello Sunshine 
-            echo empty_response("course sections loaded", 200, $array_merger);
+            if ($show == 1) {
+                echo empty_response("course sections loaded", 200, $array_merger);
+            } else {
+                return $array_merger;
+            }
         }
     }
     public function get_course_get_courses_by_ids($_courseid, $token)
