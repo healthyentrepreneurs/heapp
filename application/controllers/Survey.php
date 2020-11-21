@@ -160,21 +160,75 @@ class Survey extends CI_Controller
     public function getnexlink($id)
     {
         $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'id', $id);
-        $json_en = array_shift($attempt_d_n_n);
-        $array_objects_pages = json_decode($json_en['surveyjson'], true);
+        $json_en_values = $this->survey_custom_values($attempt_d_n_n);
+        $json_en = array_shift($json_en_values);
+        $array_objects_pages = $json_en['surveyjson'];
         echo json_encode($array_objects_pages);
-        // if (count($array_objects_pages['pages']) > 1) {
-        //     $fuck = array_slice($array_objects_pages['pages'], 1, null, true);
-        //     // $this->tranves_page($id, $fuck);
-        //     $mama = $array_objects_pages['pages'][0];
-        //     // $mama['nextlink']=base_url('survey/tranves_page'.$fuckm);
-        //     $server_output = curl_request(base_url('survey/tranves_page'), $fuck, "post", array('App-Key: 123456'));
-        //     $mama['nextlink'] = $server_output;
-        //     print_array($mama);
-        // } else {
-        //     $gaga=$array_objects_pages['pages'][0];
-        //     $gaga['nextlink']="";
-        //     echo json_encode($gaga);
-        // }
+        // print_array($json_en);
+    }
+    public function survey_custom_values($attempt_d_n_n)
+    {
+        // $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+        $major_enventual = array();
+        foreach ($attempt_d_n_n as $key => $value_object) {
+            $manior_xxn = array(
+                'id' => $value_object['id'],
+                'name' => $value_object['name'],
+                'surveydesc' => $value_object['surveydesc'],
+                // 'surveyjson' => $value_object['surveyjson'],
+                'image' => $value_object['image'],
+                'image_url_small' => $value_object['image_url_small'],
+                'datecreated' => $value_object['datecreated'],
+                'createdby' => $value_object['createdby'],
+                'type' => $value_object['type'],
+                'slug' => $value_object['slug']
+            );
+            $json_survey = $value_object['surveyjson'];
+            $array_survey = json_decode($json_survey, true);
+            $pages = $array_survey['pages'];
+            unset_post($array_survey, 'pages');
+            $survey_level_1 = array();
+            foreach ($pages as $key => $page) {
+                $elements = $page['elements'];
+                unset_post($page, 'elements');
+                $new_elementx = array();
+                foreach ($elements as $key_element => $element) {
+                    if ($element['type'] == "radiogroup") {
+                        $choices = $element['choices'];
+                        $new_choices = array();
+                        $_value = 1;
+                        foreach ($choices as $key => $value) {
+                            $value['_value'] = $_value;
+                            $_value++;
+                            array_push($new_choices, $value);
+                        }
+                        $element['choices'] = $new_choices;
+                        array_push($new_elementx, $element);
+                    } else if ($element['type'] == "checkbox") {
+                        $choices = $element['choices'];
+                        $new_choices = array();
+                        $_value = false;
+                        foreach ($choices as $key => $value) {
+                            $value['_value'] = "false";
+                            // $_value = false;
+                            array_push($new_choices, $value);
+                        }
+                        $element['choices'] = $new_choices;
+                        array_push($new_elementx, $element);
+                    } else {
+                        array_push($new_elementx, $element);
+                    }
+                }
+                $page['elements'] = $new_elementx;
+                array_push($survey_level_1, $page);
+            }
+            // print_array($pages);
+            // echo "...................................<br>";
+            $array_survey['pages'] = $survey_level_1;
+            $manior_xxn['surveyjson'] = $array_survey;
+            array_push($major_enventual, $manior_xxn);
+        }
+        // print_array($major_enventual);
+        return $major_enventual;
     }
 }

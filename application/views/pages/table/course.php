@@ -45,9 +45,24 @@
                     ?>
                         <tr>
                             <td class="center"><img src="<?= $value['image_url_small'] ?>" alt="image" width="200" height="200" /></td>
-                            <td><a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>">
-                                    <h3 style="color:#689F59"><?= $value['fullname'] ?></h3>
-                                </a></td>
+                            <td>
+                                <?php
+                                if ($value['source'] == "moodle") {
+
+                                ?>
+                                    <a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>">
+                                        <h3 style="color:#689F59"><?= $value['fullname'] ?></h3>
+                                    </a>
+                                <?php
+                                } else {
+                                ?>
+                                    <a href="#">
+                                        <h3 style="color:#689F59"><?= $value['fullname'] ?></h3>
+                                    </a>
+                                <?php
+                                }
+                                ?>
+                            </td>
                             <td><?= $value['source'] ?></td>
                             <td class="center">
                                 <?php
