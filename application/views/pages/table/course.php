@@ -30,7 +30,7 @@
                     <a class="btn btn-xs btn-link panel-close" href="#"> <i class="fa fa-times"></i> </a>
                 </div>
             </div>
-            <table class="table table-striped table-hover" id="sample-table-2">
+            <table class="table table-striped table-hover" id="employees_list_admin">
                 <thead>
                     <tr>
                         <th class="center">Photo</th>
@@ -106,3 +106,13 @@
         <!-- end: TABLE WITH IMAGES PANEL -->
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#employees_list_admin').DataTable({
+            "pageLength": 4
+//            "paging": false,
+//            "ordering": false,
+//            "info": false
+        });
+    });
+</script>

@@ -34,7 +34,7 @@
                         <!-- start: USER DROPDOWN -->
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-                                <img src="<?=base_url()?>assets/images/avatar-1-small.jpg" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
+                                <img src="<?=$this->session->userdata('logged_in_lodda')['profileimageurlsmall']?>" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
                             </a>
                             <ul class="dropdown-menu dropdown-dark">
                                 <li>

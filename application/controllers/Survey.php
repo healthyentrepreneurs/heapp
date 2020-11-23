@@ -231,4 +231,60 @@ class Survey extends CI_Controller
         // print_array($major_enventual);
         return $major_enventual;
     }
+    public function addsurveycohort()
+    {
+        $this->form_validation->set_rules('survay_object', 'Survey ', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('cohort_object', 'Cohort', 'trim|required|xss_clean');
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('survay_object', form_error('survay_object'));
+            $this->session->set_flashdata('cohort_object', form_error('cohort_object'));
+            redirect(base_url('welcome/admin/4'));
+        } else {
+            $cohort_id_obj = $this->input->post('cohort_object');
+            $cohort_id_array = explode("@@", $cohort_id_obj);
+            $id = isset($_POST['id_n']) ? $_POST['id_n'] : null;
+            switch ($id) {
+                case null:
+                    $message = "Survey Successfully Added to Cohort";
+                    $array_chort_su = array(
+                        'survey_id' => $this->input->post('survay_object'),
+                        'cohort_id' => $cohort_id_array[0],
+                        'cohort_name' => $cohort_id_array[1],
+                        'idnumber' => $cohort_id_array['2']
+                    );
+                    break;
+                default:
+                    $message = "Survey Edited Item Of Id " . $id;
+                    $array_chort_su = array(
+                        'survey_id' => $this->input->post('survay_object'),
+                        'cohort_id' => $cohort_id_array[0],
+                        'cohort_name' => $cohort_id_array[1],
+                        'idnumber' => $cohort_id_array['2'],
+                        'id' => $id
+                    );
+                    break;
+            }
+            $this->universal_model->updateOnDuplicate('cohort_survey', $array_chort_su);
+            $this->session->set_flashdata('cohort_success', $message);
+            redirect(base_url('welcome/admin/4'));
+            // $this->addemployee_subfunc();
+        }
+    }
+    public function edit_cosurv()
+    {
+        $id_ledger = $this->input->get('id');
+        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $array_per_led = $this->universal_model->selectz('*', 'cohort_survey', 'id', $id_ledger);
+        $ledger = array_shift($array_per_led);
+        $arrayledger = array("ledger_per" => $ledger);
+        $this->session->set_flashdata($arrayledger);
+        redirect(base_url('welcome/admin/4'), 'refresh');
+    }
+    public function delete_cosurv()
+    {
+        $surveyid = $this->input->post('coho_survid');
+        // public function deletez($table_name, $variable_1, $value_1)
+        $this->universal_model->deletez('cohort_survey', 'id', $surveyid);
+        echo json_encode($_POST);
+    }
 }

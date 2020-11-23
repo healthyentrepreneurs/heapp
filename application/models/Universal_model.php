@@ -289,4 +289,13 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+    public function join_suv_cohot()
+    {
+        $this->db->select('c.id as id,s.id as sid,c.cohort_id as cid,idnumber,cohort_name,cohort_id,name,surveydesc');
+        $this->db->from('cohort_survey c');
+        $this->db->join('survey s', 's.id=c.survey_id', 'left');
+        $this->db->where('s.slug', 1);
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
 }

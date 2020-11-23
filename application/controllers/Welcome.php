@@ -53,6 +53,7 @@ class Welcome extends CI_Controller
 	public function admin($var = 0)
 	{
 		// print_array($this->session->userdata('logged_in_lodda'));
+		// njovu
 		if ($this->session->userdata('logged_in_lodda')) {
 			$data['header'] = 'parts/header';
 			$data['sidenav'] = 'pages/admin/navadmin';
@@ -87,7 +88,11 @@ class Welcome extends CI_Controller
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 4:
-					echo "Hey Hey 6";
+					$data['cohorts'] = $this->getme_chort_details();
+					$data['surveys']=$this->get_surveys();
+					$data['survey_cohort']=$this->universal_model->join_suv_cohot();
+					$data['content_admin'] = 'pages/admin/cohorts';
+					$this->load->view('pages/hometwo', $data);
 					break;
 				default:
 					break;
@@ -96,5 +101,43 @@ class Welcome extends CI_Controller
 			$data['content'] = 'pages/index';
 			$this->load->view('pages/homeone', $data);
 		}
+	}
+
+	public function getme_chort_details()
+	{
+		$domainname = 'https://app.healthyentrepreneurs.nl';
+		$token = 'f84bf33b56e86a4664284d8a3dfb5280';
+		$functionname = 'core_cohort_get_cohorts';
+		$serverurl = $domainname . '/webservice/rest/server.php';
+		$data = array(
+			'wstoken' => $token,
+			'wsfunction' => $functionname,
+			'moodlewsrestformat' => 'json',
+			'cohortids' => array(),
+
+		);
+		$server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+		$array_of_output = json_decode($server_output, true);
+		return $array_of_output;
+		// print_array($array_of_output);
+	}
+	public function get_surveys()
+	{
+		$attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+		$array_object = array();
+		foreach ($attempt_d_n_n as $key => $value) {
+			$custome_onw = array(
+				'id' => $value['id'],
+				'fullname' => $value['name'],
+				'categoryid' => 2,
+				'source' => $value['type'],
+				'summary_custome' => $value['surveydesc'],
+				"next_link" => base_url('survey/getnexlink/') . $value['id'],
+				'image_url_small' => base_url('uploadscustome/') . $value['image'],
+				'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+			);
+			array_push($array_object, $custome_onw);
+		}
+		return $array_object;
 	}
 }

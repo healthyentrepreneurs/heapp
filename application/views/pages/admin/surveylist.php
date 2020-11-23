@@ -28,7 +28,7 @@
                     <!-- <a class="btn btn-xs btn-link panel-close" href="#"> <i class="fa fa-times"></i> </a> -->
                 </div>
             </div>
-            <table class="table table-striped table-hover" id="myTable">
+            <table class="table table-striped table-hover" id="mysurveytable">
                 <thead>
                     <tr>
                         <th class="center"></th>
@@ -81,9 +81,15 @@
     </div>
 </div>
 <script>
-    // $(document).ready(function() {
+    $(document).ready(function() {
+        $('#mysurveytable').DataTable({
+            "pageLength": 4
+            //            "paging": false,
+            //            "ordering": false,
+            //            "info": false
+        });
+    });
 
-    // });
     function heyhey(id) {
         const notyf = new Notyf({
             duration: 1000,
@@ -134,7 +140,7 @@
                 notyf.success('Your changes have been successfully saved!');
                 window.setTimeout(function() {
                     location.reload()
-                }, 1500)
+                }, 1000)
 
             },
             error: function() {

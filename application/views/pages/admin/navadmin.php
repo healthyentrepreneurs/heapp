@@ -8,10 +8,13 @@
             </div>
             <div class="user-profile border-top padding-horizontal-10 block">
                 <div class="inline-block">
-                    <img src="assets/images/avatar-1.jpg" alt="">
+                    <img src="<?=$this->session->userdata('logged_in_lodda')['profileimageurl']?>" alt="">
                 </div>
                 <div class="inline-block">
                     <h5 class="no-margin"> Welcome </h5>
+                    <?php
+                    // print_array($this->session->userdata('logged_in_lodda'));
+                    ?>
                     <h4 class="no-margin"> <?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></h4>
                     <a class="btn user-options sb_toggle">
                         <i class="fa fa-cog"></i>
@@ -28,6 +31,9 @@
                 </li>
                 <li>
                     <a href="<?= base_url('welcome/admin/2') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">SURVEYS</span> </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('welcome/admin/4') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">COHORTS</span> </a>
                 </li>
                 <!-- <li class="active open">
                     <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Forms </span><i class="icon-arrow"></i> </a>
