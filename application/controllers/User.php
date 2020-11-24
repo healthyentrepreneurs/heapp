@@ -267,50 +267,52 @@ class User extends CI_Controller
         // $cohortids = array('1', '2');
         if (empty($cohortids)) {
             return array();
-        } else {
-            $domainname = 'https://app.healthyentrepreneurs.nl';
-            $token = 'f84bf33b56e86a4664284d8a3dfb5280';
-            $functionname = 'core_cohort_get_cohort_members';
-            $serverurl = $domainname . '/webservice/rest/server.php';
-            $data = array(
-                'wstoken' => $token,
-                'wsfunction' => $functionname,
-                'moodlewsrestformat' => 'json',
-                'cohortids' => $cohortids,
-
-            );
-            $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
-            $array_of_output = json_decode($server_output, true);
-            $cohort_allowed_id = array();
-            foreach ($array_of_output as $key => $value_nop) {
-                $key = array_search($id_quetion, $value_nop['userids']);
-                // var_dump($crap);
-                if ($key === 0) {
-                    $array_en_p = array(
-                        'cohort_id' => $value_nop['cohortid']
-                    );
-                    array_push($cohort_allowed_id, $array_en_p);
-                }
-            }
-            $array_object = array();
-            foreach ($cohort_allowed_id as $key => $d_suvs) {
-                $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
-                $value = array_shift($slect_cho_sur);
-                $custome_onw = array(
-                    'id' => $value['sid'],
-                    'fullname' => $value['name'],
-                    'categoryid' => 2,
-                    'source' => $value['type'],
-                    'summary_custome' => $value['surveydesc'],
-                    "next_link" => base_url('survey/getnexlink/') . $value['id'],
-                    'image_url_small' => base_url('uploadscustome/') . $value['image'],
-                    'image_url' => base_url('uploadscustome/') . $value['image_url_small']
-                );
-                array_push($array_object, $custome_onw);
-                // print_array($custome_onw);
-            }
-            return $array_object;
+        } elseif (is_string($cohortids)) {
+            $cohortids = array($cohortids);
         }
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids' => $cohortids,
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $cohort_allowed_id = array();
+        // print_array($array_of_output);
+        foreach ($array_of_output as $key => $value_nop) {
+            $key = array_search($id_quetion, $value_nop['userids']);
+            // var_dump($crap);
+            if ($key === 0) {
+                $array_en_p = array(
+                    'cohort_id' => $value_nop['cohortid']
+                );
+                array_push($cohort_allowed_id, $array_en_p);
+            }
+        }
+        $array_object = array();
+        foreach ($cohort_allowed_id as $key => $d_suvs) {
+            $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
+            $value = array_shift($slect_cho_sur);
+            $custome_onw = array(
+                'id' => $value['sid'],
+                'fullname' => $value['name'],
+                'categoryid' => 2,
+                'source' => $value['type'],
+                'summary_custome' => $value['surveydesc'],
+                "next_link" => base_url('survey/getnexlink/') . $value['id'],
+                'image_url_small' => base_url('uploadscustome/') . $value['image'],
+                'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+            );
+            array_push($array_object, $custome_onw);
+            // print_array($custome_onw);
+        }
+        return $array_object;
     }
     #Test Get User Details
     public function get_meuserdetails()

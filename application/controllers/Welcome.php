@@ -59,9 +59,9 @@ class Welcome extends CI_Controller
 			$data['sidenav'] = 'pages/admin/navadmin';
 			$server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
 			$courses = json_decode($server_output, true);
-			// if (empty($courses)) {
-			// 	$courses = array();
-			// }
+			if (empty($courses)) {
+				$courses = array();
+			}
 			$data['courses'] = $courses;
 			// print_array($server_output);
 			switch ($var) {
