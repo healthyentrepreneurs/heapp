@@ -1,5 +1,5 @@
 <?php
-// print_array($courses);
+print_array($courses);
 ?>
 <div class="row">
     <div class="col-md-12">
