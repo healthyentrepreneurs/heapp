@@ -89,9 +89,17 @@ class Welcome extends CI_Controller
 					break;
 				case 4:
 					$data['cohorts'] = $this->getme_chort_details();
-					$data['surveys']=$this->get_surveys();
-					$data['survey_cohort']=$this->universal_model->join_suv_cohot();
+					$data['surveys'] = $this->get_surveys();
+					$data['survey_cohort'] = $this->universal_model->join_suv_cohot();
 					$data['content_admin'] = 'pages/admin/cohorts';
+					$this->load->view('pages/hometwo', $data);
+					break;
+				case 5:
+					$id = $this->input->get('id');
+					$attempt_n_n_one = $this->universal_model->selectzy('*', 'survey', 'slug', 1, 'id', $id);
+					$data['surveydataone'] = array_shift($attempt_n_n_one);
+					$data['content_admin'] = 'pages/admin/imgsurveyinstance';
+					$data['id'] = $id;
 					$this->load->view('pages/hometwo', $data);
 					break;
 				default:

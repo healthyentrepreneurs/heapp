@@ -15,6 +15,52 @@ class Survey extends CI_Controller
         // WRAP NJWA
         echo "<h1>Survey Api ..</h1>";
     }
+
+    function edit_survayimage()
+    {
+        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+            $data = array(
+                'upload_data' => $this->upload->data()
+            );
+            $name_file = $data['upload_data'];
+            $_POST['user_profile_pic'] = $name_file['file_name'];
+            $this->create_thumbnail(600, 600, './uploadscustome/' . "600_" . $this->input->post('user_profile_pic'), './uploadscustome/' . $this->input->post('user_profile_pic'));
+            $this->create_thumbnail(50, 50, './uploadscustome/' . "50_" . $this->input->post('user_profile_pic'), './uploadscustome/' . $this->input->post('user_profile_pic'));
+            $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
+            $_POST['image_url_small'] = "50_" . $this->input->post('user_profile_pic');
+            $_POST['original'] = base_url("uploadscustome/600_" . $this->input->post('user_profile_pic'));
+            unlink("uploadscustome/" . $name_file['file_name']);
+            if (file_exists("uploadscustome/" . $this->input->post('image_url_small_old'))) {
+                unlink("uploadscustome/" . $this->input->post('image_url_small_old'));
+            }
+            if (file_exists("uploadscustome/" . $this->input->post('image_old'))) {
+                unlink("uploadscustome/" . $this->input->post('image_old'));
+            }
+            $user_add = array(
+                'id' => $this->input->post('survey_id'),
+                'image' => $this->input->post('image_big'),
+                'image_url_small' => $this->input->post('image_url_small'),
+                'createdby' => 1,
+            );
+            $this->universal_model->updateOnDuplicate('survey', $user_add);
+            // redirect(base_url('welcome/admin/1'));
+            // echo json_encode($user_add);
+            $array_n = array(
+                'status' => 1,
+                'message' => "Successfully Updated Image Of Survey"
+            );
+            echo json_encode($array_n);
+        } else {
+            // $_POST['original'] = $this->input->post('original');
+            // redirect(base_url('welcome/admin/1'));
+            # code...
+            $array_n = array(
+                'status' => 0,
+                'message' => "Update Image For This Survey"
+            );
+            echo json_encode($array_n);
+        }
+    }
     public function updatesurvey()
     {
         $survey = $this->input->post('surveyobj');
@@ -48,7 +94,6 @@ class Survey extends CI_Controller
         }
         // echo json_encode($_POST);
     }
-
     function addemployee_subfunc()
     {
         if ($this->validate_image("user_profile_pic" . getToken(3))) {

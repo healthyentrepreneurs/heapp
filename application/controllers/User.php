@@ -15,7 +15,7 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function get_moodle_courses($token = "f84bf33b56e86a4664284d8a3dfb5280")
+    public function get_moodle_courses($token = "f84bf33b56e86a4664284d8a3dfb5280", $user_id = "21")
     {
         $_courses = $this->get_list_courses_internal();
         $_courses_n = array_value_recursive('id', $_courses);
@@ -45,23 +45,22 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // print_array($merge_sanitized_courses);
-        // //New Addition Baby
-        $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
-        $array_object = array();
-        foreach ($attempt_d_n_n as $key => $value) {
-            $custome_onw = array(
-                'id' => $value['id'],
-                'fullname' => $value['name'],
-                'categoryid' => 2,
-                'source' => $value['type'],
-                'summary_custome' => $value['surveydesc'],
-                "next_link" => base_url('survey/getnexlink/') . $value['id'],
-                'image_url_small' => base_url('uploadscustome/') . $value['image'],
-                'image_url' => base_url('uploadscustome/') . $value['image_url_small']
-            );
-            array_push($array_object, $custome_onw);
-        }
+        // $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+        // $array_object = array();
+        // foreach ($attempt_d_n_n as $key => $value) {
+        //     $custome_onw = array(
+        //         'id' => $value['id'],
+        //         'fullname' => $value['name'],
+        //         'categoryid' => 2,
+        //         'source' => $value['type'],
+        //         'summary_custome' => $value['surveydesc'],
+        //         "next_link" => base_url('survey/getnexlink/') . $value['id'],
+        //         'image_url_small' => base_url('uploadscustome/') . $value['image'],
+        //         'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+        //     );
+        //     array_push($array_object, $custome_onw);
+        // }
+        $array_object = $this->getme_cohort_get_cohort_members($user_id);
         $njovu = array_merge($merge_sanitized_courses, $array_object);
         // print_array($njovu);
         echo json_encode($njovu);
@@ -253,7 +252,7 @@ class User extends CI_Controller
         curl_request($serverurl, $data, "post", array('App-Key: 123456'));
     }
     // core_cohort_get_cohort_members
-    public function getme_cohort_get_cohort_members()
+    public function getme_cohort_get_cohort_members($id_quetion)
     {
         $value_check = $this->universal_model->join_suv_cohot();
         $array_ids_cohort = array();
@@ -264,7 +263,7 @@ class User extends CI_Controller
             );
             array_push($array_ids_cohort, $array_en_p);
         }
-        $cohortids=array_value_recursive('cohort_id',$array_ids_cohort);
+        $cohortids = array_value_recursive('cohort_id', $array_ids_cohort);
         // $cohortids = array('1', '2');
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
@@ -279,9 +278,37 @@ class User extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        // // return $array_of_output;
-        print_array($array_of_output);
+        $cohort_allowed_id = array();
+        foreach ($array_of_output as $key => $value_nop) {
+            $key = array_search($id_quetion, $value_nop['userids']);
+            // var_dump($crap);
+            if ($key === 0) {
+                $array_en_p = array(
+                    'cohort_id' => $value_nop['cohortid']
+                );
+                array_push($cohort_allowed_id, $array_en_p);
+            }
+        }
+        $array_object = array();
+        foreach ($cohort_allowed_id as $key => $d_suvs) {
+            $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
+            $value = array_shift($slect_cho_sur);
+            $custome_onw = array(
+                'id' => $value['sid'],
+                'fullname' => $value['name'],
+                'categoryid' => 2,
+                'source' => $value['type'],
+                'summary_custome' => $value['surveydesc'],
+                "next_link" => base_url('survey/getnexlink/') . $value['id'],
+                'image_url_small' => base_url('uploadscustome/') . $value['image'],
+                'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+            );
+            array_push($array_object, $custome_onw);
+            // print_array($custome_onw);
+        }
+        return $array_object;
     }
+    #Test Get User Details
     public function get_meuserdetails()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
