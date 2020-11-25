@@ -129,8 +129,24 @@ class User extends CI_Controller
                     //     // $_filter_modules['modname'] == "forum" || 
                     //     array_push($array_modules, $_filter_modules);
                     // }
+                    $new_content = array();
                     if ($_filter_modules['modname'] == "book") {
-                        // $_filter_modules['modname'] == "forum" || 
+                        $contents = $_filter_modules['contents'];
+                        unset_post($filter_modules, 'contents');
+                        foreach ($contents as $keyn => $content_value) {
+                            // $content_value
+                            if ($content_value['type'] == "content") {
+                                array_push($new_content, $content_value);
+                            }
+                            if ($content_value['type'] == "file") {
+                                $file_modi = $content_value['fileurl'] . "?" . $token;
+                                unset_post($content_value, 'fileurl');
+                                $content_value['fileurl'] = $file_modi;
+                                array_push($new_content, $content_value);
+                            }
+                        }
+                        unset_post($_filter_modules, 'contents');
+                        $_filter_modules['contents'] = $new_content;
                         array_push($array_modules, $_filter_modules);
                     }
                     // print_array($value_check);
@@ -143,6 +159,7 @@ class User extends CI_Controller
             // Hello Sunshine 
             if ($show == 1) {
                 echo empty_response("course sections loaded", 200, $array_merger);
+                // print_array($array_merger);
             } else {
                 return $array_merger;
             }
