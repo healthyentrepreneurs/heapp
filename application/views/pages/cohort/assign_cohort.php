@@ -1,5 +1,6 @@
 <?php
 $ledger_per = $this->session->userdata('ledger_per');
+// print_array($cohorts);
 ?>
 <div class="row" id="add_employeediv">
     <div class="col-sm-12">

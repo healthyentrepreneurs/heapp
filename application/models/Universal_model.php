@@ -301,4 +301,14 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+    public function join_suv_cohot_min($chort_value)
+    {
+        $this->db->select('c.id as id,s.id as sid,s.name as name,s.type as type,s.surveydesc as surveydesc,s.image as image,s.image_url_small as image_url_small,c.cohort_id as cid,idnumber,cohort_name,cohort_id,name,surveydesc');
+        $this->db->from('cohort_survey c');
+        $this->db->join('survey s', 's.id=c.survey_id', 'left');
+        $this->db->where('c.cohort_id', $chort_value);
+        $this->db->where('s.slug', 1);
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
 }

@@ -299,20 +299,24 @@ class User extends CI_Controller
         $array_object = array();
         foreach ($cohort_allowed_id as $key => $d_suvs) {
             $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
-            $value = array_shift($slect_cho_sur);
-            $custome_onw = array(
-                'id' => $value['sid'],
-                'fullname' => $value['name'],
-                'categoryid' => 2,
-                'source' => $value['type'],
-                'summary_custome' => $value['surveydesc'],
-                "next_link" => base_url('survey/getnexlink/') . $value['sid'],
-                'image_url_small' => base_url('uploadscustome/') . $value['image'],
-                'image_url' => base_url('uploadscustome/') . $value['image_url_small']
-            );
-            array_push($array_object, $custome_onw);
+            foreach ($slect_cho_sur as $key => $value) {
+                $custome_onw = array(
+                    'id' => $value['sid'],
+                    'fullname' => $value['name'],
+                    'categoryid' => 2,
+                    'source' => $value['type'],
+                    'summary_custome' => $value['surveydesc'],
+                    "next_link" => base_url('survey/getnexlink/') . $value['sid'],
+                    'image_url_small' => base_url('uploadscustome/') . $value['image'],
+                    'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+                );
+                array_push($array_object, $custome_onw);
+            }
+            // $value = array_shift($slect_cho_sur);
+
             // print_array($custome_onw);
         }
+        // print_array($array_object);
         return $array_object;
     }
     #Test Get User Details
@@ -327,13 +331,13 @@ class User extends CI_Controller
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
             'field' => 'username',
-            'values[0]' => 'mega'
+            'values[0]' => 'nakafeero_teddy'
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
-        print_array($mamama);
+        print_array($array_of_output);
     }
 }
