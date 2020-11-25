@@ -62,7 +62,7 @@ class User extends CI_Controller
         // }
         $array_object = $this->getme_cohort_get_cohort_members($user_id);
         $njovu = array_merge($merge_sanitized_courses, $array_object);
-        // print_array($njovu);
+        // print_array($array_object);
         echo json_encode($njovu);
     }
 
@@ -270,6 +270,7 @@ class User extends CI_Controller
         } elseif (is_string($cohortids)) {
             $cohortids = array($cohortids);
         }
+        $cohortids = array_unique($cohortids);
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
         $functionname = 'core_cohort_get_cohort_members';
@@ -305,7 +306,7 @@ class User extends CI_Controller
                 'categoryid' => 2,
                 'source' => $value['type'],
                 'summary_custome' => $value['surveydesc'],
-                "next_link" => base_url('survey/getnexlink/') . $value['id'],
+                "next_link" => base_url('survey/getnexlink/') . $value['sid'],
                 'image_url_small' => base_url('uploadscustome/') . $value['image'],
                 'image_url' => base_url('uploadscustome/') . $value['image_url_small']
             );
