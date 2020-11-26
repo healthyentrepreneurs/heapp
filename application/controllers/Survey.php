@@ -209,7 +209,7 @@ class Survey extends CI_Controller
         $json_en = array_shift($json_en_values);
         $array_objects_pages = $json_en['surveyjson'];
         echo json_encode($array_objects_pages);
-        // print_array($json_en);
+        // print_array($attempt_d_n_n);
     }
     public function survey_custom_values($attempt_d_n_n)
     {
@@ -234,8 +234,12 @@ class Survey extends CI_Controller
             unset_post($array_survey, 'pages');
             $survey_level_1 = array();
             foreach ($pages as $key => $page) {
-                $elements = $page['elements'];
-                unset_post($page, 'elements');
+                if (key_exists('elements', $page)) {
+                    $elements = $page['elements'];
+                    unset_post($page, 'elements');
+                } else {
+                    $elements = array();
+                }
                 $new_elementx = array();
                 foreach ($elements as $key_element => $element) {
                     if ($element['type'] == "radiogroup") {
