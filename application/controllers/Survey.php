@@ -332,4 +332,12 @@ class Survey extends CI_Controller
         $this->universal_model->deletez('cohort_survey', 'id', $surveyid);
         echo json_encode($_POST);
     }
+    public function saveobject_surv()
+    {
+        $array_n = array(
+            'status' => 1,
+            'message' => "Survey Posted Successfully"
+        );
+        echo json_encode($array_n);
+    }
 }
