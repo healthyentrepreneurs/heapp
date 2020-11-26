@@ -89,7 +89,7 @@ class User extends CI_Controller
     public function get_details_percourse($_courseid, $token, $show = 1)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token_x = 'f84bf33b56e86a4664284d8a3dfb5280';
         $functionname = 'core_course_get_contents';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -139,7 +139,7 @@ class User extends CI_Controller
                                 array_push($new_content, $content_value);
                             }
                             if ($content_value['type'] == "file") {
-                                $file_modi = $content_value['fileurl'] . "?token=" . $token;
+                                $file_modi = $content_value['fileurl'] . "?token=" . $token_x;
                                 unset_post($content_value, 'fileurl');
                                 $content_value['fileurl'] = $file_modi;
                                 array_push($new_content, $content_value);
