@@ -306,7 +306,7 @@ class User extends CI_Controller
         foreach ($array_of_output as $key => $value_nop) {
             $key = array_search($id_quetion, $value_nop['userids']);
             // var_dump($crap);
-            if ($key === 0) {
+            if ($key !== false) {
                 $array_en_p = array(
                     'cohort_id' => $value_nop['cohortid']
                 );
@@ -355,6 +355,7 @@ class User extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
+        // nakafeero_teddy
         print_array($array_of_output);
     }
 }
