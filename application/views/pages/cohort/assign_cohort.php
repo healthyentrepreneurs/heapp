@@ -13,7 +13,7 @@ $ledger_per = $this->session->userdata('ledger_per');
                 <h5 class="help-inline">
                     <font size="2" color="green"><?php echo $this->session->flashdata('cohort_success'); ?></font>
                 </h5>
-                <form id="add_cohort" method="post" class="form-horizontal" role="form" action="<?= base_url('survey/saveobject_surv') ?>">
+                <form id="add_cohort" method="post" class="form-horizontal" role="form" action="<?= base_url('survey/addsurveycohort') ?>">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="form-field-1">
                             Surveys
