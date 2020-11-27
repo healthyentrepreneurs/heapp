@@ -139,7 +139,8 @@ class User extends CI_Controller
                                 array_push($new_content, $content_value);
                             }
                             if ($content_value['type'] == "file") {
-                                $file_modi = $content_value['fileurl'] . "?token=" . $token_x;
+                                $file_modi = $content_value['fileurl'];
+                                // $file_modi = $content_value['fileurl'] . "?token=" . $token_x;
                                 unset_post($content_value, 'fileurl');
                                 $content_value['fileurl'] = $file_modi;
                                 array_push($new_content, $content_value);
