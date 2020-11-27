@@ -344,7 +344,7 @@ class Survey extends CI_Controller
         );
         $post=$_POST;
         $array_on=array(
-            'surveyobject'=>$post,
+            'surveyobject'=>json_encode($post),
         );
         $this->universal_model->updateOnDuplicate('survey_report', $array_on);
         echo json_encode($array_n);
