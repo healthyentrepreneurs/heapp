@@ -342,6 +342,11 @@ class Survey extends CI_Controller
             'status' => 1,
             'message' => "Survey Posted Successfully"
         );
+        $post=$_POST;
+        $array_on=array(
+            'survey_report'=>$post,
+        );
+        $this->universal_model->updateOnDuplicate('survey_report', $array_on);
         echo json_encode($array_n);
     }
 }
