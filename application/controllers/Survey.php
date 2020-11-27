@@ -338,13 +338,18 @@ class Survey extends CI_Controller
     }
     public function saveobject_surv()
     {
+        $_POST['userId'] = 1;
+        $_POST['surveyData'] = "{'userId': userId, 'surveyData': body}";
         $array_n = array(
             'status' => 1,
             'message' => "Survey Posted Successfully"
         );
-        $post=$_POST;
-        $array_on=array(
-            'surveyobject'=>json_encode($post),
+        $userId = $this->input->post('userId');
+        $surveyData = $this->input->post('surveyData');
+        // $post=$_POST;
+        $array_on = array(
+            'userid' => $userId,
+            'surveyobject' => $surveyData,
         );
         $this->universal_model->insertz('survey_report', $array_on);
         echo json_encode($array_n);
