@@ -15,18 +15,13 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function get_moodle_courses($token = "f84bf33b56e86a4664284d8a3dfb5280", $user_id = "21")
+    public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
     {
-        $_courses = $this->get_list_courses_internal();
+        $_courses = $this->get_list_courses_internal($user_id);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
-        // $courses_uganda = array();
-        // foreach ($_courses_n_array as $key => $value_uga) {
-        //     if ($value_uga['categoryname'] == "Content_UG_LU") {
-        //         array_push($courses_uganda, $value_uga);
-        //     }
-        // }
         $merge_sanitized_courses = array();
+        // print_array($_courses_n_array);
         foreach ($_courses_n_array as $key => $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
@@ -45,36 +40,22 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
-        // $array_object = array();
-        // foreach ($attempt_d_n_n as $key => $value) {
-        //     $custome_onw = array(
-        //         'id' => $value['id'],
-        //         'fullname' => $value['name'],
-        //         'categoryid' => 2,
-        //         'source' => $value['type'],
-        //         'summary_custome' => $value['surveydesc'],
-        //         "next_link" => base_url('survey/getnexlink/') . $value['id'],
-        //         'image_url_small' => base_url('uploadscustome/') . $value['image'],
-        //         'image_url' => base_url('uploadscustome/') . $value['image_url_small']
-        //     );
-        //     array_push($array_object, $custome_onw);
-        // }
+        // print_array($merge_sanitized_courses);
         $array_object = $this->getme_cohort_get_cohort_members($user_id);
         $njovu = array_merge($merge_sanitized_courses, $array_object);
-        // print_array($array_object);
         echo json_encode($njovu);
     }
 
-    public function get_list_courses_internal()
+    public function get_list_courses_internal($user_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $functionname = 'core_course_get_courses';
+        $functionname = 'core_enrol_get_users_courses';
         $token = "f84bf33b56e86a4664284d8a3dfb5280";
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
+            'userid'=>$user_id,
             'moodlewsrestformat' => 'json'
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
