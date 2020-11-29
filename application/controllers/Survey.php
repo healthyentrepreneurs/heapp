@@ -348,7 +348,7 @@ class Survey extends CI_Controller
         // $post=$_POST;
         $array_on = array(
             'userid' => 1,
-            'surveyobject' => json_encode($_POST),
+            'surveyobject' => $_POST,
         );
         $this->universal_model->insertz('survey_report', $array_on);
         echo json_encode($array_n);
