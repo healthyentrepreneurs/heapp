@@ -265,8 +265,8 @@ class Survey extends CI_Controller
                         $element['choices'] = $new_choices;
                         array_push($new_elementx, $element);
                     } elseif ($element['type'] == "file") {
-                        $element['acceptedTypes'] = "image/*";
-                        $element['allowImagesPreview'] = true;
+                        $element['accept'] = "image/*";
+                        $element['allowImagesPreview']=true;
                         $element['capture'] = "capture";
                         array_push($new_elementx, $element);
                     } else {
