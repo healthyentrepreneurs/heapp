@@ -40,7 +40,6 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // print_array($merge_sanitized_courses);
         $array_object = $this->getme_cohort_get_cohort_members($user_id);
         $njovu = array_merge($merge_sanitized_courses, $array_object);
         echo json_encode($njovu);
@@ -165,6 +164,29 @@ class User extends CI_Controller
     {
         if (is_array($_courseid)) {
             $string = implode(',', $_courseid);
+            $domainname = 'https://app.healthyentrepreneurs.nl';
+            // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+            $functionname = 'core_course_get_courses_by_field';
+            $serverurl = $domainname . '/webservice/rest/server.php';
+            $data = array(
+                'wstoken' => $token,
+                'wsfunction' => $functionname,
+                'moodlewsrestformat' => 'json',
+                'field' => "ids",
+                'value' =>  $string
+            );
+            $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+            // print_array($server_output);
+            $array_of_courses = json_decode($server_output, true);
+            if (array_key_exists('exception', $array_of_courses)) {
+                // message
+                return array();
+            } else {
+                return $array_of_courses['courses'];
+            }
+        } elseif (!is_null($_courseid)) {
+            $arry_ids[] = $_courseid;
+            $string = implode(',', $arry_ids);
             $domainname = 'https://app.healthyentrepreneurs.nl';
             // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
             $functionname = 'core_course_get_courses_by_field';
