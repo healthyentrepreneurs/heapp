@@ -55,7 +55,7 @@ class User extends CI_Controller
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
-            'userid'=>$user_id,
+            'userid' => $user_id,
             'moodlewsrestformat' => 'json'
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
@@ -113,21 +113,35 @@ class User extends CI_Controller
                     $new_content = array();
                     if ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
-                        unset_post($filter_modules, 'contents');
+                        //Array Search Manipulation
+                        $contents_dub = $contents;
+                        unset_post($contents_dub, 0);
+                        //End Array Search Manipulation
+                        // unset_post($filter_modules, 'contents');
+                        unset_post($_filter_modules, 'contents');
                         foreach ($contents as $keyn => $content_value) {
                             // $content_value
                             if ($content_value['type'] == "content") {
-                                array_push($new_content, $content_value);
+                                $content_n = $content_value['content'];
+                                unset_post($content_value, 'content');
+                                $content_n1 = json_decode($content_n, true);
+                                $cleaner_content = array();
+                                foreach ($content_n1 as $key => $value_n) {
+                                    $value_search = explode('/', $value_n['href']);
+                                    foreach ($contents_dub as $keyn => $value_check) {
+                                        if (strpos($value_check['filepath'], $value_search[0]) !== false && strpos($value_check['filename'], $value_search[1]) !== false) {
+                                            $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
+                                            array_push($cleaner_content, $value_n);
+                                            // print_array($value_n);
+                                        }
+                                    }
+                                }
+                                $content_value['content'] = json_encode($cleaner_content);
+                                // array_push($new_content, $content_value);
                             }
-                            if ($content_value['type'] == "file") {
-                                $file_modi = $content_value['fileurl'];
-                                // $file_modi = $content_value['fileurl'] . "?token=" . $token_x;
-                                unset_post($content_value, 'fileurl');
-                                $content_value['fileurl'] = $file_modi;
-                                array_push($new_content, $content_value);
-                            }
+                            array_push($new_content, $content_value);
                         }
-                        unset_post($_filter_modules, 'contents');
+
                         $_filter_modules['contents'] = $new_content;
                         array_push($array_modules, $_filter_modules);
                     }
