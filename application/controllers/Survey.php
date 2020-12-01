@@ -360,8 +360,8 @@ class Survey extends CI_Controller
         // $surveyData = $this->input->post('surveyData');
         // $post=$_POST;
         $array_on = array(
-            'userid' => $userid,
-            'surveyobject' => json_encode($jsondata),
+            'userid' => 1,
+            'surveyobject' => json_encode($_POST),
         );
         $this->universal_model->insertz('survey_report', $array_on);
         echo json_encode($array_n);
