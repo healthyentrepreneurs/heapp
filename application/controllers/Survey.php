@@ -266,7 +266,7 @@ class Survey extends CI_Controller
                         array_push($new_elementx, $element);
                     } elseif ($element['type'] == "file") {
                         $element['accept'] = "image/*";
-                        $element['allowImagesPreview']=true;
+                        $element['allowImagesPreview'] = true;
                         $element['capture'] = "capture";
                         array_push($new_elementx, $element);
                     } else {
@@ -343,8 +343,14 @@ class Survey extends CI_Controller
     }
     public function saveobject_surv()
     {
-        // unset_post($_POST, 'userId');
-        // $_POST['surveyData'] = "{'userId': userId, 'surveyData': body}";
+        $mamma = array(
+            'userId' => 1,
+            'surveyData' => "papa papa",
+            "papa" => 282,
+            "jaja" => "Suna"
+        );
+        $_POST['userId'] = 3;
+        $_POST['surveyData'] = json_encode($mamma);
         $array_n = array(
             'status' => 1,
             'message' => "Survey Posted Successfully"
