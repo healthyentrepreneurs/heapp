@@ -343,22 +343,26 @@ class Survey extends CI_Controller
     }
     public function saveobject_surv()
     {
-
-        $_POST['userId'] = 3;
         // $_POST['surveyData'] = json_encode($mamma);
         $entityBody = file_get_contents('php://input');
-        $userid = $this->input->post('userId');
         $array_n = array(
             'status' => 1,
             'message' => "Survey Posted Successfully"
         );
         // $surveyData = $this->input->post('surveyData');
         // $post=$_POST;
+        $array_nana = json_decode($entityBody, true);
         $array_on = array(
-            'userid' => $userid,
-            'surveyobject' =>$entityBody,
+            'userid' => $array_nana['userId'],
+            'surveyobject' => $array_nana['jsondata'],
         );
         $this->universal_model->insertz('survey_report', $array_on);
         echo json_encode($array_n);
     }
+    // public function xxxx()
+    // {
+    //     $nana = '{"userId":3,"jsondata":"{\"used_fp_method\":\"item2\",\"partner_yesno\":\"item2\",\"accept_fp_method\":\"item1\",\"choose_new_fp_method\":\"item10\"}"}';
+    //     $array_nana = json_decode($nana, true);
+    //     print_array($array_nana['jsondata']);
+    // }
 }
