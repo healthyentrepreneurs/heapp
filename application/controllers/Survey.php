@@ -343,26 +343,31 @@ class Survey extends CI_Controller
     }
     public function saveobject_surv()
     {
-        // $_POST['surveyData'] = json_encode($mamma);
         $entityBody = file_get_contents('php://input');
+        $array_nana = json_decode($entityBody, true);
+        $array_on = array(
+            'userid' => $array_nana['userId'],
+            'surveyobject' => $entityBody,
+        );
+        $this->universal_model->insertz('survey_report', $array_on);
         $array_n = array(
             'status' => 1,
             'message' => "Survey Posted Successfully"
         );
-        // $surveyData = $this->input->post('surveyData');
-        // $post=$_POST;
-        $array_nana = json_decode($entityBody, true);
-        $array_on = array(
-            'userid' => $array_nana['userId'],
-            'surveyobject' => $array_nana['jsondata'],
-        );
-        $this->universal_model->insertz('survey_report', $array_on);
         echo json_encode($array_n);
     }
-    // public function xxxx()
-    // {
-    //     $nana = '{"userId":3,"jsondata":"{\"used_fp_method\":\"item2\",\"partner_yesno\":\"item2\",\"accept_fp_method\":\"item1\",\"choose_new_fp_method\":\"item10\"}"}';
-    //     $array_nana = json_decode($nana, true);
-    //     print_array($array_nana['jsondata']);
-    // }
+    public function report_test()
+    {
+        // public function selectallarray($array_table_n, $table_n)
+        $report = $this->universal_model->selectall('*', 'survey_report');
+        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $report_survey = $this->universal_model->selectz('*', 'survey', 'id', 10);
+        $reportone = $report[2];
+        $reportone_n = json_decode($reportone['surveyobject'], true);
+        $report_survey = array_shift($report_survey);
+        $report_survey_array = json_decode($report_survey['surveyjson'], true);
+        print_array($reportone_n);
+        print_array("-------------------------------------------");
+        print_array($report_survey_array);
+    }
 }

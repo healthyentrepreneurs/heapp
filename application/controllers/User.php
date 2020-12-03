@@ -355,7 +355,7 @@ class User extends CI_Controller
         return $array_object;
     }
     #Test Get User Details
-    public function get_meuserdetails()
+    public function get_meuserdetails($user_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
@@ -365,15 +365,16 @@ class User extends CI_Controller
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
-            'field' => 'username',
-            'values[0]' => 'nakafeero_teddy'
+            'field' => 'id',
+            'values[0]' => $user_id
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        $mamama = $this->session->userdata('logged_in_lodda');
+        // $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
         // nakafeero_teddy
-        print_array($array_of_output);
+        return $array_of_output;
+        // print_array($array_of_output);
     }
 }

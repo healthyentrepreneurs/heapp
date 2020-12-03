@@ -106,6 +106,20 @@ class Welcome extends CI_Controller
 					$data['id'] = $id;
 					$this->load->view('pages/hometwo', $data);
 					break;
+				case 6:
+					$id = $this->input->get('id');
+					$attempt_n_n_one = $this->universal_model->join_suv_report($id);
+					$data['survey_reportdata'] = $attempt_n_n_one;
+					$data ['controller'] = $this;
+					$data['content_admin'] = 'pages/admin/survey_report';
+					$data['id'] = $id;
+					$this->load->view('pages/hometwo', $data);
+					// $data['cohorts'] = $this->getme_chort_details();
+					// $data['surveys'] = $this->get_surveys();
+					// $data['survey_cohort'] = $this->universal_model->join_suv_cohot();
+					// $data['content_admin'] = 'pages/admin/cohorts';
+					// $this->load->view('pages/hometwo', $data);
+					break;
 				default:
 					break;
 			}
@@ -152,4 +166,28 @@ class Welcome extends CI_Controller
 		}
 		return $array_object;
 	}
+
+	#Test Get User Details
+    public function get_meuserdetails($user_id)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_user_get_users_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => 'id',
+            'values[0]' => $user_id
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        // $mamama = $this->session->userdata('logged_in_lodda');
+        // return $array_of_output;
+        // nakafeero_teddy
+        return $array_of_output;
+        // print_array($array_of_output);
+    }
 }

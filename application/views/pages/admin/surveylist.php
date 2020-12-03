@@ -50,6 +50,7 @@
                                     <a href="<?= base_url('welcome/admin/3?id=' . $value_in_sub['id']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="View/Edit"><i class="fa fa-share"></i></a>
                                     <a href="<?= base_url('welcome/admin/5?id=' . $value_in_sub['id']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Update Image"><i class="fa fa-pencil fa-fw"></i></a>
                                     <a href="#" onclick="heyhey(<?= $value_in_sub['id'] ?>);" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-minus"></i></a>
+                                    <a href="#" onclick="gotoreport(<?= $value_in_sub['id'] ?>);" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Reports"><i class="fa fa-file-excel-o"></i></a>
                                 </div>
                                 <div class="visible-xs visible-sm hidden-md hidden-lg">
                                     <div class="btn-group">
@@ -64,12 +65,17 @@
                                             </li>
                                             <li>
                                                 <a role="menuitem" tabindex="-1" href="">
-                                                    <i class="fa fa fa-pencil fa-fw"></i> Update Image
+                                                    <i class="fa fa-pencil fa-fw"></i> Update Image
                                                 </a>
                                             </li>
                                             <li>
                                                 <a role="menuitem" tabindex="-1" href="">
                                                     <i class="fa fa-minus"></i> Delete
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a role="menuitem" tabindex="-1" href="">
+                                                    <i class="fa fa-file-excel-o"></i> Update Image
                                                 </a>
                                             </li>
                                         </ul>
@@ -130,6 +136,10 @@
                 event
             }) => foobar(id));
 
+    }
+
+    function gotoreport(id) {
+        window.location.replace("http://localhost/heapp/welcome/admin/6?id="+id);
     }
 
     function foobar(id) {
