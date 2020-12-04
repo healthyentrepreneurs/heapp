@@ -1,5 +1,6 @@
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/survey-jquery@1.8.18/survey.jquery.js"></script>
+<link rel="stylesheet" href="./index.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
 <script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
@@ -7,19 +8,27 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.7.2/css/tabulator.min.css" />
 <link href="https://unpkg.com/survey-analytics@1.8.18/survey.analytics.tabulator.css" rel="stylesheet" />
 <script src="https://unpkg.com/survey-analytics@1.8.18/survey.analytics.tabulator.js"></script>
-<div>
-    <p></p>
+<div class="row">
+    <div class="col-md-12">
+        <!-- WALAH CRAP -->
+        <!-- start: TABLE WITH IMAGES PANEL -->
+        <div class="panel panel-white">
+            <div>
+                <p></p>
+            </div>
+            <div id="loadingIndicator1">
+                <span>
+                    <div id="loading">
+                        <strong>loading...</strong>
+                        <span></span></div>
+                </span>
+            </div>
+            <div id="vizPanel1"></div>
+            <div id="surveyElement" style="display:inline-block;width:100%;"></div>
+            <div id="surveyResult"></div>
+        </div>
+    </div>
 </div>
-<div id="loadingIndicator1">
-    <span>
-        <div id="loading">
-            <strong>loading...</strong>
-            <span></span></div>
-    </span>
-</div>
-<div id="vizPanel1"></div>
-<div id="surveyElement" style="display:inline-block;width:100%;"></div>
-<div id="surveyResult"></div>
 <script>
     $(document).ready(function() {
         var json = {
@@ -309,22 +318,17 @@
 
         var survey = new Survey.Model(json);
         var allQuestions = survey.getAllQuestions();
-
         var panel1Node = document.getElementById("vizPanel1");
         panel1Node.innerHTML = "";
+        $.get("http://localhost/heapp/survey/testdatareport/",
+            function(data) {
+                var nn = JSON.parse(data);
+                // console.log(nn.Data);s
+                var surveyAnalyticsTabulator = new SurveyAnalyticsTabulator.Tabulator(survey, nn.Data);
+                surveyAnalyticsTabulator.render(panel1Node);
+                $("#loadingIndicator1").hide();
+            });
 
-        $.get("https://surveyjs.io/api/MySurveys/getSurveyNPCResults/", function() {
-            var data = {
-                "used_fp_method": "item2",
-                "partner_yesno": "item2",
-                "accept_fp_method": "item1",
-                "choose_new_fp_method": "item1",
-                "oral_pills_given": "item1"
-            }
-            var surveyAnalyticsTabulator = new SurveyAnalyticsTabulator.Tabulator(survey, data);
-            surveyAnalyticsTabulator.render(panel1Node);
-            $("#loadingIndicator1").hide();
-        });
 
     });
 </script>
