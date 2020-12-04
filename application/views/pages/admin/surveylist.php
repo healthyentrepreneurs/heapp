@@ -139,7 +139,8 @@
     }
 
     function gotoreport(id) {
-        window.location.replace("http://localhost/heapp/welcome/admin/6?id="+id);
+        var url_reportsurvey = "<?php echo base_url("welcome/admin/6?id="); ?>"+id;
+        window.location.replace(url_reportsurvey);
     }
 
     function foobar(id) {
