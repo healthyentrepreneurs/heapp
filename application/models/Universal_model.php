@@ -303,11 +303,22 @@ class Universal_model extends CI_Model
     }
     public function join_suv_report($report_id)
     {
-        $this->db->select('c.id,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small');
+        $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small');
         $this->db->from('survey_report c');
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);
         $this->db->where('c.survey_id', $report_id);
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+    public function join_suv_report_details($survey_id, $surveyrepo_id)
+    {
+        $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small,c.imageifany');
+        $this->db->from('survey_report c');
+        $this->db->join('survey s', 's.id=c.survey_id', 'left');
+        $this->db->where('s.slug', 1);
+        $this->db->where('s.id', $survey_id);
+        $this->db->where('c.id', $surveyrepo_id);
         $query = $this->db->get()->result_array();
         return $query;
     }

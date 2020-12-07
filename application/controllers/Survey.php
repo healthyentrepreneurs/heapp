@@ -357,27 +357,4 @@ class Survey extends CI_Controller
         );
         echo json_encode($array_n);
     }
-    public function report_test()
-    {
-        // public function selectallarray($array_table_n, $table_n)
-        $report = $this->universal_model->selectall('*', 'survey_report');
-        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        $report_survey = $this->universal_model->selectz('*', 'survey', 'id', 10);
-        // $reportone = $report[2];
-        print_array($report_survey);
-        // $reportone_n = json_decode($reportone['surveyobject'], true);
-        // $report_survey = array_shift($report_survey);
-        // $report_survey_array = json_decode($report_survey['surveyjson'], true);
-        // print_array($reportone_n);
-        // print_array("-------------------------------------------");
-        // print_array($report_survey_array);
-    }
-    public function testdatareport()
-    {
-        $string = '{"used_fp_method":"item2","partner_yesno":"item2","accept_fp_method":"item2"}';
-        $array_n = json_decode($string, true);
-        $arraym['Data'] = $array_n;
-        // print_array($arraym);
-        echo json_encode($arraym);
-    }
 }

@@ -59,23 +59,23 @@
                                         </a>
                                         <ul role="menu" class="dropdown-menu pull-right dropdown-dark">
                                             <li>
-                                                <a role="menuitem" tabindex="-1" href="">
-                                                    <i class="fa fa-share"></i> Edit
+                                                <a role="menuitem" tabindex="-1" href="<?= base_url('welcome/admin/3?id=' . $value_in_sub['id']) ?>">
+                                                    <i class="fa fa-share"></i> View/Edit
                                                 </a>
                                             </li>
                                             <li>
-                                                <a role="menuitem" tabindex="-1" href="">
+                                                <a role="menuitem" tabindex="-1" href="<?= base_url('welcome/admin/5?id=' . $value_in_sub['id']) ?>">
                                                     <i class="fa fa-pencil fa-fw"></i> Update Image
                                                 </a>
                                             </li>
                                             <li>
-                                                <a role="menuitem" tabindex="-1" href="">
+                                                <a role="menuitem" tabindex="-1" href="#">
                                                     <i class="fa fa-minus"></i> Delete
                                                 </a>
                                             </li>
                                             <li>
-                                                <a role="menuitem" tabindex="-1" href="">
-                                                    <i class="fa fa-file-excel-o"></i> Update Image
+                                                <a role="menuitem" tabindex="-1" href="#" onclick="gotoreport(<?= $value_in_sub['id'] ?>);" >
+                                                    <i class="fa fa-file-excel-o"></i> Reports
                                                 </a>
                                             </li>
                                         </ul>

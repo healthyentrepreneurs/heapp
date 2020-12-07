@@ -23,7 +23,7 @@
                         <i class="fa fa-bars"></i>
                     </a>
                     <!-- start: LOGO -->
-                    <a class="navbar-brand" href="<?=base_url()?>">
+                    <a class="navbar-brand" href="<?= base_url() ?>">
                         <img src="<?= base_url() ?>assets/favicon/favicon-32x32.png" alt="Logo " height="30" />
                     </a>
                     <!-- end: LOGO -->
@@ -34,7 +34,7 @@
                         <!-- start: USER DROPDOWN -->
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-                                <img src="<?=$this->session->userdata('logged_in_lodda')['profileimageurlsmall']?>" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
+                                <img src="<?= $this->session->userdata('logged_in_lodda')['profileimageurlsmall'] ?>" class="img-circle" alt=""> <span class="username hidden-xs"><?= $this->session->userdata('logged_in_lodda')['firstname'] ?> <?= $this->session->userdata('logged_in_lodda')['lastname'] ?></span> <i class="fa fa-caret-down "></i>
                             </a>
                             <ul class="dropdown-menu dropdown-dark">
                                 <li>
@@ -77,7 +77,25 @@
                     <div class="toolbar row">
                         <div class="col-sm-6 hidden-xs">
                             <div class="page-header">
-                                <h1>Dashboard <small>overview &amp; stats </small></h1>
+                                <h1>
+                                    <?php
+                                    if (empty($survey_name)) {
+                                        echo "Dashboard";
+                                    } else {
+                                        echo $survey_name;
+                                    }
+                                    ?>
+                                    <small>
+                                        <?php
+                                        if (empty($user_profile)) {
+                                            echo "Dashboard";
+                                        } else {
+                                            echo $user_profile['username'] . " " . $user_profile['firstname']. " " . $user_profile['lastname'];
+                                            // print_array($user_profile);
+                                        }
+                                        ?>
+                                    </small>
+                                </h1>
                             </div>
                         </div>
                     </div>
@@ -89,11 +107,10 @@
                             <ol class="breadcrumb">
                                 <li>
                                     <a href="#">
-                                        Dashboard
+                                        <?php
+                                        echo "Dashboard";
+                                        ?>
                                     </a>
-                                </li>
-                                <li class="active">
-                                    Dashboard
                                 </li>
                             </ol>
                         </div>

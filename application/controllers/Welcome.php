@@ -50,13 +50,15 @@ class Welcome extends CI_Controller
 			}
 		}
 	}
-	public function admin($var = 0)
+	public function admin($var = 0, $id = null, $id_two = null)
 	{
 		// print_array($this->session->userdata('logged_in_lodda'));
 		// njovu
 		if ($this->session->userdata('logged_in_lodda')) {
 			$data['header'] = 'parts/header';
 			$data['sidenav'] = 'pages/admin/navadmin';
+			$data['user_profile'] = array();
+			$data['survey_name'] = array();
 			$server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
 			$courses = json_decode($server_output, true);
 			if (empty($courses)) {
@@ -110,15 +112,24 @@ class Welcome extends CI_Controller
 					$id = $this->input->get('id');
 					$attempt_n_n_one = $this->universal_model->join_suv_report($id);
 					$data['survey_reportdata'] = $attempt_n_n_one;
-					$data ['controller'] = $this;
+					$data['controller'] = $this;
 					$data['content_admin'] = 'pages/admin/survey_report';
 					$data['id'] = $id;
 					$this->load->view('pages/hometwo', $data);
-					// $data['cohorts'] = $this->getme_chort_details();
-					// $data['surveys'] = $this->get_surveys();
-					// $data['survey_cohort'] = $this->universal_model->join_suv_cohot();
-					// $data['content_admin'] = 'pages/admin/cohorts';
-					// $this->load->view('pages/hometwo', $data);
+					break;
+				case 7:
+					$specific_array = $this->detailsurvey($id, $id_two);
+					$data['survey_instance'] = $specific_array;
+					$data['controller'] = $this;
+					$userid = $this->input->get('userid');
+					$name = $this->input->get('name');
+					$user_profile = $this->get_meuserdetails($userid);
+					$user_profile = array_shift($user_profile);
+					$data['user_profile'] = $user_profile;
+					$data['survey_name'] = $name;
+					$data['content_admin'] = 'pages/admin/survey_instance';
+					$this->load->view('pages/hometwo', $data);
+					// print_array($specific_array);
 					break;
 				default:
 					break;
@@ -168,26 +179,125 @@ class Welcome extends CI_Controller
 	}
 
 	#Test Get User Details
-    public function get_meuserdetails($user_id)
-    {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
-        $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $token,
-            'wsfunction' => $functionname,
-            'moodlewsrestformat' => 'json',
-            'field' => 'id',
-            'values[0]' => $user_id
+	public function get_meuserdetails($user_id)
+	{
+		$domainname = 'https://app.healthyentrepreneurs.nl';
+		$token = 'f84bf33b56e86a4664284d8a3dfb5280';
+		$functionname = 'core_user_get_users_by_field';
+		$serverurl = $domainname . '/webservice/rest/server.php';
+		$data = array(
+			'wstoken' => $token,
+			'wsfunction' => $functionname,
+			'moodlewsrestformat' => 'json',
+			'field' => 'id',
+			'values[0]' => $user_id
 
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        // $mamama = $this->session->userdata('logged_in_lodda');
-        // return $array_of_output;
-        // nakafeero_teddy
-        return $array_of_output;
-        // print_array($array_of_output);
-    }
+		);
+		$server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+		$array_of_output = json_decode($server_output, true);
+		// $mamama = $this->session->userdata('logged_in_lodda');
+		// return $array_of_output;
+		// nakafeero_teddy
+		return $array_of_output;
+		// print_array($array_of_output);
+	}
+	public function detailsurvey_n($id, $idsurv)
+	{
+		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
+		$report_data_n = array_shift($report_data);
+		return $report_data_n;
+	}
+	public function detailsurvey($id, $idsurv)
+	{
+		// $id = $this->input->get('id');
+		// $idsurv = $this->input->get('idsurv');
+		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
+		$report_data_n = array_shift($report_data);
+		$surveyjson = $report_data_n['surveyjson'];
+		$surveyjson_array = json_decode($surveyjson, true);
+		$survey_responsejson = $report_data_n['surveyobject'];
+		$response_array = json_decode($survey_responsejson, true);
+		$array_table_values = array();
+		foreach ($surveyjson_array['pages'] as $key => $value) {
+			//    print_array($value);
+			$element_analy = $value['elements'];
+			foreach ($element_analy as $key => $value_elem) {
+				if (key_exists($value_elem['name'], $response_array)) {
+					$get_value = $response_array[$value_elem['name']];
+					// print_array($get_value);
+					if (key_exists('description', $value_elem)) {
+						$desc = $value_elem['description'];
+					} else {
+						$desc = "";
+					}
+					$value_baby = array(
+						'title' => $value_elem['title'],
+						'description' => $desc
+					);
+					if ($value_elem['type'] == "text") {
+						$value_baby['value_score'] = $get_value;
+						$value_baby['type'] = $value_elem['type'];
+					} else if ($value_elem['type'] == "radiogroup") {
+						$value_elem_choice = $value_elem['choices'];
+						foreach ($value_elem_choice as $key_choice => $value_choice) {
+							if ($value_choice['value'] == $get_value) {
+								$value_baby['value_score'] = $value_choice['text'];
+								$value_baby['type'] = $value_elem['type'];
+							}
+						}
+					} else if ($value_elem['type'] == "checkbox") {
+						$value_elem_choice = $value_elem['choices'];
+						foreach ($value_elem_choice as $key_choice => $value_choice) {
+							if ($value_choice['value'] == $get_value) {
+								$value_baby['value_score'] = $value_choice['text'];
+								$value_baby['type'] = $value_elem['type'];
+							}
+						}
+					} else if ($value_elem['type'] == "html") {
+						$value_baby['value_score'] = $value_elem['html'];
+						$value_baby['type'] = $value_elem['type'];
+					} else if ($value_elem['type'] == "file") {
+						$attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
+						if (!empty($attempt_n_n_one)) {
+							if (!empty($get_value)) {
+								$get_value = array_shift($get_value);
+								$name_final = getToken(10) . $get_value['name'];
+								$one = $get_value['content'];
+								$two = str_replace("data:image/jpeg;base64,", "", $one);
+								// data:image/jpeg;base64,
+								// $value_baby['image_base_obj'] = $two;
+								$value_baby['value_score'] = $name_final;
+								$value_baby['type'] = $value_elem['type'];
+								$path = FCPATH . "uploadsurvey/" . $name_final;
+								$status = file_put_contents($path, base64_decode($two));
+								if ($status) {
+									// public function updatez($variable, $value, $table_name, $updated_values)
+									$this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+								}
+							} else {
+								$value_baby['value_name'] = "";
+							}
+						} else {
+							$attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+							$array_one = array_shift($attempt_n_n_one);
+							$value_baby['value_score'] = $array_one['imageifany'];
+							$value_baby['type'] = $value_elem['type'];
+						}
+					} else {
+						// print_array($value_elem);
+						$value_baby['value_score'] = $value_elem['What element is this?'];
+						$value_baby['type'] = $value_elem['type'];
+					}
+					// print_array($value_baby);
+					array_push($array_table_values, $value_baby);
+				}
+			}
+		}
+		return $array_table_values;
+		// print_array($array_table_values);
+	}
+	public function test()
+	{
+		echo FCPATH;
+	}
 }
