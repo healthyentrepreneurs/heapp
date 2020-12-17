@@ -19,8 +19,12 @@ class Downloadable extends CI_Controller
     {
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
         $vara = $this->universal_model->selectz('*', 'user', 'id_id', $user_id);
-        $user_creds = array_shift($vara);
+        if (empty($vara)) {
+            echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
+            return null;
 
+        }
+        $user_creds = array_shift($vara);
         // $nameone =$user_id . '_attendencelog_' . "data.txt";
         // file_put_contents(APPPATH . '/datamine/' . $nameone, '<?php return ' . var_export($vara, true) . ';');
         #Login
@@ -61,7 +65,7 @@ class Downloadable extends CI_Controller
             }
             $array_of_output['data']['profileimageurlsmall'] = '/images' . '/' . $imgn;
             $array_of_output['data']['profileimageurl'] = '/images' . '/' . $img_twon;
-            $array_of_output['data']['password']=$user_creds['password'];
+            $array_of_output['data']['password'] = $user_creds['password'];
             $file = fopen($dir . '/' . "login.json", "w");
             $server_output_modif = json_encode($array_of_output);
             fwrite($file, $server_output_modif);
