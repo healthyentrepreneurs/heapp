@@ -98,8 +98,8 @@ class Downloadable extends CI_Controller
                     #Handle Images For Survey
                     $_image_small_arr = explode('/', $value_course['image_url_small']);
                     $_image_big_arr = explode('/', $value_course['image_url']);
-                    $imgn = $user_id .  $_image_small_arr[5] . '.png';
-                    $img_twon = $user_id . $_image_big_arr[5] . '.png';
+                    $imgn = $user_id .  $_image_small_arr[count($_image_small_arr)-1] . '.png';
+                    $img_twon = $user_id . $_image_big_arr[count($_image_big_arr)-1] . '.png';
                     $img = $img_survey . '/' . $imgn;
                     $img_two = $img_survey . '/' . $img_twon;
                     file_put_contents($img, $value_course['image_url_small']);
