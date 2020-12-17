@@ -95,16 +95,16 @@ class Downloadable extends CI_Controller
                     fclose($file);
                     $value_course['next_link'] = '/next_link/survey/' . $value_course['id'] . ".json";
                     #Handle Images For Survey
-                    // print_array($value_course['image_url_small']);
-                    // print_array($value_course['image_url']);
+                    print_array($value_course['image_url_small']);
+                    print_array($value_course['image_url']);
                     $_image_small_arr = explode('/', $value_course['image_url_small']);
                     $_image_big_arr = explode('/', $value_course['image_url']);
                     $imgn_x = $user_id .  $_image_small_arr[count($_image_small_arr) - 1];
                     $img_twon_x = $user_id . $_image_big_arr[count($_image_big_arr) - 1];
                     $img_n = $img_survey . '/' . $imgn_x;
                     $img_two_n = $img_survey . '/' . $img_twon_x;
-                    file_put_contents($img_n, $value_course['image_url_small']);
-                    file_put_contents($img_two_n, $value_course['image_url']);
+                    file_put_contents($img_n, file_get_contents($value_course['image_url_small']));
+                    file_put_contents($img_two_n, file_get_contents($value_course['image_url']));
                     $value_course['image_url_small'] = '/images/survey/' . $imgn;
                     $value_course['image_url'] = '/images/survey/' . $img_twon;
                 }
@@ -145,4 +145,22 @@ class Downloadable extends CI_Controller
             readfile($tmp_file);
         }
     }
+    // public function testimages()
+    // {
+    //     $user_id = 3;
+    //     $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
+    //     $img_survey = $mypath . 'images' . DIRECTORY_SEPARATOR . 'survey';
+    //     $big_im = "http://helper.healthyentrepreneurs.nl/uploadscustome/600_user_profile_picuKP.png";
+    //     $smal_im = "http://helper.healthyentrepreneurs.nl/uploadscustome/50_user_profile_picuKP.png";
+    //     $_image_small_arr = explode('/', $smal_im);
+    //     $_image_big_arr = explode('/', $big_im);
+    //     $imgn_x = $user_id .  $_image_small_arr[count($_image_small_arr) - 1];
+    //     $img_twon_x = $user_id . $_image_big_arr[count($_image_big_arr) - 1];
+    //     $img_n = $img_survey . '/' . $imgn_x;
+    //     $img_two_n = $img_survey . '/' . $img_twon_x;
+    //     file_put_contents($img_n, file_get_contents($smal_im));
+    //     file_put_contents($img_two_n, file_get_contents($big_im));
+    //     // $value_course['image_url_small'] = '/images/survey/' . $imgn;
+    //     // $value_course['image_url'] = '/images/survey/' . $img_twon;
+    // }
 }
