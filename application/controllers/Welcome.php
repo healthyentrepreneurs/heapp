@@ -296,8 +296,4 @@ class Welcome extends CI_Controller
 		return $array_table_values;
 		// print_array($array_table_values);
 	}
-	public function test()
-	{
-		echo FCPATH;
-	}
 }

