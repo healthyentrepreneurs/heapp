@@ -22,7 +22,6 @@ class Downloadable extends CI_Controller
         if (empty($vara)) {
             echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
             return null;
-
         }
         $user_creds = array_shift($vara);
         // $nameone =$user_id . '_attendencelog_' . "data.txt";
@@ -96,14 +95,16 @@ class Downloadable extends CI_Controller
                     fclose($file);
                     $value_course['next_link'] = '/next_link/survey/' . $value_course['id'] . ".json";
                     #Handle Images For Survey
+                    // print_array($value_course['image_url_small']);
+                    // print_array($value_course['image_url']);
                     $_image_small_arr = explode('/', $value_course['image_url_small']);
                     $_image_big_arr = explode('/', $value_course['image_url']);
-                    $imgn = $user_id .  $_image_small_arr[count($_image_small_arr)-1] . '.png';
-                    $img_twon = $user_id . $_image_big_arr[count($_image_big_arr)-1] . '.png';
-                    $img = $img_survey . '/' . $imgn;
-                    $img_two = $img_survey . '/' . $img_twon;
-                    file_put_contents($img, $value_course['image_url_small']);
-                    file_put_contents($img_two, $value_course['image_url']);
+                    $imgn_x = $user_id .  $_image_small_arr[count($_image_small_arr) - 1];
+                    $img_twon_x = $user_id . $_image_big_arr[count($_image_big_arr) - 1];
+                    $img_n = $img_survey . '/' . $imgn_x;
+                    $img_two_n = $img_survey . '/' . $img_twon_x;
+                    file_put_contents($img_n, $value_course['image_url_small']);
+                    file_put_contents($img_two_n, $value_course['image_url']);
                     $value_course['image_url_small'] = '/images/survey/' . $imgn;
                     $value_course['image_url'] = '/images/survey/' . $img_twon;
                 }
@@ -138,10 +139,10 @@ class Downloadable extends CI_Controller
             }
             // Zip archive will be created only after closing object
             $zip->close();
-            echo empty_response("Zip File Successfully Downloaded", 200);
-            header('Content-disposition: attachment; filename=HE Health.zip');
-            header('Content-type: application/zip');
-            readfile($tmp_file);
+            // echo empty_response("Zip File Successfully Downloaded", 200);
+            // header('Content-disposition: attachment; filename=HE Health.zip');
+            // header('Content-type: application/zip');
+            // readfile($tmp_file);
         }
     }
 }
