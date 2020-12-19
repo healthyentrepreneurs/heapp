@@ -31,8 +31,7 @@ class User extends CI_Controller
                 $courses['image_url_small'] = "https://picsum.photos/100/100";
                 $courses['image_url'] = "https://picsum.photos/200/300";
             } else {
-                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'];
-                // $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
+                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
                 $courses['image_url'] = $courses['image_url_small'];
             }
             $server_output = $this->get_details_percourse($courses['id'], $token, 2);

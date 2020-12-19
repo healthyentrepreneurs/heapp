@@ -120,6 +120,9 @@ class Downloadable extends CI_Controller
                     $value_course['image_url_small'] = '/images/survey/' . $imgn;
                     $value_course['image_url'] = '/images/survey/' . $img_twon;
                 }
+                // elseif($value_course['source'] == "originalm"){
+
+                // }
                 array_push($modifyied_courses, $value_course);
             }
             $modifyied_courses_json = json_encode($modifyied_courses);
