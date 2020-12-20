@@ -99,7 +99,7 @@ class Downloadable extends CI_Controller
                     $value_course['image_url_small'] = '/images/survey/' . $image_path['image_url_small'];
                     $value_course['image_url'] = '/images/survey/' . $image_path['image_url'];
                 } elseif ($value_course['source'] == "moodle") {
-                    print_array($value_course);
+                    // print_array($value_course);
                     $course_nextlink = $value_course['next_link'];
                     $course_nextlink_array = explode('/', $course_nextlink);
                     $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
