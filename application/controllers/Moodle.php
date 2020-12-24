@@ -16,12 +16,6 @@ class Moodle extends CI_Controller
     {
         // echo $this->hash_internal_user_password("Thijs123!@#");
     }
-    public function test()
-    {
-
-        $server_output = curl_request('http://localhost/heapp/login', array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#'), "post", array('App-Key: 123456'));
-        print_array($server_output);
-    }
     public function login($var = null)
     {
         // header('Access-Control-Allow-Origin: *');
@@ -52,13 +46,13 @@ class Moodle extends CI_Controller
                 } else {
                     $details_user = $this->get_userdetails_internal($username);
                     $token_details = array_merge($array_of_output, $details_user[0]);
-                    $data=array(
-                      'id_id'=>$details_user[0]['id'],
-                      'username'=>$username,
-                      'password'=>$this->input->post('password'),
+                    $data = array(
+                        'id_id' => $details_user[0]['id'],
+                        'username' => $username,
+                        'password' => $this->input->post('password'),
                     );
                     // print_array($data);
-                    $value_check = $this->universal_model->updateOnDuplicate('user',$data);
+                    $value_check = $this->universal_model->updateOnDuplicate('user', $data);
                     // print_array($token_details);
                     echo empty_response("successfully logged in", 200, $token_details);
                 }
