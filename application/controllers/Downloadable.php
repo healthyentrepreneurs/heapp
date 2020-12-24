@@ -168,9 +168,9 @@ class Downloadable extends CI_Controller
             }
             // Zip archive will be created only after closing object
             $zip->close();
-            // header('Content-disposition: attachment; filename=HE Health.zip');
-            // header('Content-type: application/zip');
-            // readfile($tmp_file);
+            header('Content-disposition: attachment; filename=HE Health.zip');
+            header('Content-type: application/zip');
+            readfile($tmp_file);
         }
     }
     public function getme_images($img_survey, $user_id, $value_course)
