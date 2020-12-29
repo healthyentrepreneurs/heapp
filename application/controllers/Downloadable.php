@@ -314,7 +314,8 @@ class Downloadable extends CI_Controller
                                         }
                                     }
                                 }
-                                $content_value['content'] = json_encode($cleaner_content);
+                                // $content_value['content'] = json_encode($cleaner_content);
+                                $content_value['content'] = $cleaner_content;
                                 // array_push($new_content, $content_value);
                             }
                             if ($content_value['type'] == "file") {
