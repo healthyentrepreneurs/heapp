@@ -129,6 +129,8 @@ class Downloadable extends CI_Controller
                     $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
                     //Start Download Book
                     // modicon
+                    // $server_opt_books_n = json_encode($server_opt_books_n);
+                    // $server_opt_books_n = json_encode($server_opt_books_n, JSON_HEX_QUOT | JSON_HEX_APOS);
                     $server_opt_books_n = json_encode($server_opt_books_n);
                     $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
                     fwrite($file_n, $server_opt_books_n);
@@ -143,8 +145,8 @@ class Downloadable extends CI_Controller
             $file = fopen($dir . '/' . 'get_moodle_courses' . ".json", "w");
             fwrite($file, $modifyied_courses_json);
             fclose($file);
+            //Start Ziping
             //Zip and Download
-            $zip = new ZipArchive;
             $tmp_file =  $subpath . $user_id . 'HE Health.zip';
             // Initialize archive object
             $zip = new ZipArchive();
@@ -171,6 +173,7 @@ class Downloadable extends CI_Controller
             header('Content-disposition: attachment; filename=HE Health.zip');
             header('Content-type: application/zip');
             readfile($tmp_file);
+            //End Zipping
         }
     }
     public function getme_images($img_survey, $user_id, $value_course)
@@ -213,22 +216,118 @@ class Downloadable extends CI_Controller
             'image_url' => $img_twon_x
         );
     }
-    public function xxxxx($server_output_book, $img_books)
+    public function downloadBook($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u)
     {
         $server_output = json_decode($server_output_book, true);
-        $array_data = array();
-        $array_data['code'] = $server_output['code'];
-        $array_merger['msg'] = $server_output['msg'];
-        foreach ($server_output as $key => $value) {
-            $array_data_n = array();
-            $array_data_n['code'] = $value['code'];
-            $array_data_n['msg'] = $value['msg'];
-            array_push($array_data, $array_data_n);
+        if (empty($server_output)) {
+            return array();
+        } else {
+            $array_data = $server_output['data'];
+            $array_merger = array();
+            $array_merger['code'] = $server_output['code'];
+            $array_merger['msg'] = $server_output['msg'];
+            $array_data_fuck = array();
+            foreach ($array_data as $key => $value_from_data) {
+                // print_array($value_from_data);
+                $modules_section = $value_from_data['modules'];
+                unset_post($value_from_data, 'modules');
+                $array_n_n = array();
+                foreach ($modules_section as $key => $modules_values) {
+                    //Start Mid Icon
+                    $modicon_url = $modules_values['modicon'];
+                    $modicon_url_arr = explode('/', $modicon_url);
+                    $imgn_icon = $modicon_url_arr[count($modicon_url_arr) - 1];
+                    $img_two_n = $img_books . '/' . $imgn_icon;
+                    $file_headers_n = @get_headers($modicon_url);
+                    if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
+                        // print_array("No image_url");
+                        file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
+                    } else {
+                        file_put_contents($img_two_n, file_get_contents($modicon_url));
+                    }
+                    $modules_values['modicon'] = '/images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon' . '/' . $imgn_icon;
+                    //End   Mid Icon
+                    // contents
+                    $a_two = $modules_values['contents'];
+                    unset_post($modules_values, 'contents');
+                    $contents_array = array();
+                    foreach ($a_two as $key => $value) {
+                        if ($value['type'] == "content") {
+                            $value_content = $value['content'];
+                            unset_post($value, 'content');
+                            $_to_value = json_decode($value_content, true);
+                            $value_content_array = array();
+                            foreach ($_to_value as $key => $value_in_con) {
+                                //For Full Path In Content
+                                $filefullpath = $value_in_con['filefullpath'];
+                                $filefullpatharray = explode('?', $filefullpath);
+                                $filefull_url = $filefullpatharray[0];
+                                $token_get = $filefullpatharray[1];
+                                $filefullarray = explode('/', $filefull_url);
+                                unset_post($filefullarray, 0);
+                                unset_post($filefullarray, 1);
+                                unset_post($filefullarray, 2);
+                                unset_post($filefullarray, 3);
+                                unset_post($filefullarray, 4);
+                                $key_last_chap = @end(array_keys($filefullarray));
+                                $file_name_chap = $filefullarray[$key_last_chap];
+                                unset_post($filefullarray, $key_last_chap);
+                                $url_chapter = implode("/", $filefullarray);
+                                $img_course_perbook = $dir_course_id . '/' . $url_chapter;
+                                if (!is_dir($img_course_perbook)) {
+                                    mkdir($img_course_perbook, 0755, true);
+                                }
+                                $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
+                                $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
+                                $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
+                                //Write Files 
+                                $data = file_get_contents($value_in_con['filefullpath']);
+                                $fh = fopen($absolutepath_book, "w");
+                                fwrite($fh, $data);
+                                fclose($fh);
+                                //Alternative Method
+                                // file_put_contents($absolutepath_book, file_get_contents($value_n['filefullpath']));
+                                //End Write Files
+                                //End Full Path
+                                $value_in_con['filefullpath'] = $japa;
+                                array_push($value_content_array, $value_in_con);
+                            }
+                            $jajama = json_encode($value_content_array);
+                            $value['content'] = $jajama;
+                        }
+                        if ($value['type'] == "file") {
+                            $filearray = explode('/', $value['fileurl']);
+                            unset_post($filearray, 0);
+                            unset_post($filearray, 1);
+                            unset_post($filearray, 2);
+                            unset_post($filearray, 3);
+                            unset_post($filearray, 4);
+                            $key_last_chap = @end(array_keys($filearray));
+                            $file_name_chap = $filearray[$key_last_chap];
+                            unset_post($filearray, $key_last_chap);
+                            $url_chapter = implode("/", $filearray);
+                            $img_course_perbook = $dir_course_id . '/' . $url_chapter;
+                            $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
+                            $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
+                            $_token_url = $value['fileurl'] . '?token=' . $token_nnn_u;
+                            //Start Writing 
+                            file_put_contents($absolutepath_book, file_get_contents($_token_url));
+                            //Stop Writing
+                            $value['fileurl'] = $japa;
+                        }
+                        array_push($contents_array, $value);
+                    }
+                    $modules_values['contents'] = $contents_array;
+                    array_push($array_n_n, $modules_values);
+                }
+                $value_from_data['modules'] = $array_n_n;
+                array_push($array_data_fuck, $value_from_data);
+            }
+            $array_merger['data'] = $array_data_fuck;
+            return $array_merger;
         }
-        // print_array($server_output);
-        return $array_data;
     }
-    public function downloadBook($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u)
+    public function downloadBookTemp($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u)
     {
         $server_output = json_decode($server_output_book, true);
         if (empty($server_output)) {
