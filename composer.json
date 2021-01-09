@@ -13,7 +13,9 @@
 	"require": {
 		"php": ">=5.3.7",
 		"knplabs/gaufrette": "^0.10.0",
-		"amphp/amp": "^2.5"
+		"amphp/amp": "^2.5",
+		"elementaryframework/fire-fs": "^1.1",
+		"amphp/http-client": "^4.5"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
