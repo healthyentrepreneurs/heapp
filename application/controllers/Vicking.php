@@ -103,23 +103,23 @@ class Vicking extends CI_Controller
                 $value_course['image_url'] = '/images/survey/' . $image_path['image_url'];
                 // print_array($server_output_survey);
             } elseif ($value_course['source'] == "moodle") {
-                $course_nextlink = $value_course['next_link'];
-                $course_nextlink_array = explode('/', $course_nextlink);
-                $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
-                $server_output_book = curl_request($value_course['next_link'], $data_course, "post", array('App-Key: 123456'));
-                $value_course['next_link'] = '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
-                $value_course['next_link'] =  '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
-                $token_get_me = $course_nextlink_array[count($course_nextlink_array) - 1];
-                $relative_url = '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2];
-                $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
-                $img_course = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course';
-                $img_course_modicon = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon';
-                $this->dircrap($fs, $img_course);
-                $this->dircrap($fs, $img_course_modicon);
-                $this->dircrap($fs, $dir_get_details_percourse);
-                $image_pathn = $this->getme_images($img_course, $user_id, $value_course);
-                $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
-                $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
+                // $course_nextlink = $value_course['next_link'];
+                // $course_nextlink_array = explode('/', $course_nextlink);
+                // $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
+                // $server_output_book = curl_request($value_course['next_link'], $data_course, "post", array('App-Key: 123456'));
+                // $value_course['next_link'] = '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
+                // $value_course['next_link'] =  '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
+                // $token_get_me = $course_nextlink_array[count($course_nextlink_array) - 1];
+                // $relative_url = '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2];
+                // $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
+                // $img_course = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course';
+                // $img_course_modicon = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon';
+                // $this->dircrap($fs, $img_course);
+                // $this->dircrap($fs, $img_course_modicon);
+                // $this->dircrap($fs, $dir_get_details_percourse);
+                // $image_pathn = $this->getme_images($img_course, $user_id, $value_course);
+                // $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
+                // $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
                 
             }
             array_push($modifyied_courses, $value_course);

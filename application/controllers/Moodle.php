@@ -14,6 +14,7 @@ class Moodle extends CI_Controller
     }
     public function index($var = null)
     {
+        echo "<h1>Moodle Api Intergration</h1>";
         // echo $this->hash_internal_user_password("Thijs123!@#");
     }
     public function login($var = null)

@@ -14,14 +14,13 @@
 		"php": ">=5.3.7",
 		"knplabs/gaufrette": "^0.10.0",
 		"amphp/amp": "^2.5",
-		"elementaryframework/fire-fs": "^1.1",
-		"amphp/http-client": "^4.5"
+		"amphp/http-client": "^4.5",
+		"elementaryframework/fire-fs": "^1.1"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
-		"mikey179/vfsStream": "1.1.*",
 		"phpunit/phpunit": "4.* || 5.*"
 	}
 }
