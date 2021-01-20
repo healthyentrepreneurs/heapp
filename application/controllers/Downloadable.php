@@ -129,7 +129,6 @@ class Downloadable extends CI_Controller
                     $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
                     //Start Download Book
                     // modicon
-                    // $server_opt_books_n = json_encode($server_opt_books_n);
                     // $server_opt_books_n = json_encode($server_opt_books_n, JSON_HEX_QUOT | JSON_HEX_APOS);
                     $server_opt_books_n = json_encode($server_opt_books_n);
                     $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
@@ -310,7 +309,12 @@ class Downloadable extends CI_Controller
                             $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
                             $_token_url = $value['fileurl'] . '?token=' . $token_nnn_u;
-                            //Start Writing 
+                            //Start Writing
+                            $file_name_chap_nchange=str_replace("%28","(",$file_name_chap); 
+                            $file_name_chap_nchange=str_replace("%29",")",$file_name_chap_nchange); 
+                            $file_name_chap_nchange=str_replace("%20"," ",$file_name_chap_nchange); 
+                            $absolutepath_book = $img_course_perbook . '/' . $file_name_chap_nchange;
+                            // print_array($file_name_chap_nchange);
                             file_put_contents($absolutepath_book, file_get_contents($_token_url));
                             //Stop Writing
                             $value['fileurl'] = $japa;

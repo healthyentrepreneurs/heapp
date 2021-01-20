@@ -264,12 +264,17 @@ class Vicking extends CI_Controller
                     $a_two = $modules_values['contents'];
                     unset_post($modules_values, 'contents');
                     $contents_array = array();
+                    $array_url_one = array();
+                    $array_url_one_content = array();
+                    $array_url_two = array();
+                    $array_url_two_content = array();
                     foreach ($a_two as $key => $value) {
                         if ($value['type'] == "content") {
                             $value_content = $value['content'];
                             unset_post($value, 'content');
                             $_to_value = json_decode($value_content, true);
                             $value_content_array = array();
+
                             foreach ($_to_value as $key => $value_in_con) {
                                 //For Full Path In Content
                                 $filefullpath = $value_in_con['filefullpath'];
@@ -287,6 +292,7 @@ class Vicking extends CI_Controller
                                 unset_post($filefullarray, $key_last_chap);
                                 $url_chapter = implode("/", $filefullarray);
                                 $img_course_perbook = $dir_course_id . '/' . $url_chapter;
+                                // $this->dircrap($fs, $img_course_perbook);
                                 if (!is_dir($img_course_perbook)) {
                                     mkdir($img_course_perbook, 0755, true);
                                 }
@@ -294,10 +300,12 @@ class Vicking extends CI_Controller
                                 $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
                                 $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
                                 //Write Files 
-                                $data = file_get_contents($value_in_con['filefullpath']);
-                                $fh = fopen($absolutepath_book, "w");
-                                fwrite($fh, $data);
-                                fclose($fh);
+                                array_push($array_url_one, $value_in_con['filefullpath']);
+                                array_push($array_url_one_content, $absolutepath_book);
+                                // $data = file_get_contents($value_in_con['filefullpath']);
+                                // $fh = fopen($absolutepath_book, "w");
+                                // fwrite($fh, $data);
+                                // fclose($fh);
                                 //Alternative Method
                                 // file_put_contents($absolutepath_book, file_get_contents($value_n['filefullpath']));
                                 //End Write Files
@@ -324,12 +332,28 @@ class Vicking extends CI_Controller
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
                             $_token_url = $value['fileurl'] . '?token=' . $token_nnn_u;
                             //Start Writing 
-                            file_put_contents($absolutepath_book, file_get_contents($_token_url));
+                            array_push($array_url_two, $_token_url);
+                            array_push($array_url_two_content, $absolutepath_book);
+                            // file_put_contents($absolutepath_book, file_get_contents($_token_url));
                             //Stop Writing
                             $value['fileurl'] = $japa;
                         }
                         array_push($contents_array, $value);
                     }
+                    //The Sync Of Files and Streaming
+                    // $responsesApin = $this->getmeApione($array_url_one);
+                    // $_i = 0;
+                    // foreach ($responsesApin as $key => $value_t) {
+                    //     file_put_contents($array_url_one_content[$_i], $value_t);
+                    //     $_i++;
+                    // }
+                    // $responsesApin_files = $this->getmeApione($array_url_two);
+                    // $_in = 0;
+                    // foreach ($responsesApin_files as $keyn => $value_files) {
+                    //     file_put_contents($array_url_two_content[$_in], $value_files);
+                    //     $_in++;
+                    // }
+                    //End Sync and Stream
                     $modules_values['contents'] = $contents_array;
                     array_push($array_n_n, $modules_values);
                 }
