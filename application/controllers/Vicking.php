@@ -18,6 +18,8 @@ use Amp\Loop;
 class Vicking extends CI_Controller
 {
     // https://github.com/amphp/http-client/tree/master/examples/streaming
+    // https://stackoverflow.com/questions/3958615/import-file-size-limit-in-phpmyadmin
+    // https://stackoverflow.com/questions/12707822/how-to-increase-import-size-limit-in-phpmyadmin/19421353
     public function __construct()
     {
         parent::__construct();
