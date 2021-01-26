@@ -8,6 +8,7 @@ class Downloadable extends CI_Controller
         parent::__construct();
         $this->load->model('universal_model');
         $this->load->model('user_model', '', TRUE);
+        //Downloadable Walah
     }
 
     public function index()
@@ -454,5 +455,9 @@ class Downloadable extends CI_Controller
             }
             return $array_merger;
         }
+    }
+    public function mama_deletetata()
+    {
+        # code...
     }
 }

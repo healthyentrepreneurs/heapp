@@ -11,6 +11,7 @@ class Moodle extends CI_Controller
         $this->load->model('user_model', '', TRUE);
         // $this->load->library('curl');
         // $this->load->model('moodle_model', '', TRUE);
+         //Downloadable Moodle
     }
     public function index($var = null)
     {
@@ -63,6 +64,24 @@ class Moodle extends CI_Controller
         }
     }
     public function get_userdetails_internal($username = null)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_user_get_users_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => 'username',
+            'values[0]' => $username
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
+    }
+    public function get_userdetails_internal_todelete($username = null)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
