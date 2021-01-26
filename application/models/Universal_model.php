@@ -308,7 +308,7 @@ class Universal_model extends CI_Model
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);
         $this->db->where('c.survey_id', $report_id);
-        $this->db->order_by("c.dateadded", "desc");
+        $this->db->order_by("c.dateadded", "desc"); 
         $query = $this->db->get()->result_array();
         return $query;
     }
