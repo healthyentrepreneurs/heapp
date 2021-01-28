@@ -7,6 +7,7 @@ class Survey extends CI_Controller
     {
         parent::__construct();
         $this->load->model('universal_model');
+        $this->load->library('image_lib');
         $this->load->model('user_model', '', TRUE);
     }
 
@@ -130,7 +131,7 @@ class Survey extends CI_Controller
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
             $_POST['image_url_small'] = "50_" . $this->input->post('user_profile_pic');
             $_POST['original'] = base_url("uploadscustome/600_" . $this->input->post('user_profile_pic'));
-            unlink("uploadscustome/" . $name_file['file_name']);
+            // unlink("uploadscustome/" . $name_file['file_name']);
             $user_add = array(
                 'name' => $this->input->post('surveyname'),
                 'surveydesc' => $this->input->post('surveydesc'),
@@ -213,7 +214,7 @@ class Survey extends CI_Controller
         $config['width'] = $width;
         $config['height'] = $height;
         $config['new_image'] = $new_image;
-        $this->load->library('image_lib');
+      
         $this->image_lib->initialize($config);
         $this->image_lib->resize();
     }
