@@ -107,7 +107,7 @@ class Survey extends CI_Controller
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
             $_POST['image_url_small'] = "50_" . $this->input->post('user_profile_pic');
             $_POST['original'] = base_url("uploadscustome/600_" . $this->input->post('user_profile_pic'));
-            unlink("uploadscustome/" . $name_file['file_name']);
+            // unlink("uploadscustome/" . $name_file['file_name']);
             $user_add = array(
                 'name' => $this->input->post('surveyname'),
                 'surveydesc' => $this->input->post('surveydesc'),
