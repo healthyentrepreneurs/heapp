@@ -77,6 +77,15 @@ class Survey extends CI_Controller
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
         echo json_encode($array_survey);
     }
+    public function addsurvey_temp()
+    {
+        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+            print_array("Walap");
+        } else {
+            print_array("Nara");
+        }
+        // print_array($this->upload->data());
+    }
     public function addsurvey()
     {
         // surveydesc
@@ -152,7 +161,7 @@ class Survey extends CI_Controller
             $error = array(
                 'error' => $this->upload->display_errors()
             );
-            // print_array($error);
+            print_array($error);
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
                 $this->session->set_flashdata('validate_image', "Please Select An Image Icon");

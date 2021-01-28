@@ -311,9 +311,9 @@ class Downloadable extends CI_Controller
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
                             $_token_url = $value['fileurl'] . '?token=' . $token_nnn_u;
                             //Start Writing
-                            $file_name_chap_nchange=str_replace("%28","(",$file_name_chap); 
-                            $file_name_chap_nchange=str_replace("%29",")",$file_name_chap_nchange); 
-                            $file_name_chap_nchange=str_replace("%20"," ",$file_name_chap_nchange); 
+                            $file_name_chap_nchange = str_replace("%28", "(", $file_name_chap);
+                            $file_name_chap_nchange = str_replace("%29", ")", $file_name_chap_nchange);
+                            $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap_nchange;
                             // print_array($file_name_chap_nchange);
                             file_put_contents($absolutepath_book, file_get_contents($_token_url));
@@ -456,8 +456,21 @@ class Downloadable extends CI_Controller
             return $array_merger;
         }
     }
-    public function mama_deletetata()
-    {
-        # code...
-    }
+    // public function getDataStreamline()
+    // {
+    //     $sql = "SELECT * FROM survey_report WHERE dateadded >= '2021-01-01 00:00:00'";
+    //     $query = $this->db->query($sql);
+    //     $getmevalues = $query->result_array();
+    //     foreach ($getmevalues as $key => $value) {
+    //         $array_insert = array(
+    //             'userid' => $value['userid'],
+    //             'survey_id' => $value['survey_id'],
+    //             'surveyobject' => $value['surveyobject'],
+    //             'imageifany' => $value['imageifany'],
+    //             'dateadded' => $value['dateadded']
+    //         );
+    //        $idmm= $this->universal_model->insertz('survey_reportm', $array_insert);
+    //     //    print_array($idmm);
+    //     }
+    // }
 }

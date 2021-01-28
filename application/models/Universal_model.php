@@ -323,4 +323,5 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+    
 }
