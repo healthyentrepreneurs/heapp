@@ -53,6 +53,10 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         array (
             'Kelunik\\Certificate\\' => 20,
         ),
+        'G' => 
+        array (
+            'Gumlet\\' => 7,
+        ),
         'E' => 
         array (
             'ElementaryFramework\\FireFS\\' => 27,
@@ -121,6 +125,10 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'Kelunik\\Certificate\\' => 
         array (
             0 => __DIR__ . '/..' . '/kelunik/certificate/lib',
+        ),
+        'Gumlet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gumlet/php-image-resize/lib',
         ),
         'ElementaryFramework\\FireFS\\' => 
         array (
@@ -204,7 +212,6 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
