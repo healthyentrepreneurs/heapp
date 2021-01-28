@@ -210,11 +210,11 @@ class Survey extends CI_Controller
     {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $image_source;
+        $config['create_thumb'] = TRUE;
         $config['maintain_ratio'] = TRUE;
         $config['width'] = $width;
         $config['height'] = $height;
         $config['new_image'] = $new_image;
-      
         $this->image_lib->initialize($config);
         $this->image_lib->resize();
     }
