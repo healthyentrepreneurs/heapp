@@ -82,27 +82,7 @@ class Survey extends CI_Controller
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
         echo json_encode($array_survey);
     }
-    //Check  Image
-    public function addsurvey_temp()
-    {
-        if ($this->validate_image("user_profile_pic" . getToken(3))) {
-            $data = array(
-                'upload_data' => $this->upload->data()
-            );
-            $name_file = $data['upload_data'];
-            $_POST['user_profile_pic'] = $name_file['file_name'];
-            $checkem = FCPATH . "uploadscustome/" . $name_file['file_name'];
-            // $this->create_thumbnail(600, 600, './uploadscustome/' . "600_" . $this->input->post('user_profile_pic'), $checkem);
-            // $this->create_thumbnail(50, 50, './uploadscustome/' . "50_" . $this->input->post('user_profile_pic'), $checkem);
-            // $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
-            // $_POST['image_url_small'] = "50_" . $this->input->post('user_profile_pic');
-            // $_POST['original'] = base_url("uploadscustome/600_" . $this->input->post('user_profile_pic'));
-            print_array($checkem);
-        } else {
-            print_array('normal erros');
-        }
-    }
-    //
+ 
     public function addsurvey()
     {
         // surveydesc
@@ -210,18 +190,18 @@ class Survey extends CI_Controller
             return TRUE;
         }
     }
-    public function create_thumbnailccc($width, $height, $new_image, $image_source)
-    {
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = $image_source;
-        $config['create_thumb'] = TRUE;
-        $config['maintain_ratio'] = TRUE;
-        $config['width'] = $width;
-        $config['height'] = $height;
-        $config['new_image'] = $new_image;
-        $this->image_lib->initialize($config);
-        $this->image_lib->resize();
-    }
+    // public function create_thumbnailccc($width, $height, $new_image, $image_source)
+    // {
+    //     $config['image_library'] = 'gd2';
+    //     $config['source_image'] = $image_source;
+    //     $config['create_thumb'] = TRUE;
+    //     $config['maintain_ratio'] = TRUE;
+    //     $config['width'] = $width;
+    //     $config['height'] = $height;
+    //     $config['new_image'] = $new_image;
+    //     $this->image_lib->initialize($config);
+    //     $this->image_lib->resize();
+    // }
     public function create_thumbnail($width, $height, $new_image, $image_source)
     {
         $image = new ImageResize($image_source);
@@ -390,29 +370,5 @@ class Survey extends CI_Controller
             'message' => "Survey Posted Successfully"
         );
         echo json_encode($array_n);
-    }
-
-    public function addsurvey_index()
-    {
-        $this->load->view('upload_form', array('error' => ' '));
-    }
-    public function addsurvey_do_upload()
-    {
-        $config['upload_path']          = './uploadscustome/';
-        $config['allowed_types']        = 'gif|jpg|png';
-        $config['max_size'] = '10000';
-        $config['max_width'] = '6000';
-        $config['max_height'] = '6000';
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('userfile')) {
-            $error = array('error' => $this->upload->display_errors());
-
-            $this->load->view('upload_form', $error);
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-
-            $this->load->view('upload_success', $data);
-        }
     }
 }

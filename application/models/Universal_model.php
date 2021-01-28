@@ -301,14 +301,27 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    public function join_suv_report($report_id)
+    // public function join_suv_report($report_id)
+    // {
+    //     $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small');
+    //     $this->db->from('survey_report c');
+    //     $this->db->join('survey s', 's.id=c.survey_id', 'left');
+    //     $this->db->where('s.slug', 1);
+    //     $this->db->where('c.survey_id', $report_id);
+    //     // $this->db->where('c.dateadded BETWEEN "' . date('Y-m-d', strtotime($from_from)) . '" and "' . date('Y-m-d', strtotime($to_to)) . '"');
+    //     $this->db->order_by("c.dateadded", "desc");
+    //     $query = $this->db->get()->result_array();
+    //     return $query;
+    // }
+    public function join_suv_report($report_id, $from_from, $to_to)
     {
         $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small');
         $this->db->from('survey_report c');
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);
         $this->db->where('c.survey_id', $report_id);
-        $this->db->order_by("c.dateadded", "desc"); 
+        $this->db->where('c.dateadded BETWEEN "' . date('Y-m-d', strtotime($from_from)) . '" and "' . date('Y-m-d', strtotime($to_to)) . '"');
+        $this->db->order_by("c.dateadded", "desc");
         $query = $this->db->get()->result_array();
         return $query;
     }
@@ -323,5 +336,4 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    
 }

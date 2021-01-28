@@ -131,6 +131,12 @@ class Welcome extends CI_Controller
 					$this->load->view('pages/hometwo', $data);
 					// print_array($specific_array);
 					break;
+				case 8:
+					$attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+					$data['surveydatas'] = $attempt_n_n;
+					$data['content_admin'] = 'report/survey_reportindex';
+					$this->load->view('pages/hometwo', $data);
+					break;
 				default:
 					break;
 			}

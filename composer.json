@@ -16,7 +16,8 @@
 		"amphp/amp": "^2.5",
 		"amphp/http-client": "^4.5",
 		"elementaryframework/fire-fs": "^1.1",
-		"gumlet/php-image-resize": "1.9.*"
+		"gumlet/php-image-resize": "1.9.*",
+		"phpoffice/phpspreadsheet": "^1.16"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

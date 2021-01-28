@@ -8,7 +8,7 @@
             </div>
             <div class="user-profile border-top padding-horizontal-10 block">
                 <div class="inline-block">
-                    <img src="<?=$this->session->userdata('logged_in_lodda')['profileimageurl']?>" alt="">
+                    <img src="<?= $this->session->userdata('logged_in_lodda')['profileimageurl'] ?>" alt="">
                 </div>
                 <div class="inline-block">
                     <h5 class="no-margin"> Welcome </h5>
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <!-- start: MAIN NAVIGATION MENU -->
-            <ul class="main-navigation-menu">
+            <!-- <ul class="main-navigation-menu">
                 <li class="active open">
                     <a href="<?= base_url() ?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right ">SUPER</span> </a>
                 </li>
@@ -35,7 +35,7 @@
                 <li>
                     <a href="<?= base_url('welcome/admin/4') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">COHORTS</span> </a>
                 </li>
-                <!-- <li class="active open">
+                <li class="active open">
                     <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Forms </span><i class="icon-arrow"></i> </a>
                     <ul class="sub-menu">
                         <li class="active">
@@ -79,7 +79,37 @@
                             </a>
                         </li>
                     </ul>
-                </li> -->
+                </li>
+            </ul> -->
+            <ul class="main-navigation-menu">
+                <li class="active open">
+                    <a href="<?= base_url() ?>"><i class="fa fa-home"></i> <span class="title"> DASHBOARD </span><span class="label label-default pull-right ">SUPER</span> </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('welcome/admin/1') ?>"><i class="fa fa-spinner fa-spin"></i> <span class="title"> ENHANCED ACTIVITIES</span> </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('welcome/admin/2') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">SURVEYS</span> </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('welcome/admin/4') ?>"><i class="fa fa-circle-o-notch fa-spin"></i> <span class="title">COHORTS</span> </a>
+                </li>
+                <li class="active">
+                    <a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Reports </span><i class="icon-arrow"></i> </a>
+                    <ul class="sub-menu">
+                        <li class="active">
+                            <a href="<?= base_url('welcome/admin/8') ?>">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span class="title">Survey Reports</span>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="form_inline.html">
+                                <span class="title">Inline Editor</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
             </ul>
             <!-- end: MAIN NAVIGATION MENU -->
         </div>
