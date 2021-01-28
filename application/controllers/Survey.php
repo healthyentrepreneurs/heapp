@@ -77,7 +77,7 @@ class Survey extends CI_Controller
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
         echo json_encode($array_survey);
     }
-    public function addsurvey_temp()
+    public function addsurvey()
     {
         if ($this->validate_image("user_profile_pic" . getToken(3))) {
             print_array("Walap");
@@ -86,7 +86,7 @@ class Survey extends CI_Controller
         }
         // print_array($this->upload->data());
     }
-    public function addsurvey()
+    public function addsurvey_temp()
     {
         // surveydesc
         $this->form_validation->set_rules('surveydesc', 'Survey Description', 'trim|required|xss_clean');
