@@ -77,6 +77,27 @@ class Survey extends CI_Controller
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
         echo json_encode($array_survey);
     }
+    //Check  Image
+    public function addsurvey_temp()
+    {
+        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+            $data = array(
+                'upload_data' => $this->upload->data()
+            );
+            $name_file = $data['upload_data'];
+            $_POST['user_profile_pic'] = $name_file['file_name'];
+            $checkem = FCPATH."uploadscustome/" . $name_file['file_name'];
+            // $this->create_thumbnail(600, 600, './uploadscustome/' . "600_" . $this->input->post('user_profile_pic'), $checkem);
+            // $this->create_thumbnail(50, 50, './uploadscustome/' . "50_" . $this->input->post('user_profile_pic'), $checkem);
+            // $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
+            // $_POST['image_url_small'] = "50_" . $this->input->post('user_profile_pic');
+            // $_POST['original'] = base_url("uploadscustome/600_" . $this->input->post('user_profile_pic'));
+            print_array($checkem);
+        } else {
+            print_array('normal erros');
+        }
+    }
+    //
     public function addsurvey()
     {
         // surveydesc
@@ -102,7 +123,8 @@ class Survey extends CI_Controller
             );
             $name_file = $data['upload_data'];
             $_POST['user_profile_pic'] = $name_file['file_name'];
-            $checkem = "uploadscustome/" . $name_file['file_name'];
+            // $checkem = "./uploadscustome/" . $name_file['file_name'];
+            $checkem = FCPATH."uploadscustome/" . $name_file['file_name'];
             $this->create_thumbnail(600, 600, './uploadscustome/' . "600_" . $this->input->post('user_profile_pic'), $checkem);
             $this->create_thumbnail(50, 50, './uploadscustome/' . "50_" . $this->input->post('user_profile_pic'), $checkem);
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
