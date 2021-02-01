@@ -23,8 +23,8 @@ class Moodle extends CI_Controller
         // header('Access-Control-Allow-Origin: *');
         // $_POST['username'] = "nakafeero_teddy";
         // $_POST['password'] = "He0800211040!";
-        // $_POST['username'] = "mega";
-        // $_POST['password'] = "Mega1java123!@#";
+        $_POST['username'] = "mega";
+        $_POST['password'] = "Mega1java123!@#";
         // $_POST['username'] = "7290";
         // $_POST['password'] = "123456";
         if (isset($_POST['username']) && isset($_POST['password'])) {

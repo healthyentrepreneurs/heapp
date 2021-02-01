@@ -59,7 +59,17 @@ class Welcome extends CI_Controller
 			$data['sidenav'] = 'pages/admin/navadmin';
 			$data['user_profile'] = array();
 			$data['survey_name'] = array();
-			$server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
+			//Check Token 
+			$checkwhatihave = $this->session->userdata('logged_in_lodda');
+			$token = $checkwhatihave['token'];
+			$id = $checkwhatihave['id'];
+			$array_n = array(
+				'token' => $token,
+				'user_id' => $id
+			);
+			//End Token
+			$new_data_url_course=base_url('user/get_moodle_courses').'/'.$token.'/'.$id;
+			$server_output = curl_request($new_data_url_course, $array_n, "get", array('App-Key: 123456'));
 			$courses = json_decode($server_output, true);
 			if (empty($courses)) {
 				$courses = array();
@@ -69,6 +79,7 @@ class Welcome extends CI_Controller
 			switch ($var) {
 				case 0:
 					$data['content_admin'] = 'pages/admin/admin_content';
+					// print_array($server_output);
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 1:
@@ -301,5 +312,11 @@ class Welcome extends CI_Controller
 		}
 		return $array_table_values;
 		// print_array($array_table_values);
+	}
+
+	public function testone()
+	{
+		// $server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
+		print_array(base_url('getcourses'));
 	}
 }
