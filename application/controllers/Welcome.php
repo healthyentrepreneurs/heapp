@@ -68,7 +68,7 @@ class Welcome extends CI_Controller
 				'user_id' => $id
 			);
 			//End Token
-			$new_data_url_course=base_url('user/get_moodle_courses').'/'.$token.'/'.$id;
+			$new_data_url_course = base_url('user/get_moodle_courses') . '/' . $token . '/' . $id;
 			$server_output = curl_request($new_data_url_course, $array_n, "get", array('App-Key: 123456'));
 			$courses = json_decode($server_output, true);
 			if (empty($courses)) {
@@ -130,6 +130,7 @@ class Welcome extends CI_Controller
 					break;
 				case 7:
 					$specific_array = $this->detailsurvey($id, $id_two);
+					// print_array($specific_array);
 					$data['survey_instance'] = $specific_array;
 					$data['controller'] = $this;
 					$userid = $this->input->get('userid');
@@ -221,96 +222,100 @@ class Welcome extends CI_Controller
 	public function detailsurvey_n($id, $idsurv)
 	{
 		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
-		$report_data_n = array_shift($report_data);
-		return $report_data_n;
+		// $report_data_n = array_shift($report_data);
+		return $report_data;
 	}
 	public function detailsurvey($id, $idsurv)
 	{
 		// $id = $this->input->get('id');
 		// $idsurv = $this->input->get('idsurv');
 		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
-		$report_data_n = array_shift($report_data);
-		$surveyjson = $report_data_n['surveyjson'];
-		$surveyjson_array = json_decode($surveyjson, true);
-		$survey_responsejson = $report_data_n['surveyobject'];
-		$response_array = json_decode($survey_responsejson, true);
-		$array_table_values = array();
-		foreach ($surveyjson_array['pages'] as $key => $value) {
-			//    print_array($value);
-			$element_analy = $value['elements'];
-			foreach ($element_analy as $key => $value_elem) {
-				if (key_exists($value_elem['name'], $response_array)) {
-					$get_value = $response_array[$value_elem['name']];
-					// print_array($get_value);
-					if (key_exists('description', $value_elem)) {
-						$desc = $value_elem['description'];
-					} else {
-						$desc = "";
-					}
-					$value_baby = array(
-						'title' => $value_elem['title'],
-						'description' => $desc
-					);
-					if ($value_elem['type'] == "text") {
-						$value_baby['value_score'] = $get_value;
-						$value_baby['type'] = $value_elem['type'];
-					} else if ($value_elem['type'] == "radiogroup") {
-						$value_elem_choice = $value_elem['choices'];
-						foreach ($value_elem_choice as $key_choice => $value_choice) {
-							if ($value_choice['value'] == $get_value) {
-								$value_baby['value_score'] = $value_choice['text'];
-								$value_baby['type'] = $value_elem['type'];
-							}
+		if (empty($report_data)) {
+			return array();
+		} else {
+			$report_data_n = array_shift($report_data);
+			$surveyjson = $report_data_n['surveyjson'];
+			$surveyjson_array = json_decode($surveyjson, true);
+			$survey_responsejson = $report_data_n['surveyobject'];
+			$response_array = json_decode($survey_responsejson, true);
+			$array_table_values = array();
+			foreach ($surveyjson_array['pages'] as $key => $value) {
+				//    print_array($value);
+				$element_analy = $value['elements'];
+				foreach ($element_analy as $key => $value_elem) {
+					if (key_exists($value_elem['name'], $response_array)) {
+						$get_value = $response_array[$value_elem['name']];
+						// print_array($get_value);
+						if (key_exists('description', $value_elem)) {
+							$desc = $value_elem['description'];
+						} else {
+							$desc = "";
 						}
-					} else if ($value_elem['type'] == "checkbox") {
-						$value_elem_choice = $value_elem['choices'];
-						foreach ($value_elem_choice as $key_choice => $value_choice) {
-							if ($value_choice['value'] == $get_value) {
-								$value_baby['value_score'] = $value_choice['text'];
-								$value_baby['type'] = $value_elem['type'];
+						$value_baby = array(
+							'title' => $value_elem['title'],
+							'description' => $desc
+						);
+						if ($value_elem['type'] == "text") {
+							$value_baby['value_score'] = $get_value;
+							$value_baby['type'] = $value_elem['type'];
+						} else if ($value_elem['type'] == "radiogroup") {
+							$value_elem_choice = $value_elem['choices'];
+							foreach ($value_elem_choice as $key_choice => $value_choice) {
+								if ($value_choice['value'] == $get_value) {
+									$value_baby['value_score'] = $value_choice['text'];
+									$value_baby['type'] = $value_elem['type'];
+								}
 							}
-						}
-					} else if ($value_elem['type'] == "html") {
-						$value_baby['value_score'] = $value_elem['html'];
-						$value_baby['type'] = $value_elem['type'];
-					} else if ($value_elem['type'] == "file") {
-						$attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-						if (!empty($attempt_n_n_one)) {
-							if (!empty($get_value)) {
-								$get_value = array_shift($get_value);
-								$name_final = getToken(10) . $get_value['name'];
-								$one = $get_value['content'];
-								$two = str_replace("data:image/jpeg;base64,", "", $one);
-								// data:image/jpeg;base64,
-								// $value_baby['image_base_obj'] = $two;
-								$value_baby['value_score'] = $name_final;
-								$value_baby['type'] = $value_elem['type'];
-								$path = FCPATH . "uploadsurvey/" . $name_final;
-								$status = file_put_contents($path, base64_decode($two));
-								if ($status) {
-									// public function updatez($variable, $value, $table_name, $updated_values)
-									$this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+						} else if ($value_elem['type'] == "checkbox") {
+							$value_elem_choice = $value_elem['choices'];
+							foreach ($value_elem_choice as $key_choice => $value_choice) {
+								if ($value_choice['value'] == $get_value) {
+									$value_baby['value_score'] = $value_choice['text'];
+									$value_baby['type'] = $value_elem['type'];
+								}
+							}
+						} else if ($value_elem['type'] == "html") {
+							$value_baby['value_score'] = $value_elem['html'];
+							$value_baby['type'] = $value_elem['type'];
+						} else if ($value_elem['type'] == "file") {
+							$attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
+							if (!empty($attempt_n_n_one)) {
+								if (!empty($get_value)) {
+									$get_value = array_shift($get_value);
+									$name_final = getToken(10) . $get_value['name'];
+									$one = $get_value['content'];
+									$two = str_replace("data:image/jpeg;base64,", "", $one);
+									// data:image/jpeg;base64,
+									// $value_baby['image_base_obj'] = $two;
+									$value_baby['value_score'] = $name_final;
+									$value_baby['type'] = $value_elem['type'];
+									$path = FCPATH . "uploadsurvey/" . $name_final;
+									$status = file_put_contents($path, base64_decode($two));
+									if ($status) {
+										// public function updatez($variable, $value, $table_name, $updated_values)
+										$this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+									}
+								} else {
+									$value_baby['value_name'] = "";
 								}
 							} else {
-								$value_baby['value_name'] = "";
+								$attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+								$array_one = array_shift($attempt_n_n_one);
+								$value_baby['value_score'] = $array_one['imageifany'];
+								$value_baby['type'] = $value_elem['type'];
 							}
 						} else {
-							$attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-							$array_one = array_shift($attempt_n_n_one);
-							$value_baby['value_score'] = $array_one['imageifany'];
+							// print_array($value_elem);
+							$value_baby['value_score'] = $value_elem['What element is this?'];
 							$value_baby['type'] = $value_elem['type'];
 						}
-					} else {
-						// print_array($value_elem);
-						$value_baby['value_score'] = $value_elem['What element is this?'];
-						$value_baby['type'] = $value_elem['type'];
+						// print_array($value_baby);
+						array_push($array_table_values, $value_baby);
 					}
-					// print_array($value_baby);
-					array_push($array_table_values, $value_baby);
 				}
 			}
+			return $array_table_values;
 		}
-		return $array_table_values;
 		// print_array($array_table_values);
 	}
 
