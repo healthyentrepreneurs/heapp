@@ -138,6 +138,13 @@ class User extends CI_Controller
                                 $content_value['content'] = json_encode($cleaner_content);
                                 // array_push($new_content, $content_value);
                             }
+                            //Remove Fake Characters
+                            $newfileurl = $content_value['fileurl'];
+                            $file_name_chap_nchange = str_replace("%28", "(", $newfileurl);
+                            $file_name_chap_nchange = str_replace("%29", ")", $file_name_chap_nchange);
+                            $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
+                            $content_value['fileurl'] = $file_name_chap_nchange;
+                            //End 
                             array_push($new_content, $content_value);
                         }
 
