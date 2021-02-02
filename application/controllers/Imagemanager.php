@@ -2,6 +2,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+require_once FCPATH . 'vendor/autoload.php';
+
+use \Gumlet\ImageResize;
+
 class Imagemanager extends CI_Controller
 {
     public function __construct()
@@ -12,7 +16,7 @@ class Imagemanager extends CI_Controller
     }
     public function index()
     {
-        echo "<h1>Imagemanager Icon Manager Njovu...</h1>";
+        echo "<h1>Imagemanager Icon Manager..</h1>";
     }
     public function couser_subcontent()
     {
@@ -163,16 +167,22 @@ class Imagemanager extends CI_Controller
             return TRUE;
         }
     }
+    // public function create_thumbnail($width, $height, $new_image, $image_source)
+    // {
+    //     $config['image_library'] = 'gd2';
+    //     $config['source_image'] = $image_source;
+    //     $config['maintain_ratio'] = TRUE;
+    //     $config['width'] = $width;
+    //     $config['height'] = $height;
+    //     $config['new_image'] = $new_image;
+    //     $this->load->library('image_lib');
+    //     $this->image_lib->initialize($config);
+    //     $this->image_lib->resize();
+    // }
     public function create_thumbnail($width, $height, $new_image, $image_source)
     {
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = $image_source;
-        $config['maintain_ratio'] = TRUE;
-        $config['width'] = $width;
-        $config['height'] = $height;
-        $config['new_image'] = $new_image;
-        $this->load->library('image_lib');
-        $this->image_lib->initialize($config);
-        $this->image_lib->resize();
+        $image = new ImageResize($image_source);
+        $image->resizeToBestFit($width, $height);
+        $image->save($new_image);
     }
 }
