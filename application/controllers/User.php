@@ -142,7 +142,7 @@ class User extends CI_Controller
                             $newfileurl = $content_value['fileurl'];
                             $file_name_chap_nchange = str_replace("%28", "(", $newfileurl);
                             $file_name_chap_nchange = str_replace("%29", ")", $file_name_chap_nchange);
-                            // $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
+                            $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
                             $content_value['fileurl'] = $file_name_chap_nchange;
                             // if ($content_value['type'] == "file" && $content_value['filename'] != "index.html") {
                             //     $content_file_token = $content_value['fileurl'] . "?token=" . $token;
