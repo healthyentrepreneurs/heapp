@@ -315,7 +315,7 @@ class Universal_model extends CI_Model
     // }
     public function join_suv_report($report_id, $from_from, $to_to)
     {
-        $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small');
+        $this->db->select('c.id,s.id as surveyid,c.userid,s.name,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
         $this->db->from('survey_report c');
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);

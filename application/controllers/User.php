@@ -385,7 +385,7 @@ class User extends CI_Controller
         // $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
         // nakafeero_teddy
-        return $array_of_output;
-        // print_array($array_of_output);
+        // return $array_of_output;
+        print_array($array_of_output);
     }
 }

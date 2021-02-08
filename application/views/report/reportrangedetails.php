@@ -1,23 +1,16 @@
-<script src="<?= base_url() ?>/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="<?= base_url() ?>/assets/validate/formValidation.min.js"></script>
-<script src="<?= base_url() ?>/assets/validate/bootstrap.min.js"></script>
-<link rel="stylesheet" href="<?= base_url() ?>/assets/css/print.css" type="text/css" media="print" />
-<script src="<?= base_url() ?>/assets/validate/moment.min.js"></script>
-<script src="<?= base_url() ?>/assets/validate/print.min.js"></script>
-<script src="<?= base_url() ?>/assets/js/notify.min.js"></script>
 <div class="panel-body" id="client_one">
     <?php
     // print_array($surveydatas);
     ?>
     <div class="row">
-        <form id="timeperclient" method="post" class="form-horizontal" role="form">
+        <form id="timeperclientdet" method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">
                     Start Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="dateragestarttime">
-                        <input type="text" name="dateragestarttime" id="dateragestarttimen" class="form-control">
+                    <div class="input-group input-append date" id="dateragestarttimedet">
+                        <input type="text" name="dateragestarttimedet" id="dateragestarttimedetn" class="form-control">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -25,8 +18,8 @@
                     End Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="daterageendtime">
-                        <input type="text" class="form-control" name="daterageendtime" id="daterageendtimen">
+                    <div class="input-group input-append date" id="daterageendtimedet">
+                        <input type="text" class="form-control" name="daterageendtimedet" id="daterageendtimedetn">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -36,7 +29,7 @@
                     Survey
                 </label>
                 <div class="col-sm-7">
-                    <select id="client_id" name="client_id" class="form-control search-select" placeholder="Select Client">
+                    <select id="client_iddet" name="client_iddet" class="form-control search-select" placeholder="Select Client">
                         <option value="">--Select Survey--</option>
                         <?php
                         foreach ($surveydatas as $value) {
@@ -58,10 +51,10 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdf" onclick="removepigi()">
+                            <li><a href="#" id="exportpdfdet" onclick="removepigi()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>
@@ -71,35 +64,35 @@
         <!--END-->
     </div>
     <br>
-    <div id="contentcostbyclient"></div>
+    <div id="contentcostbyclientdet"></div>
 </div>
 <script>
-    var getmereportclientcost = "<?php echo base_url('report/report_survey'); ?>";
+    var getmereportclientcostdet = "<?php echo base_url('report/report_surveydetails'); ?>";
     $(document).ready(function() {
-        $('#dateragestarttime')
+        $('#dateragestarttimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclient').formValidation('revalidateField', 'dateragestarttime');
+                $('#timeperclientdet').formValidation('revalidateField', 'dateragestarttimedet');
             });
-        $('#daterageendtime')
+        $('#daterageendtimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclient').formValidation('revalidateField', 'daterageendtime');
+                $('#timeperclientdet').formValidation('revalidateField', 'daterageendtimedet');
             });
         //        Main.init();
         //        $('#tatamamaid').DataTable();
-        $('#timeperclient')
+        $('#timeperclientdet')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},
                 fields: {
-                    dateragestarttime: {
+                    dateragestarttimedet: {
                         validators: {
                             notEmpty: {
                                 message: 'Range Start is required'
@@ -110,7 +103,7 @@
                             }
                         }
                     },
-                    daterageendtime: {
+                    daterageendtimedet: {
                         validators: {
                             notEmpty: {
                                 message: 'Range End is required'
@@ -121,7 +114,7 @@
                             }
                         }
                     },
-                    client_id: {
+                    client_iddet: {
                         validators: {
                             notEmpty: {
                                 message: 'Survey is required'
@@ -131,30 +124,31 @@
                 }
             }).on('success.form.fv', function(e) {
                 e.preventDefault();
-                var projectid = document.getElementById("client_id");
+                var projectid = document.getElementById("client_iddet");
                 var projectidvalue = projectid.options[projectid.selectedIndex].value;
                 var projectidtext = projectid.options[projectid.selectedIndex].text;
-                var dateragestarttimen = $('#dateragestarttimen').val();
-                var daterageendtimen = $('#daterageendtimen').val();
+                var dateragestarttimedetn = $('#dateragestarttimedetn').val();
+                var daterageendtimedetn = $('#daterageendtimedetn').val();
                 $.ajax({
                     method: "POST",
-                    url: getmereportclientcost,
+                    url: getmereportclientcostdet,
                     dataType: "JSON",
                     data: {
                         'selectclientid': projectidvalue,
                         'selectclientname': projectidtext,
-                        'startdate': dateragestarttimen,
-                        'enddate': daterageendtimen
+                        'startdate': dateragestarttimedetn,
+                        'enddate': daterageendtimedetn,
+                        'id_showdetailed': $('#id_showdetailed').val()
                     }
                 }).done(function(response) {
                     // console.log(response);
                     // console.log(response.path);
                     if (response.status === 1) {
                         $.notify(response.report, "success");
-                        $("#contentcostbyclient").html(response.data);
+                        $("#contentcostbyclientdet").html(response.data);
                     } else {
                         $.notify(response.report, "error");
-                        $("#contentcostbyclient").html('');
+                        $("#contentcostbyclientdet").html('');
                     }
                 });
             });
