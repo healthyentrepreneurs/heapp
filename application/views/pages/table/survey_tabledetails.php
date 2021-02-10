@@ -1,23 +1,21 @@
 <?php
-$titles_name = array();
-$balance = $key_bign['howbig'];
-if (!empty($survey_reportdata)) {
-    $study_case = $survey_reportdata[$key_bign['key']];
-    $a = $study_case['data_submission'];
-    $titles_name_inter = array();
-    foreach ($a as $keyn => $value_n) {
-        array_push($titles_name_inter, $value_n['title']);
-    }
-    $extra_three = array(
-        'Username',
-        'Full Name',
-        'Submitted Date'
-    );
-    $titles_name = array_merge($extra_three, $titles_name_inter);
-    // print_array($titles_name);
-}
+$lead_take = $survey_reportdata[$survey_reportdata['key']];
+$balance = $survey_reportdata['howbig'];
+unset_post($lead_take, 'username');
+unset_post($lead_take, 'fullname');
+unset_post($lead_take, 'submitted_date');
+unset_post($survey_reportdata, 'key');
+unset_post($survey_reportdata, 'howbig');
+$titles_namesk = array_column($lead_take, 'title');
+$extra_three = array(
+    'Username',
+    'Full Name',
+    'Submitted Date'
+);
+$titles_name = array_merge($extra_three, $titles_namesk);
+// $survey_reportdata
 ?>
-<table class="table table-striped table-hover" id="mysurveytable_n">
+<table class="table table-striped table-hover" id="mysurveytable_jaja">
     <thead>
         <tr>
             <?php
@@ -33,10 +31,15 @@ if (!empty($survey_reportdata)) {
         <?php
         foreach ($survey_reportdata as $keyvalue_in_sub => $value_in_sub) {
             $time_data = $value_in_sub['submitted_date'];
-            $time_data_array = explode(" ", $time_data);
             $username = $value_in_sub['username'];
             $fullname = $value_in_sub['fullname'];
-            $tr_data_submission = $value_in_sub['data_submission'];
+            //Remove 
+            unset_post($value_in_sub, 'username');
+            unset_post($value_in_sub, 'fullname');
+            unset_post($value_in_sub, 'submitted_date');
+            $tr_data_submission = array_column($value_in_sub, 'text');
+            $tr_data_title = array_column($value_in_sub, 'title');
+            // print_array($value_in_sub);
             $check_what = count($tr_data_submission);
         ?>
             <tr>
@@ -44,24 +47,19 @@ if (!empty($survey_reportdata)) {
                 <td class="center"><?= $fullname ?></td>
                 <td class="center"><?= $time_data ?></td>
                 <?php
-                foreach ($tr_data_submission as $key => $value) {
+                foreach ($titles_namesk as $key => $valuepp) {
+                    $getvalue = recursive_array_search($tr_data_title, $valuepp);
+                    if (!empty($getvalue)) {
                 ?>
-                    <td class="center">
-                        <?php
-                        if (array_key_exists("value_score", $value)) {
-                            echo $value['value_score'];
-                        } else {
-                            echo " ";
-                        }
-                        ?>
-                    </td>
+                        <td class="center">
+                            Value
+                        </td>
                     <?php
-                }
-                if ($check_what < $balance) {
-                    $additional_td = $balance - $check_what;
-                    for ($i = 0; $i < $additional_td; $i++) {
+                    } else {
                     ?>
-                        <td class="center"></td>
+                        <td class="center">
+                            No
+                        </td>
                 <?php
                     }
                 }

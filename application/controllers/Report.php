@@ -20,47 +20,22 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-
     public function report_surveydetails()
     {
-        // $_POST['selectclientid'] = 10;
-        // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        // $_POST['startdate'] = "01-01-2021";
-        // $_POST['enddate'] = "15-02-2021";
+        $_POST['selectclientid'] = 2;
+        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        // 04-12-2020
+        //01-02-2021
+        $_POST['startdate'] = "04-12-2020";
+        $_POST['enddate'] = "15-12-2020";
         $surveyid = $this->input->post('selectclientid');
         $selectclientname = $this->input->post('selectclientname');
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
-        $modipersial_survey = array();
-        $bigest_array = array();
-        $int_key = 0;
-        $key_then = 0;
-        foreach ($persial_survey as $key => $value_datauser) {
-            // $call_details_url = base_url('user/get_meuserdetails/' . $value_datauser['userid']);
-            $user_details_output = $this->get_meuserdetails($value_datauser['userid']);
-            $jaja_raary = array_shift($user_details_output);
-            $detail_surveyinsta = $this->detailsurvey($value_datauser['id'], $value_datauser['surveyid']);
-            $biggest = count($detail_surveyinsta);
-            if ($biggest >= $int_key) {
-                $int_key = $biggest;
-                $key_then = $key;
-            }
-            $user_details = array(
-                // 'survey_name' => $value_datauser['name'],
-                'username' => $jaja_raary['username'],
-                'fullname' => $jaja_raary['fullname'],
-                'submitted_date' => $value_datauser['dateaddedsurvey'],
-                'data_submission' => $detail_surveyinsta
-            );
-            // print_array($detail_surveyinsta);
-            $bigest_array['key'] = $key_then;
-            $bigest_array['howbig'] = $int_key;
-            array_push($modipersial_survey, $user_details);
-            // print_array($user_details);
-        }
-        $table_data['key_bign'] = $bigest_array;
-        $table_data['survey_reportdata'] = $modipersial_survey;
+        $final_array = $this->report_surveydetails_data($persial_survey);
+        // $table_data['key_bign'] = $bigest_array;
+        $table_data['survey_reportdata'] = $final_array;
         $table_data['startdate'] = $startdate;
         $table_data['enddate'] = $enddate;
         $table_data['controller'] = $this;
@@ -70,67 +45,281 @@ class Report extends CI_Controller
         $json_return = array(
             'report' => "Report For Survey  in Range" . $selectclientname,
             'status' => 1,
-            'data' => $this->load->view('pages/cohort/survey_reportshowtemp', $table_data, true),
+            'data' => $this->load->view('pages/cohort/survey_reportshowtempinfi', $table_data, true),
             'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'
         );
-        // echo json_encode($json_return);
-        $arrayexcel = array();
-        foreach ($modipersial_survey as $key => $value_excel) {
-            $time_now = explode(" ", $value_excel['submitted_date']);
-            $username = $value_excel['username'];
-            $fullname = $value_excel['fullname'];
-            $datesub = $time_now[0];
-            $timesub = $time_now[1];
-            $array_now = $value_excel['data_submission'];
-            $count_em = count($array_now);
-            $array_jaja = array(
+        $major = $final_array[$final_array['key']];
+        // $major = $final_array[0];
+        unset_post($final_array, 'key');
+        unset_post($final_array, 'howbig');
+        unset_post($major, 'username');
+        unset_post($major, 'fullname');
+        unset_post($major, 'submitted_date');
+        $titles_namesk = array_column($major, 'title');
+        $universal_values = array();
+        foreach ($final_array as $keyvalue_in_sub => $value_in_sub) {
+            $time_data = $value_in_sub['submitted_date'];
+            $username = $value_in_sub['username'];
+            $fullname = $value_in_sub['fullname'];
+            $universal_sub_maj = array(
                 'username' => $username,
                 'fullname' => $fullname,
-                'datesub' => $datesub,
-                'timesub' => $timesub,
+                'time_data' => $time_data
+
             );
-            foreach ($array_now as $key => $getmevalue) {
-                if (array_key_exists('value_score', $getmevalue)) {
-                    $value_score = $getmevalue['value_score'];
+            //Remove 
+            unset_post($value_in_sub, 'username');
+            unset_post($value_in_sub, 'fullname');
+            unset_post($value_in_sub, 'submitted_date');
+            $tr_data_type = array_column($value_in_sub, 'type');
+            $tr_data_text = array_column($value_in_sub, 'text');
+            $tr_data_title = array_column($value_in_sub, 'title');
+            foreach ($titles_namesk as $key => $valueq) {
+                $universal_sub = array();
+                if (in_array($valueq, $tr_data_title, TRUE)) {
+                    $getkey = array_search($valueq, $tr_data_title, true);
+                    print_array($tr_data_text);
+                    print_array($getkey);
+                    print_array('.................<br>');
+                    $universal_sub['type'] = $tr_data_type[$getkey];
+                    // $universal_sub['text'] = $tr_data_text[$getkeytext];
+                    $universal_sub['title'] = $valueq;
                 } else {
-                    $value_score = "";
+                    $universal_sub['type'] = "";
+                    $universal_sub['text'] = "";
+                    $universal_sub['title'] = $valueq;
                 }
-                $key_name = $key . "value_score";
-                $array_jaja[$key_name] = $value_score;
-                //     $array_jaja = array(
-                //         'username' => $username,
-                //         'fullname' => $fullname,
-                //         'datesub' => $datesub,
-                //         'timesub' => $timesub,
-                //         "data" => $value_score
-                //     );
+                array_push($universal_sub_maj, $universal_sub);
             }
-            $keyone = 1;
-            if ($int_key > $count_em) {
-                $additional_td = $int_key - $count_em;
-                for ($i = 0; $i < $additional_td; $i++) {
-                    $n = $keyone + $i;
-                    $array_jaja[$n] = "";
-                }
-            }
-            array_push($arrayexcel, $array_jaja);
+            array_push($universal_values, $universal_sub_maj);
         }
-        $getm_titles = $modipersial_survey[$key_then]['data_submission'];
-        $titles = array_column($getm_titles, 'title');
-        $more_names = array(
-            'Username',
-            'Full Names',
-            'Date Submited',
-            'Time Submited'
-        );
-        $final = array_merge($more_names, $titles);
-        //Finishing Touch
-        $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $final);
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-        $spreadsheet = $reader->loadFromString($htmlString);
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-        $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls');
-        echo json_encode($json_return);
+        // print_array($universal_values);
+        // echo json_encode($json_return);
+    }
+    public function report_surveydetails_data($persial_survey)
+    {
+        $array_object = array();
+        foreach ($persial_survey as $key => $value_object) {
+            $user_details_output = $this->get_meuserdetails($value_object['userid']);
+            $jaja_raary = array_shift($user_details_output);
+            $surveyobject = json_decode($value_object['surveyobject'], true);
+            $surveyjson = json_decode($value_object['surveyjson'], true);
+            $arrayn = array(
+                'username' => $jaja_raary['username'],
+                'fullname' => $jaja_raary['fullname'],
+                'submitted_date' => $value_object['dateaddedsurvey'],
+                // 'name' => $value_object['name'],
+                'surveyobject' => $surveyobject,
+                'surveyjson' => $surveyjson
+            );
+            array_push($array_object, $arrayn);
+        }
+        $array_of_arraymega = array();
+        $int_key = 0;
+        $key_then = 0;
+        foreach ($array_object as $keyn => $value_n) {
+            $array_of_array = array();
+            $array_of_array['username'] = $value_n['username'];
+            $array_of_array['fullname'] = $value_n['fullname'];
+            $array_of_array['submitted_date'] = $value_n['submitted_date'];
+            // $array_of_array['name'] = $value_n['name'];
+            $surveyobject = $value_n['surveyobject'];
+            $surveyjson = $value_n['surveyjson']['pages'];
+            foreach ($surveyobject as $keya => $valuea) {
+                foreach ($surveyjson as $keyb => $valueb) {
+                    $elements = $valueb['elements'];
+                    foreach ($elements as $keyc => $valuec) {
+                        if ($valuec['type'] == "radiogroup" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+                            $arrayc = array(
+                                'type' => $valuec['type'],
+                                'title' => $valuec['title'],
+                                // 'description' => $valuec['description'],
+                            );
+                            if (array_key_exists('description', $valuec)) {
+                                $arrayc['description'] = $valuec['description'];
+                            } else {
+                                $arrayc['description'] = "";
+                            }
+                            $getvalue = recursive_array_search($valuea, $valuec['choices']);
+                            if (!empty($getvalue)) {
+                                $getvaluezero = $getvalue[0];
+                                $value_n = $valuec['choices'][$getvaluezero];
+                                $arrayc['text'] = $value_n['text'];
+                                $arrayc['value'] = $value_n['value'];
+                                // print_array($value_n);
+                            }
+                            array_push($array_of_array, $arrayc);
+                        } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "radiogroup") {
+                            if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                $arrayc = array(
+                                    'type' => $valuec['type'],
+                                    'title' => $valuec['title'],
+                                    // 'description' => $valuec['description'],
+                                );
+                                if (array_key_exists('description', $valuec)) {
+                                    $arrayc['description'] = $valuec['description'];
+                                } else {
+                                    $arrayc['description'] = "";
+                                }
+                                $getvalue = recursive_array_search($valuea, $valuec['choices']);
+                                if (!empty($getvalue)) {
+                                    $getvaluezero = $getvalue[0];
+                                    $value_n = $valuec['choices'][$getvaluezero];
+                                    $arrayc['text'] = $value_n['text'];
+                                    $arrayc['value'] = $value_n['value'];
+                                    // print_array($value_n);
+                                }
+                                array_push($array_of_array, $arrayc);
+                            }
+                        }
+                        if ($valuec['type'] == "checkbox" && $valuec['name'] == $keya) {
+                            $string_values_mama = "";
+                            foreach ($valuea as $keymama => $valuemama) {
+                                $getvalue = recursive_array_search($valuemama, $valuec['choices']);
+                                if (!empty($getvalue)) {
+                                    $getvaluezero = $getvalue[0];
+                                    $value_n = $valuec['choices'][$getvaluezero];
+                                    // $arraycmama['text'] = $value_n['text'];
+                                    // $arraycmama['value'] = $value_n['value'];
+                                    // array_push($array_valuemama, $arraycmama);
+                                    $string_values_mama .= " , " . $value_n['text'];
+                                }
+                            }
+                            if ($string_values_mama != "") {
+                                $arrayc = array(
+                                    'type' => $valuec['type'],
+                                    'title' => $valuec['title'],
+                                    // 'description' => $valuec['description'],
+                                );
+                                if (array_key_exists('description', $valuec)) {
+                                    $arrayc['description'] = $valuec['description'];
+                                } else {
+                                    $arrayc['description'] = "";
+                                }
+                                $arrayc['text'] = $string_values_mama;
+                                $arrayc['value'] = $valuea[0];
+                                // print_array($string_values_mama);
+                                array_push($array_of_array, $arrayc);
+                            }
+                        }
+                        if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+                            $arrayc = array(
+                                'type' => $valuec['type'],
+                                'title' => "html_value",
+                                // 'description' => "",
+                            );
+                            if (array_key_exists('description', $valuec)) {
+                                $arrayc['description'] = $valuec['description'];
+                            } else {
+                                $arrayc['description'] = "";
+                            }
+                            $value_n = $valuec['html'];
+                            $arrayc['text'] = $value_n;
+                            $arrayc['value'] = "html_value";
+                            array_push($array_of_array, $arrayc);
+                        } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
+                            if (is_array($valuea)) {
+                                // print_array($valuea);
+                            } else {
+                                if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                    $arrayc = array(
+                                        'type' => $valuec['type'],
+                                        'title' => "html_value",
+                                        'description' => "",
+                                    );
+                                    $value_n = $valuec['html'];
+                                    $arrayc['text'] = $value_n;
+                                    $arrayc['value'] = "html_value";
+                                    array_push($array_of_array, $arrayc);
+                                }
+                            }
+                        }
+                        //Start Test
+                        if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+                            // print_array($keya);
+                            $arrayc = array(
+                                'type' => $valuec['type'],
+                                'title' => $valuec['title'],
+                            );
+                            if (array_key_exists('description', $valuec)) {
+                                $arrayc['description'] = $valuec['description'];
+                            } else {
+                                $arrayc['description'] = "";
+                            }
+                            $arrayc['text'] = $surveyobject[$keya];
+                            $arrayc['value'] = $keya;
+                            array_push($array_of_array, $arrayc);
+                            // print_array($arrayc);
+                        } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "text") {
+                            if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                $arrayc = array(
+                                    'type' => $valuec['type'],
+                                    'title' => $valuec['title'],
+                                );
+                                if (array_key_exists('description', $valuec)) {
+                                    $arrayc['description'] = $valuec['description'];
+                                } else {
+                                    $arrayc['description'] = "";
+                                }
+                                //Triky One
+                                $key_value = $valuec['name'];
+                                $arrayc['text'] = $surveyobject[$key_value];
+                                $arrayc['value'] = $keya;
+                                array_push($array_of_array, $arrayc);
+                                // print_array($valuec);
+                            }
+                            // print_array($arrayc);
+                        }
+                        //End Test
+                        if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+                            $arrayc = array(
+                                'type' => $valuec['type'],
+                                'title' => $valuec['title'],
+                            );
+                            if (array_key_exists('description', $valuec)) {
+                                $arrayc['description'] = $valuec['description'];
+                            } else {
+                                $arrayc['description'] = "";
+                            }
+                            //Tricky
+                            $jaja_image = array_shift($surveyobject[$keya]);
+                            //End Tricky
+                            $arrayc['text'] = $jaja_image;
+                            $arrayc['value'] = $keya;
+                            array_push($array_of_array, $arrayc);
+                        } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
+                            if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                $arrayc = array(
+                                    'type' => $valuec['type'],
+                                    'title' => $valuec['title'],
+                                );
+                                if (array_key_exists('description', $valuec)) {
+                                    $arrayc['description'] = $valuec['description'];
+                                } else {
+                                    $arrayc['description'] = "";
+                                }
+                                //Tricky
+                                $jaja_image = array_shift($surveyobject[$keya]);
+                                //End Tricky
+                                $arrayc['text'] = $jaja_image;
+                                $arrayc['value'] = $keya;
+                                array_push($array_of_array, $arrayc);
+                            }
+                        }
+                    }
+                }
+            }
+            $biggest = count($array_of_array);
+            if ($biggest > $int_key) {
+                $int_key = $biggest;
+                $key_then = $keyn;
+            }
+            array_push($array_of_arraymega, $array_of_array);
+        }
+        $array_of_arraymega['key'] = $key_then;
+        $array_of_arraymega['howbig'] = $int_key;
+        // print_array($array_of_arraymega);
+        return $array_of_arraymega;
     }
     public function report_survey()
     {

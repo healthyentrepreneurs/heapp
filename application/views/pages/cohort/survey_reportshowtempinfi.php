@@ -6,7 +6,7 @@
 </style>
 <div class="col-md-12">
     <div class="panel-body">
-        <div class="table-responsive" id="mysurveytable_nm">
+        <div class="table-responsive" id="mysurveytable_nm_x">
             <p>
                 <b>Survey Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
             </p>
@@ -17,7 +17,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#mysurveytable_n').DataTable({
+        $('#mysurveytable_jaja').DataTable({
             "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
@@ -30,7 +30,7 @@
     // }
 
     function removepigi() {
-        var tble = document.getElementById('mysurveytable_n');
+        var tble = document.getElementById('mysurveytable_jaja');
         var row = tble.rows; // Getting the rows 
         for (var i = 0; i < row[0].cells.length; i++) {
             // Getting the text of columnName 
@@ -51,7 +51,7 @@
         //     "info": false
         // });
         printJS({
-            printable: 'mysurveytable_nm',
+            printable: 'mysurveytable_nm_x',
             type: 'html',
             header: 'Survey In PDF <?php echo $taskname ?>',
             maxWidth: '1000',
