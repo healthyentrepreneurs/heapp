@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
-
+// libxml_use_internal_errors(true);
 class Report extends CI_Controller
 {
 
@@ -20,14 +20,15 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
+
     public function report_surveydetails()
     {
-        $_POST['selectclientid'] = 2;
-        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        // 04-12-2020
-        //01-02-2021
-        $_POST['startdate'] = "04-12-2020";
-        $_POST['enddate'] = "15-12-2020";
+        // $_POST['selectclientid'] = 1;
+        // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        // // 04-12-2020
+        // // 01-02-2021
+        // $_POST['startdate'] = "01-01-2021";
+        // $_POST['enddate'] = "31-01-2021";
         $surveyid = $this->input->post('selectclientid');
         $selectclientname = $this->input->post('selectclientname');
         $startdate = $this->input->post('startdate');
@@ -35,21 +36,10 @@ class Report extends CI_Controller
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
         $final_array = $this->report_surveydetails_data($persial_survey);
         // $table_data['key_bign'] = $bigest_array;
-        $table_data['survey_reportdata'] = $final_array;
-        $table_data['startdate'] = $startdate;
-        $table_data['enddate'] = $enddate;
-        $table_data['controller'] = $this;
-        $table_data['taskname'] = $selectclientname;
-        // The Flesh
-        $table_data['table_survey_url'] = 'pages/table/survey_tabledetails';
-        $json_return = array(
-            'report' => "Report For Survey  in Range" . $selectclientname,
-            'status' => 1,
-            'data' => $this->load->view('pages/cohort/survey_reportshowtempinfi', $table_data, true),
-            'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'
-        );
         $major = $final_array[$final_array['key']];
         // $major = $final_array[0];
+        //ALL TITELS
+        //END ALL
         unset_post($final_array, 'key');
         unset_post($final_array, 'howbig');
         unset_post($major, 'username');
@@ -74,18 +64,24 @@ class Report extends CI_Controller
             $tr_data_type = array_column($value_in_sub, 'type');
             $tr_data_text = array_column($value_in_sub, 'text');
             $tr_data_title = array_column($value_in_sub, 'title');
+
             foreach ($titles_namesk as $key => $valueq) {
                 $universal_sub = array();
                 if (in_array($valueq, $tr_data_title, TRUE)) {
                     $getkey = array_search($valueq, $tr_data_title, true);
-                    print_array($tr_data_text);
-                    print_array($getkey);
-                    print_array('.................<br>');
-                    $universal_sub['type'] = $tr_data_type[$getkey];
-                    // $universal_sub['text'] = $tr_data_text[$getkeytext];
+                    // $universal_sub['type'] = $tr_data_type[$getkey];
                     $universal_sub['title'] = $valueq;
+                    if (array_key_exists('text', $value_in_sub[$getkey])) {
+                        if (is_array($value_in_sub[$getkey]['text'])) {
+                            $universal_sub['text'] = $value_in_sub[$getkey]['text']['name'];
+                        } else {
+                            $universal_sub['text'] = $value_in_sub[$getkey]['text'];
+                        }
+                    } else {
+                        $universal_sub['text'] = "No Value";
+                    }
                 } else {
-                    $universal_sub['type'] = "";
+                    // $universal_sub['type'] = "";
                     $universal_sub['text'] = "";
                     $universal_sub['title'] = $valueq;
                 }
@@ -93,8 +89,53 @@ class Report extends CI_Controller
             }
             array_push($universal_values, $universal_sub_maj);
         }
-        // print_array($universal_values);
-        // echo json_encode($json_return);
+        $alltitlessub = array(
+            'username',
+            'fullname',
+            'submitted date'
+
+        );
+        $alltitles = array_merge($alltitlessub, $titles_namesk);
+        $table_data['titles'] = $alltitles;
+        $table_data['survey_reportdata'] = $universal_values;
+        $table_data['startdate'] = $startdate;
+        $table_data['enddate'] = $enddate;
+        $table_data['controller'] = $this;
+        $table_data['taskname'] = $selectclientname;
+        // The Flesh
+        $table_data['table_survey_url'] = 'pages/table/survey_tabledetails';
+        $json_return = array(
+            'report' => "Report For Survey  in Range" . $selectclientname,
+            'status' => 1,
+            'data' => $this->load->view('pages/cohort/survey_reportshowtempinfi', $table_data, true),
+            'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'
+        );
+        //Generate XML
+        $arrayexcel = array();
+        foreach ($universal_values as $key => $value_excel) {
+            $array_one = array(
+                // 'image' => $message,
+                'username' => $value_excel['username'],
+                'fullname' => $value_excel['fullname'],
+                'time_data' => $value_excel['time_data']
+            );
+            unset_post($value_excel, 'username');
+            unset_post($value_excel, 'fullname');
+            unset_post($value_excel, 'time_data');
+            foreach ($value_excel as $keycatch => $value_catch) {
+                $array_one[$keycatch] = $value_catch['text'];
+            }
+            array_push($arrayexcel, $array_one);
+        }
+        // print_array($arrayexcel);
+        //End Generate XML
+        $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $alltitles);
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+        libxml_use_internal_errors(true);
+        $spreadsheet = $reader->loadFromString($htmlString);
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+        $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls');
+        echo json_encode($json_return);
     }
     public function report_surveydetails_data($persial_survey)
     {
@@ -205,7 +246,7 @@ class Report extends CI_Controller
                         if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             $arrayc = array(
                                 'type' => $valuec['type'],
-                                'title' => "html_value",
+                                'title' => "html info",
                                 // 'description' => "",
                             );
                             if (array_key_exists('description', $valuec)) {
@@ -213,8 +254,8 @@ class Report extends CI_Controller
                             } else {
                                 $arrayc['description'] = "";
                             }
-                            $value_n = $valuec['html'];
-                            $arrayc['text'] = $value_n;
+                            $value_n = $this->cleanContent($valuec['html']);
+                            $arrayc['text'] = $$valuec['html'];
                             $arrayc['value'] = "html_value";
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
@@ -224,11 +265,11 @@ class Report extends CI_Controller
                                 if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                     $arrayc = array(
                                         'type' => $valuec['type'],
-                                        'title' => "html_value",
+                                        'title' => "html info",
                                         'description' => "",
                                     );
-                                    $value_n = $valuec['html'];
-                                    $arrayc['text'] = $value_n;
+                                    $value_n = $this->cleanContent($valuec['html']);
+                                    $arrayc['text'] = $valuec['html'];
                                     $arrayc['value'] = "html_value";
                                     array_push($array_of_array, $arrayc);
                                 }
@@ -430,98 +471,12 @@ class Report extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
-    public function detailsurvey($id, $idsurv)
+
+    function cleanContent($content)
     {
-        // $id = $this->input->get('id');
-        // $idsurv = $this->input->get('idsurv');
-        $report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
-        if (empty($report_data)) {
-            return array();
-        } else {
-            $report_data_n = array_shift($report_data);
-            $surveyjson = $report_data_n['surveyjson'];
-            $surveyjson_array = json_decode($surveyjson, true);
-            $survey_responsejson = $report_data_n['surveyobject'];
-            $response_array = json_decode($survey_responsejson, true);
-            $array_table_values = array();
-            foreach ($surveyjson_array['pages'] as $key => $value) {
-                //    print_array($value);
-                $element_analy = $value['elements'];
-                foreach ($element_analy as $key => $value_elem) {
-                    if (key_exists($value_elem['name'], $response_array)) {
-                        $get_value = $response_array[$value_elem['name']];
-                        // print_array($get_value);
-                        if (key_exists('description', $value_elem)) {
-                            $desc = $value_elem['description'];
-                        } else {
-                            $desc = "";
-                        }
-                        $value_baby = array(
-                            'title' => $value_elem['title'],
-                            'description' => $desc
-                        );
-                        if ($value_elem['type'] == "text") {
-                            $value_baby['value_score'] = $get_value;
-                            $value_baby['type'] = $value_elem['type'];
-                        } else if ($value_elem['type'] == "radiogroup") {
-                            $value_elem_choice = $value_elem['choices'];
-                            foreach ($value_elem_choice as $key_choice => $value_choice) {
-                                if ($value_choice['value'] == $get_value) {
-                                    $value_baby['value_score'] = $value_choice['text'];
-                                    $value_baby['type'] = $value_elem['type'];
-                                }
-                            }
-                        } else if ($value_elem['type'] == "checkbox") {
-                            $value_elem_choice = $value_elem['choices'];
-                            foreach ($value_elem_choice as $key_choice => $value_choice) {
-                                if ($value_choice['value'] == $get_value) {
-                                    $value_baby['value_score'] = $value_choice['text'];
-                                    $value_baby['type'] = $value_elem['type'];
-                                }
-                            }
-                        } else if ($value_elem['type'] == "html") {
-                            $value_baby['value_score'] = $value_elem['html'];
-                            $value_baby['type'] = $value_elem['type'];
-                        } else if ($value_elem['type'] == "file") {
-                            $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                            if (!empty($attempt_n_n_one)) {
-                                if (!empty($get_value)) {
-                                    $get_value = array_shift($get_value);
-                                    $name_final = getToken(10) . $get_value['name'];
-                                    $one = $get_value['content'];
-                                    $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    // data:image/jpeg;base64,
-                                    // $value_baby['image_base_obj'] = $two;
-                                    $value_baby['value_score'] = $name_final;
-                                    $value_baby['type'] = $value_elem['type'];
-                                    $path = FCPATH . "uploadsurvey/" . $name_final;
-                                    $status = file_put_contents($path, base64_decode($two));
-                                    if ($status) {
-                                        // public function updatez($variable, $value, $table_name, $updated_values)
-                                        $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
-                                    }
-                                } else {
-                                    $value_baby['value_name'] = "";
-                                }
-                            } else {
-                                $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-                                $array_one = array_shift($attempt_n_n_one);
-                                $value_baby['value_score'] = $array_one['imageifany'];
-                                $value_baby['type'] = $value_elem['type'];
-                            }
-                        } else {
-                            // print_array($value_elem);
-                            $value_baby['value_score'] = $value_elem['What element is this?'];
-                            $value_baby['type'] = $value_elem['type'];
-                        }
-                        // print_array($value_baby);
-                        array_push($array_table_values, $value_baby);
-                    }
-                }
-            }
-            return $array_table_values;
-        }
-        // print_array($array_table_values);
+        $content = nl2br($content);
+        $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
+        return trim(strip_tags($content));
     }
     // function createPhoneNumber(array $numbersarray): string
     // {
@@ -533,4 +488,5 @@ class Report extends CI_Controller
     //     $stringname = $this->createPhoneNumber($array_name);
     //     print_array($stringname);
     // }
+
 }
