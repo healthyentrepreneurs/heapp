@@ -20,7 +20,6 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 1;
@@ -34,108 +33,116 @@ class Report extends CI_Controller
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
-        $final_array = $this->report_surveydetails_data($persial_survey);
-        // $table_data['key_bign'] = $bigest_array;
-        $major = $final_array[$final_array['key']];
-        // $major = $final_array[0];
-        //ALL TITELS
-        //END ALL
-        unset_post($final_array, 'key');
-        unset_post($final_array, 'howbig');
-        unset_post($major, 'username');
-        unset_post($major, 'fullname');
-        unset_post($major, 'submitted_date');
-        $titles_namesk = array_column($major, 'title');
-        $universal_values = array();
-        foreach ($final_array as $keyvalue_in_sub => $value_in_sub) {
-            $time_data = $value_in_sub['submitted_date'];
-            $username = $value_in_sub['username'];
-            $fullname = $value_in_sub['fullname'];
-            $universal_sub_maj = array(
-                'username' => $username,
-                'fullname' => $fullname,
-                'time_data' => $time_data
-
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For This Survey Combination",
+                'status' => 0,
             );
-            //Remove 
-            unset_post($value_in_sub, 'username');
-            unset_post($value_in_sub, 'fullname');
-            unset_post($value_in_sub, 'submitted_date');
-            $tr_data_type = array_column($value_in_sub, 'type');
-            $tr_data_text = array_column($value_in_sub, 'text');
-            $tr_data_title = array_column($value_in_sub, 'title');
+            echo json_encode($json_return);
+        } else {
+            $final_array = $this->report_surveydetails_data($persial_survey);
+            // $table_data['key_bign'] = $bigest_array;
+            $major = $final_array[$final_array['key']];
+            // $major = $final_array[0];
+            //ALL TITELS
+            //END ALL
+            unset_post($final_array, 'key');
+            unset_post($final_array, 'howbig');
+            unset_post($major, 'username');
+            unset_post($major, 'fullname');
+            unset_post($major, 'submitted_date');
+            $titles_namesk = array_column($major, 'title');
+            $universal_values = array();
+            foreach ($final_array as $keyvalue_in_sub => $value_in_sub) {
+                $time_data = $value_in_sub['submitted_date'];
+                $username = $value_in_sub['username'];
+                $fullname = $value_in_sub['fullname'];
+                $universal_sub_maj = array(
+                    'username' => $username,
+                    'fullname' => $fullname,
+                    'time_data' => $time_data
 
-            foreach ($titles_namesk as $key => $valueq) {
-                $universal_sub = array();
-                if (in_array($valueq, $tr_data_title, TRUE)) {
-                    $getkey = array_search($valueq, $tr_data_title, true);
-                    // $universal_sub['type'] = $tr_data_type[$getkey];
-                    $universal_sub['title'] = $valueq;
-                    if (array_key_exists('text', $value_in_sub[$getkey])) {
-                        if (is_array($value_in_sub[$getkey]['text'])) {
-                            $universal_sub['text'] = $value_in_sub[$getkey]['text']['name'];
+                );
+                //Remove 
+                unset_post($value_in_sub, 'username');
+                unset_post($value_in_sub, 'fullname');
+                unset_post($value_in_sub, 'submitted_date');
+                $tr_data_type = array_column($value_in_sub, 'type');
+                $tr_data_text = array_column($value_in_sub, 'text');
+                $tr_data_title = array_column($value_in_sub, 'title');
+
+                foreach ($titles_namesk as $key => $valueq) {
+                    $universal_sub = array();
+                    if (in_array($valueq, $tr_data_title, TRUE)) {
+                        $getkey = array_search($valueq, $tr_data_title, true);
+                        // $universal_sub['type'] = $tr_data_type[$getkey];
+                        $universal_sub['title'] = $valueq;
+                        if (array_key_exists('text', $value_in_sub[$getkey])) {
+                            if (is_array($value_in_sub[$getkey]['text'])) {
+                                $universal_sub['text'] = $value_in_sub[$getkey]['text']['name'];
+                            } else {
+                                $universal_sub['text'] = $value_in_sub[$getkey]['text'];
+                            }
                         } else {
-                            $universal_sub['text'] = $value_in_sub[$getkey]['text'];
+                            $universal_sub['text'] = "No Value";
                         }
                     } else {
-                        $universal_sub['text'] = "No Value";
+                        // $universal_sub['type'] = "";
+                        $universal_sub['text'] = "";
+                        $universal_sub['title'] = $valueq;
                     }
-                } else {
-                    // $universal_sub['type'] = "";
-                    $universal_sub['text'] = "";
-                    $universal_sub['title'] = $valueq;
+                    array_push($universal_sub_maj, $universal_sub);
                 }
-                array_push($universal_sub_maj, $universal_sub);
+                array_push($universal_values, $universal_sub_maj);
             }
-            array_push($universal_values, $universal_sub_maj);
-        }
-        $alltitlessub = array(
-            'username',
-            'fullname',
-            'submitted date'
+            $alltitlessub = array(
+                'username',
+                'fullname',
+                'submitted date'
 
-        );
-        $alltitles = array_merge($alltitlessub, $titles_namesk);
-        $table_data['titles'] = $alltitles;
-        $table_data['survey_reportdata'] = $universal_values;
-        $table_data['startdate'] = $startdate;
-        $table_data['enddate'] = $enddate;
-        $table_data['controller'] = $this;
-        $table_data['taskname'] = $selectclientname;
-        // The Flesh
-        $table_data['table_survey_url'] = 'pages/table/survey_tabledetails';
-        $json_return = array(
-            'report' => "Report For Survey  in Range" . $selectclientname,
-            'status' => 1,
-            'data' => $this->load->view('pages/cohort/survey_reportshowtempinfi', $table_data, true),
-            'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'
-        );
-        //Generate XML
-        $arrayexcel = array();
-        foreach ($universal_values as $key => $value_excel) {
-            $array_one = array(
-                // 'image' => $message,
-                'username' => $value_excel['username'],
-                'fullname' => $value_excel['fullname'],
-                'time_data' => $value_excel['time_data']
             );
-            unset_post($value_excel, 'username');
-            unset_post($value_excel, 'fullname');
-            unset_post($value_excel, 'time_data');
-            foreach ($value_excel as $keycatch => $value_catch) {
-                $array_one[$keycatch] = $value_catch['text'];
+            $alltitles = array_merge($alltitlessub, $titles_namesk);
+            $table_data['titles'] = $alltitles;
+            $table_data['survey_reportdata'] = $universal_values;
+            $table_data['startdate'] = $startdate;
+            $table_data['enddate'] = $enddate;
+            $table_data['controller'] = $this;
+            $table_data['taskname'] = $selectclientname;
+            // The Flesh
+            $table_data['table_survey_url'] = 'pages/table/survey_tabledetails';
+            $json_return = array(
+                'report' => "Report For Survey  in Range" . $selectclientname,
+                'status' => 1,
+                'data' => $this->load->view('pages/cohort/survey_reportshowtempinfi', $table_data, true),
+                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'
+            );
+            //Generate XML
+            $arrayexcel = array();
+            foreach ($universal_values as $key => $value_excel) {
+                $array_one = array(
+                    // 'image' => $message,
+                    'username' => $value_excel['username'],
+                    'fullname' => $value_excel['fullname'],
+                    'time_data' => $value_excel['time_data']
+                );
+                unset_post($value_excel, 'username');
+                unset_post($value_excel, 'fullname');
+                unset_post($value_excel, 'time_data');
+                foreach ($value_excel as $keycatch => $value_catch) {
+                    $array_one[$keycatch] = $value_catch['text'];
+                }
+                array_push($arrayexcel, $array_one);
             }
-            array_push($arrayexcel, $array_one);
+            // print_array($arrayexcel);
+            //End Generate XML
+            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $alltitles);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            libxml_use_internal_errors(true);
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls');
+            echo json_encode($json_return);
         }
-        // print_array($arrayexcel);
-        //End Generate XML
-        $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $alltitles);
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-        libxml_use_internal_errors(true);
-        $spreadsheet = $reader->loadFromString($htmlString);
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-        $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls');
-        echo json_encode($json_return);
     }
     public function report_surveydetails_data($persial_survey)
     {
