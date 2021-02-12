@@ -320,7 +320,8 @@ class Universal_model extends CI_Model
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);
         $this->db->where('c.survey_id', $report_id);
-        $this->db->where('c.dateadded BETWEEN "' . date('Y-m-d', strtotime($from_from)) . '" and "' . date('Y-m-d', strtotime($to_to)) . '"');
+        $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(c.dateadded) <=', date('Y-m-d', strtotime($to_to)));
         $this->db->order_by("c.dateadded", "desc");
         $query = $this->db->get()->result_array();
         return $query;

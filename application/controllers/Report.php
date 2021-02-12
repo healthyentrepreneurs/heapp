@@ -20,6 +20,7 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
+
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 1;
