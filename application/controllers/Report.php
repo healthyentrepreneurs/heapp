@@ -25,8 +25,6 @@ class Report extends CI_Controller
     {
         // $_POST['selectclientid'] = 1;
         // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        // // 04-12-2020
-        // // 01-02-2021
         // $_POST['startdate'] = "01-01-2021";
         // $_POST['enddate'] = "31-01-2021";
         $surveyid = $this->input->post('selectclientid');
@@ -130,11 +128,13 @@ class Report extends CI_Controller
                 unset_post($value_excel, 'fullname');
                 unset_post($value_excel, 'time_data');
                 foreach ($value_excel as $keycatch => $value_catch) {
-                    $array_one[$keycatch] = $value_catch['text'];
+                    if ($value_catch['title'] !== "html_info") {
+                        $array_one[$keycatch] = $value_catch['text'];
+                    }
                 }
                 array_push($arrayexcel, $array_one);
             }
-            // print_array($arrayexcel);
+            delete_value($alltitles, 'html_info');
             //End Generate XML
             $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $alltitles);
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
@@ -245,7 +245,7 @@ class Report extends CI_Controller
                                 } else {
                                     $arrayc['description'] = "";
                                 }
-                                $arrayc['text'] = $string_values_mama;
+                                $arrayc['text'] = ltrim($string_values_mama, $string_values_mama[0]);
                                 $arrayc['value'] = $valuea[0];
                                 // print_array($string_values_mama);
                                 array_push($array_of_array, $arrayc);
@@ -254,7 +254,7 @@ class Report extends CI_Controller
                         if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             $arrayc = array(
                                 'type' => $valuec['type'],
-                                'title' => "html info",
+                                'title' => "html_info",
                                 // 'description' => "",
                             );
                             if (array_key_exists('description', $valuec)) {
@@ -273,7 +273,7 @@ class Report extends CI_Controller
                                 if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                     $arrayc = array(
                                         'type' => $valuec['type'],
-                                        'title' => "html info",
+                                        'title' => "html_info",
                                         'description' => "",
                                     );
                                     $value_n = $this->cleanContent($valuec['html']);
@@ -486,6 +486,7 @@ class Report extends CI_Controller
         $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
         return trim(strip_tags($content));
     }
+
     // function createPhoneNumber(array $numbersarray): string
     // {
     //     return sprintf("(%d%d%d) %d%d%d-%d%d%d%d", ...$numbersarray);
