@@ -231,7 +231,7 @@ class Report extends CI_Controller
                                     // $arraycmama['text'] = $value_n['text'];
                                     // $arraycmama['value'] = $value_n['value'];
                                     // array_push($array_valuemama, $arraycmama);
-                                    $string_values_mama .= " , " . $value_n['text'];
+                                    $string_values_mama .= ", " . $value_n['text'];
                                 }
                             }
                             if ($string_values_mama != "") {
