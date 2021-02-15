@@ -388,4 +388,41 @@ class User extends CI_Controller
         // return $array_of_output;
         print_array($array_of_output);
     }
+    public function viwedbook($book_id, $chapter_id, $token)
+    {
+        // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $functionname = 'mod_book_view_book';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'bookid' => $book_id,
+            'chapterid' => $chapter_id
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        return $server_output;
+        // $array_of_output = json_decode($server_output, true);
+
+    }
+    public function testviews()
+    {
+        //https://docs.moodle.org/dev/Talk:Web_service_API_functions
+        $mama = $this->viwedbook(104, 268, 'b536dbacaab00ab6924ddd9798a1a611');
+        print_array($mama);
+        // $domainname = 'https://app.healthyentrepreneurs.nl';
+        // $functionname = 'mod_book_get_books_by_courses';
+        // $serverurl = $domainname . '/webservice/rest/server.php';
+        // $data = array(
+        //     'wstoken' => "b536dbacaab00ab6924ddd9798a1a611",
+        //     'wsfunction' => $functionname,
+        //     'courseids[0]' => 2,
+        //     'moodlewsrestformat' => 'json'
+
+        // );
+        // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        // print_array($server_output);
+    }
 }

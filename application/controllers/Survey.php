@@ -82,7 +82,7 @@ class Survey extends CI_Controller
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
         echo json_encode($array_survey);
     }
- 
+
     public function addsurvey()
     {
         // surveydesc
@@ -364,10 +364,18 @@ class Survey extends CI_Controller
             'surveyobject' => $array_nana['jsondata'],
             'survey_id' => $array_nana['surveyId']
         );
-        $this->universal_model->insertz('survey_report', $array_on);
+        $id = $this->universal_model->insertz('survey_report', $array_on);
+        $code = 0;
+        if ($id == 0) {
+            $code = 500;
+            $msg = "Failed To Post The Survey";
+        } else {
+            $code = 200;
+            $msg = "Survey Posted Successfully";
+        }
         $array_n = array(
-            'status' => 1,
-            'message' => "Survey Posted Successfully"
+            'code' => $code,
+            'msg' => $msg
         );
         echo json_encode($array_n);
     }

@@ -189,6 +189,7 @@ class Universal_model extends CI_Model
 
     public function insertz($table_name, $array_value)
     {
+        $this->db->db_debug = false;
         $this->db->insert($table_name, $array_value);
         return $this->db->insert_id();
     }
