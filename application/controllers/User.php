@@ -403,8 +403,12 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        return $server_output;
-        // $array_of_output = json_decode($server_output, true);
+        // return $server_output;
+        $array_of_output = json_decode($server_output, true);
+        if (!empty($array_of_output)) {
+            echo empty_response("New User Successfully Created", 200, $array_of_output);
+        }
+        // print_array($array_of_output);
 
     }
     public function testviews()
