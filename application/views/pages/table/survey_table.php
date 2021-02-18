@@ -25,7 +25,7 @@
                 <td class="center"><?= $time_data_array[1]; ?></td>
                 <td class="center">
                     <div class="visible-md visible-lg hidden-sm hidden-xs">
-                        <a href="<?= base_url('welcome/admin/7/' . $value_in_sub['id'] . "/" . $value_in_sub['surveyid'] . '?userid=' . $value_in_sub['userid'] . '&name=' . $value_in_sub['name']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Survey Details"><i class="fa fa-share"></i></a>
+                        <a href="<?= base_url('welcome/admin/7/' . $value_in_sub['id'] . "/" . $value_in_sub['surveyid'] . '?userid=' . $value_in_sub['userid'] . '&name=' . $value_in_sub['name']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Survey Details" target="_blank"><i class="fa fa-share"></i></a>
                     </div>
                     <div class="visible-xs visible-sm hidden-md hidden-lg">
                         <div class="btn-group">

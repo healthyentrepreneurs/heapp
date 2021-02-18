@@ -17,20 +17,24 @@
                 <tr>
                     <td><?= $value['title'] ?></td>
                     <td><?= $value['description'] ?></td>
-                    <td>
-                        <?php
-                        if ($value['type'] == "file") {
-                        ?>
-                            <div class="zoom-box">
-                                <img src="<?= base_url('uploadsurvey/' . $value['value_score']) ?>" alt="image" width="100" height="100" />
-                            </div>
+                    <?php
+                    if (array_key_exists('text', $value) && $value['type'] != "file") {
+                    ?>
+                        <td><?= $value['text'] ?></td>
+                    <?php
+                    } else if (array_key_exists('text', $value) && $value['type'] == "file") {
+                    ?>
+                        <td>
+                            <img src="<?= base_url('uploadsurvey/' . $value['text']) ?>" alt="image" width="100" height="100" />
+                        </td>
+                    <?php
+                    } else {
+                    ?>
+                        <td></td>
+                    <?php
+                    }
+                    ?>
 
-                        <?php
-                        } else {
-                            echo $value['value_score'];
-                        }
-                        ?>
-                    </td>
                 </tr>
             <?php
             }
@@ -44,7 +48,7 @@
         </div>
 
     </div> -->
-    <a href="#">Back From Here</a>
+    <a href="javascript:close_window();">Back From Here</a>
 </div>
 <script>
     $(document).ready(function() {

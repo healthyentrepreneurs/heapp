@@ -120,15 +120,28 @@ class Welcome extends CI_Controller
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 7:
+					// http://localhost/heapp/welcome/admin/7/211/10?userid=2&name=Workflow:%20Family%20Planning
 					// $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
-					$specific_array = $this->detailsurvey($idnn, $id_twonn);
-					$data['survey_instance'] = $specific_array;
+					$persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
+					$final_array = $this->report_surveydetails_data($persial_survey, $idnn);
+					$final_arrayone = array_shift($final_array);
+
 					$data['controller'] = $this;
-					$userid = $this->input->get('userid');
-					$user_profile = $this->get_meuserdetails($userid);
-					$user_profile = array_shift($user_profile);
+					$surveyname = $this->input->get('name');
+					$user_profile = array(
+						'username' => '<h4>' . $surveyname . '</h4>',
+						'firstname' => $final_arrayone['username'],
+						'lastname' => $final_arrayone['fullname'],
+						'submitted_date' => $final_arrayone['submitted_date'],
+					);
+					unset_post($final_arrayone, 'username');
+					unset_post($final_arrayone, 'fullname');
+					unset_post($final_arrayone, 'submitted_date');
+					$data['survey_instance'] = $final_arrayone;
 					$data['user_profile'] = $user_profile;
 					$data['content_admin'] = 'pages/admin/survey_instance';
+					$surveyname = $this->input->get('name');
+					$data['surveyname'] = $surveyname;
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 8:
@@ -208,72 +221,203 @@ class Welcome extends CI_Controller
 		// print_array($array_of_output);
 	}
 
-
-
-	public function detailsurvey($id, $idsurv)
+	public function report_surveydetails_data($persial_survey, $id)
 	{
-		// $id = $this->input->get('id');
-		// $idsurv = $this->input->get('idsurv');
-		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
-		if (empty($report_data)) {
-			return array();
-		} else {
-			$report_data_n = array_shift($report_data);
-			$surveyjson = $report_data_n['surveyjson'];
-			$surveyjson_array = json_decode($surveyjson, true);
-			$survey_responsejson = $report_data_n['surveyobject'];
-			$response_array = json_decode($survey_responsejson, true);
-			$array_table_values = array();
-			foreach ($surveyjson_array['pages'] as $key => $value) {
-				//    print_array($value);
-				$element_analy = $value['elements'];
-				foreach ($element_analy as $key => $value_elem) {
-					if (key_exists($value_elem['name'], $response_array)) {
-						$get_value = $response_array[$value_elem['name']];
-						// print_array($get_value);
-						if (key_exists('description', $value_elem)) {
-							$desc = $value_elem['description'];
-						} else {
-							$desc = "";
+		$array_object = array();
+		foreach ($persial_survey as $key => $value_object) {
+			$user_details_output = $this->get_meuserdetails($value_object['userid']);
+			$jaja_raary = array_shift($user_details_output);
+			$surveyobject = json_decode($value_object['surveyobject'], true);
+			$surveyjson = json_decode($value_object['surveyjson'], true);
+			$arrayn = array(
+				'username' => $jaja_raary['username'],
+				'fullname' => $jaja_raary['fullname'],
+				'submitted_date' => $value_object['dateaddedsurvey'],
+				// 'name' => $value_object['name'],
+				'surveyobject' => $surveyobject,
+				'surveyjson' => $surveyjson
+			);
+			array_push($array_object, $arrayn);
+		}
+		$array_of_arraymega = array();
+		$int_key = 0;
+		$key_then = 0;
+		foreach ($array_object as $keyn => $value_n) {
+			$array_of_array = array();
+			$array_of_array['username'] = $value_n['username'];
+			$array_of_array['fullname'] = $value_n['fullname'];
+			$array_of_array['submitted_date'] = $value_n['submitted_date'];
+			// $array_of_array['name'] = $value_n['name'];
+			$surveyobject = $value_n['surveyobject'];
+			$surveyjson = $value_n['surveyjson']['pages'];
+			foreach ($surveyobject as $keya => $valuea) {
+				foreach ($surveyjson as $keyb => $valueb) {
+					$elements = $valueb['elements'];
+					foreach ($elements as $keyc => $valuec) {
+						if ($valuec['type'] == "radiogroup" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+							$arrayc = array(
+								'type' => $valuec['type'],
+								'title' => $valuec['title'],
+								// 'description' => $valuec['description'],
+							);
+							if (array_key_exists('description', $valuec)) {
+								$arrayc['description'] = $valuec['description'];
+							} else {
+								$arrayc['description'] = "";
+							}
+							$getvalue = recursive_array_search($valuea, $valuec['choices']);
+							if (!empty($getvalue)) {
+								$getvaluezero = $getvalue[0];
+								$value_n = $valuec['choices'][$getvaluezero];
+								$arrayc['text'] = $value_n['text'];
+								$arrayc['value'] = $value_n['value'];
+								// print_array($value_n);
+							}
+							array_push($array_of_array, $arrayc);
+						} elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "radiogroup") {
+							if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+								$arrayc = array(
+									'type' => $valuec['type'],
+									'title' => $valuec['title'],
+									// 'description' => $valuec['description'],
+								);
+								if (array_key_exists('description', $valuec)) {
+									$arrayc['description'] = $valuec['description'];
+								} else {
+									$arrayc['description'] = "";
+								}
+								$getvalue = recursive_array_search($valuea, $valuec['choices']);
+								if (!empty($getvalue)) {
+									$getvaluezero = $getvalue[0];
+									$value_n = $valuec['choices'][$getvaluezero];
+									$arrayc['text'] = $value_n['text'];
+									$arrayc['value'] = $value_n['value'];
+									// print_array($value_n);
+								}
+								array_push($array_of_array, $arrayc);
+							}
 						}
-						$value_baby = array(
-							'title' => $value_elem['title'],
-							'description' => $desc
-						);
-						if ($value_elem['type'] == "text") {
-							$value_baby['value_score'] = $get_value;
-							$value_baby['type'] = $value_elem['type'];
-						} else if ($value_elem['type'] == "radiogroup") {
-							$value_elem_choice = $value_elem['choices'];
-							foreach ($value_elem_choice as $key_choice => $value_choice) {
-								if ($value_choice['value'] == $get_value) {
-									$value_baby['value_score'] = $value_choice['text'];
-									$value_baby['type'] = $value_elem['type'];
+						if ($valuec['type'] == "checkbox" && $valuec['name'] == $keya) {
+							$string_values_mama = "";
+							foreach ($valuea as $keymama => $valuemama) {
+								$getvalue = recursive_array_search($valuemama, $valuec['choices']);
+								if (!empty($getvalue)) {
+									$getvaluezero = $getvalue[0];
+									$value_n = $valuec['choices'][$getvaluezero];
+									// $arraycmama['text'] = $value_n['text'];
+									// $arraycmama['value'] = $value_n['value'];
+									// array_push($array_valuemama, $arraycmama);
+									$string_values_mama .= ", " . $value_n['text'];
 								}
 							}
-						} else if ($value_elem['type'] == "checkbox") {
-							$value_elem_choice = $value_elem['choices'];
-							foreach ($value_elem_choice as $key_choice => $value_choice) {
-								if ($value_choice['value'] == $get_value) {
-									$value_baby['value_score'] = $value_choice['text'];
-									$value_baby['type'] = $value_elem['type'];
+							if ($string_values_mama != "") {
+								$arrayc = array(
+									'type' => $valuec['type'],
+									'title' => $valuec['title'],
+									// 'description' => $valuec['description'],
+								);
+								if (array_key_exists('description', $valuec)) {
+									$arrayc['description'] = $valuec['description'];
+								} else {
+									$arrayc['description'] = "";
+								}
+								$arrayc['text'] = ltrim($string_values_mama, $string_values_mama[0]);
+								$arrayc['value'] = $valuea[0];
+								// print_array($string_values_mama);
+								array_push($array_of_array, $arrayc);
+							}
+						}
+						if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+							$arrayc = array(
+								'type' => $valuec['type'],
+								'title' => "html_info",
+								// 'description' => "",
+							);
+							if (array_key_exists('description', $valuec)) {
+								$arrayc['description'] = $valuec['description'];
+							} else {
+								$arrayc['description'] = "";
+							}
+							$value_n = $this->cleanContent($valuec['html']);
+							$arrayc['text'] = $$valuec['html'];
+							$arrayc['value'] = "html_value";
+							array_push($array_of_array, $arrayc);
+						} elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
+							if (is_array($valuea)) {
+								// print_array($valuea);
+							} else {
+								if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+									$arrayc = array(
+										'type' => $valuec['type'],
+										'title' => "html_info",
+										'description' => "",
+									);
+									$value_n = $this->cleanContent($valuec['html']);
+									$arrayc['text'] = $valuec['html'];
+									$arrayc['value'] = "html_value";
+									array_push($array_of_array, $arrayc);
 								}
 							}
-						} else if ($value_elem['type'] == "html") {
-							$value_baby['value_score'] = $value_elem['html'];
-							$value_baby['type'] = $value_elem['type'];
-						} else if ($value_elem['type'] == "file") {
+						}
+						//Start Test
+						if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+							// print_array($keya);
+							$arrayc = array(
+								'type' => $valuec['type'],
+								'title' => $valuec['title'],
+							);
+							if (array_key_exists('description', $valuec)) {
+								$arrayc['description'] = $valuec['description'];
+							} else {
+								$arrayc['description'] = "";
+							}
+							$arrayc['text'] = $surveyobject[$keya];
+							$arrayc['value'] = $keya;
+							array_push($array_of_array, $arrayc);
+							// print_array($arrayc);
+						} elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "text") {
+							if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+								$arrayc = array(
+									'type' => $valuec['type'],
+									'title' => $valuec['title'],
+								);
+								if (array_key_exists('description', $valuec)) {
+									$arrayc['description'] = $valuec['description'];
+								} else {
+									$arrayc['description'] = "";
+								}
+								//Triky One
+								$key_value = $valuec['name'];
+								$arrayc['text'] = $surveyobject[$key_value];
+								$arrayc['value'] = $keya;
+								array_push($array_of_array, $arrayc);
+								// print_array($valuec);
+							}
+							// print_array($arrayc);
+						}
+						//End Test
+						if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+							$arrayc = array(
+								'type' => $valuec['type'],
+								'title' => $valuec['title'],
+							);
+							if (array_key_exists('description', $valuec)) {
+								$arrayc['description'] = $valuec['description'];
+							} else {
+								$arrayc['description'] = "";
+							}
+							//Tricky
+							$jaja_image = array_shift($surveyobject[$keya]);
 							$attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
 							if (!empty($attempt_n_n_one)) {
-								if (!empty($get_value)) {
-									$get_value = array_shift($get_value);
-									$name_final = getToken(10) . $get_value['name'];
-									$one = $get_value['content'];
+								if (!empty($jaja_image)) {
+									$name_final = getToken(10) . $jaja_image['name'];
+									$one = $jaja_image['content'];
 									$two = str_replace("data:image/jpeg;base64,", "", $one);
 									// data:image/jpeg;base64,
 									// $value_baby['image_base_obj'] = $two;
-									$value_baby['value_score'] = $name_final;
-									$value_baby['type'] = $value_elem['type'];
+									$arrayc['text'] = $name_final;
+									$arrayc['value'] = $keya;
 									$path = FCPATH . "uploadsurvey/" . $name_final;
 									$status = file_put_contents($path, base64_decode($two));
 									if ($status) {
@@ -286,21 +430,76 @@ class Welcome extends CI_Controller
 							} else {
 								$attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
 								$array_one = array_shift($attempt_n_n_one);
-								$value_baby['value_score'] = $array_one['imageifany'];
-								$value_baby['type'] = $value_elem['type'];
+								$arrayc['text'] = $array_one['imageifany'];
+								$arrayc['value'] = $keya;
 							}
-						} else {
-							// print_array($value_elem);
-							$value_baby['value_score'] = $value_elem['What element is this?'];
-							$value_baby['type'] = $value_elem['type'];
+							//End Tricky
+							// $arrayc['text'] = $jaja_image;
+							// $arrayc['value'] = $keya;
+							array_push($array_of_array, $arrayc);
+						} elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
+							if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+								$arrayc = array(
+									'type' => $valuec['type'],
+									'title' => $valuec['title'],
+								);
+								if (array_key_exists('description', $valuec)) {
+									$arrayc['description'] = $valuec['description'];
+								} else {
+									$arrayc['description'] = "";
+								}
+								//Tricky
+								$jaja_image = array_shift($surveyobject[$keya]);
+								$attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
+								if (!empty($attempt_n_n_one)) {
+									if (!empty($jaja_image)) {
+										$name_final = getToken(10) . $jaja_image['name'];
+										$one = $jaja_image['content'];
+										$two = str_replace("data:image/jpeg;base64,", "", $one);
+										// data:image/jpeg;base64,
+										// $value_baby['image_base_obj'] = $two;
+										$arrayc['text'] = $name_final;
+										$arrayc['value'] = $keya;
+										$path = FCPATH . "uploadsurvey/" . $name_final;
+										$status = file_put_contents($path, base64_decode($two));
+										if ($status) {
+											// public function updatez($variable, $value, $table_name, $updated_values)
+											$this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+										}
+									} else {
+										$value_baby['value_name'] = "";
+									}
+								} else {
+									$attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+									$array_one = array_shift($attempt_n_n_one);
+									$arrayc['text'] = $array_one['imageifany'];
+									$arrayc['value'] = $keya;
+								}
+								//End Tricky
+								// $arrayc['text'] = $jaja_image;
+								// $arrayc['value'] = $keya;
+								array_push($array_of_array, $arrayc);
+							}
 						}
-						// print_array($value_baby);
-						array_push($array_table_values, $value_baby);
 					}
 				}
 			}
-			return $array_table_values;
+			$biggest = count($array_of_array);
+			if ($biggest > $int_key) {
+				$int_key = $biggest;
+				$key_then = $keyn;
+			}
+			array_push($array_of_arraymega, $array_of_array);
 		}
-		// print_array($array_table_values);
+		$array_of_arraymega['key'] = $key_then;
+		$array_of_arraymega['howbig'] = $int_key;
+		// print_array($array_of_arraymega);
+		return $array_of_arraymega;
+	}
+	function cleanContent($content)
+	{
+		$content = nl2br($content);
+		$content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
+		return trim(strip_tags($content));
 	}
 }
