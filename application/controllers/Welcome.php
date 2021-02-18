@@ -50,7 +50,7 @@ class Welcome extends CI_Controller
 			}
 		}
 	}
-	public function admin($var = 0, $id = null, $id_two = null)
+	public function admin($var = 0, $idnn = null, $id_twonn = null)
 	{
 		// print_array($this->session->userdata('logged_in_lodda'));
 		// njovu
@@ -119,29 +119,17 @@ class Welcome extends CI_Controller
 					$data['id'] = $id;
 					$this->load->view('pages/hometwo', $data);
 					break;
-				case 6:
-					$id = $this->input->get('id');
-					$attempt_n_n_one = $this->universal_model->join_suv_report($id);
-					$data['survey_reportdata'] = $attempt_n_n_one;
-					$data['controller'] = $this;
-					$data['content_admin'] = 'pages/admin/survey_report';
-					$data['id'] = $id;
-					$this->load->view('pages/hometwo', $data);
-					break;
 				case 7:
-					$specific_array = $this->detailsurvey($id, $id_two);
-					// print_array($specific_array);
+					// $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
+					$specific_array = $this->detailsurvey($idnn, $id_twonn);
 					$data['survey_instance'] = $specific_array;
 					$data['controller'] = $this;
 					$userid = $this->input->get('userid');
-					$name = $this->input->get('name');
 					$user_profile = $this->get_meuserdetails($userid);
 					$user_profile = array_shift($user_profile);
 					$data['user_profile'] = $user_profile;
-					$data['survey_name'] = $name;
 					$data['content_admin'] = 'pages/admin/survey_instance';
 					$this->load->view('pages/hometwo', $data);
-					// print_array($specific_array);
 					break;
 				case 8:
 					$attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -219,12 +207,9 @@ class Welcome extends CI_Controller
 		return $array_of_output;
 		// print_array($array_of_output);
 	}
-	public function detailsurvey_n($id, $idsurv)
-	{
-		$report_data = $this->universal_model->join_suv_report_details($idsurv, $id);
-		// $report_data_n = array_shift($report_data);
-		return $report_data;
-	}
+
+
+
 	public function detailsurvey($id, $idsurv)
 	{
 		// $id = $this->input->get('id');
@@ -317,11 +302,5 @@ class Welcome extends CI_Controller
 			return $array_table_values;
 		}
 		// print_array($array_table_values);
-	}
-
-	public function testone()
-	{
-		// $server_output = curl_request(base_url('getcourses'), array(), "get", array('App-Key: 123456'));
-		print_array(base_url('getcourses'));
 	}
 }

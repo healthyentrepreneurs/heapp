@@ -382,7 +382,7 @@ class Report extends CI_Controller
         $selectclientname = $this->input->post('selectclientname');
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
+        $persial_survey = $this->universal_model->join_suv_summery($surveyid, $startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
                 'report' => "No Report Found For This Survey Combination",

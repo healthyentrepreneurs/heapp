@@ -314,6 +314,19 @@ class Universal_model extends CI_Model
     //     $query = $this->db->get()->result_array();
     //     return $query;
     // }
+    public function join_suv_summery($report_id, $from_from, $to_to)
+    {
+        $this->db->select('c.id,s.id as surveyid,c.userid,s.name,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
+        $this->db->from('survey_report c');
+        $this->db->join('survey s', 's.id=c.survey_id', 'left');
+        $this->db->where('s.slug', 1);
+        $this->db->where('c.survey_id', $report_id);
+        $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(c.dateadded) <=', date('Y-m-d', strtotime($to_to)));
+        $this->db->order_by("c.dateadded", "desc");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
     public function join_suv_report($report_id, $from_from, $to_to)
     {
         $this->db->select('c.id,s.id as surveyid,c.userid,s.name,c.surveyobject,s.surveyjson,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
@@ -323,6 +336,18 @@ class Universal_model extends CI_Model
         $this->db->where('c.survey_id', $report_id);
         $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
         $this->db->where('DATE(c.dateadded) <=', date('Y-m-d', strtotime($to_to)));
+        $this->db->order_by("c.dateadded", "desc");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+    public function join_suv_reportspecifi($report_id, $surveyid)
+    {
+        $this->db->select('c.id,s.id as surveyid,c.userid,s.name,c.surveyobject,s.surveyjson,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
+        $this->db->from('survey_report c');
+        $this->db->join('survey s', 's.id=c.survey_id', 'left');
+        $this->db->where('s.slug', 1);
+        $this->db->where('c.survey_id', $report_id);
+        $this->db->where('s.id', $surveyid);
         $this->db->order_by("c.dateadded", "desc");
         $query = $this->db->get()->result_array();
         return $query;

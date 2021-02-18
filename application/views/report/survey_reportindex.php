@@ -7,7 +7,7 @@
         </li>
         <li>
             <a data-toggle="tab" href="#surveytwo">
-            Survey Report Detailed
+                Survey Report Detailed
             </a>
         </li>
     </ul>
@@ -16,7 +16,7 @@
             <?php echo $this->load->view('report/reportrange', '', TRUE); ?>
         </div>
         <div id="surveytwo" class="tab-pane padding-bottom-5">
-        <?php echo $this->load->view('report/reportrangedetails', '', TRUE); ?>
+            <?php echo $this->load->view('report/reportrangedetails', '', TRUE); ?>
         </div>
 
     </div>
