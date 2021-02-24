@@ -125,7 +125,6 @@ class Welcome extends CI_Controller
 					$persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
 					$final_array = $this->report_surveydetails_data($persial_survey, $idnn);
 					$final_arrayone = array_shift($final_array);
-
 					$data['controller'] = $this;
 					$surveyname = $this->input->get('name');
 					$user_profile = array(

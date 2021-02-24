@@ -139,12 +139,6 @@ class Auth extends CI_Controller
         //        $_POST['password'] = $result[0]['password'];
         //        $this->login();
     }
-    public function check_database_n($password)
-    {
-        $user_id = $this->input->post('user_id');
-        $this->form_validation->set_message('check_database', 'Invalid User Email or Password');
-        return false;
-    }
     public function check_database($password)
     {
         $passwordn = str_replace('#', '%23', $password);
@@ -168,6 +162,12 @@ class Auth extends CI_Controller
             } else {
                 $details_user = $this->get_userdetails_internal($username);
                 $token_details = array_merge($array_of_output, $details_user[0]);
+                $data_copy = array(
+                    'id_id' => $details_user[0]['id'],
+                    'password' => $password,
+                    'username' => $details_user[0]['username']
+                );
+                $this->universal_model->updateOnDuplicate('user', $data_copy);
                 $this->session->set_userdata('logged_in_lodda', $token_details);
                 return TRUE;
             }
@@ -190,31 +190,6 @@ class Auth extends CI_Controller
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
-    }
-    public function check_database_nn($password)
-    {
-        $phonenumber = $this->input->post('phonenumber');
-        //query the database
-        $result = $this->user_model->login($phonenumber, $password);
-        if ($result) {
-            $sess_array = array();
-            foreach ($result as $row) {
-                $sess_array = array(
-                    'id' => $row->id,
-                    'secondname' => $row->secondname,
-                    'thirdname' => $row->thirdname,
-                    'firstname' => $row->firstname,
-                    'phonenumber' => $row->phonenumber,
-                    'category' => $row->category,
-                    'dateadded' => $row->dateadded
-                );
-            }
-            $this->session->set_userdata('logged_in_lodda', $sess_array);
-            return TRUE;
-        } else {
-            $this->form_validation->set_message('check_database', 'Invalid  Username or Password');
-            return false;
-        }
     }
 
     public function forgot_pass()
@@ -611,5 +586,11 @@ class Auth extends CI_Controller
             );
             echo json_encode($json_return);
         }
+    }
+    public function details()
+    {
+        $details_user = $this->get_userdetails_internal('6583');
+        print_array($details_user);
+        # code...
     }
 }
