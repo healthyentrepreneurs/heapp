@@ -149,6 +149,12 @@ class Welcome extends CI_Controller
 					$data['content_admin'] = 'report/survey_reportindex';
 					$this->load->view('pages/hometwo', $data);
 					break;
+				case 9:
+					$data['cohorts'] = $this->getme_chort_details();
+					$data['survey_cohort'] = $this->universal_model->join_suv_cohot();
+					$data['content_admin'] = 'pages/admin/cohortsdownload';
+					$this->load->view('pages/hometwo', $data);
+					break;
 				default:
 					break;
 			}

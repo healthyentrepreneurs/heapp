@@ -103,11 +103,12 @@
                                 <span class="title">Survey Reports</span>
                             </a>
                         </li>
-                        <!-- <li>
-                            <a href="form_inline.html">
-                                <span class="title">Inline Editor</span>
+                        <li>
+                            <a href="<?= base_url('welcome/admin/9') ?>">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span class="title">Download Zips</span>
                             </a>
-                        </li> -->
+                        </li>
                     </ul>
                 </li>
             </ul>

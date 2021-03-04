@@ -15,10 +15,38 @@ class Downloadable extends CI_Controller
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_content($user_id)
+    public function create_contentnn()
     {
+        //Start ID
+        $idcohort = 1;
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids[0]' => $idcohort
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $shiftdata = array_shift($array_of_output);
+        $checkem = $shiftdata['userids'];
+        if (empty($checkem)) {
+            $user_id = 0;
+        } else {
+            $numberusers = count($checkem);
+            if ($numberusers <= 1) {
+                $user_id = $checkem[0];
+            } else {
+                $user_id = $checkem[1];
+            }
+        }
+        //End   ID
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        $vara = $this->universal_model->selectz('*', 'user', 'id_id', $user_id);
+        $vara = $this->universal_model->selectz('*', 'mdl_user', 'id', $user_id);
         if (empty($vara)) {
             echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
             return null;
@@ -31,7 +59,59 @@ class Downloadable extends CI_Controller
         $serverurl = $domainname . '/moodle/login';
         $data = array(
             'username' => $user_creds['username'],
-            'password' => $user_creds['password'],
+            'password' => '123456',
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        // $array_of_output = json_decode($server_output, true);
+        print_array($array_of_output);
+    }
+    public function create_content()
+    {
+        //Start ID
+        $idcohort = 1;
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids[0]' => $idcohort
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $shiftdata = array_shift($array_of_output);
+        $checkem = $shiftdata['userids'];
+        if (empty($checkem)) {
+            $user_id = 0;
+        } else {
+            $numberusers = count($checkem);
+            if ($numberusers <= 1) {
+                $user_id = $checkem[0];
+            } else {
+                $user_id = $checkem[1];
+            }
+        }
+        //End   ID
+        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $vara = $this->universal_model->selectz('*', 'mdl_user', 'id', $user_id);
+        if (empty($vara)) {
+            echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
+            return null;
+        }
+        $user_creds = array_shift($vara);
+        // $nameone =$user_id . '_attendencelog_' . "data.txt";
+        // file_put_contents(APPPATH . '/datamine/' . $nameone, '<?php return ' . var_export($vara, true) . ';');
+        #Login
+        $domainname = base_url();
+        $serverurl = $domainname . '/moodle/login';
+        $data = array(
+            'username' => $user_creds['username'],
+            'password' => '123456',
 
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
@@ -174,6 +254,8 @@ class Downloadable extends CI_Controller
             header('Content-type: application/zip');
             readfile($tmp_file);
             //End Zipping
+        } else {
+            echo "go and die";
         }
     }
     public function getme_images($img_survey, $user_id, $value_course)
@@ -332,145 +414,22 @@ class Downloadable extends CI_Controller
             return $array_merger;
         }
     }
-    public function downloadBookTemp($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u)
+    public function get_userdetails_internal($id = null)
     {
-        $server_output = json_decode($server_output_book, true);
-        if (empty($server_output)) {
-            return array();
-        } else {
-            $array_data = $server_output['data'];
-            $array_merger = array();
-            $array_merger['code'] = $server_output['code'];
-            $array_merger['msg'] = $server_output['msg'];
-            $array_modules_data = array();
-            foreach ($array_data as $key => $_filter_modules) {
-                $_filter_modules_copy = $_filter_modules;
-                unset_post($_filter_modules_copy, 'modules');
-                array_push($array_modules_data, $_filter_modules_copy);
-                $modules_array = array();
-                foreach ($_filter_modules['modules'] as $key_n => $_filter_modules_n) {
-                    $array_modules_one = array();
-                    $modicon_url = $_filter_modules_n['modicon'];
-                    $modicon_url_arr = explode('/', $modicon_url);
-                    $imgn_icon = $modicon_url_arr[count($modicon_url_arr) - 1];
-                    $img_two_n = $img_books . '/' . $imgn_icon;
-                    $file_headers_n = @get_headers($modicon_url);
-                    if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
-                        // print_array("No image_url");
-                        file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
-                    } else {
-                        file_put_contents($img_two_n, file_get_contents($modicon_url));
-                    }
-                    $_filter_modules_n['modicon'] = '/images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon' . '/' . $imgn_icon;
-                    //Start Download
-                    $new_content = array();
-                    if ($_filter_modules_n['modname'] == "book") {
-                        $contents = $_filter_modules_n['contents'];
-                        //Array Search Manipulation
-                        $contents_dub = $contents;
-                        unset_post($contents_dub, 0);
-                        //End Array Search Manipulation
-                        // unset_post($filter_modules, 'contents');
-                        unset_post($_filter_modules_n, 'contents');
-                        foreach ($contents as $keyn => $content_value) {
-                            // $content_value
-                            if ($content_value['type'] == "content") {
-                                $content_n = $content_value['content'];
-                                unset_post($content_value, 'content');
-                                $content_n1 = json_decode($content_n, true);
-                                $cleaner_content = array();
-                                foreach ($content_n1 as $key => $value_n) {
-                                    $value_search = explode('/', $value_n['href']);
-                                    foreach ($contents_dub as $keyn => $value_check) {
-                                        if (strpos($value_check['filepath'], $value_search[0]) !== false && strpos($value_check['filename'], $value_search[1]) !== false) {
-                                            $filefullpath = $value_n['filefullpath'];
-                                            // $filefullpatharray
-                                            explode('/', $filefullpath);
-                                            if (strpos($filefullpath, '?')) {
-                                                $filefullpatharray = explode('?', $filefullpath);
-                                                $filefull_url = $filefullpatharray[0];
-                                                $token_get = $filefullpatharray[1];
-                                                $filefullarray = explode('/', $filefull_url);
-                                                unset_post($filefullarray, 0);
-                                                unset_post($filefullarray, 1);
-                                                unset_post($filefullarray, 2);
-                                                unset_post($filefullarray, 3);
-                                                unset_post($filefullarray, 4);
-                                                $key_last_chap = @end(array_keys($filefullarray));
-                                                $file_name_chap = $filefullarray[$key_last_chap];
-                                                unset_post($filefullarray, $key_last_chap);
-                                                $url_chapter = implode("/", $filefullarray);
-                                                $img_course_perbook = $dir_course_id . '/' . $url_chapter;
-                                                if (!is_dir($img_course_perbook)) {
-                                                    mkdir($img_course_perbook, 0755, true);
-                                                }
-                                                $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
-                                                $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
-                                                $data = file_get_contents($value_n['filefullpath']);
-                                                $fh = fopen($absolutepath_book, "w");
-                                                fwrite($fh, $data);
-                                                fclose($fh);
-                                                //Alternative Method
-                                                // file_put_contents($absolutepath_book, file_get_contents($value_n['filefullpath']));
-                                                $value_n['filefullpath'] = $japa;
-                                                array_push($cleaner_content, $value_n);
-                                            }
-                                        }
-                                    }
-                                }
-                                // $content_value['content'] = json_encode($cleaner_content);
-                                $content_value['content'] = $cleaner_content;
-                                // array_push($new_content, $content_value);
-                            }
-                            if ($content_value['type'] == "file") {
-                                $filearray = explode('/', $content_value['fileurl']);
-                                unset_post($filearray, 0);
-                                unset_post($filearray, 1);
-                                unset_post($filearray, 2);
-                                unset_post($filearray, 3);
-                                unset_post($filearray, 4);
-                                $key_last_chap = @end(array_keys($filearray));
-                                $file_name_chap = $filearray[$key_last_chap];
-                                unset_post($filearray, $key_last_chap);
-                                $url_chapter = implode("/", $filearray);
-                                $img_course_perbook = $dir_course_id . '/' . $url_chapter;
-                                $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
-                                $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
-                                $_token_url = $content_value['fileurl'] . '?token=' . $token_nnn_u;
-                                file_put_contents($absolutepath_book, file_get_contents($_token_url));
-                                // print_array($_token_url);
-                                $content_value['fileurl'] = $japa;
-                            }
-                            array_push($new_content, $content_value);
-                        }
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_user_get_users_by_field';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'field' => 'id',
+            'values[0]' => $id
 
-                        $_filter_modules_n['contents'] = $new_content;
-                        array_push($modules_array, $_filter_modules_n);
-                    }
-                    //End   Download
-                    array_push($modules_array, $_filter_modules_n);
-                }
-                $array_modules_data[$key]['modules'] = $modules_array;
-                $array_merger['data'] = $array_modules_data;
-            }
-            return $array_merger;
-        }
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
     }
-    // public function getDataStreamline()
-    // {
-    //     $sql = "SELECT * FROM survey_report WHERE dateadded >= '2021-01-01 00:00:00'";
-    //     $query = $this->db->query($sql);
-    //     $getmevalues = $query->result_array();
-    //     foreach ($getmevalues as $key => $value) {
-    //         $array_insert = array(
-    //             'userid' => $value['userid'],
-    //             'survey_id' => $value['survey_id'],
-    //             'surveyobject' => $value['surveyobject'],
-    //             'imageifany' => $value['imageifany'],
-    //             'dateadded' => $value['dateadded']
-    //         );
-    //        $idmm= $this->universal_model->insertz('survey_reportm', $array_insert);
-    //     //    print_array($idmm);
-    //     }
-    // }
 }

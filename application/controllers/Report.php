@@ -20,13 +20,12 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-
     public function report_surveydetails()
     {
-        // $_POST['selectclientid'] = 1;
+        // $_POST['selectclientid'] = 2;
         // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        // $_POST['startdate'] = "01-01-2021";
-        // $_POST['enddate'] = "31-01-2021";
+        // $_POST['startdate'] = "01-02-2021";
+        // $_POST['enddate'] = "28-02-2021";
         $surveyid = $this->input->post('selectclientid');
         $selectclientname = $this->input->post('selectclientname');
         $startdate = $this->input->post('startdate');
@@ -134,7 +133,9 @@ class Report extends CI_Controller
                 }
                 array_push($arrayexcel, $array_one);
             }
-            delete_value($alltitles, 'html_info');
+            if (in_array("html_info", $alltitles)) {
+                delete_value($alltitles, 'html_info');
+            }
             //End Generate XML
             $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $alltitles);
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
@@ -149,13 +150,13 @@ class Report extends CI_Controller
     {
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
-            $user_details_output = $this->get_meuserdetails($value_object['userid']);
-            $jaja_raary = array_shift($user_details_output);
+            // $user_details_output = $this->get_meuserdetails($value_object['userid']);
+            // $jaja_raary = array_shift($user_details_output);
             $surveyobject = json_decode($value_object['surveyobject'], true);
             $surveyjson = json_decode($value_object['surveyjson'], true);
             $arrayn = array(
-                'username' => $jaja_raary['username'],
-                'fullname' => $jaja_raary['fullname'],
+                'username' => $value_object['id'],
+                'fullname' => $value_object['fullname'],
                 'submitted_date' => $value_object['dateaddedsurvey'],
                 // 'name' => $value_object['name'],
                 'surveyobject' => $surveyobject,
@@ -393,11 +394,11 @@ class Report extends CI_Controller
             $modipersial_survey = array();
             foreach ($persial_survey as $key => $value_datauser) {
                 // $call_details_url = base_url('user/get_meuserdetails/' . $value_datauser['userid']);
-                $user_details_output = $this->get_meuserdetails($value_datauser['userid']);
-                $jaja_raary = array_shift($user_details_output);
+                // $user_details_output = $this->get_meuserdetails($value_datauser['userid']);
+                // $jaja_raary = array_shift($user_details_output);
                 $user_details = array(
-                    'username' => $jaja_raary['username'],
-                    'fullname' => $jaja_raary['fullname'],
+                    'username' => $value_datauser['username'],
+                    'fullname' => $value_datauser['fullname'],
                 );
                 $mergerdata = array_merge($user_details, $value_datauser);
                 array_push($modipersial_survey, $mergerdata);

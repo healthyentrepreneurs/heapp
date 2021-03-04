@@ -12,6 +12,7 @@ class Survey extends CI_Controller
         parent::__construct();
         $this->load->model('universal_model');
         // $this->load->library('image_lib');
+        $this->load->library('moodlerest');
         $this->load->model('user_model', '', TRUE);
     }
 
@@ -298,6 +299,31 @@ class Survey extends CI_Controller
         }
         // print_array($major_enventual);
         return $major_enventual;
+    }
+    public function downloadsurveycohort()
+    {
+        // $ws_function = 'core_cohort_get_cohort_members';
+        // $param = array("cohortids" => array(1));
+        // return get_moodle_data($ws_function, $param);
+        // $this->moodlerest->get_moodle_data($ws_function, $param);
+        // print_array($_POST);
+        $idcohort = $this->input->post('cohort_object');
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids[0]' => $idcohort
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $mamma = array_shift($array_of_output);
+        $id = $mamma['userids'][0];
+        print_array($id);
     }
     public function addsurveycohort()
     {

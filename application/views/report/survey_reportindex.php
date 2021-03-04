@@ -18,6 +18,6 @@
         <div id="surveytwo" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/reportrangedetails', '', TRUE); ?>
         </div>
-
+        <!-- Njovu -->
     </div>
 </div>

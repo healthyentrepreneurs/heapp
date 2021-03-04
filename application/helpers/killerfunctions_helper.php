@@ -1,5 +1,5 @@
 <?php
-
+ini_set('memory_limit', '1024M');
 /**
  * Created by PhpStorm.
  * User: user
@@ -1087,6 +1087,33 @@ function array_value_recursive($key, array $arr)
     });
     return count($val) > 1 ? $val : array_pop($val);
 }
+// function delete_value(&$original, $del_val)
+// {
+//     //make a copy of the original, to avoid problems of modifying an array that is being currently iterated through
+//     $copy = $original;
+//     foreach ($original as $key => $value) {
+//         //for each value evaluate if it is equivalent to the one to be deleted, and if it is capture its key name.
+//         if ($del_val === $value) $del_key[] = $key;
+//     };
+//     //If there was a value found, delete all its instances
+//     if ($del_key !== null) {
+//         foreach ($del_key as $dk_i) {
+//             unset($original[$dk_i]);
+//         };
+//         //optional reordering of the keys. WARNING: only use it with arrays with numeric indexes!
+//         /*
+//     $copy = $original;
+//     $original = array();
+//     foreach ($copy as $value) {
+//         $original[] = $value;
+//     };
+//     */
+//         //the value was found and deleted
+//         return true;
+//     };
+//     //The value was not found, nothing was deleted
+//     return false;
+// }
 function delete_value(&$original, $del_val)
 {
     //make a copy of the original, to avoid problems of modifying an array that is being currently iterated through
