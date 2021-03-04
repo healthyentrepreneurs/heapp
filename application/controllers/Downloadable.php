@@ -18,7 +18,7 @@ class Downloadable extends CI_Controller
     public function create_contentnn()
     {
         //Start ID
-        $idcohort = 1;
+        $idcohort = $this->input->post('cohort_object');
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = 'f84bf33b56e86a4664284d8a3dfb5280';
         $functionname = 'core_cohort_get_cohort_members';
