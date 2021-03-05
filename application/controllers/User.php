@@ -130,6 +130,8 @@ class User extends CI_Controller
                                     foreach ($contents_dub as $keyn => $value_check) {
                                         if (strpos($value_check['filepath'], $value_search[0]) !== false && strpos($value_check['filename'], $value_search[1]) !== false) {
                                             $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
+                                            $value_n['chapter_id'] = str_replace("/index.html", "", $value_n['href']);
+                                            // $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
                                             array_push($cleaner_content, $value_n);
                                             // print_array($value_n);
                                         }
