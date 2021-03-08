@@ -406,6 +406,8 @@ class User extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // return $server_output;
+        $this->universal_model->insertzwhere('viewtable', array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token));
+        // public function insertzwhere($table_name, $array_value)
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {
             echo empty_response("New User Successfully Created", 200, $array_of_output);

@@ -22,6 +22,7 @@ return array(
     'LibDNS\\' => array($vendorDir . '/daverandom/libdns/src'),
     'League\\Uri\\' => array($vendorDir . '/league/uri/src', $vendorDir . '/league/uri-interfaces/src', $vendorDir . '/league/uri-parser/src'),
     'Kelunik\\Certificate\\' => array($vendorDir . '/kelunik/certificate/lib'),
+    'JsonMachine\\' => array($vendorDir . '/halaxa/json-machine/src'),
     'Gumlet\\' => array($vendorDir . '/gumlet/php-image-resize/lib'),
     'ElementaryFramework\\FireFS\\' => array($vendorDir . '/elementaryframework/fire-fs/src/FireFS'),
     'ElementaryFramework\\Core\\Streams\\' => array($vendorDir . '/elementaryframework/streams/src/Core/Streams'),

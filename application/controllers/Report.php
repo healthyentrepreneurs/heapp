@@ -3,6 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
 // libxml_use_internal_errors(true);
+use JsonMachine\JsonMachine;
+use JsonMachine\JsonDecoder\ExtJsonDecoder;
+use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
+
 class Report extends CI_Controller
 {
 
@@ -20,6 +24,29 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
+    // public function report_surveydetails_old()
+    // {
+    //     $_POST['selectclientid'] = 2;
+    //     $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+    //     $_POST['startdate'] = "01-02-2021";
+    //     $_POST['enddate'] = "28-02-2021";
+    //     $surveyid = $this->input->post('selectclientid');
+    //     $selectclientname = $this->input->post('selectclientname');
+    //     $startdate = $this->input->post('startdate');
+    //     $enddate = $this->input->post('enddate');
+    //     $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
+    //     if (empty($persial_survey)) {
+    //         $json_return = array(
+    //             'report' => "No Report Found For This Survey Combination",
+    //             'status' => 0,
+    //         );
+    //         echo json_encode($json_return);
+    //     } else {
+    //         $final_array = $this->report_surveydetails_data($persial_survey);
+    //         // print_array($final_array);
+    //         // echo json_encode($final_array);
+    //     }
+    // }
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 2;
@@ -150,10 +177,13 @@ class Report extends CI_Controller
     {
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
-            // $user_details_output = $this->get_meuserdetails($value_object['userid']);
-            // $jaja_raary = array_shift($user_details_output);
-            $surveyobject = json_decode($value_object['surveyobject'], true);
-            $surveyjson = json_decode($value_object['surveyjson'], true);
+            //surveyobject end
+            $surveyobjectitems = JsonMachine::fromString($value_object['surveyobject'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
+            $surveyobject = iterator_to_array($surveyobjectitems);
+            //surveyjson start
+            $surveyjsonitems = JsonMachine::fromString($value_object['surveyjson'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
+            $surveyjson = iterator_to_array($surveyjsonitems);
+            // print_array($surveyobject);
             $arrayn = array(
                 'username' => $value_object['id'],
                 'fullname' => $value_object['fullname'],
@@ -164,6 +194,7 @@ class Report extends CI_Controller
             );
             array_push($array_object, $arrayn);
         }
+        // print_array($array_object);
         $array_of_arraymega = array();
         $int_key = 0;
         $key_then = 0;

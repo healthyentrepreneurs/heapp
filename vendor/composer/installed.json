@@ -1291,6 +1291,55 @@
         ]
     },
     {
+        "name": "halaxa/json-machine",
+        "version": "0.6.0",
+        "version_normalized": "0.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/halaxa/json-machine.git",
+            "reference": "9126210822fa2038847cf8a1f4942148aa72a61b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/halaxa/json-machine/zipball/9126210822fa2038847cf8a1f4942148aa72a61b",
+            "reference": "9126210822fa2038847cf8a1f4942148aa72a61b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "ext-json": "*",
+            "guzzlehttp/guzzle": "^6",
+            "phpunit/phpunit": "^5.7.27"
+        },
+        "suggest": {
+            "ext-json": "To run JSON Machine out of the box without custom decoders."
+        },
+        "time": "2021-01-24T19:10:21+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "JsonMachine\\": "src/"
+            },
+            "files": [
+                "src/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Filip Halaxa",
+                "email": "filip@halaxa.cz"
+            }
+        ],
+        "description": "Efficient, easy-to-use and fast JSON pull parser"
+    },
+    {
         "name": "kelunik/certificate",
         "version": "v1.1.2",
         "version_normalized": "1.1.2.0",

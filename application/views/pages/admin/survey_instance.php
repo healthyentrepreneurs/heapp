@@ -48,7 +48,7 @@
         </div>
 
     </div> -->
-    <a href="javascript:close_window();">Back From Here</a>
+    <a href="javascript:window.close();">Back From Here</a>
 </div>
 <script>
     $(document).ready(function() {
