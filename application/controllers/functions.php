@@ -204,4 +204,55 @@
 			return $array_table_values;
 		}
 		// print_array($array_table_values);
-	}
+    }
+    
+    public function create_content_nnn()
+    {
+        //Start ID
+        $idcohort = $this->input->post('cohort_object');
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids[0]' => $idcohort
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $shiftdata = array_shift($array_of_output);
+        $checkem = $shiftdata['userids'];
+        if (empty($checkem)) {
+            $user_id = 0;
+        } else {
+            $numberusers = count($checkem);
+            if ($numberusers <= 1) {
+                $user_id = $checkem[0];
+            } else {
+                $user_id = $checkem[1];
+            }
+        }
+        //End   ID
+        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $vara = $this->universal_model->selectz('*', 'mdl_user', 'id', $user_id);
+        if (empty($vara)) {
+            echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
+            return null;
+        }
+        $user_creds = array_shift($vara);
+        // $nameone =$user_id . '_attendencelog_' . "data.txt";
+        // file_put_contents(APPPATH . '/datamine/' . $nameone, '<?php return ' . var_export($vara, true) . ';');
+        #Login
+        $domainname = base_url();
+        $serverurl = $domainname . '/moodle/login';
+        $data = array(
+            'username' => $user_creds['username'],
+            'password' => '123456',
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+    }

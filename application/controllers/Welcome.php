@@ -1,4 +1,7 @@
 <?php
+
+use function Amp\Iterator\merge;
+
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 class Welcome extends CI_Controller
@@ -150,8 +153,9 @@ class Welcome extends CI_Controller
 					$this->load->view('pages/hometwo', $data);
 					break;
 				case 9:
-					$data['cohorts'] = $this->getme_chort_details();
-					$data['survey_cohort'] = $this->universal_model->join_suv_cohot();
+					$attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
+					// $data['cohorts'] = $this->getme_chort_details();
+					$data['users'] = $attempt_d_n_n;
 					$data['content_admin'] = 'pages/admin/cohortsdownload';
 					$this->load->view('pages/hometwo', $data);
 					break;
@@ -182,6 +186,8 @@ class Welcome extends CI_Controller
 		return $array_of_output;
 		// print_array($array_of_output);
 	}
+
+
 	public function get_surveys()
 	{
 		$attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);

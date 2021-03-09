@@ -7,7 +7,7 @@ $ledger_per = $this->session->userdata('ledger_per');
         <!-- start: TEXT FIELDS PANEL -->
         <div class="panel panel-white">
             <div class="panel-heading">
-                <h4 class="panel-title">Download <span class="text-bold">By Cohort</span></h4>
+                <h4 class="panel-title">NOTE <span class="text-bold">USERS can Use the same download if they are closely related</span></h4>
             </div>
             <div class="panel-body">
                 <h5 class="help-inline">
@@ -16,16 +16,16 @@ $ledger_per = $this->session->userdata('ledger_per');
                 <form id="add_cohort" method="post" class="form-horizontal" role="form" action="<?= base_url('downloadable/create_content') ?>">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="form-field-1">
-                            Cohorts
+                            User
                         </label>
                         <div class="col-sm-9">
-                            <select id="form-field-select-4" class="form-control search-select" placeholder="Select COHORT" name="cohort_object" id="cohort_object">
-                                <option value="">-SELECT COHORT-</option>
+                            <select id="form-field-select-4" class="form-control search-select" placeholder="Select USER" name="cohort_object" id="cohort_object">
+                                <option value="">-SELECT USER-</option>
                                 <?php
-                                foreach ($cohorts as $value) {
+                                foreach ($users as $value) {
                                 ?>
-                                    <option value="<?= $value['id'] ?>" <?php echo $value['id'] == printvalues("cohort_id", $ledger_per) ? "selected" : "" ?>>
-                                        <?= $value['name'] ?>
+                                    <option value="<?= $value['id'] . '@' . $value['username'] ?>">
+                                        <?= $value['firstname'] . ' ' . $value['lastname'] ?>
                                     </option>
                                 <?php
                                 }

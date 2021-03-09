@@ -17,53 +17,33 @@ class Downloadable extends CI_Controller
     }
     public function create_content()
     {
-        //Start ID
-        $idcohort = $this->input->post('cohort_object');
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
-        $functionname = 'core_cohort_get_cohort_members';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $token,
-            'wsfunction' => $functionname,
-            'moodlewsrestformat' => 'json',
-            'cohortids[0]' => $idcohort
-
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        $shiftdata = array_shift($array_of_output);
-        $checkem = $shiftdata['userids'];
-        if (empty($checkem)) {
-            $user_id = 0;
+        $cohort_object = $this->input->post('cohort_object');
+        $our_values = explode('@', $cohort_object);
+        $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
+        $datahery = array();
+        $hasloggedin = 1;
+        if (empty($hery)) {
+            $datahery['username'] = $our_values[1];
+            $datahery['password'] = '123456';
         } else {
-            $numberusers = count($checkem);
-            if ($numberusers <= 1) {
-                $user_id = $checkem[0];
-            } else {
-                $user_id = $checkem[1];
-            }
+            $varamaga = array_shift($hery);
+            $datahery['username'] = $varamaga['username'];
+            $datahery['password'] = $varamaga['password'];
+            $hasloggedin = 2;
+            # code...
         }
-        //End   ID
-        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        $vara = $this->universal_model->selectz('*', 'mdl_user', 'id', $user_id);
-        if (empty($vara)) {
-            echo empty_response("This User Does Not Exit/Shoud Login Once", 200);
-            return null;
-        }
-        $user_creds = array_shift($vara);
-        // $nameone =$user_id . '_attendencelog_' . "data.txt";
-        // file_put_contents(APPPATH . '/datamine/' . $nameone, '<?php return ' . var_export($vara, true) . ';');
-        #Login
         $domainname = base_url();
         $serverurl = $domainname . '/moodle/login';
-        $data = array(
-            'username' => $user_creds['username'],
-            'password' => '123456',
-
-        );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request($serverurl, $datahery, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
+        if ($array_of_output['code'] == "500" && $hasloggedin == 2) {
+            echo empty_response("User Does Not Exit", 200);
+            return null;
+        } elseif ($array_of_output['code'] == "500" && $hasloggedin == 1) {
+            echo empty_response("User Shoud Login Atleast Once", 200);
+            return null;
+        }
+        $user_id = $array_of_output['data']['id'];
         if (!empty($array_of_output) && array_value_recursive('profileimageurlsmall', $array_of_output)) {
             // mkdir($user_id.'images');
             // mkdir($user_id, 0755, true);
@@ -92,7 +72,7 @@ class Downloadable extends CI_Controller
             }
             $array_of_output['data']['profileimageurlsmall'] = '/images' . '/' . $imgn;
             $array_of_output['data']['profileimageurl'] = '/images' . '/' . $img_twon;
-            $array_of_output['data']['password'] = $user_creds['password'];
+            $array_of_output['data']['password'] = $datahery['password'];
             $file = fopen($dir . '/' . "login.json", "w");
             $server_output_modif = json_encode($array_of_output);
             fwrite($file, $server_output_modif);
@@ -203,9 +183,10 @@ class Downloadable extends CI_Controller
             readfile($tmp_file);
             //End Zipping
         } else {
-            echo "go and die";
+            echo empty_response("Download Failed Contact Admin", 200);
         }
     }
+
     public function getme_images($img_survey, $user_id, $value_course)
     {
         //Duplicate Images for download
@@ -320,6 +301,7 @@ class Downloadable extends CI_Controller
                                 //End Write Files
                                 //End Full Path
                                 $value_in_con['filefullpath'] = $japa;
+                                $value_in_con['chapter_id'] = str_replace("/index.html", "", $value_in_con['href']);
                                 array_push($value_content_array, $value_in_con);
                             }
                             $jajama = json_encode($value_content_array);
