@@ -132,7 +132,11 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         ),
         'J' => 
         array (
+            'JsonStreamingParser\\Test\\' => 25,
+            'JsonStreamingParser\\' => 20,
             'JsonSchema\\' => 11,
+            'JsonCollectionParser\\Tests\\' => 27,
+            'JsonCollectionParser\\' => 21,
         ),
         'G' => 
         array (
@@ -252,9 +256,25 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         array (
             0 => __DIR__ . '/..' . '/kherge/file-manager/src/KHerGe/File',
         ),
+        'JsonStreamingParser\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/salsify/json-streaming-parser/tests',
+        ),
+        'JsonStreamingParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/salsify/json-streaming-parser/src',
+        ),
         'JsonSchema\\' => 
         array (
             0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
+        ),
+        'JsonCollectionParser\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxakawizard/json-collection-parser/tests',
+        ),
+        'JsonCollectionParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxakawizard/json-collection-parser/src',
         ),
         'Gumlet\\' => 
         array (

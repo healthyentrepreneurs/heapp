@@ -3,10 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
 // libxml_use_internal_errors(true);
-// use JsonMachine\JsonMachine;
-// use JsonMachine\JsonDecoder\ExtJsonDecoder;
-// use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
-use KHerGe\JSON\JSON;
+use Gaufrette\Filesystem;
+use Gaufrette\Adapter\Local as LocalAdapter;
+use Gaufrette\Adapter\InMemory as InMemoryAdapter;
+use Gaufrette\StreamWrapper;
 
 class Report extends CI_Controller
 {
@@ -25,29 +25,29 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-    // public function report_surveydetails_old()
-    // {
-    //     $_POST['selectclientid'] = 2;
-    //     $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-    //     $_POST['startdate'] = "01-02-2021";
-    //     $_POST['enddate'] = "28-02-2021";
-    //     $surveyid = $this->input->post('selectclientid');
-    //     $selectclientname = $this->input->post('selectclientname');
-    //     $startdate = $this->input->post('startdate');
-    //     $enddate = $this->input->post('enddate');
-    //     $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
-    //     if (empty($persial_survey)) {
-    //         $json_return = array(
-    //             'report' => "No Report Found For This Survey Combination",
-    //             'status' => 0,
-    //         );
-    //         echo json_encode($json_return);
-    //     } else {
-    //         $final_array = $this->report_surveydetails_data($persial_survey);
-    //         // print_array($final_array);
-    //         // echo json_encode($final_array);
-    //     }
-    // }
+    public function report_surveydetails_old()
+    {
+        $_POST['selectclientid'] = 2;
+        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        $_POST['startdate'] = "01-02-2021";
+        $_POST['enddate'] = "28-02-2021";
+        $surveyid = $this->input->post('selectclientid');
+        $selectclientname = $this->input->post('selectclientname');
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For This Survey Combination",
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            $final_array = $this->report_surveydetails_data($persial_survey);
+            // print_array($final_array);
+            // echo json_encode($final_array);
+        }
+    }
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 2;
@@ -174,49 +174,88 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-    public function report_surveydetails_dataxx($persial_survey)
+    public function report_surveydetails_data_nn($persial_survey)
     {
+        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
             //surveyobject end
-            $json = new JSON();
-            $decoded = $json->decode($value_object['surveyobject'], true);
-            print_array($decoded);
-            // $surveyobjectitems = JsonMachine::fromString($value_object['surveyobject'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
-            // $surveyobject = iterator_to_array($surveyobjectitems);
-            //surveyjson start
-            // $surveyjsonitems = JsonMachine::fromString($value_object['surveyjson'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
-            // $surveyjson = iterator_to_array($surveyjsonitems);
-            // print_array($surveyobject);
-            // $arrayn = array(
-            //     'username' => $value_object['id'],
-            //     'fullname' => $value_object['fullname'],
-            //     'submitted_date' => $value_object['dateaddedsurvey'],
-            //     'surveyobject' => $surveyobject,
-            //     'surveyjson' => $surveyjson
-            // );
-            // array_push($array_object, $arrayn);
-            break;
+            // print_array($value_object['surveyobject']);
+            $json_surveyobject = 'surveyobject.json';
+            $json_surveyjson = 'surveyjson.json';
+            $surveyobjectadapter = new InMemoryAdapter(array($json_surveyobject => $value_object['surveyobject']));
+            $surveyjsonadapter = new InMemoryAdapter(array($json_surveyjson => $value_object['surveyjson']));
+            $filesystem_surveyobject = new Filesystem($surveyobjectadapter);
+            $filesystem_surveyjson = new Filesystem($surveyjsonadapter);
+            $map = StreamWrapper::getFilesystemMap();
+            $map->set('surveyobject', $filesystem_surveyobject);
+            $map->set('surveyjson', $filesystem_surveyjson);
+            StreamWrapper::register();
+            $surveyobjectpath = $mypath . $json_surveyobject;
+            $surveyjsonpath = $mypath . $json_surveyjson;
+            copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
+            copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
+            // unlink('gaufrette://foo/login.json');
+            $surveyobjects = [];
+            $surveyjsons = [];
+            $parser = new \JsonCollectionParser\Parser();
+            $parser->parse($surveyobjectpath, function (array $item) use (&$surveyobjects) {
+                $surveyobjects[] = $item;
+            });
+            $parser->parse($surveyjsonpath, function (array $item) use (&$surveyjsons) {
+                $surveyjsons[] = $item;
+            });
+            unlink($surveyobjectpath);
+            unlink($surveyjsonpath);
+            $arrayn = array(
+                'username' => $value_object['id'],
+                'fullname' => $value_object['fullname'],
+                'submitted_date' => $value_object['dateaddedsurvey'],
+                'surveyobject' => $surveyobjects[0],
+                'surveyjson' => $surveyjsons[0]
+            );
+            array_push($array_object, $arrayn);
         }
         return $array_object;
     }
     public function report_surveydetails_data($persial_survey)
     {
+        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
-            $json = new JSON();
             //surveyobject end
-            $surveyobject = $json->decode($value_object['surveyobject'], true);
-            //surveyjson start
-            $surveyjson = $json->decode($value_object['surveyjson'], true);
-            // print_array($surveyobject);
+            // print_array($value_object['surveyobject']);
+            $json_surveyobject = 'surveyobject.json';
+            $json_surveyjson = 'surveyjson.json';
+            $surveyobjectadapter = new InMemoryAdapter(array($json_surveyobject => $value_object['surveyobject']));
+            $surveyjsonadapter = new InMemoryAdapter(array($json_surveyjson => $value_object['surveyjson']));
+            $filesystem_surveyobject = new Filesystem($surveyobjectadapter);
+            $filesystem_surveyjson = new Filesystem($surveyjsonadapter);
+            $map = StreamWrapper::getFilesystemMap();
+            $map->set('surveyobject', $filesystem_surveyobject);
+            $map->set('surveyjson', $filesystem_surveyjson);
+            StreamWrapper::register();
+            $surveyobjectpath = $mypath . $json_surveyobject;
+            $surveyjsonpath = $mypath . $json_surveyjson;
+            copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
+            copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
+            $surveyobjects = [];
+            $surveyjsons = [];
+            $parser = new \JsonCollectionParser\Parser();
+            $parser->parse($surveyobjectpath, function (array $item) use (&$surveyobjects) {
+                $surveyobjects[] = $item;
+            });
+            $parser->parse($surveyjsonpath, function (array $item) use (&$surveyjsons) {
+                $surveyjsons[] = $item;
+            });
+            unlink($surveyobjectpath);
+            unlink($surveyjsonpath);
             $arrayn = array(
                 'username' => $value_object['id'],
                 'fullname' => $value_object['fullname'],
                 'submitted_date' => $value_object['dateaddedsurvey'],
-                // 'name' => $value_object['name'],
-                'surveyobject' => $surveyobject,
-                'surveyjson' => $surveyjson
+                'surveyobject' => $surveyobjects[0],
+                'surveyjson' => $surveyjsons[0]
             );
             array_push($array_object, $arrayn);
         }
