@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "229baa867c431a21dab737c9058744a7",
+    "content-hash": "962979c037cb6b536f88fc9f427dce4f",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1193,51 +1193,70 @@
             "time": "2019-01-01T13:53:00+00:00"
         },
         {
-            "name": "halaxa/json-machine",
-            "version": "0.6.0",
+            "name": "justinrainbow/json-schema",
+            "version": "5.2.10",
             "source": {
                 "type": "git",
-                "url": "https://github.com/halaxa/json-machine.git",
-                "reference": "9126210822fa2038847cf8a1f4942148aa72a61b"
+                "url": "https://github.com/justinrainbow/json-schema.git",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/9126210822fa2038847cf8a1f4942148aa72a61b",
-                "reference": "9126210822fa2038847cf8a1f4942148aa72a61b",
+                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
+                "reference": "2ba9c8c862ecd5510ed16c6340aa9f6eadb4f31b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6"
+                "php": ">=5.3.3"
             },
             "require-dev": {
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^6",
-                "phpunit/phpunit": "^5.7.27"
+                "friendsofphp/php-cs-fixer": "~2.2.20||~2.15.1",
+                "json-schema/json-schema-test-suite": "1.2.0",
+                "phpunit/phpunit": "^4.8.35"
             },
-            "suggest": {
-                "ext-json": "To run JSON Machine out of the box without custom decoders."
-            },
+            "bin": [
+                "bin/validate-json"
+            ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
-                    "JsonMachine\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
+                    "JsonSchema\\": "src/JsonSchema/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache-2.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Filip Halaxa",
-                    "email": "filip@halaxa.cz"
+                    "name": "Bruno Prieto Reis",
+                    "email": "bruno.p.reis@gmail.com"
+                },
+                {
+                    "name": "Justin Rainbow",
+                    "email": "justin.rainbow@gmail.com"
+                },
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                },
+                {
+                    "name": "Robert Schönthal",
+                    "email": "seroscho@googlemail.com"
                 }
             ],
-            "description": "Efficient, easy-to-use and fast JSON pull parser",
-            "time": "2021-01-24T19:10:21+00:00"
+            "description": "A library to validate a json schema.",
+            "homepage": "https://github.com/justinrainbow/json-schema",
+            "keywords": [
+                "json",
+                "schema"
+            ],
+            "time": "2020-05-27T16:41:55+00:00"
         },
         {
             "name": "kelunik/certificate",
@@ -1291,6 +1310,119 @@
                 "source": "https://github.com/kelunik/certificate/tree/v1.1.2"
             },
             "time": "2019-05-29T19:02:31+00:00"
+        },
+        {
+            "name": "kherge/file-manager",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kherge/php.file-manager.git",
+                "reference": "5cb0ff1bc29e3f1ca4523cb1afcb262262acb327"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kherge/php.file-manager/zipball/5cb0ff1bc29e3f1ca4523cb1afcb262262acb327",
+                "reference": "5cb0ff1bc29e3f1ca4523cb1afcb262262acb327",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "conflict": {
+                "kherge/file": "<2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/KHerGe/File/functions.php"
+                ],
+                "psr-4": {
+                    "KHerGe\\File\\": "src/KHerGe/File"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Herrera",
+                    "email": "kevin@herrera.io",
+                    "homepage": "http://kevin.herrera.io/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Manages strict read and write operations.",
+            "keywords": [
+                "file",
+                "io",
+                "read",
+                "write"
+            ],
+            "time": "2017-06-12T17:31:01+00:00"
+        },
+        {
+            "name": "kherge/json",
+            "version": "3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kherge/php.json.git",
+                "reference": "1054a399f1342932ae6ed06186ce1536b988e1f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kherge/php.json/zipball/1054a399f1342932ae6ed06186ce1536b988e1f2",
+                "reference": "1054a399f1342932ae6ed06186ce1536b988e1f2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "justinrainbow/json-schema": "^5.1",
+                "kherge/file-manager": "^2.6",
+                "php": ">=7.3",
+                "seld/jsonlint": "^1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KHerGe\\JSON\\": "src/KHerGe/JSON"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Herrera",
+                    "email": "kevin@herrera.io",
+                    "homepage": "http://kevin.herrera.io/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Encodes, decodes, and validates JSON data.",
+            "keywords": [
+                "decode",
+                "encode",
+                "json",
+                "validate"
+            ],
+            "time": "2020-01-31T14:53:15+00:00"
         },
         {
             "name": "knplabs/gaufrette",
@@ -2173,6 +2305,65 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "seld/jsonlint",
+            "version": "1.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/jsonlint.git",
+                "reference": "9ad6ce79c342fbd44df10ea95511a1b24dee5b57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/9ad6ce79c342fbd44df10ea95511a1b24dee5b57",
+                "reference": "9ad6ce79c342fbd44df10ea95511a1b24dee5b57",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
+            },
+            "bin": [
+                "bin/jsonlint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Seld\\JsonLint\\": "src/Seld/JsonLint/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "JSON Linter",
+            "keywords": [
+                "json",
+                "linter",
+                "parser",
+                "validator"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/Seldaek",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/seld/jsonlint",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-11T09:19:24+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",

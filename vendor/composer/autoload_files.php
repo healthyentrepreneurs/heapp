@@ -22,6 +22,7 @@ return array(
     'd4e415514e4352172d58f02433fa50e4' => $vendorDir . '/amphp/socket/src/functions.php',
     '1c2dcb9d6851a7abaae89f9586ddd460' => $vendorDir . '/amphp/socket/src/Internal/functions.php',
     '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+    '913619c86babbb902e7ffc6850548285' => $vendorDir . '/kherge/file-manager/src/KHerGe/File/functions.php',
     'abede361264e2ae69ec1eee813a101af' => $vendorDir . '/markbaker/complex/classes/src/functions/abs.php',
     '21a5860fbef5be28db5ddfbc3cca67c4' => $vendorDir . '/markbaker/complex/classes/src/functions/acos.php',
     '1546e3f9d127f2a9bb2d1b6c31c26ef1' => $vendorDir . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -82,5 +83,4 @@ return array(
     'eef6fa3879d3efa347cd24d5eb348f85' => $vendorDir . '/markbaker/matrix/classes/src/Operations/divideinto.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     '77e5a577434e31d19d8dd6aeceac1ff4' => $vendorDir . '/amphp/http-client/src/Internal/functions.php',
-    'ace6d88241f812b4accb2d847454aef6' => $vendorDir . '/halaxa/json-machine/src/functions.php',
 );

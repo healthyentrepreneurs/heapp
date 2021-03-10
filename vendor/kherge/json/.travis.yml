@@ -1,0 +1,30 @@
+cache:
+    directories:
+        - ~/.config/composer/
+
+env:
+    - JS_VERSION=5.1.0
+    - JS_VERSION=^5.1
+
+install:
+    - composer global require phpunit/phpunit=^8
+    - composer install
+    - composer require justinrainbow/json-schema=$JS_VERSION
+
+language: php
+
+matrix:
+
+    allow_failures:
+        - php: nightly
+
+    fast_finish: true
+
+php:
+    - 7.3
+    - 7.4
+    - nightly
+
+script: phpunit
+
+sudo: false

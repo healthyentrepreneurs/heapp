@@ -2,6 +2,19 @@
 $ledger_per = $this->session->userdata('ledger_per');
 // print_array($cohorts);
 ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- https://bootsnipp.com/snippets/lV88M -->
+<style>
+    .select2-container .select2-selection--single {
+        height: 34px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #ccc !important;
+        border-radius: 0px !important;
+    }
+</style>
 <div class="row" id="add_employeediv">
     <div class="col-sm-12">
         <!-- start: TEXT FIELDS PANEL -->
@@ -19,13 +32,13 @@ $ledger_per = $this->session->userdata('ledger_per');
                             User
                         </label>
                         <div class="col-sm-9">
-                            <select id="form-field-select-4" class="form-control search-select" placeholder="Select USER" name="cohort_object" id="cohort_object">
+                            <select id="form-field-select-4" class="form-control select2" placeholder="Select USER" name="cohort_object" id="cohort_object">
                                 <option value="">-SELECT USER-</option>
                                 <?php
                                 foreach ($users as $value) {
                                 ?>
                                     <option value="<?= $value['id'] . '@' . $value['username'] ?>">
-                                        <?= $value['firstname'] . ' ' . $value['lastname'] ?>
+                                        <?= $value['username'] . ' | ' . $value['firstname'] . ' ' . $value['lastname'] ?>
                                     </option>
                                 <?php
                                 }
@@ -53,3 +66,9 @@ $ledger_per = $this->session->userdata('ledger_per');
         <!-- end: TEXT FIELDS PANEL -->
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // $('select').selectpicker();
+        $('.select2').select2();
+    });
+</script>

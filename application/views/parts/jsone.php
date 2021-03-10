@@ -26,7 +26,6 @@
 <script src="<?= base_url() ?>/assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/DataTables/media/js/jquery.dataTables.min.js"></script>

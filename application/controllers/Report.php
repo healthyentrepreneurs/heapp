@@ -3,9 +3,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
 // libxml_use_internal_errors(true);
-use JsonMachine\JsonMachine;
-use JsonMachine\JsonDecoder\ExtJsonDecoder;
-use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
+// use JsonMachine\JsonMachine;
+// use JsonMachine\JsonDecoder\ExtJsonDecoder;
+// use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
+use KHerGe\JSON\JSON;
 
 class Report extends CI_Controller
 {
@@ -173,16 +174,41 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-    public function report_surveydetails_data($persial_survey)
+    public function report_surveydetails_dataxx($persial_survey)
     {
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
             //surveyobject end
-            $surveyobjectitems = JsonMachine::fromString($value_object['surveyobject'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
-            $surveyobject = iterator_to_array($surveyobjectitems);
+            $json = new JSON();
+            $decoded = $json->decode($value_object['surveyobject'], true);
+            print_array($decoded);
+            // $surveyobjectitems = JsonMachine::fromString($value_object['surveyobject'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
+            // $surveyobject = iterator_to_array($surveyobjectitems);
             //surveyjson start
-            $surveyjsonitems = JsonMachine::fromString($value_object['surveyjson'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
-            $surveyjson = iterator_to_array($surveyjsonitems);
+            // $surveyjsonitems = JsonMachine::fromString($value_object['surveyjson'], '', new ErrorWrappingDecoder(new ExtJsonDecoder(true)));
+            // $surveyjson = iterator_to_array($surveyjsonitems);
+            // print_array($surveyobject);
+            // $arrayn = array(
+            //     'username' => $value_object['id'],
+            //     'fullname' => $value_object['fullname'],
+            //     'submitted_date' => $value_object['dateaddedsurvey'],
+            //     'surveyobject' => $surveyobject,
+            //     'surveyjson' => $surveyjson
+            // );
+            // array_push($array_object, $arrayn);
+            break;
+        }
+        return $array_object;
+    }
+    public function report_surveydetails_data($persial_survey)
+    {
+        $array_object = array();
+        $json = new JSON();
+        foreach ($persial_survey as $key => $value_object) {
+            //surveyobject end
+            $surveyobject = $json->decode($value_object['surveyobject'], true);
+            //surveyjson start
+            $surveyjson = $json->decode($value_object['surveyjson'], true);
             // print_array($surveyobject);
             $arrayn = array(
                 'username' => $value_object['id'],

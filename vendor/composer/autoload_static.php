@@ -23,6 +23,7 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'd4e415514e4352172d58f02433fa50e4' => __DIR__ . '/..' . '/amphp/socket/src/functions.php',
         '1c2dcb9d6851a7abaae89f9586ddd460' => __DIR__ . '/..' . '/amphp/socket/src/Internal/functions.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '913619c86babbb902e7ffc6850548285' => __DIR__ . '/..' . '/kherge/file-manager/src/KHerGe/File/functions.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -83,7 +84,6 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'eef6fa3879d3efa347cd24d5eb348f85' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideinto.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '77e5a577434e31d19d8dd6aeceac1ff4' => __DIR__ . '/..' . '/amphp/http-client/src/Internal/functions.php',
-        'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -104,6 +104,7 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Seld\\JsonLint\\' => 14,
         ),
         'P' => 
         array (
@@ -126,10 +127,12 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'K' => 
         array (
             'Kelunik\\Certificate\\' => 20,
+            'KHerGe\\JSON\\' => 12,
+            'KHerGe\\File\\' => 12,
         ),
         'J' => 
         array (
-            'JsonMachine\\' => 12,
+            'JsonSchema\\' => 11,
         ),
         'G' => 
         array (
@@ -194,6 +197,10 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
+        'Seld\\JsonLint\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
@@ -237,9 +244,17 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         array (
             0 => __DIR__ . '/..' . '/kelunik/certificate/lib',
         ),
-        'JsonMachine\\' => 
+        'KHerGe\\JSON\\' => 
         array (
-            0 => __DIR__ . '/..' . '/halaxa/json-machine/src',
+            0 => __DIR__ . '/..' . '/kherge/json/src/KHerGe/JSON',
+        ),
+        'KHerGe\\File\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kherge/file-manager/src/KHerGe/File',
+        ),
+        'JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
         ),
         'Gumlet\\' => 
         array (
