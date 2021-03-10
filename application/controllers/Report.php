@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
+ini_set('memory_limit', '2000M');
 // libxml_use_internal_errors(true);
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
@@ -25,29 +26,29 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-    public function report_surveydetails_old()
-    {
-        $_POST['selectclientid'] = 2;
-        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        $_POST['startdate'] = "01-02-2021";
-        $_POST['enddate'] = "28-02-2021";
-        $surveyid = $this->input->post('selectclientid');
-        $selectclientname = $this->input->post('selectclientname');
-        $startdate = $this->input->post('startdate');
-        $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
-        if (empty($persial_survey)) {
-            $json_return = array(
-                'report' => "No Report Found For This Survey Combination",
-                'status' => 0,
-            );
-            echo json_encode($json_return);
-        } else {
-            $final_array = $this->report_surveydetails_data($persial_survey);
-            // print_array($final_array);
-            // echo json_encode($final_array);
-        }
-    }
+    // public function report_surveydetails_old()
+    // {
+    //     $_POST['selectclientid'] = 2;
+    //     $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+    //     $_POST['startdate'] = "01-02-2021";
+    //     $_POST['enddate'] = "28-02-2021";
+    //     $surveyid = $this->input->post('selectclientid');
+    //     $selectclientname = $this->input->post('selectclientname');
+    //     $startdate = $this->input->post('startdate');
+    //     $enddate = $this->input->post('enddate');
+    //     $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
+    //     if (empty($persial_survey)) {
+    //         $json_return = array(
+    //             'report' => "No Report Found For This Survey Combination",
+    //             'status' => 0,
+    //         );
+    //         echo json_encode($json_return);
+    //     } else {
+    //         $final_array = $this->report_surveydetails_data($persial_survey);
+    //         // print_array($final_array);
+    //         // echo json_encode($final_array);
+    //     }
+    // }
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 2;
@@ -174,7 +175,7 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-    public function report_surveydetails_data_nn($persial_survey)
+    public function hhhhhh($persial_survey)
     {
         $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
         $array_object = array();
