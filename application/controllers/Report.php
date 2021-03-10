@@ -203,8 +203,8 @@ class Report extends CI_Controller
     public function report_surveydetails_data($persial_survey)
     {
         $array_object = array();
-        $json = new JSON();
         foreach ($persial_survey as $key => $value_object) {
+            $json = new JSON();
             //surveyobject end
             $surveyobject = $json->decode($value_object['surveyobject'], true);
             //surveyjson start
