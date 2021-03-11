@@ -295,7 +295,6 @@ class Report extends CI_Controller
                 'surveyobject' => $surveyobjects,
                 'surveyjson' => json_decode($value_object['surveyjson'], true)
             );
-            print_array($arrayn);
             array_push($array_object, $arrayn);
         }
         // print_array($array_object);
