@@ -8,11 +8,11 @@ use Gaufrette\Filesystem;
 use Gaufrette\Adapter\InMemory as InMemoryAdapter;
 use Gaufrette\StreamWrapper;
 
-use JsonMachine\JsonMachine;
-use JsonMachine\JsonDecoder\PassThruDecoder;
-use JsonMachine\JsonDecoder\DecodingError;
-use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
-use JsonMachine\JsonDecoder\ExtJsonDecoder;
+// use JsonMachine\JsonMachine;
+// use JsonMachine\JsonDecoder\PassThruDecoder;
+// use JsonMachine\JsonDecoder\DecodingError;
+// use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
+// use JsonMachine\JsonDecoder\ExtJsonDecoder;
 
 class Report extends CI_Controller
 {
@@ -58,8 +58,8 @@ class Report extends CI_Controller
             );
             echo json_encode($json_return);
         } else {
-            $final_array = $this->hhhhhh($persial_survey);
-            echo count($final_array);
+            $final_array = $this->report_surveydetails_data($persial_survey);
+            // echo count($final_array);
             // print_array($final_array);
             // echo json_encode($final_array);
         }
@@ -269,24 +269,9 @@ class Report extends CI_Controller
             copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
             copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
             // $surveyobjects = [];
-            $surveyjsons = [];
-            $surveyobjecitems = JsonMachine::fromFile($surveyobjectpath, '', new ErrorWrappingDecoder(new ExtJsonDecoder()));
-            $surveyobjects = array();
-            foreach ($surveyobjecitems as $key => $surveyobjecitem) {
-                if ($key instanceof DecodingError || $surveyobjecitem instanceof DecodingError) {
-                    // handle error of this malformed json item
-                    continue;
-                }
-                if ($key == "image-upload") {
-                    $itemsma = array('name' => $surveyobjecitem[0]->name, 'type' => $surveyobjecitem[0]->type, 'content' => "exits");
-                    $surveyobjects[$key] = $itemsma;
-                } else {
-                    $surveyobjects[$key] = $surveyobjecitem;
-                }
-                // var_dump($key, $item);
-            }
+            $surveyobjects = [];
             $parser = new \JsonCollectionParser\Parser();
-            $parser->chunk($surveyjsonpath, function (array $chunk) use (&$surveyjsons) {
+            $parser->chunk($surveyobjectpath, function (array $chunk) use (&$surveyobjects) {
                 // $surveyobjects[] = $item;
                 is_array($chunk);    //true
                 count($chunk) === 5; //true
@@ -294,7 +279,7 @@ class Report extends CI_Controller
                 foreach ($chunk as $item) {
                     is_array($item);  //true
                     is_object($item); //false
-                    $surveyjsons = $item;
+                    $surveyobjects = $item;
                     // print_array($item);
                 }
             }, 5);
@@ -308,8 +293,9 @@ class Report extends CI_Controller
                 'fullname' => $value_object['fullname'],
                 'submitted_date' => $value_object['dateaddedsurvey'],
                 'surveyobject' => $surveyobjects,
-                'surveyjson' => $surveyjsons
+                'surveyjson' => json_decode($value_object['surveyjson'], true)
             );
+            print_array($arrayn);
             array_push($array_object, $arrayn);
         }
         // print_array($array_object);
