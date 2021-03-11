@@ -50,7 +50,7 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         } else {
             $final_array = $this->hhhhhh($persial_survey);
-            // print_array($persial_survey);
+            print_array($final_array);
             // echo json_encode($final_array);
         }
     }
@@ -218,12 +218,22 @@ class Report extends CI_Controller
                 }
                 // var_dump($key, $item);
             }
+            unlink($surveyobjectpath);
+            unlink($surveyjsonpath);
+            $arrayn = array(
+                'username' => $value_object['id'],
+                'fullname' => $value_object['fullname'],
+                'submitted_date' => $value_object['dateaddedsurvey'],
+                'surveyobject' => $surveyobjects,
+                'surveyjson' => json_encode($value_object['surveyjson'], true)
+            );
+            array_push($array_object, $arrayn);
             //End Madness
-            print_array($surveyobjects);
+            // print_array($surveyobjects);
             // print_array($value_object['surveyobject']);
-            if ($intns == 10) {
-                break;
-            }
+            // if ($intns == 10) {
+            //     break;
+            // }
         }
         return $array_object;
     }
