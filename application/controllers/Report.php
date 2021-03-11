@@ -31,6 +31,15 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
+    public function jaja()
+    {
+        $startMemory = memory_get_usage();
+        $array = new SplFixedArray(100000);
+        for ($i = 0; $i < 100000; ++$i) {
+            $array[$i] = $i;
+        }
+        echo memory_get_usage() - $startMemory, ' bytes';
+    }
     public function report_surveydetails_old()
     {
         $_POST['selectclientid'] = 2;
@@ -50,7 +59,8 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         } else {
             $final_array = $this->hhhhhh($persial_survey);
-            print_array($final_array);
+            echo count($final_array);
+            // print_array($final_array);
             // echo json_encode($final_array);
         }
     }
