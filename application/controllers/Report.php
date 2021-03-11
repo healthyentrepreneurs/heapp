@@ -225,7 +225,7 @@ class Report extends CI_Controller
                 'fullname' => $value_object['fullname'],
                 'submitted_date' => $value_object['dateaddedsurvey'],
                 'surveyobject' => $surveyobjects,
-                'surveyjson' => json_encode($value_object['surveyjson'], true)
+                'surveyjson' => json_decode($value_object['surveyjson'], true)
             );
             array_push($array_object, $arrayn);
             //End Madness
