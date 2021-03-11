@@ -184,8 +184,10 @@ class Report extends CI_Controller
     {
         $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
         $array_object = array();
+        $intns = 0;
         foreach ($persial_survey as $key => $value_object) {
             //surveyobject endextra
+            $intns++;
             $json_surveyobject = 'surveyobject.json';
             $json_surveyjson = 'surveyjson.json';
             $surveyobjectadapter = new InMemoryAdapter(array($json_surveyobject => $value_object['surveyobject']));
@@ -219,7 +221,9 @@ class Report extends CI_Controller
             //End Madness
             print_array($surveyobjects);
             // print_array($value_object['surveyobject']);
-            break;
+            if ($intns == 10) {
+                break;
+            }
         }
         return $array_object;
     }
