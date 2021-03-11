@@ -28,6 +28,7 @@ return array(
     'JsonStreamingParser\\Test\\' => array($vendorDir . '/salsify/json-streaming-parser/tests'),
     'JsonStreamingParser\\' => array($vendorDir . '/salsify/json-streaming-parser/src'),
     'JsonSchema\\' => array($vendorDir . '/justinrainbow/json-schema/src/JsonSchema'),
+    'JsonMachine\\' => array($vendorDir . '/halaxa/json-machine/src'),
     'JsonCollectionParser\\Tests\\' => array($vendorDir . '/maxakawizard/json-collection-parser/tests'),
     'JsonCollectionParser\\' => array($vendorDir . '/maxakawizard/json-collection-parser/src'),
     'Gumlet\\' => array($vendorDir . '/gumlet/php-image-resize/lib'),

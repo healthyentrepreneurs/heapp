@@ -8,6 +8,12 @@ use Gaufrette\Filesystem;
 use Gaufrette\Adapter\InMemory as InMemoryAdapter;
 use Gaufrette\StreamWrapper;
 
+use JsonMachine\JsonMachine;
+use JsonMachine\JsonDecoder\PassThruDecoder;
+use JsonMachine\JsonDecoder\DecodingError;
+use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
+use JsonMachine\JsonDecoder\ExtJsonDecoder;
+
 class Report extends CI_Controller
 {
 
@@ -44,7 +50,7 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         } else {
             $final_array = $this->hhhhhh($persial_survey);
-            // print_array($final_array);
+            // print_array($persial_survey);
             // echo json_encode($final_array);
         }
     }
@@ -179,8 +185,7 @@ class Report extends CI_Controller
         $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
-            //surveyobject end
-            // print_array($value_object['surveyobject']);
+            //surveyobject endextra
             $json_surveyobject = 'surveyobject.json';
             $json_surveyjson = 'surveyjson.json';
             $surveyobjectadapter = new InMemoryAdapter(array($json_surveyobject => $value_object['surveyobject']));
@@ -195,40 +200,25 @@ class Report extends CI_Controller
             $surveyjsonpath = $mypath . $json_surveyjson;
             copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
             copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
-            // unlink('gaufrette://foo/login.json');
-            $surveyobjects = [];
-            $surveyjsons = [];
-            // $stream = fopen($surveyobjectpath, 'r');
-            $parser = new \JsonCollectionParser\Parser();
-            $parser->chunk($surveyobjectpath, function (array $chunk) use (&$surveyobjects) {
-                // $surveyobjects[] = $item;
-                is_array($chunk);    //true
-                count($chunk) === 5; //true
-
-                foreach ($chunk as $item) {
-                    is_array($item);  //true
-                    is_object($item); //false
-                    $surveyobjects = $item;
-                    // print_array($item);
+            //Start Madness
+            $surveyobjecitems = JsonMachine::fromFile($surveyobjectpath, '', new ErrorWrappingDecoder(new ExtJsonDecoder()));
+            $surveyobjects = array();
+            foreach ($surveyobjecitems as $key => $surveyobjecitem) {
+                if ($key instanceof DecodingError || $surveyobjecitem instanceof DecodingError) {
+                    // handle error of this malformed json item
+                    continue;
                 }
-            }, 5);
-            // $parser->parse($surveyobjectpath, function (array $item) use (&$surveyobjects) {
-            //     $surveyobjects[] = $item;
-            // });
+                if ($key == "image-upload") {
+                    $itemsma = array('name' => $surveyobjecitem[0]->name, 'type' => $surveyobjecitem[0]->type, 'content' => "exits");
+                    $surveyobjects[$key] = $itemsma;
+                } else {
+                    $surveyobjects[$key] = $surveyobjecitem;
+                }
+                // var_dump($key, $item);
+            }
+            //End Madness
             print_array($surveyobjects);
-            // $parser->parse($surveyjsonpath, function (array $item) use (&$surveyjsons) {
-            //     $surveyjsons[] = $item;
-            // });
-            // unlink($surveyobjectpath);
-            // unlink($surveyjsonpath);
-            // $arrayn = array(
-            //     'username' => $value_object['id'],
-            //     'fullname' => $value_object['fullname'],
-            //     'submitted_date' => $value_object['dateaddedsurvey'],
-            //     'surveyobject' => $surveyobjects[0],
-            //     'surveyjson' => $surveyjsons[0]
-            // );
-            // array_push($array_object, $arrayn);
+            // print_array($value_object['surveyobject']);
             break;
         }
         return $array_object;
@@ -254,21 +244,24 @@ class Report extends CI_Controller
             $surveyjsonpath = $mypath . $json_surveyjson;
             copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
             copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
-            $surveyobjects = [];
+            // $surveyobjects = [];
             $surveyjsons = [];
-            $parser = new \JsonCollectionParser\Parser();
-            $parser->chunk($surveyobjectpath, function (array $chunk) use (&$surveyobjects) {
-                // $surveyobjects[] = $item;
-                is_array($chunk);    //true
-                count($chunk) === 5; //true
-
-                foreach ($chunk as $item) {
-                    is_array($item);  //true
-                    is_object($item); //false
-                    $surveyobjects = $item;
-                    // print_array($item);
+            $surveyobjecitems = JsonMachine::fromFile($surveyobjectpath, '', new ErrorWrappingDecoder(new ExtJsonDecoder()));
+            $surveyobjects = array();
+            foreach ($surveyobjecitems as $key => $surveyobjecitem) {
+                if ($key instanceof DecodingError || $surveyobjecitem instanceof DecodingError) {
+                    // handle error of this malformed json item
+                    continue;
                 }
-            }, 5);
+                if ($key == "image-upload") {
+                    $itemsma = array('name' => $surveyobjecitem[0]->name, 'type' => $surveyobjecitem[0]->type, 'content' => "exits");
+                    $surveyobjects[$key] = $itemsma;
+                } else {
+                    $surveyobjects[$key] = $surveyobjecitem;
+                }
+                // var_dump($key, $item);
+            }
+            $parser = new \JsonCollectionParser\Parser();
             $parser->chunk($surveyjsonpath, function (array $chunk) use (&$surveyjsons) {
                 // $surveyobjects[] = $item;
                 is_array($chunk);    //true

@@ -84,6 +84,7 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'eef6fa3879d3efa347cd24d5eb348f85' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideinto.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '77e5a577434e31d19d8dd6aeceac1ff4' => __DIR__ . '/..' . '/amphp/http-client/src/Internal/functions.php',
+        'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -135,6 +136,7 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
             'JsonStreamingParser\\Test\\' => 25,
             'JsonStreamingParser\\' => 20,
             'JsonSchema\\' => 11,
+            'JsonMachine\\' => 12,
             'JsonCollectionParser\\Tests\\' => 27,
             'JsonCollectionParser\\' => 21,
         ),
@@ -267,6 +269,10 @@ class ComposerStaticInit11536abecca6d6efee03aed74d55b33a
         'JsonSchema\\' => 
         array (
             0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
+        ),
+        'JsonMachine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/halaxa/json-machine/src',
         ),
         'JsonCollectionParser\\Tests\\' => 
         array (
