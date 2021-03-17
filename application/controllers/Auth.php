@@ -114,7 +114,7 @@ class Auth extends CI_Controller
                 $this->session->set_flashdata('password', form_error('password'));
                 redirect(base_url('welcome/landing/2'));
             } else {
-               // redirect(base_url('welcome/admin'));
+               redirect(base_url('welcome/admin'));
             }
         }
     }
