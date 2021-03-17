@@ -83,7 +83,7 @@ class Welcome extends CI_Controller
 				case 0:
 					$data['content_admin'] = 'pages/admin/admin_content';
 					// print_array($server_output);
-					// $this->load->view('pages/hometwo', $data);
+					$this->load->view('pages/hometwo', $data);
 					break;
 				case 1:
 					$data['icon_image'] = 'https://picsum.photos/200/300';
