@@ -595,15 +595,11 @@ class Auth extends CI_Controller
     }
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array(
-            'username' => "mega",
-            'password' => "Mega1java123!@%23",
-            'service' => "addusers",
-
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         print_array($array_of_output);
         return $array_of_output;
