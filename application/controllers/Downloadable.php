@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', '3000');
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 class Downloadable extends CI_Controller
@@ -155,32 +156,28 @@ class Downloadable extends CI_Controller
             fclose($file);
             //Start Ziping
             //Zip and Download
-            $tmp_file =  $subpath . $user_id . 'HE Health.zip';
+            $tmp_file =  $subpath . $user_id . 'HE_Health.zip';
             // Initialize archive object
-            $zip = new ZipArchive();
-            $zip->open($tmp_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-            // Create recursive directory iterator
-            /** @var SplFileInfo[] $files */
-            $files = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($mypath),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            );
 
-            foreach ($files as $name => $file) {
-                // Skip directories (they would be added automatically)
-                if (!$file->isDir()) {
-                    // Get real and relative path for current file
-                    $filePath = $file->getRealPath();
-                    $relativePath = substr($filePath, strlen($mypath));
-                    // Add current file to archive
-                    $zip->addFile($filePath, $relativePath);
-                }
-            }
-            // Zip archive will be created only after closing object
-            $zip->close();
-            header('Content-disposition: attachment; filename=HE Health.zip');
-            header('Content-type: application/zip');
+            //---- zipping logic -----
+            $output = shell_exec('(cd ' . $mypath . ' && zip -r ' . $tmp_file . ' .)');
+            //---- zipping logic -----
+
+            // header('Content-disposition: attachment; filename=HE Health.zip');
+            // header('Content-type: application/zip');
+            // readfile($tmp_file);
+            //---
+            $filename = 'HE Health.zip';
+            $size = filesize($tmp_file); // The way to avoid corrupted ZIP
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename=' . $filename);
+            header('Content-Length: ' . $size);
+            // Clean before! In order to avoid 500 error
+            ob_end_clean();
+            flush();
             readfile($tmp_file);
+            //---
+
             //End Zipping
         } else {
             echo empty_response("Download Failed Contact Admin", 200);
