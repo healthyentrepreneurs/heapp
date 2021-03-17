@@ -340,7 +340,7 @@ class User extends CI_Controller
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         $cohort_allowed_id = array();
-        print_array($array_of_output);
+        print_array($array_of_output)
     }
     public function getme_cohort_get_cohort_members($id_quetion)
     {
@@ -477,7 +477,7 @@ class User extends CI_Controller
     }
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=admin&password=123!@%23Normandy&service=addusers';
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
