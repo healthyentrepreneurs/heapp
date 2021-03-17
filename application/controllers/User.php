@@ -368,28 +368,6 @@ class User extends CI_Controller
         return $array_object;
     }
     #Test Get User Details
-    public function get_meuserdetails($user_id)
-    {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = $this->get_admin_token()['token'];
-        $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $token,
-            'wsfunction' => $functionname,
-            'moodlewsrestformat' => 'json',
-            'field' => 'id',
-            'values[0]' => $user_id
-
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        // $mamama = $this->session->userdata('logged_in_lodda');
-        // return $array_of_output;
-        // nakafeero_teddy
-        // return $array_of_output;
-        print_array($array_of_output);
-    }
     public function viwedbook($book_id, $chapter_id, $token)
     {
         // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
