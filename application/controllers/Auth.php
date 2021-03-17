@@ -176,7 +176,7 @@ class Auth extends CI_Controller
     public function get_userdetails_internal($username = null)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -601,7 +601,7 @@ class Auth extends CI_Controller
         );
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        print_array($array_of_output);
+        //print_array($array_of_output);
         return $array_of_output;
     }
 }
