@@ -49,7 +49,7 @@ class User extends CI_Controller
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'core_enrol_get_users_courses';
-        $token = "f84bf33b56e86a4664284d8a3dfb5280";
+        $token = $this->get_admin_token()['token'];
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
@@ -69,7 +69,7 @@ class User extends CI_Controller
     public function get_details_percourse($_courseid, $token, $show = 1)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token_x = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token_x =$this->get_admin_token()['token'];
         $functionname = 'core_course_get_contents';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -250,7 +250,7 @@ class User extends CI_Controller
             // $params = array();
             //Call
             $domainname = 'https://app.healthyentrepreneurs.nl';
-            $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+            $token = $this->get_admin_token()['token'];
             $functionname = 'core_user_create_users';
             $serverurl = $domainname . '/webservice/rest/server.php';
             $data = array(
@@ -284,7 +284,7 @@ class User extends CI_Controller
     {
         $role_id = 5; //assign role to be Student
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token = $this->get_admin_token()['token'];
         $functionname = 'enrol_manual_enrol_users';
         $enrolment = array('roleid' => $role_id, 'userid' => $user_id, 'courseid' => $course_id);
         $enrolments = array($enrolment);
@@ -320,7 +320,7 @@ class User extends CI_Controller
         }
         $cohortids = array_unique($cohortids);
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_get_cohort_members';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -371,7 +371,7 @@ class User extends CI_Controller
     public function get_meuserdetails($user_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token =$this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -432,5 +432,16 @@ class User extends CI_Controller
         // );
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
+    }
+     public function get_admin_token()
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
+        $serverurl = $domainname . '/login/token.php?';
+        $data = array(
+        );
+        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        //print_array($array_of_output);
+        return $array_of_output;
     }
 }
