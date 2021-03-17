@@ -112,9 +112,9 @@ class Auth extends CI_Controller
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('username', form_error('username'));
                 $this->session->set_flashdata('password', form_error('password'));
-                // redirect(base_url('welcome/landing/2'));
+                redirect(base_url('welcome/landing/2'));
             } else {
-                redirect(base_url('welcome/admin'));
+               // redirect(base_url('welcome/admin'));
             }
         }
     }
