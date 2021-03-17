@@ -307,6 +307,41 @@ class User extends CI_Controller
         curl_request($serverurl, $data, "post", array('App-Key: 123456'));
     }
     // core_cohort_get_cohort_members
+    public function getme_cohort_get_cohort_jeje($id_quetion)
+    {
+        $value_check = $this->universal_model->join_suv_cohot();
+        $array_ids_cohort = array();
+        foreach ($value_check as $key => $value_ids) {
+            $array_en_p = array(
+                'survey_id' => $value_ids['sid'],
+                'cohort_id' => $value_ids['cid'],
+            );
+            array_push($array_ids_cohort, $array_en_p);
+        }
+        $cohortids = array_value_recursive('cohort_id', $array_ids_cohort);
+        // $cohortids = array('1', '2');
+        if (empty($cohortids)) {
+            return array();
+        } elseif (is_string($cohortids)) {
+            $cohortids = array($cohortids);
+        }
+        $cohortids = array_unique($cohortids);
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = $this->get_admin_token()['token'];
+        $functionname = 'core_cohort_get_cohort_members';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cohortids' => $cohortids,
+
+        );
+        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        $cohort_allowed_id = array();
+        print_array($array_of_output);
+    }
     public function getme_cohort_get_cohort_members($id_quetion)
     {
         $value_check = $this->universal_model->join_suv_cohot();
