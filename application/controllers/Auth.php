@@ -167,7 +167,7 @@ class Auth extends CI_Controller
                     'password' => $password,
                     'username' => $details_user[0]['username']
                 );
-                print_array($details_user);
+                print_array($token_details);
                 $this->universal_model->updateOnDuplicate('user', $data_copy);
                 $this->session->set_userdata('logged_in_lodda', $token_details);
                 return TRUE;
