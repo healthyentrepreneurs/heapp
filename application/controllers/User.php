@@ -447,7 +447,7 @@ class User extends CI_Controller
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        print_array($array_of_output);
+        // print_array($array_of_output);
         return $array_of_output;
     }
 }
