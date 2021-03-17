@@ -15,14 +15,14 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-     public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+    public function get_moodle_courses_temp($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
     {
         $_courses = $this->get_list_courses_internal($user_id);
         $_courses_n = array_value_recursive('id', $_courses);
-         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
+        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
         print_array($_courses_n_array);
     }
-    public function get_moodle_courses_temp($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+    public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
     {
         $_courses = $this->get_list_courses_internal($user_id);
         $_courses_n = array_value_recursive('id', $_courses);
@@ -76,7 +76,7 @@ class User extends CI_Controller
     public function get_details_percourse($_courseid, $token, $show = 1)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token_x =$this->get_admin_token()['token'];
+        $token_x = $this->get_admin_token()['token'];
         $functionname = 'core_course_get_contents';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -378,7 +378,7 @@ class User extends CI_Controller
     public function get_meuserdetails($user_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token =$this->get_admin_token()['token'];
+        $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -440,12 +440,11 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
-     public function get_admin_token()
+    public function get_admin_token()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
-        $data = array(
-        );
+        $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         //print_array($array_of_output);
