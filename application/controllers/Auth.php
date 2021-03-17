@@ -598,9 +598,9 @@ class Auth extends CI_Controller
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $serverurl = $domainname . '/login/token.php?';
         $data = array(
-            'username' => 'mega',
-            'password' => 'Mega1java123!@%23',
-            'service' => 'addusers',
+            'username' => "mega",
+            'password' => "Mega1java123!@%23",
+            'service' => "addusers",
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
