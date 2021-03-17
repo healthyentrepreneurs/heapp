@@ -52,8 +52,30 @@ class Welcome extends CI_Controller
 					break;
 			}
 		}
-	}
-	public function admin($var = 0, $idnn = null, $id_twonn = null)
+    }
+    	public function admin($var = 0, $idnn = null, $id_twonn = null)
+	{
+		// print_array($this->session->userdata('logged_in_lodda'));
+		// njovu
+		if ($this->session->userdata('logged_in_lodda')) {
+			$data['header'] = 'parts/header';
+			$data['sidenav'] = 'pages/admin/navadmin';
+			$data['user_profile'] = array();
+			$data['survey_name'] = array();
+			//Check Token 
+			$checkwhatihave = $this->session->userdata('logged_in_lodda');
+			$token = $checkwhatihave['token'];
+			$id = $checkwhatihave['id'];
+			$array_n = array(
+				'token' => $token,
+				'user_id' => $id
+			);
+			//End Token
+            $new_data_url_course = base_url('user/get_moodle_courses') . '/' . $token . '/' . $id;
+            print_array($new_data_url_course);
+        }
+        }
+	public function admin_temp($var = 0, $idnn = null, $id_twonn = null)
 	{
 		// print_array($this->session->userdata('logged_in_lodda'));
 		// njovu
