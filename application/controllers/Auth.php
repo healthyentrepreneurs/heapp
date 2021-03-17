@@ -112,7 +112,7 @@ class Auth extends CI_Controller
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_flashdata('username', form_error('username'));
                 $this->session->set_flashdata('password', form_error('password'));
-                redirect(base_url('welcome/landing/2'));
+                // redirect(base_url('welcome/landing/2'));
             } else {
                 redirect(base_url('welcome/admin'));
             }
@@ -167,6 +167,7 @@ class Auth extends CI_Controller
                     'password' => $password,
                     'username' => $details_user[0]['username']
                 );
+                print_array($details_user);
                 $this->universal_model->updateOnDuplicate('user', $data_copy);
                 $this->session->set_userdata('logged_in_lodda', $token_details);
                 return TRUE;
