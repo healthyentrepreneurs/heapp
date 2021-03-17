@@ -15,7 +15,13 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+     public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+    {
+        $_courses = $this->get_list_courses_internal($user_id);
+        $_courses_n = array_value_recursive('id', $_courses);
+        print_array($_courses_n);
+    }
+    public function get_moodle_courses_temp($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
     {
         $_courses = $this->get_list_courses_internal($user_id);
         $_courses_n = array_value_recursive('id', $_courses);
