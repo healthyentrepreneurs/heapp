@@ -82,8 +82,8 @@ class Welcome extends CI_Controller
 			switch ($var) {
 				case 0:
 					$data['content_admin'] = 'pages/admin/admin_content';
-					print_array($server_output);
-					// $this->load->view('pages/hometwo', $data);
+					// print_array($server_output);
+					$this->load->view('pages/hometwo', $data);
 					break;
 				case 1:
 					$data['icon_image'] = 'https://picsum.photos/200/300';
@@ -171,7 +171,7 @@ class Welcome extends CI_Controller
 	public function getme_chort_details()
 	{
 		$domainname = 'https://app.healthyentrepreneurs.nl';
-		$token = 'f84bf33b56e86a4664284d8a3dfb5280';
+		$token = $token = $this->get_admin_token()['token'];
 		$functionname = 'core_cohort_get_cohorts';
 		$serverurl = $domainname . '/webservice/rest/server.php';
 		$data = array(
@@ -212,7 +212,7 @@ class Welcome extends CI_Controller
 	public function get_meuserdetails($user_id)
 	{
 		$domainname = 'https://app.healthyentrepreneurs.nl';
-		$token = 'f84bf33b56e86a4664284d8a3dfb5280';
+		$token = $this->get_admin_token()['token'];
 		$functionname = 'core_user_get_users_by_field';
 		$serverurl = $domainname . '/webservice/rest/server.php';
 		$data = array(
@@ -512,5 +512,16 @@ class Welcome extends CI_Controller
 		$content = nl2br($content);
 		$content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
 		return trim(strip_tags($content));
-	}
+    }
+     public function get_admin_token()
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
+        $serverurl = $domainname . '/login/token.php?';
+        $data = array(
+        );
+        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        //print_array($array_of_output);
+        return $array_of_output;
+    }
 }
