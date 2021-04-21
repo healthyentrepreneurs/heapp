@@ -383,8 +383,12 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        //  public function test_extraction($_courseid, $token, $book_id, $chapter_id)
+        $more_data=$this->test_extraction($course_id,$token,$book_id,$chapter_id);
+        $_current_data=array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id);
+        $array_insert=array_merge($more_data,$_current_data);
         // return $server_output;
-        $this->universal_model->insertzwhere('viewtable', array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id));
+        $this->universal_model->insertzwhere('viewtable',$array_insert);
         // public function insertzwhere($table_name, $array_value)
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {
@@ -458,19 +462,19 @@ class User extends CI_Controller
         // $name_course_image=$the_course['shortname'];
         $name_course_image_extract = $the_course['overviewfiles'];
         $course_image_get = array_shift($name_course_image_extract);
-        $name_course_image = $course_image_get['fileurl'] . '?' . $token;
+        $name_course_image = $course_image_get['fileurl'] . '?token=' . $token;
         $array_data = array(
             'name_course' => $name_course,
             'course_shortname' => $name_course_shortname,
             'categoryname' => $name_course_categoryname,
             'name_course_image' => $name_course_image,
             'book_name' => $name_levelone,
-            'book_name' => $name_levelone,
             'chaptername' => $chaptername,
             'modicon_chapter' => $modicon,
             'page_title' => $_page_title
         );
-        print_array($array_data);
+        return $array_data;
+        // print_array($array_data);
     }
     public function get_admin_token()
     {
