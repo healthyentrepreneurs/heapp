@@ -420,8 +420,10 @@ class User extends CI_Controller
         $contents = "";
         $_page_title = "";
         $stop_search = false;
+        $name_levelone = "";
         foreach ($data_analysis as $value_books) {
             // print_array($value_books);
+            $name_levelone = $value_books['name'];
             $modules = $value_books['modules'];
             foreach ($modules as  $module) {
                 if ($module['instance'] == $book_id) {
@@ -444,13 +446,18 @@ class User extends CI_Controller
                 break;
             }
         }
-        $array_data = array(
-            'book_name' => $data_analysis['name'],
-            'chaptername' => $chaptername,
-            'modicon_chapter' => $modicon,
-            'page_title' => $_page_title
-        );
-        print_array($data_analysis);
+        $array_co_id = array('id' => $_courseid);
+        $_courses = array();
+        array_push($_courses, $array_co_id);
+        $_courses_n = array_value_recursive('id', $_courses);
+        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
+        // $array_data = array(
+        //     'book_name' => $name_levelone,
+        //     'chaptername' => $chaptername,
+        //     'modicon_chapter' => $modicon,
+        //     'page_title' => $_page_title
+        // );
+        print_array($_courses_n_array);
     }
     public function get_admin_token()
     {
