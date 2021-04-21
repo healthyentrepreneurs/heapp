@@ -597,8 +597,7 @@ class Report extends CI_Controller
                 'path' => FCPATH . 'excelfiles/'. $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'
             );
             $arrayexcel = $persial_survey;
-            unset($arrayexcel['name_course_image']);
-            unset($arrayexcel['token']);
+            delete_value($arrayexcel,'name_course_image');
             // print_array($arrayexcel);
             $ara = array(
                 'USERNAME',
