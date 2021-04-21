@@ -120,15 +120,15 @@
                         'enddate': daterageendtimen
                     }
                 }).done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     // console.log(response.path);
-                    // if (response.status === 1) {
-                    //     $.notify(response.report, "success");
-                    //     $("#contentcostbyclient").html(response.data);
-                    // } else {
-                    //     $.notify(response.report, "error");
-                    //     $("#contentcostbyclient").html('');
-                    // }
+                    if (response.status === 1) {
+                        $.notify(response.report, "success");
+                        $("#contentcostbyclient").html(response.data);
+                    } else {
+                        $.notify(response.report, "error");
+                        $("#contentcostbyclient").html('');
+                    }
                 });
             });
     });

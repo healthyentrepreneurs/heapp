@@ -574,8 +574,7 @@ class Report extends CI_Controller
         // $data['surveys'] = $this->get_surveys();
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_time(array('user_id', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
-        print_array($persial_survey);
+        $persial_survey = $this->universal_model->books_reports_time(array('user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
                 'report' => "No Report Found For This Book Range",
@@ -583,19 +582,36 @@ class Report extends CI_Controller
             );
             echo json_encode($json_return);
         } else {
-            echo json_encode($persial_survey);
+            //Modified Data
+            $table_data['survey_reportdata'] = $persial_survey;
+            $table_data['startdate'] = $startdate;
+            $table_data['enddate'] = $enddate;
+            $table_data['controller'] = $this;
+            $table_data['taskname'] = "Books | Chapters";
+            $table_data['table_survey_url'] = 'pages/table/bookschapter_table';
+            $json_return = array(
+                'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
+                'status' => 1,
+                'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
+                'path' => FCPATH . 'excelfiles/' .'booksgeneral'. $this->session->userdata('logged_in_lodda')['id'] . 'write.xls'
+            );
+            $arrayexcel = $persial_survey;
+            unset_post($arrayexcel, 'name_course_image');
+            unset_post($arrayexcel, 'token');
+            // print_array($arrayexcel);
+            $ara = array(
+                'USERNAME',
+                'FULL NAME',
+                'COURSE NAME',
+                'BOOK NAME',
+                'DATE VIEWED',
+            );
+            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/' .'booksgeneral'. $this->session->userdata('logged_in_lodda')['id'] . 'write.xls');
+            echo json_encode($json_return);
         }
     }
-
-    // function createPhoneNumber(array $numbersarray): string
-    // {
-    //     return sprintf("(%d%d%d) %d%d%d-%d%d%d%d", ...$numbersarray);
-    // }
-    // public function testme()
-    // {
-    //     $array_name = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-    //     $stringname = $this->createPhoneNumber($array_name);
-    //     print_array($stringname);
-    // }
-
 }
