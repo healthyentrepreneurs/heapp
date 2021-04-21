@@ -190,63 +190,6 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-    public function hhhhhh($persial_survey)
-    {
-        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
-        $array_object = array();
-        $intns = 0;
-        foreach ($persial_survey as $key => $value_object) {
-            //surveyobject endextra
-            $intns++;
-            $json_surveyobject = 'surveyobject.json';
-            $json_surveyjson = 'surveyjson.json';
-            $surveyobjectadapter = new InMemoryAdapter(array($json_surveyobject => $value_object['surveyobject']));
-            $surveyjsonadapter = new InMemoryAdapter(array($json_surveyjson => $value_object['surveyjson']));
-            $filesystem_surveyobject = new Filesystem($surveyobjectadapter);
-            $filesystem_surveyjson = new Filesystem($surveyjsonadapter);
-            $map = StreamWrapper::getFilesystemMap();
-            $map->set('surveyobject', $filesystem_surveyobject);
-            $map->set('surveyjson', $filesystem_surveyjson);
-            StreamWrapper::register();
-            $surveyobjectpath = $mypath . $json_surveyobject;
-            $surveyjsonpath = $mypath . $json_surveyjson;
-            copy('gaufrette://surveyobject/surveyobject.json', $surveyobjectpath);
-            copy('gaufrette://surveyjson/surveyjson.json', $surveyjsonpath);
-            //Start Madness
-            $surveyobjecitems = JsonMachine::fromFile($surveyobjectpath, '', new ErrorWrappingDecoder(new ExtJsonDecoder()));
-            $surveyobjects = array();
-            foreach ($surveyobjecitems as $key => $surveyobjecitem) {
-                if ($key instanceof DecodingError || $surveyobjecitem instanceof DecodingError) {
-                    // handle error of this malformed json item
-                    continue;
-                }
-                if ($key == "image-upload") {
-                    $itemsma = array('name' => $surveyobjecitem[0]->name, 'type' => $surveyobjecitem[0]->type, 'content' => "exits");
-                    $surveyobjects[$key] = $itemsma;
-                } else {
-                    $surveyobjects[$key] = $surveyobjecitem;
-                }
-                // var_dump($key, $item);
-            }
-            unlink($surveyobjectpath);
-            unlink($surveyjsonpath);
-            $arrayn = array(
-                'username' => $value_object['id'],
-                'fullname' => $value_object['fullname'],
-                'submitted_date' => $value_object['dateaddedsurvey'],
-                'surveyobject' => $surveyobjects,
-                'surveyjson' => json_decode($value_object['surveyjson'], true)
-            );
-            array_push($array_object, $arrayn);
-            //End Madness
-            // print_array($surveyobjects);
-            // print_array($value_object['surveyobject']);
-            // if ($intns == 10) {
-            //     break;
-            // }
-        }
-        return $array_object;
-    }
     public function report_surveydetails_data($persial_survey)
     {
         $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR;
@@ -620,6 +563,27 @@ class Report extends CI_Controller
         $content = nl2br($content);
         $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
         return trim(strip_tags($content));
+    }
+    public function report_perbooks()
+    {
+        // $_POST['selectclientid'] = 1;
+        // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        // $_POST['startdate'] = "01-01-2021";
+        // $_POST['enddate'] = "31-02-2021";
+        // $data['cohorts'] = $this->getme_chort_details();
+        // $data['surveys'] = $this->get_surveys();
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $persial_survey = $this->universal_model->books_reports_time($startdate, $enddate);
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For This Book Range",
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            echo json_encode($persial_survey);
+        }
     }
 
     // function createPhoneNumber(array $numbersarray): string
