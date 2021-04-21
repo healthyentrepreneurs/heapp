@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-1">
-                    <button class="btn btn-blue btn-sm" type="submit">
+                    <button class="btn btn-blue btn-sm pull-right" type="submit">
                         Load By Date&nbsp;<i class="fa fa-arrow-circle-right"></i>
                     </button>
                 </div>
@@ -46,7 +46,7 @@
                             <li><a href="#" id="exportpdf" onclick="removepigi()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>

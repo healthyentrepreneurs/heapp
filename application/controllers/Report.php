@@ -600,9 +600,9 @@ class Report extends CI_Controller
             foreach ($persial_survey as $key => $value_header) {
                 unset_post($value_header, 'name_course_image');
                 unset_post($value_header, 'token');
+                unset_post($value_header, 'id');
                 array_push($arrayexcel, $value_header);
             }
-            print_array($arrayexcel);
             $ara = array(
                 'USERNAME',
                 'FULL NAME',
@@ -610,12 +610,12 @@ class Report extends CI_Controller
                 'BOOK NAME',
                 'DATE VIEWED',
             );
-            // $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
-            // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-            // $spreadsheet = $reader->loadFromString($htmlString);
-            // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-            // $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
-            // echo json_encode($json_return);
+            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
+            echo json_encode($json_return);
         }
     }
 }
