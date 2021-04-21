@@ -596,9 +596,14 @@ class Report extends CI_Controller
                 'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
                 'path' => FCPATH . 'excelfiles/'. $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'
             );
-            $arrayexcel = $persial_survey;
-            delete_value($arrayexcel,'name_course_image');
-            // print_array($arrayexcel);
+            $arrayexcel = array();
+            foreach ($persial_survey as $key=> $value_header) {
+              if ($key!='token' || $key!='name_course_image') {
+                  array_push($arrayexcel,$value_header);
+                  print_array($key);
+              }
+            }
+            print_array($arrayexcel);
             $ara = array(
                 'USERNAME',
                 'FULL NAME',
@@ -606,7 +611,6 @@ class Report extends CI_Controller
                 'BOOK NAME',
                 'DATE VIEWED',
             );
-            print_array($arrayexcel);
             // $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
             // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             // $spreadsheet = $reader->loadFromString($htmlString);
