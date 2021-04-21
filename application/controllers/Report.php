@@ -599,8 +599,8 @@ class Report extends CI_Controller
             $arrayexcel = array();
             foreach ($persial_survey as $key=> $value_header) {
               if ($key!='token' || $key!='name_course_image') {
+                  unset_post($value_header,'name_course_image');
                   array_push($arrayexcel,$value_header);
-                  print_array($key);
               }
             }
             print_array($arrayexcel);
