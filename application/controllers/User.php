@@ -420,8 +420,8 @@ class User extends CI_Controller
         $contents = "";
         $stop_search = false;
         foreach ($data_analysis as $value_books) {
-            $modules = $value_books['modules'];
-            print_array($modules);
+            // $modules = $value_books['modules'];
+            print_array($value_books);
             // foreach ($modules as  $module) {
             //     if ($module['instance'] == $book_id) {
             //         $chaptername = $module['name'];
