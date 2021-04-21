@@ -414,27 +414,32 @@ class User extends CI_Controller
     public function test_extraction($_courseid, $token, $book_id, $chapter_id)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
-        $data_analysis = $this->get_details_percourse($_courseid, $token,0);
+        $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
         $chaptername = "";
         $modicon = "";
         $contents = "";
         $stop_search = false;
-        print_array($data_analysis);
-        // foreach ($data_analysis as $value_books) {
-            // $modules = $value_books['modules'];
-            // print_array($value_books);
-            // foreach ($modules as  $module) {
-            //     if ($module['instance'] == $book_id) {
-            //         $chaptername = $module['name'];
-            //         $modicon = $module['modicon'];
-            //         $contents = $module['contents'][0];
-            //         $stop_search = true;
-            //         break;
-            //     }
-            // }
-        // }
-       
-        // print_array($array_data);
+        foreach ($data_analysis as $value_books) {
+            $modules = $value_books['modules'];
+            foreach ($modules as  $module) {
+                if ($module['instance'] == $book_id) {
+                    $chaptername = $module['name'];
+                    $modicon = $module['modicon'];
+                    $contents = $module['contents'][0];
+                    $stop_search = true;
+                    break;
+                }
+            }
+            if ($stop_search) {
+                break;
+            }
+        }
+        $array_data = array(
+            $chaptername,
+            $modicon,
+            $contents
+        );
+        print_array($array_data);
     }
     public function get_admin_token()
     {
