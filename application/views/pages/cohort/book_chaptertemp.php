@@ -8,7 +8,7 @@
     <div class="panel-body">
         <div class="table-responsive" id="mybookchaptertable_nm">
             <p>
-                <b>Survey Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
+                <b>Books Chapter Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
             </p>
             <?php echo $this->load->view($table_survey_url, '', TRUE); ?>
         </div>

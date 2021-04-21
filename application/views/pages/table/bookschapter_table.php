@@ -5,8 +5,8 @@
             <th class="center">COURSE NAME</th>
             <th class="center">BOOK NAME</th>
             <th class="center">USER NAME</th>
-            <th class="center">FULL NAMES/th>
-            <th class="center">DATE SUBMITTED/th>
+            <th class="center">FULL NAMES</th>
+            <th class="center">DATE SUBMITTED</th>
             <th class="center">TIME SUBMITTED</th>
             <th></th>
         </tr>

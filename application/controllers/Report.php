@@ -574,7 +574,7 @@ class Report extends CI_Controller
         // $data['surveys'] = $this->get_surveys();
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_time(array('user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
+        $persial_survey = $this->universal_model->books_reports_time(array('id','user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
                 'report' => "No Report Found For This Book Range",
