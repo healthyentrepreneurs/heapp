@@ -420,8 +420,6 @@ class User extends CI_Controller
         $contents = "";
         $_page_title = "";
         $stop_search = false;
-        print_array($data_analysis);
-        print_array('................................');
         foreach ($data_analysis as $value_books) {
             print_array($value_books);
             $modules = $value_books['modules'];
