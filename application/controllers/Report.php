@@ -597,8 +597,8 @@ class Report extends CI_Controller
                 'path' => FCPATH . 'excelfiles/'. $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'
             );
             $arrayexcel = $persial_survey;
-            unset_post($arrayexcel, 'name_course_image');
-            unset_post($arrayexcel, 'token');
+            unset($arrayexcel, 'name_course_image');
+            unset($arrayexcel, 'token');
             // print_array($arrayexcel);
             $ara = array(
                 'USERNAME',
@@ -615,9 +615,5 @@ class Report extends CI_Controller
             // $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
             // echo json_encode($json_return);
         }
-    }
-    public function test_path()
-    {
-       echo FCPATH;
     }
 }
