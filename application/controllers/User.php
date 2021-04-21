@@ -425,7 +425,7 @@ class User extends CI_Controller
                 if ($module['instance'] == $book_id) {
                     $chaptername = $module['name'];
                     $modicon = $module['modicon'];
-                    $contents = $module['contents'][0];
+                    $contents = $module['contents'][0]['content'];
                     $stop_search = true;
                     break;
                 }
