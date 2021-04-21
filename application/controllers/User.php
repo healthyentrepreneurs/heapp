@@ -451,13 +451,26 @@ class User extends CI_Controller
         array_push($_courses, $array_co_id);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
-        // $array_data = array(
-        //     'book_name' => $name_levelone,
-        //     'chaptername' => $chaptername,
-        //     'modicon_chapter' => $modicon,
-        //     'page_title' => $_page_title
-        // );
-        print_array($_courses_n_array);
+        $the_course = array_shift($_courses_n_array);
+        $name_course = $the_course['fullname'];
+        $name_course_shortname = $the_course['shortname'];
+        $name_course_categoryname = $the_course['categoryname'];
+        // $name_course_image=$the_course['shortname'];
+        $name_course_image_extract = $the_course['overviewfiles'];
+        $course_image_get = array_shift($name_course_image_extract);
+        $name_course_image = $course_image_get['fileurl'] . '?' . $token;
+        $array_data = array(
+            'name_course' => $name_course,
+            'course_shortname' => $name_course_shortname,
+            'categoryname' => $name_course_categoryname,
+            'name_course_image' => $name_course_image,
+            'book_name' => $name_levelone,
+            'book_name' => $name_levelone,
+            'chaptername' => $chaptername,
+            'modicon_chapter' => $modicon,
+            'page_title' => $_page_title
+        );
+        print_array($array_data);
     }
     public function get_admin_token()
     {
