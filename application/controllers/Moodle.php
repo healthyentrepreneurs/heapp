@@ -110,4 +110,9 @@ class Moodle extends CI_Controller
         //print_array($array_of_output);
         return $array_of_output;
     }
+    public function test_user($username)
+    {
+       $test_details=$this->get_userdetails_internal($username);
+       print_array($test_details);
+    }
 }
