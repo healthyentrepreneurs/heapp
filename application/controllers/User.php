@@ -420,7 +420,10 @@ class User extends CI_Controller
         $contents = "";
         $_page_title = "";
         $stop_search = false;
+        print_array($data_analysis);
+        print_array('................................');
         foreach ($data_analysis as $value_books) {
+            print_array($value_books);
             $modules = $value_books['modules'];
             foreach ($modules as  $module) {
                 if ($module['instance'] == $book_id) {
@@ -448,7 +451,7 @@ class User extends CI_Controller
             'modicon_chapter' => $modicon,
             'page_title' => $_page_title
         );
-        print_array($array_data);
+        // print_array($array_data);
     }
     public function get_admin_token()
     {
