@@ -473,8 +473,8 @@ class User extends CI_Controller
             'modicon_chapter' => $modicon,
             'page_title' => $_page_title
         );
-        return $array_data;
-        // print_array($array_data);
+        // return $array_data;
+        print_array($array_data);
     }
     public function get_admin_token()
     {
