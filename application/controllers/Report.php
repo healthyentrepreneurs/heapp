@@ -608,6 +608,7 @@ class Report extends CI_Controller
                 'FULL NAME',
                 'COURSE NAME',
                 'BOOK NAME',
+                'CHAPTER',
                 'DATE VIEWED',
             );
             $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);

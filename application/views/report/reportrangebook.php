@@ -33,12 +33,12 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-1">
-                    <button class="btn btn-blue btn-sm pull-right" type="submit">
+                    <button class="btn btn-blue btn-sm pull-left" type="submit">
                         Load By Date&nbsp;<i class="fa fa-arrow-circle-right"></i>
                     </button>
                 </div>
                 <div class="col-sm-2">
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-left">
                         <button data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm">
                             Export <i class="fa fa-angle-down"></i>
                         </button>
