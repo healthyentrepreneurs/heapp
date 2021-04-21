@@ -437,7 +437,7 @@ class User extends CI_Controller
         $array_data = array(
             'chaptername' => $chaptername,
             'modicon' => $modicon,
-            'contents' => json_encode($contents)
+            'contents' => json_decode($contents,true)
         );
         print_array($array_data);
     }
