@@ -384,7 +384,8 @@ class User extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         //  public function test_extraction($_courseid, $token, $book_id, $chapter_id)
-        $more_data=$this->test_extraction($course_id,$token,$book_id,$chapter_id);
+        $date_inserted = date('Y-m-d H:i', strtotime($this->input->get('dateTime')));
+        $more_data=$this->test_extraction($course_id,$token,$book_id,$chapter_id,$date_inserted);
         $_current_data=array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id);
         $array_insert=array_merge($more_data,$_current_data);
         // return $server_output;
@@ -415,7 +416,7 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
-    public function test_extraction($_courseid, $token, $book_id, $chapter_id,$date_insert)
+    public function test_extraction($_courseid, $token, $book_id, $chapter_id,$date_inserted)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
         $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
@@ -472,10 +473,9 @@ class User extends CI_Controller
             'chaptername' => $chaptername,
             'modicon_chapter' => $modicon,
             'page_title' => $_page_title,
-            'date_inserted'=>$date_insert
+            'date_inserted'=>$date_inserted
         );
-        // return $array_data;
-        print_array($array_data);
+        return $array_data;
     }
     public function get_admin_token()
     {
