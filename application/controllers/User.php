@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+date_default_timezone_set("Africa/Nairobi");
 class User extends CI_Controller
 {
     public function __construct()
@@ -383,13 +384,12 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        //  public function test_extraction($_courseid, $token, $book_id, $chapter_id)
-        $date_inserted = date('Y-m-d H:i', strtotime($this->input->get('dateTime')));
-        $more_data=$this->test_extraction($course_id,$token,$book_id,$chapter_id,$date_inserted);
-        $_current_data=array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id);
-        $array_insert=array_merge($more_data,$_current_data);
+        $date_received = $this->input->get('dateTime');
+        $more_data = $this->test_extraction($course_id, $token, $book_id, $chapter_id, $date_received);
+        $_current_data = array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id);
+        $array_insert = array_merge($more_data, $_current_data);
         // return $server_output;
-        $this->universal_model->insertzwhere('viewtable',$array_insert);
+        $this->universal_model->insertzwhere('viewtable', $array_insert);
         // public function insertzwhere($table_name, $array_value)
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {
@@ -416,9 +416,10 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
-    public function test_extraction($_courseid, $token, $book_id, $chapter_id,$date_inserted)
+    public function test_extraction($_courseid, $token, $book_id, $chapter_id, $date_inserted)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
+        $date_inserted_format = date('Y-m-d H:i:s', strtotime($date_inserted));
         $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
         $chaptername = "";
         $modicon = "";
@@ -473,7 +474,7 @@ class User extends CI_Controller
             'chaptername' => $chaptername,
             'modicon_chapter' => $modicon,
             'page_title' => $_page_title,
-            'date_inserted'=>$date_inserted
+            'date_inserted' => $date_inserted_format
         );
         return $array_data;
     }
