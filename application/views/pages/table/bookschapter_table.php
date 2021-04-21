@@ -14,8 +14,6 @@
     <tbody>
         <?php
         foreach ($survey_reportdata as $keyvalue_in_sub => $value_in_sub) {
-            $time_data = $value_in_sub['date_inserted'];
-            $time_data_array = explode(" ", $time_data);
         ?>
             <tr>
                 <td class="center"><img src="<?= base_url($value_in_sub['name_course_image'].'token='.$value_in_sub['token']) ?>" alt="image" width="100" height="100" /></td>
@@ -23,7 +21,7 @@
                 <td class="center"><?= $value_in_sub['book_name'] ?></td>
                 <td class="center"><?= $value_in_sub['user_id'].' | '.$value_in_sub['he_names']  ?></td>
                 <td class="center"><?= date("F jS, Y", strtotime($value_in_sub['date_inserted'])) ?></td>
-                <td class="center"><?= $time_data_array[1]; ?></td>
+                <td class="center"><?= date("h:i:sa", strtotime($value_in_sub['date_inserted'])) ?></td>
                 <td class="center">
                     <div class="visible-md visible-lg hidden-sm hidden-xs">
                         <a href="<?= base_url('welcome/admin/11/' . $value_in_sub['id']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="More Details" target="_blank"><i class="fa fa-share"></i></a>
