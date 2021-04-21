@@ -435,9 +435,9 @@ class User extends CI_Controller
             }
         }
         $array_data = array(
-            $chaptername,
-            $modicon,
-            $contents
+            'chaptername' => $chaptername,
+            'modicon' => $modicon,
+            'contents' => json_encode($contents)
         );
         print_array($array_data);
     }
