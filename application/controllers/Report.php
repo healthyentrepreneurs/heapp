@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 header('Access-Control-Allow-Origin: *');
+date_default_timezone_set("Africa/Nairobi");
 // ini_set('memory_limit', '2000M');
 // libxml_use_internal_errors(true);
 use Gaufrette\Filesystem;

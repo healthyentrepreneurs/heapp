@@ -4,7 +4,6 @@
             <th></th>
             <th class="center">COURSE NAME</th>
             <th class="center">BOOK NAME</th>
-            <th class="center">USER NAME</th>
             <th class="center">FULL NAMES</th>
             <th class="center">DATE SUBMITTED</th>
             <th class="center">TIME SUBMITTED</th>
@@ -19,7 +18,7 @@
                 <td class="center"><img src="<?=$value_in_sub['name_course_image'].'token='.$value_in_sub['token'] ?>" alt="image" width="100" height="100" /></td>
                 <td class="center"><?= $value_in_sub['name_course'].' | '.$value_in_sub['course_shortname']   ?></td>
                 <td class="center"><?= $value_in_sub['book_name'] ?></td>
-                <td class="center"><?= $value_in_sub['user_id'].' | '.$value_in_sub['he_names']  ?></td>
+                <td class="center"><?=$value_in_sub['he_names']  ?></td>
                 <td class="center"><?= date("F jS, Y", strtotime($value_in_sub['date_inserted'])) ?></td>
                 <td class="center"><?= date("h:i:sa", strtotime($value_in_sub['date_inserted'])) ?></td>
                 <td class="center">

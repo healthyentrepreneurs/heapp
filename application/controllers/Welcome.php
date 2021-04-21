@@ -4,6 +4,8 @@ use function Amp\Iterator\merge;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+date_default_timezone_set("Africa/Nairobi");
+
 class Welcome extends CI_Controller
 {
 
