@@ -575,7 +575,7 @@ class Report extends CI_Controller
         // $data['surveys'] = $this->get_surveys();
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_time(array('id','user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
+        $persial_survey = $this->universal_model->books_reports_time(array('id', 'user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
                 'report' => "No Report Found For This Book Range",
@@ -594,14 +594,13 @@ class Report extends CI_Controller
                 'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
                 'status' => 1,
                 'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
-                'path' => FCPATH . 'excelfiles/'. $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'
+                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls'
             );
             $arrayexcel = array();
-            foreach ($persial_survey as $key=> $value_header) {
-              if ($key!='token' || $key!='name_course_image') {
-                  unset_post($value_header,'name_course_image');
-                  array_push($arrayexcel,$value_header);
-              }
+            foreach ($persial_survey as $key => $value_header) {
+                unset_post($value_header, 'name_course_image');
+                unset_post($value_header, 'token');
+                array_push($arrayexcel, $value_header);
             }
             print_array($arrayexcel);
             $ara = array(
