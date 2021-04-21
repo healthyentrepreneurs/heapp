@@ -368,7 +368,7 @@ class User extends CI_Controller
         return $array_object;
     }
     #Test Get User Details
-    public function viwedbook($book_id, $chapter_id,$token,$user_id=0)
+    public function viwedbook($book_id, $chapter_id,$token,$username=0,$course_id=0)
     {
         // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
         $domainname = 'https://app.healthyentrepreneurs.nl';
@@ -384,7 +384,7 @@ class User extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // return $server_output;
-        $this->universal_model->insertzwhere('viewtable', array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token,'user_id'=>$user_id));
+        $this->universal_model->insertzwhere('viewtable', array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token,'user_id'=>$username,'course_id'=>$course_id));
         // public function insertzwhere($table_name, $array_value)
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {

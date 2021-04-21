@@ -109,6 +109,12 @@
                                 <span class="title">Download Zips</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url('welcome/admin/10') ?>">
+                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <span class="title">Books Reports</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

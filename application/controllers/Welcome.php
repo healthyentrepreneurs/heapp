@@ -158,7 +158,14 @@ class Welcome extends CI_Controller
 					$data['users'] = $attempt_d_n_n;
 					$data['content_admin'] = 'pages/admin/cohortsdownload';
 					$this->load->view('pages/hometwo', $data);
-					break;
+                    break;
+                case 10:
+                    // books_reportindex.php
+                    $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
+					$data['surveydatas'] = $attempt_n_n;
+					$data['content_admin'] = 'report/books_reportindex';
+					$this->load->view('pages/hometwo', $data);
+					break;    
 				default:
 					break;
 			}
