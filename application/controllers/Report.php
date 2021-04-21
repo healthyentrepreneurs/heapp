@@ -607,12 +607,17 @@ class Report extends CI_Controller
                 'BOOK NAME',
                 'DATE VIEWED',
             );
-            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
-            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-            $spreadsheet = $reader->loadFromString($htmlString);
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-            $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
-            echo json_encode($json_return);
+            print_array($arrayexcel);
+            // $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
+            // $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            // $spreadsheet = $reader->loadFromString($htmlString);
+            // $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            // $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
+            // echo json_encode($json_return);
         }
+    }
+    public function test_path()
+    {
+       echo FCPATH;
     }
 }
