@@ -415,7 +415,7 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
-    public function test_extraction($_courseid, $token, $book_id, $chapter_id)
+    public function test_extraction($_courseid, $token, $book_id, $chapter_id,$date_insert)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
         $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
@@ -471,7 +471,8 @@ class User extends CI_Controller
             'book_name' => $name_levelone,
             'chaptername' => $chaptername,
             'modicon_chapter' => $modicon,
-            'page_title' => $_page_title
+            'page_title' => $_page_title,
+            'date_inserted'=>$date_insert
         );
         // return $array_data;
         print_array($array_data);
