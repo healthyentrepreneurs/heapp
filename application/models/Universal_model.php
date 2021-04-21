@@ -377,7 +377,7 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    public function books_reports_time($array_table_n, $table_n, $from_from, $to_to)
+    public function books_reports_time($array_table_n, $from_from, $to_to)
     {
         $this->db->select($array_table_n);
         $this->db->from('viewtable');
