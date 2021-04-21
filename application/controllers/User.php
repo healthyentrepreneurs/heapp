@@ -418,6 +418,7 @@ class User extends CI_Controller
         $chaptername = "";
         $modicon = "";
         $contents = "";
+        $_page_title = "";
         $stop_search = false;
         foreach ($data_analysis as $value_books) {
             $modules = $value_books['modules'];
@@ -426,7 +427,15 @@ class User extends CI_Controller
                     $chaptername = $module['name'];
                     $modicon = $module['modicon'];
                     $contents = $module['contents'][0]['content'];
+                    $contents_array = json_decode($contents, true);
+                    foreach ($contents_array as $keyn => $valuen) {
+                        if ($valuen['chapter_id'] == $chapter_id) {
+                            $_page_title = $valuen['title'];
+                            break;
+                        }
+                    }
                     $stop_search = true;
+
                     break;
                 }
             }
@@ -436,8 +445,8 @@ class User extends CI_Controller
         }
         $array_data = array(
             'chaptername' => $chaptername,
-            'modicon' => $modicon,
-            'contents' => json_decode($contents,true)
+            'modicon_chapter' => $modicon,
+            'page_title' => $_page_title
         );
         print_array($array_data);
     }
