@@ -16,7 +16,7 @@
         foreach ($survey_reportdata as $keyvalue_in_sub => $value_in_sub) {
         ?>
             <tr>
-                <td class="center"><img src="<?= base_url($value_in_sub['name_course_image'].'token='.$value_in_sub['token']) ?>" alt="image" width="100" height="100" /></td>
+                <td class="center"><img src="<?=$value_in_sub['name_course_image'].'token='.$value_in_sub['token'] ?>" alt="image" width="100" height="100" /></td>
                 <td class="center"><?= $value_in_sub['name_course'].' | '.$value_in_sub['course_shortname']   ?></td>
                 <td class="center"><?= $value_in_sub['book_name'] ?></td>
                 <td class="center"><?= $value_in_sub['user_id'].' | '.$value_in_sub['he_names']  ?></td>
