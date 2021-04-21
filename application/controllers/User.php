@@ -414,7 +414,7 @@ class User extends CI_Controller
     public function test_extraction($_courseid, $token, $book_id, $chapter_id)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
-        $data_analysis = $this->get_details_percourse($_courseid, $token);
+        $data_analysis = $this->get_details_percourse($_courseid, $token,0);
         $chaptername = "";
         $modicon = "";
         $contents = "";
