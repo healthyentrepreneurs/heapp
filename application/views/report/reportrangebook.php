@@ -32,13 +32,19 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-1 control-label">
+                    Chapters By Books
+                </label>
+                <div class="col-sm-7">
+
+                </div>
                 <div class="col-sm-1">
                     <button class="btn btn-blue btn-sm pull-left" type="submit">
                         Load By Date&nbsp;<i class="fa fa-arrow-circle-right"></i>
                     </button>
                 </div>
                 <div class="col-sm-2">
-                    <div class="btn-group pull-left">
+                    <div class="btn-group">
                         <button data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm">
                             Export <i class="fa fa-angle-down"></i>
                         </button>
