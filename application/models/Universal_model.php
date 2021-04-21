@@ -381,9 +381,9 @@ class Universal_model extends CI_Model
     {
         $this->db->select($array_table_n);
         $this->db->from('viewtable');
-         $this->db->where('DATE(viewtable.dateadded) >=', date('Y-m-d', strtotime($from_from)));
-        $this->db->where('DATE(viewtable.dateadded) <=', date('Y-m-d', strtotime($to_to)));
-        $this->db->order_by("viewtable.dateadded", "desc");
+         $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
+        $this->db->order_by("viewtable.date_inserted", "desc");
         $query = $this->db->get()->result_array();
         return $query;
     }
