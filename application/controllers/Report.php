@@ -576,15 +576,15 @@ class Report extends CI_Controller
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->books_reports_time(array('user_id', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
         print_array($persial_survey);
-        // if (empty($persial_survey)) {
-        //     $json_return = array(
-        //         'report' => "No Report Found For This Book Range",
-        //         'status' => 0,
-        //     );
-        //     echo json_encode($json_return);
-        // } else {
-        //     echo json_encode($persial_survey);
-        // }
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For This Book Range",
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            echo json_encode($persial_survey);
+        }
     }
 
     // function createPhoneNumber(array $numbersarray): string

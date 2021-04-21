@@ -386,13 +386,19 @@ class User extends CI_Controller
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         $date_received = $this->input->get('dateTime');
         $more_data = $this->test_extraction($course_id, $token, $book_id, $chapter_id, $date_received);
-        $_current_data = array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id);
+        //Add User Details 
+        //  public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $user_step1=$this->universal_model->selectz(array('firstname','lastname'),'mdl_user','username',$username);
+        $user_step2=array_shift($user_step1);
+        $user_step3=implode(" ",$user_step2);
+        #User End
+        $_current_data = array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id,'he_names'=>$user_step3);
         $array_insert = array_merge($more_data, $_current_data);
         // return $server_output;
-        $this->universal_model->insertzwhere('viewtable', $array_insert);
         // public function insertzwhere($table_name, $array_value)
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {
+            $this->universal_model->insertzwhere('viewtable', $array_insert);
             echo empty_response("New User Successfully Created", 200, $array_of_output);
         }
         // print_array($array_of_output);
