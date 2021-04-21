@@ -384,7 +384,8 @@ class Universal_model extends CI_Model
          $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
         $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
         // $this->db->group_by('viewtable.user_id','viewtable.course_shortname','viewtable.book_name','viewtable.date_inserted');
-        $this->db->query('group by viewtable.book_name');
+        // $this->db->query('group by viewtable.book_name');
+        $this->db->group_by('viewtable.book_name');
         $this->db->order_by("viewtable.date_inserted", "desc");
         $query = $this->db->get()->result_array();
         return $query;
