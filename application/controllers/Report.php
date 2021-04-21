@@ -594,7 +594,7 @@ class Report extends CI_Controller
                 'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
                 'status' => 1,
                 'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
-                'path' => FCPATH . 'excelfiles/' .'booksgeneral'. $this->session->userdata('logged_in_lodda')['id'] . 'write.xls'
+                'path' => FCPATH . 'excelfiles/'. $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'
             );
             $arrayexcel = $persial_survey;
             unset_post($arrayexcel, 'name_course_image');
@@ -611,7 +611,7 @@ class Report extends CI_Controller
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             $spreadsheet = $reader->loadFromString($htmlString);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-            $writer->save(FCPATH . 'excelfiles/' .'booksgeneral'. $this->session->userdata('logged_in_lodda')['id'] . 'write.xls');
+            $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
             echo json_encode($json_return);
         }
     }

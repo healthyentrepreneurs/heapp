@@ -53,7 +53,7 @@
         printJS({
             printable: 'mybookchaptertable_nm',
             type: 'html',
-            header: 'Books Chapter In PDF <?php echo $taskname ?>',
+            header: 'PDF <?php echo $taskname ?>',
             maxWidth: '1000',
             honorMarginPadding: false,
             targetStyles: ['*']
