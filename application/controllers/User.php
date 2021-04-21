@@ -421,25 +421,19 @@ class User extends CI_Controller
         $stop_search = false;
         foreach ($data_analysis as $value_books) {
             $modules = $value_books['modules'];
-            foreach ($modules as  $module) {
-                if ($module['instance'] == $book_id) {
-                    $chaptername = $module['name'];
-                    $modicon = $module['modicon'];
-                    $contents = $module['contents'][0];
-                    $stop_search = true;
-                    break;
-                }
-            }
-            if ($stop_search) {
-                break;
-            }
+            print_array($modules);
+            // foreach ($modules as  $module) {
+            //     if ($module['instance'] == $book_id) {
+            //         $chaptername = $module['name'];
+            //         $modicon = $module['modicon'];
+            //         $contents = $module['contents'][0];
+            //         $stop_search = true;
+            //         break;
+            //     }
+            // }
         }
-        $array_data = array(
-            $chaptername,
-            $modicon,
-            $contents
-        );
-        print_array($array_data);
+       
+        // print_array($array_data);
     }
     public function get_admin_token()
     {
