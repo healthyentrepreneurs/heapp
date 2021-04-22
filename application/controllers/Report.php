@@ -619,21 +619,11 @@ class Report extends CI_Controller
 
     public function books_reportdetails()
     {
-        #report_surveydetails
-        // print_array($_POST);
-        $courseid = 1;
-        $bookid = 1;
-        echo json_encode($_POST);
-        if ($_POST['courseid']=='non') {
-            $courseid = 0;
-        }
-        if ($_POST['bookid']=='non') {
-            $bookid = 0;
-        }
-        if ($courseid == 0 || $bookid == 0) {
-            echo json_encode("Hey hey");
-        } else {
-            echo json_encode($_POST);
-        }
+        $courseid = $this->input->post('courseid');
+        $bookid = $this->input->post('bookid');
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
+        echo json_encode($persial_survey);
     }
 }
