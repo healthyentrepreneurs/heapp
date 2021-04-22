@@ -21,7 +21,7 @@
                 <td class="center"><?=$value_in_sub['he_names']  ?></td>
                 <td class="center"><?= date("F jS, Y", strtotime($value_in_sub['date_inserted'])) ?></td>
                 <td class="center"><?= date("h:i:sa", strtotime($value_in_sub['date_inserted'])) ?></td>
-                <td class="center">
+                <!-- <td class="center">
                     <div class="visible-md visible-lg hidden-sm hidden-xs">
                         <a href="<?= base_url('welcome/admin/11/' . $value_in_sub['id']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="More Details" target="_blank"><i class="fa fa-share"></i></a>
                     </div>
@@ -39,7 +39,7 @@
                             </ul>
                         </div>
                     </div>
-                </td>
+                </td> -->
             </tr>
         <?php
         }
