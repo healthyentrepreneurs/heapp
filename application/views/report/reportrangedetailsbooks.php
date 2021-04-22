@@ -1,3 +1,15 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<style>
+    .select2-container .select2-selection--single {
+        height: 34px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #ccc !important;
+        border-radius: 0px !important;
+    }
+</style>
 <div class="panel-body" id="client_one">
     <?php
     // print_array($surveydatas);
@@ -30,7 +42,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="client_iddet" name="client_iddet" class="form-control select2" placeholder="Select Course">
-                        <option>--Select Optional--</option>
+                        <option value="non">--Select Optional--</option>
                         <?php
                         foreach ($course_content as $value) {
                         ?>
@@ -47,7 +59,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="book_id" name="book_id" class="form-control select2" placeholder="Select Book">
-                        <option>--Select Optional--</option>
+                        <option value="non">--Select Optional--</option>
                         <?php
                         foreach ($books_content as $value) {
                         ?>
@@ -86,7 +98,7 @@
 <script>
     var getmereportclientcostdet = "<?php echo base_url('report/books_reportdetails'); ?>";
     $(document).ready(function() {
-         $('.select2').select2();
+        $('.select2').select2();
         $('#dateragestarttimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'
