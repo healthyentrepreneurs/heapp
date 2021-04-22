@@ -32,7 +32,7 @@ $ledger_per = $this->session->userdata('ledger_per');
                             User
                         </label>
                         <div class="col-sm-9">
-                            <select id="form-field-select-4" class="form-control select2" placeholder="Select USER" name="cohort_object" id="cohort_object">
+                            <select  class="form-control select2" placeholder="Select USER" name="cohort_object" id="cohort_object">
                                 <option value="">-SELECT USER-</option>
                                 <?php
                                 foreach ($users as $value) {

@@ -617,10 +617,8 @@ class Report extends CI_Controller
         }
     }
 
- public function test_queries()
- {
-     //Course Then Book
-      $persial_survey = $this->universal_model->book_select_uniqu_by(array('book_id','book_name'),'12-04-2021','22-04-2021',array('viewtable.book_id'));
-    print_array($persial_survey);
- }
+    public function books_reportdetails()
+    {
+        #report_surveydetails
+    }
 }
