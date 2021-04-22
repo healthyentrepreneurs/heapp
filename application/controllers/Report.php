@@ -585,7 +585,7 @@ class Report extends CI_Controller
             $table_data['startdate'] = $startdate;
             $table_data['enddate'] = $enddate;
             $table_data['controller'] = $this;
-            $table_data['taskname'] = "Books | Chapters";
+            $table_data['taskname'] = "Books | Courses";
             $table_data['table_survey_url'] = 'pages/table/bookschapter_table';
             $json_return = array(
                 'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
@@ -604,8 +604,8 @@ class Report extends CI_Controller
                 'USERNAME',
                 'FULL NAME',
                 'COURSE NAME',
-                'BOOK NAME',
-                'CHAPTER',
+                '',
+                'BOOKNAME',
                 'DATE VIEWED',
             );
             $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
@@ -624,6 +624,45 @@ class Report extends CI_Controller
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
-        echo json_encode($_POST);
+        // echo json_encode($_POST);
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For This Range",
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            //Modified Data
+            $table_data['survey_reportdata'] = $persial_survey;
+            $table_data['startdate'] = $startdate;
+            $table_data['enddate'] = $enddate;
+            $table_data['controller'] = $this;
+            $table_data['taskname'] = "Books | Chapters";
+            $table_data['table_survey_url'] = 'pages/table/chapterchapter_table';
+            $json_return = array(
+                'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
+                'status' => 1,
+                'data' => $this->load->view('pages/cohort/chapter_chaptertemp', $table_data, true),
+                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'
+            );
+            $arrayexcel = array();
+            foreach ($persial_survey as $key => $value_header) {
+                unset_post($value_header, 'modicon_chapter');
+                array_push($arrayexcel, $value_header);
+            }
+            $ara = array(
+                'FULL NAME',
+                'COURSE',
+                'BOOK NAME',
+                'CHAPTER',
+                'DATE VIEWED',
+            );
+            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls');
+            echo json_encode($json_return);
+        }
     }
 }

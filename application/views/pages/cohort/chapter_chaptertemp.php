@@ -6,9 +6,9 @@
 </style>
 <div class="col-md-12">
     <div class="panel-body">
-        <div class="table-responsive" id="mybookchaptertable_nm">
+        <div class="table-responsive" id="mychapchap_n">
             <p>
-                <b>Seen Books In Courses Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
+                <b>Chapters  Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
             </p>
             <?php echo $this->load->view($table_survey_url, '', TRUE); ?>
         </div>
@@ -29,8 +29,8 @@
     //     window.location.replace("http://localhost/heapp/welcome/admin/6?id=" + id);
     // }
 
-    function removepigi() {
-        var tble = document.getElementById('mybookchaptertable_n');
+    function removepigichap() {
+        var tble = document.getElementById('my_chaptercha_table');
         var row = tble.rows; // Getting the rows 
         for (var i = 0; i < row[0].cells.length; i++) {
             // Getting the text of columnName 
@@ -51,7 +51,7 @@
         //     "info": false
         // });
         printJS({
-            printable: 'mybookchaptertable_nm',
+            printable: 'mychapchap_n',
             type: 'html',
             header: 'PDF <?php echo $taskname ?>',
             maxWidth: '1000',

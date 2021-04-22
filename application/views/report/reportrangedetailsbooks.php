@@ -80,7 +80,7 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdfdet" onclick="removepigi()">
+                            <li><a href="#" id="exportpdfdet" onclick="removepigichap()">
                                     Save as PDF </a></li>
                             <li>
                                 <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'detailswrite.xls'); ?>" download>Export to Excel</a>
@@ -159,7 +159,7 @@
                 var projectidvalue = projectid.options[projectid.selectedIndex].value;
                 var projectidtext = projectid.options[projectid.selectedIndex].text;
                 // Start Books
-                var bookid = document.getElementById("client_iddet");
+                var bookid = document.getElementById("book_id");
                 var bookvalue = bookid.options[bookid.selectedIndex].value;
                 var booktext = bookid.options[bookid.selectedIndex].text;
                 //End Books
@@ -178,15 +178,15 @@
                         'enddate': daterageendtimedetn
                     }
                 }).done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     // console.log(response.path);
-                    // if (response.status === 1) {
-                    //     $.notify(response.report, "success");
-                    //     $("#contentcostbyclientdet").html(response.data);
-                    // } else {
-                    //     $.notify(response.report, "error");
-                    //     $("#contentcostbyclientdet").html('');
-                    // }
+                    if (response.status === 1) {
+                        $.notify(response.report, "success");
+                        $("#contentcostbyclientdet").html(response.data);
+                    } else {
+                        $.notify(response.report, "error");
+                        $("#contentcostbyclientdet").html('');
+                    }
                 });
             });
     });
