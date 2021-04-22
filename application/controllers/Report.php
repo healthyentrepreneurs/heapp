@@ -621,6 +621,8 @@ class Report extends CI_Controller
     {
         #report_surveydetails
         // print_array($_POST);
+        $courseid = 1;
+        $bookid = 1;
         if (!array_key_exists('courseid', $_POST)) {
             $courseid = 0;
         }
