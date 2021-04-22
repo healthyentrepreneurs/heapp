@@ -1,4 +1,4 @@
-<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <style>
     .select2-container .select2-selection--single {
@@ -9,7 +9,7 @@
         border: 1px solid #ccc !important;
         border-radius: 0px !important;
     }
-</style> -->
+</style>
 <div class="tabbable no-margin no-padding partition-white">
     <ul class="nav nav-tabs" id="myTab">
         <li class="active">
