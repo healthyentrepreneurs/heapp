@@ -38,7 +38,7 @@
 
                 </div>
                 <div class="col-sm-1">
-                    <button class="btn btn-blue btn-sm pull-left" type="submit">
+                    <button class="btn btn-blue btn-sm" type="submit">
                         Load By Date&nbsp;<i class="fa fa-arrow-circle-right"></i>
                     </button>
                 </div>

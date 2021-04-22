@@ -105,13 +105,14 @@
                         </li>
                         <li>
                             <a href="<?= base_url('welcome/admin/9') ?>">
-                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <i class="fa fa-cloud-download"></i>
                                 <span class="title">Download Zips</span>
                             </a>
                         </li>
                         <li>
                             <a href="<?= base_url('welcome/admin/10') ?>">
-                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <i class="fa fa-book fa-fw"></i>
+                                
                                 <span class="title">Books Reports</span>
                             </a>
                         </li>
