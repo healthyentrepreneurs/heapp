@@ -381,12 +381,22 @@ class Universal_model extends CI_Model
     {
         $this->db->select($array_table_n);
         $this->db->from('viewtable');
-         $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
         $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
-        // $this->db->group_by('viewtable.user_id','viewtable.course_shortname','viewtable.book_name','viewtable.date_inserted');
-        // $this->db->group_by('viewtable.book_name');
-        $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname","viewtable.book_name","viewtable.date_inserted"));
-        $this->db->order_by("viewtable.date_inserted", "desc");
+        $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
+        $this->db->order_by("viewtable.user_id", "asc");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
+    public function book_select_uniqu_by($array_table_n, $from_from, $to_to, $array_order_by)
+    {
+        $this->db->select($array_table_n);
+        $this->db->from('viewtable');
+        $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
+        $this->db->group_by($array_order_by);
+        $this->db->order_by("viewtable.book_name", "asc");
         $query = $this->db->get()->result_array();
         return $query;
     }

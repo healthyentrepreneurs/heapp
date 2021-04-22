@@ -163,6 +163,8 @@ class Welcome extends CI_Controller
                     break;
                 case 10:
                     // books_reportindex.php
+                    // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
+                    // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
 					$data['surveydatas'] = $attempt_n_n;
 					$data['content_admin'] = 'report/books_reportindex';

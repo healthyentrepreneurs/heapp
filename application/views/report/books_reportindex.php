@@ -7,7 +7,7 @@
         </li>
         <li>
             <a data-toggle="tab" href="#surveytwo">
-                Chapter Books Report
+                Details In Chapters Report
             </a>
         </li>
     </ul>

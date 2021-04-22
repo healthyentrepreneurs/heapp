@@ -568,11 +568,8 @@ class Report extends CI_Controller
     public function report_perbooks()
     {
         // $_POST['selectclientid'] = 1;
-        // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        $_POST['startdate'] = "12-04-2021";
-        $_POST['enddate'] = "22-04-2021";
-        // $data['cohorts'] = $this->getme_chort_details();
-        // $data['surveys'] = $this->get_surveys();
+        // $_POST['startdate'] = "12-04-2021";
+        // $_POST['enddate'] = "22-04-2021";
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->books_reports_time(array('id', 'user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
@@ -619,4 +616,11 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
+
+ public function test_queries()
+ {
+     //Course Then Book
+      $persial_survey = $this->universal_model->book_select_uniqu_by(array('book_id','book_name'),'12-04-2021','22-04-2021',array('viewtable.book_id'));
+    print_array($persial_survey);
+ }
 }

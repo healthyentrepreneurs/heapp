@@ -33,7 +33,6 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-1 control-label">
-                    Chapters By Books
                 </label>
                 <div class="col-sm-7">
 
