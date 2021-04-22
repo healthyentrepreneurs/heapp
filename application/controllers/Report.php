@@ -612,7 +612,7 @@ class Report extends CI_Controller
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             $spreadsheet = $reader->loadFromString($htmlString);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-            $writer->save(FCPATH . 'excelfiles/'.$this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls');
+            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls');
             echo json_encode($json_return);
         }
     }
@@ -620,6 +620,17 @@ class Report extends CI_Controller
     public function books_reportdetails()
     {
         #report_surveydetails
-        print_array($_POST);
+        // print_array($_POST);
+        if (!array_key_exists('courseid', $_POST)) {
+            $courseid = 0;
+        }
+        if (!array_key_exists('bookid', $_POST)) {
+            $bookid = 0;
+        }
+        if ($courseid == 0 || $bookid == 0) {
+            echo json_encode("Hey hey");
+        } else {
+            echo json_encode($_POST);
+        }
     }
 }

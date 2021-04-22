@@ -86,6 +86,7 @@
 <script>
     var getmereportclientcostdet = "<?php echo base_url('report/books_reportdetails'); ?>";
     $(document).ready(function() {
+         $('.select2').select2();
         $('#dateragestarttimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'
@@ -162,8 +163,7 @@
                         'bookid': bookvalue,
                         'booktext': booktext,
                         'startdate': dateragestarttimedetn,
-                        'enddate': daterageendtimedetn,
-                        'id_showdetailed': $('#id_showdetailed').val()
+                        'enddate': daterageendtimedetn
                     }
                 }).done(function(response) {
                     console.log(response);
