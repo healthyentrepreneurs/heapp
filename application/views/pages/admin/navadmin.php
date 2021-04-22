@@ -99,7 +99,7 @@
                     <ul class="sub-menu">
                         <li class="active">
                             <a href="<?= base_url('welcome/admin/8') ?>">
-                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                <i class="fa fa-list"></i>
                                 <span class="title">Survey Reports</span>
                             </a>
                         </li>
@@ -111,8 +111,7 @@
                         </li>
                         <li>
                             <a href="<?= base_url('welcome/admin/10') ?>">
-                                <i class="fa fa-book fa-fw"></i>
-                                
+                                <i class="fa fa-book"></i>
                                 <span class="title">Books Reports</span>
                             </a>
                         </li>

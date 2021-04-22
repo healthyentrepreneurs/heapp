@@ -43,7 +43,7 @@
                     </button>
                 </div>
                 <div class="col-sm-2">
-                    <div class="btn-group">
+                    <div class="btn-group pull-right">
                         <button data-toggle="dropdown" class="btn btn-green dropdown-toggle btn-sm">
                             Export <i class="fa fa-angle-down"></i>
                         </button>
