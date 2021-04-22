@@ -620,5 +620,6 @@ class Report extends CI_Controller
     public function books_reportdetails()
     {
         #report_surveydetails
+        print_array($_POST);
     }
 }

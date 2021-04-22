@@ -49,7 +49,7 @@
                     <select id="book_id" name="book_id" class="form-control select2" placeholder="Select Book">
                         <option value="">--Select Optional--</option>
                         <?php
-                        foreach ($course_content as $value) {
+                        foreach ($books_content as $value) {
                         ?>
                             <option value="<?= $value['book_id']; ?>"><?= $value['book_name'] ?></option>
                         <?php
