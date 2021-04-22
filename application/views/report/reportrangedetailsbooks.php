@@ -30,7 +30,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="client_iddet" name="client_iddet" class="form-control select2" placeholder="Select Course">
-                        <option value="">--Select Optional--</option>
+                        <option>--Select Optional--</option>
                         <?php
                         foreach ($course_content as $value) {
                         ?>
@@ -47,7 +47,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="book_id" name="book_id" class="form-control select2" placeholder="Select Book">
-                        <option value="">--Select Optional--</option>
+                        <option>--Select Optional--</option>
                         <?php
                         foreach ($books_content as $value) {
                         ?>

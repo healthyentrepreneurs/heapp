@@ -623,16 +623,17 @@ class Report extends CI_Controller
         // print_array($_POST);
         $courseid = 1;
         $bookid = 1;
-        if (!array_key_exists('courseid', $_POST)) {
-            $courseid = 0;
-        }
-        if (!array_key_exists('bookid', $_POST)) {
-            $bookid = 0;
-        }
-        if ($courseid == 0 || $bookid == 0) {
-            echo json_encode("Hey hey");
-        } else {
-            echo json_encode($_POST);
-        }
+        echo json_encode($_POST);
+        // if (!array_key_exists('courseid', $_POST)) {
+        //     $courseid = 0;
+        // }
+        // if (!array_key_exists('bookid', $_POST)) {
+        //     $bookid = 0;
+        // }
+        // if ($courseid == 0 || $bookid == 0) {
+        //     echo json_encode("Hey hey");
+        // } else {
+        //     echo json_encode($_POST);
+        // }
     }
 }
