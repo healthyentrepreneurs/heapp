@@ -624,6 +624,6 @@ class Report extends CI_Controller
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
-        echo json_encode($persial_survey);
+        echo json_encode($_POST);
     }
 }
