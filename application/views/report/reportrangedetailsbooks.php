@@ -98,7 +98,7 @@
 <script>
     var getmereportclientcostdet = "<?php echo base_url('report/books_reportdetails'); ?>";
     $(document).ready(function() {
-        $('.select2').select2();
+        // $('.select2').select2();
         $('#dateragestarttimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'
