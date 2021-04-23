@@ -417,4 +417,16 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+
+    public function book_query_two_model($array_table_n, $from_from, $to_to)
+    {
+        $this->db->select($array_table_n);
+        $this->db->from('viewtable');
+        $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
+        $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
+        $this->db->order_by("viewtable.user_id", "asc");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
 }

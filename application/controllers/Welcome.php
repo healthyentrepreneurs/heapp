@@ -167,7 +167,7 @@ class Welcome extends CI_Controller
                     // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
                     $course_content = $this->universal_model->book_select_uniqu_by(array('course_id','course_shortname'),array('viewtable.course_id'));
                     //These should be returned by AJAX not a hack
-                    $books_content= $this->universal_model->book_select_uniqu_by(array('book_id','book_name'),array('viewtable.book_id'));
+                    $books_content= $this->universal_model->book_select_uniqu_by(array('book_id','book_name'),array('viewtable.book_name'));
                     $data['course_content'] = $course_content;
                     $data['books_content'] = $books_content;
 					$data['content_admin'] = 'report/books_reportindex';

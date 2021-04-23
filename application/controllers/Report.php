@@ -665,4 +665,11 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
+    public function book_query_two()
+    {
+        $startdate = "01-04-2021";
+        $enddate = "30-04-2021";
+        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname','name_course', 'book_name','book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
+        print_array($persial_survey);
+    }
 }
