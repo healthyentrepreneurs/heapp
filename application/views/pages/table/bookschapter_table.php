@@ -1,7 +1,6 @@
 <table class="table table-striped table-hover" id="mybookchaptertable_n">
     <thead>
         <tr>
-            <th></th>
             <th class="center">COURSE NAME</th>
             <th class="center">BOOK NAME</th>
             <th class="center">FULL NAMES</th>
@@ -15,7 +14,6 @@
         foreach ($survey_reportdata as $keyvalue_in_sub => $value_in_sub) {
         ?>
             <tr>
-                <td class="center"><img src="<?=$value_in_sub['name_course_image'].'token='.$value_in_sub['token'] ?>" alt="image" width="100" height="100" /></td>
                 <td class="center"><?= $value_in_sub['name_course'].'  '.'<b>'.$value_in_sub['course_shortname'].'<b>'   ?></td>
                 <td class="center"><?= $value_in_sub['book_name'] ?></td>
                 <td class="center"><?=$value_in_sub['he_names']  ?></td>

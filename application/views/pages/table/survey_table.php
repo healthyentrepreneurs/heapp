@@ -1,7 +1,6 @@
 <table class="table table-striped table-hover" id="mysurveytable_n">
     <thead>
         <tr>
-            <th></th>
             <th class="center">USER NAME</th>
             <th class="center">FULL NAME</th>
             <th class="center">SURVEY NAME</th>
@@ -17,7 +16,6 @@
             $time_data_array = explode(" ", $time_data);
         ?>
             <tr>
-                <td class="center"><img src="<?= base_url('uploadscustome/' . $value_in_sub['image_url_small']) ?>" alt="image" width="100" height="100" /></td>
                 <td class="center"><?= $value_in_sub['username'] ?></td>
                 <td class="center"><?= $value_in_sub['fullname'] ?></td>
                 <td class="center"><?= $value_in_sub['name'] ?></td>

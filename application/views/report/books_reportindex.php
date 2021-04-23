@@ -10,6 +10,26 @@
                 Details In Chapters Report
             </a>
         </li>
+        <li>
+            <a data-toggle="tab" href="#surveythree">
+                Summery Book Report
+            </a>
+        </li>
+         <li>
+            <a data-toggle="tab" href="#surveyfour">
+                Summery User Report
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#surveyfith">
+                Book Views
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#surveysix">
+                Chapter Views
+            </a>
+        </li>
     </ul>
     <div class="tab-content partition-white">
         <div id="surveyone" class="tab-pane padding-bottom-5 active">
@@ -17,6 +37,18 @@
         </div>
         <div id="surveytwo" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/reportrangedetailsbooks', '', TRUE); ?>
+        </div>
+         <div id="surveythree" class="tab-pane padding-bottom-5">
+             <h1>Three</h1>
+        </div>
+         <div id="surveyfour" class="tab-pane padding-bottom-5">
+              <h1>Four</h1>
+        </div>
+         <div id="surveyfith" class="tab-pane padding-bottom-5">
+             <h1>Five</h1>
+        </div>
+        <div id="surveysix" class="tab-pane padding-bottom-5">
+             <h1>Six</h1>
         </div>
         <!-- Njovu -->
     </div>
