@@ -686,13 +686,21 @@ class Report extends CI_Controller
             }
             return $carry;
         }, array());
-        print_array($output);
-        //  [user_id] => 6587
-        //     [course_shortname] => Education_lu
-        //     [name_course] => Education and Prevention
-        //     [book_name] => Sexual Reproductive Health
-        //     [book_id] => 4
-        //     [chaptername] => HIV-Okawuka kasiriimu
-        //     [date_inserted] => 2021-04-24 13:59:52
+        $output_values = array_values($output);
+        $array_mega = array();
+        foreach ($output_values as $keyn => $valuen) {
+            $user_id_array = explode("@", $valuen['user_id']);
+            $course_shortname_array = explode("@", $valuen['course_shortname']);
+            $name_course_array = explode("@", $valuen['name_course']);
+            $book_name_array = explode("@", $valuen['book_name']);
+            $book_id_array = explode("@", $valuen['book_id']);
+            $chaptername_array = explode("@", $valuen['chaptername']);
+            $_first_report=array();
+            $check_chapter=array();
+            foreach ($user_id_array as $keyp => $valuep) {
+                // if(array_key_exists()[''])
+                // $check_chapter[valuep]
+            }
+        }
     }
 }
