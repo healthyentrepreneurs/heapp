@@ -669,7 +669,30 @@ class Report extends CI_Controller
     {
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
-        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname','name_course', 'book_name','book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
-        print_array($persial_survey);
+        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
+        // print_array($persial_survey);
+        $output = array_reduce($persial_survey, function (array $carry, array $item) {
+            $city = $item['book_id'];
+            if (array_key_exists($city, $carry)) {
+                $carry[$city]['user_id'] .= '@' . $item['user_id'];
+                $carry[$city]['course_shortname'] .= '@' . $item['course_shortname'];
+                $carry[$city]['name_course'] .= '@' . $item['name_course'];
+                $carry[$city]['book_name'] .= '@' . $item['book_name'];
+                $carry[$city]['book_id'] .= '@' . $item['book_id'];
+                $carry[$city]['chaptername'] .= '@' . $item['chaptername'];
+                $carry[$city]['date_inserted'] .= '@' . $item['date_inserted'];
+            } else {
+                $carry[$city] = $item;
+            }
+            return $carry;
+        }, array());
+        print_array($output);
+        //  [user_id] => 6587
+        //     [course_shortname] => Education_lu
+        //     [name_course] => Education and Prevention
+        //     [book_name] => Sexual Reproductive Health
+        //     [book_id] => 4
+        //     [chaptername] => HIV-Okawuka kasiriimu
+        //     [date_inserted] => 2021-04-24 13:59:52
     }
 }
