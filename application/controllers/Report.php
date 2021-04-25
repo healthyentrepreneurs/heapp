@@ -687,41 +687,71 @@ class Report extends CI_Controller
             return $carry;
         }, array());
         $output_values = array_values($output);
-        $array_mega = array();
-        foreach ($output_values as $keyn => $valuen) {
-            $user_id_array = explode("@", $valuen['user_id']);
-            $course_shortname_array = explode("@", $valuen['course_shortname']);
-            $name_course_array = explode("@", $valuen['name_course']);
-            $book_name_array = explode("@", $valuen['book_name']);
-            $book_id_array = explode("@", $valuen['book_id']);
-            $chaptername_array = explode("@", $valuen['chaptername']);
-            $array_jeje = array();
-            $chapter_count = 0;
-            foreach ($user_id_array as $keyp => $valuep) {
-                if (array_key_exists($valuep, $array_jeje)) {
-                    if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
-                        $chapter_count += 1;
-                    }
-                } else {
-                    $array_jeje[$valuep] = $chaptername_array[$keyp];
-                    $chapter_count += 1;
+        $book_course_check = array();
+        $new_array_mama = array();
+        foreach ($output_values as $key_peng => $value_peng) {
+            $book_id_arr = explode("@", $value_peng['book_id']);
+            $book_name_arr = explode("@", $value_peng['book_name']);
+            $course_shortname_arr = explode("@", $value_peng['course_shortname']);
+            #arrays above
+            $booknamenon = str_replace(' ', '', $book_name_arr[0]);
+            $unique_bookchap_id = $booknamenon . '' . $course_shortname_arr[0];
+            if (array_key_exists($unique_bookchap_id, $book_course_check)) {
+                #Handling the anomaly
+                if ($book_course_check[$unique_bookchap_id] != $book_id_arr[0]) {
+                    #Value One
+                    $valueone = $new_array_mama[$unique_bookchap_id];
+                    #Value Two
+                    $valueone['user_id'] = $valueone['user_id'] . '@' . $value_peng['user_id'];
+                    $valueone['course_shortname'] = $valueone['course_shortname'] . '@' . $value_peng['course_shortname'];
+                    $valueone['name_course'] = $valueone['name_course'] . '@' . $value_peng['name_course'];
+                    $valueone['book_name'] = $valueone['book_name'] . '@' . $value_peng['book_name'];
+                    $valueone['book_id'] = $valueone['book_id'] . '@' . $value_peng['book_id'];
+                    $valueone['chaptername'] = $valueone['chaptername'] . '@' . $value_peng['chaptername'];
+                    $valueone['date_inserted'] = $valueone['date_inserted'] . '@' . $value_peng['date_inserted'];
+                    $new_array_mama[$unique_bookchap_id] = $valueone;
                 }
+            } else {
+                $book_course_check[$unique_bookchap_id] = $book_id_arr[0];
+                $new_array_mama[$unique_bookchap_id] = $value_peng;
             }
-            // $user_id_array_unqui = array_unique($user_id_array);
-            // $sooth_array = array(
-            //     'chapters' => $chapter_count,
-            //     'unique_users' => count($user_id_array_unqui),
-            //     'books_veiwed' => count($book_name_array),
-            //     'course' => $name_course_array[$keyn],
-            //     'book' => $book_name_array[$keyn]
-            // );
-            // array_push($array_mega, $sooth_array);
-
-            // print_array($book_id_array);
-            // print_array(".......................<br>");
-            // print_array($name_course_array);
-            // print_array("**********************<br>");
         }
+        print_array($new_array_mama);
+        // $array_mega = array();
+        // foreach ($output_values as $keyn => $valuen) {
+        //     $user_id_array = explode("@", $valuen['user_id']);
+        //     $course_shortname_array = explode("@", $valuen['course_shortname']);
+        //     $name_course_array = explode("@", $valuen['name_course']);
+        //     $book_name_array = explode("@", $valuen['book_name']);
+        //     $book_id_array = explode("@", $valuen['book_id']);
+        //     $chaptername_array = explode("@", $valuen['chaptername']);
+        //     $array_jeje = array();
+        //     $chapter_count = 0;
+        //     foreach ($user_id_array as $keyp => $valuep) {
+        //         if (array_key_exists($valuep, $array_jeje)) {
+        //             if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
+        //                 $chapter_count += 1;
+        //             }
+        //         } else {
+        //             $array_jeje[$valuep] = $chaptername_array[$keyp];
+        //             $chapter_count += 1;
+        //         }
+        //     }
+        //     $user_id_array_unqui = array_unique($user_id_array);
+        //     $sooth_array = array(
+        //         'chapters' => $chapter_count,
+        //         'unique_users' => count($user_id_array_unqui),
+        //         'books_veiwed' => count($book_name_array),
+        //         'course' => $name_course_array[$keyn],
+        //         'book' => $book_name_array[$keyn]
+        //     );
+        //     array_push($array_mega, $sooth_array);
+
+        //     print_array($book_id_array);
+        //     print_array(".......................<br>");
+        //     print_array($name_course_array);
+        //     print_array("**********************<br>");
+        // }
         print_array($output_values);
     }
 }
