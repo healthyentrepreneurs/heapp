@@ -789,17 +789,27 @@ class Report extends CI_Controller
             $last_act_array = $this->universal_model->get_value_max($user_id_array[0]);
             $last_act_array = array_shift($last_act_array);
             #End Function
-            $chapter_count_unq = array_unique($chaptername_array);
+            $$book_name_unq = array_unique($book_name_array);
             $sooth_array = array(
                 'fullnames' => $he_names_array[0],
                 'username' => $user_id_array[0],
-                'books_veiwed' => count($book_name_array),
-                'chapters' => count($chapter_count_unq),
+                'books_veiwed' => count($book_name_unq),
+                'chapters' => count($chaptername_array),
                 'lastactivitydate' => $last_act_array['date_inserted']
             );
             // get_value_max
             array_push($array_mega, $sooth_array);
         }
-        print_array($array_mega);
+        return $array_mega;
+        // print_array($array_mega);
+    }
+    public function books_data()
+    {
+        $courseid = "non";
+        $bookid = "94";
+        $startdate = "01-04-2021";
+        $enddate = "30-04-2021";
+        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
+        print_array($persial_survey);
     }
 }

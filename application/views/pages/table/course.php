@@ -44,7 +44,7 @@
                     foreach ($courses as $key => $value) {
                     ?>
                         <tr>
-                            <td class="center"><img src="<?= $value['image_url_small'] ?>" alt="image" width="100" height="100" /></td>
+                            <td class="center"><img src="<?= $value['image_url_small'] ?>" alt="image" width="50" height="50" /></td>
                             <td>
                                 <?php
                                 if ($value['source'] == "moodle") {
