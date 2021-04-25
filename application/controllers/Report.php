@@ -665,7 +665,8 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-    public function book_query_two()
+    #Summery Book Report
+    public function sum_book_data()
     {
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
@@ -751,6 +752,31 @@ class Report extends CI_Controller
             );
             array_push($array_mega, $sooth_array);
         }
-        print_array($array_mega);
+        return $array_mega;
+    }
+    #Summery User Report
+    public function sum_user_data()
+    {
+        $startdate = "01-04-2021";
+        $enddate = "30-04-2021";
+        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
+        // print_array($persial_survey);
+        $output = array_reduce($persial_survey, function (array $carry, array $item) {
+            $city = $item['user_id'];
+            if (array_key_exists($city, $carry)) {
+                $carry[$city]['user_id'] .= '@' . $item['user_id'];
+                $carry[$city]['course_shortname'] .= '@' . $item['course_shortname'];
+                $carry[$city]['name_course'] .= '@' . $item['name_course'];
+                $carry[$city]['book_name'] .= '@' . $item['book_name'];
+                $carry[$city]['book_id'] .= '@' . $item['book_id'];
+                $carry[$city]['chaptername'] .= '@' . $item['chaptername'];
+                $carry[$city]['date_inserted'] .= '@' . $item['date_inserted'];
+            } else {
+                $carry[$city] = $item;
+            }
+            return $carry;
+        }, array());
+        $output_values = array_values($output);
+        print_array($output_values);
     }
 }
