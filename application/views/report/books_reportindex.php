@@ -2,17 +2,12 @@
     <ul class="nav nav-tabs" id="myTab">
         <li class="active">
             <a data-toggle="tab" href="#surveyone">
-                Books Report
+                Summary Books Report
             </a>
         </li>
         <li>
             <a data-toggle="tab" href="#surveytwo">
                 Details In Chapters Report
-            </a>
-        </li>
-        <li>
-            <a data-toggle="tab" href="#surveythree">
-                Summery Book Report
             </a>
         </li>
          <li>
@@ -37,9 +32,6 @@
         </div>
         <div id="surveytwo" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/reportrangedetailsbooks', '', TRUE); ?>
-        </div>
-         <div id="surveythree" class="tab-pane padding-bottom-5">
-             <h1>Three</h1>
         </div>
          <div id="surveyfour" class="tab-pane padding-bottom-5">
               <h1>Four</h1>

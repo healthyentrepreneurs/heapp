@@ -567,15 +567,12 @@ class Report extends CI_Controller
     }
     public function report_perbooks()
     {
-        // $_POST['selectclientid'] = 1;
-        // $_POST['startdate'] = "12-04-2021";
-        // $_POST['enddate'] = "22-04-2021";
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_time(array('id', 'user_id', 'he_names', 'name_course', 'course_shortname', 'name_course_image', 'book_name', 'token', 'date_inserted'), $startdate, $enddate);
+        $persial_survey = $this->sum_book_data($startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
-                'report' => "No Report Found For This Book Range",
+                'report' => "No Report Found For This Book",
                 'status' => 0,
             );
             echo json_encode($json_return);
@@ -585,30 +582,22 @@ class Report extends CI_Controller
             $table_data['startdate'] = $startdate;
             $table_data['enddate'] = $enddate;
             $table_data['controller'] = $this;
-            $table_data['taskname'] = "Books | Courses";
+            $table_data['taskname'] = "Summery Book Report";
             $table_data['table_survey_url'] = 'pages/table/bookschapter_table';
             $json_return = array(
-                'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
+                'report' => "Report in Range" . $startdate . '  To ' . $enddate,
                 'status' => 1,
                 'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
                 'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls'
             );
-            $arrayexcel = array();
-            foreach ($persial_survey as $key => $value_header) {
-                unset_post($value_header, 'name_course_image');
-                unset_post($value_header, 'token');
-                unset_post($value_header, 'id');
-                array_push($arrayexcel, $value_header);
-            }
             $ara = array(
-                'USERNAME',
-                'FULL NAME',
-                'COURSE NAME',
-                '',
-                'BOOKNAME',
-                'DATE VIEWED',
+                'BOOK NAME',
+                'COURSE',
+                'BOOKS VIEWED',
+                'CHAPTERS VIEWED',
+                'UNIQUE USERS VIEWED'
             );
-            $htmlString = $this->xxxxtimePerClientReport($arrayexcel, $ara);
+            $htmlString = $this->xxxxtimePerClientReport($persial_survey, $ara);
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             $spreadsheet = $reader->loadFromString($htmlString);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
@@ -666,10 +655,10 @@ class Report extends CI_Controller
         }
     }
     #Summery Book Report
-    public function sum_book_data()
+    public function sum_book_data($startdate, $enddate)
     {
-        $startdate = "01-04-2021";
-        $enddate = "30-04-2021";
+        // $startdate = "01-04-2021";
+        // $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
@@ -809,7 +798,7 @@ class Report extends CI_Controller
         // $bookid = "94";
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
-        $persial_survey = $this->universal_model->books_reports_chapter(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate,$courseid, $bookid,"book");
+        $persial_survey = $this->universal_model->books_reports_chapter(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate, $courseid, $bookid, "book");
         print_array($persial_survey);
     }
 }

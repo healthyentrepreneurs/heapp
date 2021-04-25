@@ -8,7 +8,7 @@
     <div class="panel-body">
         <div class="table-responsive" id="mybookchaptertable_nm">
             <p>
-                <b>Seen Books In Courses Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
+                <b>Summary Books Unique Users and Chapters Per User</b></h4>
             </p>
             <?php echo $this->load->view($table_survey_url, '', TRUE); ?>
         </div>
