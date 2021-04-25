@@ -41,30 +41,6 @@ class Report extends CI_Controller
         }
         echo memory_get_usage() - $startMemory, ' bytes';
     }
-    public function report_surveydetails_old()
-    {
-        $_POST['selectclientid'] = 2;
-        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        $_POST['startdate'] = "01-02-2021";
-        $_POST['enddate'] = "28-02-2021";
-        $surveyid = $this->input->post('selectclientid');
-        $selectclientname = $this->input->post('selectclientname');
-        $startdate = $this->input->post('startdate');
-        $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
-        if (empty($persial_survey)) {
-            $json_return = array(
-                'report' => "No Report Found For This Survey Combination",
-                'status' => 0,
-            );
-            echo json_encode($json_return);
-        } else {
-            $final_array = $this->report_surveydetails_data($persial_survey);
-            // echo count($final_array);
-            // print_array($final_array);
-            // echo json_encode($final_array);
-        }
-    }
     public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 2;
@@ -341,8 +317,8 @@ class Report extends CI_Controller
                             } else {
                                 $arrayc['description'] = "";
                             }
-                            $value_n = $this->cleanContent($valuec['html']);
-                            $arrayc['text'] = $$valuec['html'];
+                            $value_n =cleanContent($valuec['html']);
+                            $arrayc['text'] = $valuec['html'];
                             $arrayc['value'] = "html_value";
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
@@ -355,7 +331,7 @@ class Report extends CI_Controller
                                         'title' => "html_info",
                                         'description' => "",
                                     );
-                                    $value_n = $this->cleanContent($valuec['html']);
+                                    $value_n =cleanContent($valuec['html']);
                                     $arrayc['text'] = $valuec['html'];
                                     $arrayc['value'] = "html_value";
                                     array_push($array_of_array, $arrayc);
@@ -559,12 +535,7 @@ class Report extends CI_Controller
         // print_array($array_of_output);
     }
 
-    function cleanContent($content)
-    {
-        $content = nl2br($content);
-        $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
-        return trim(strip_tags($content));
-    }
+   
     public function report_perbooks()
     {
         $startdate = $this->input->post('startdate');

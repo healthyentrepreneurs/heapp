@@ -512,6 +512,8 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        print_array($server_output);
+        $jaja = json_decode($server_output, true);
+        // cleanContent
+        print_array($jaja);
     }
 }
