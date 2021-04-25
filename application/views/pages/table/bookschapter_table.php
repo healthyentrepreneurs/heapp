@@ -6,7 +6,6 @@
             <th class="center">BOOKS VIEWED</th>
             <th class="center">CHAPTERS VIEWED</th>
             <th class="center">UNIQUE USERS VIEWED</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

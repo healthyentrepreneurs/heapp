@@ -51,13 +51,13 @@
 
                                 ?>
                                     <a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>">
-                                        <h3 style="color:#689F59"><?= $value['fullname'] ?></h3>
+                                        <h5 style="color:#689F59"><?= $value['fullname'] ?></h5>
                                     </a>
                                 <?php
                                 } else {
                                 ?>
                                     <a href="#">
-                                        <h3 style="color:#689F59"><?= $value['fullname'] ?></h3>
+                                        <h5 style="color:#689F59"><?= $value['fullname'] ?></h5>
                                     </a>
                                 <?php
                                 }
