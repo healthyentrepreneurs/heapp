@@ -695,20 +695,28 @@ class Report extends CI_Controller
             $book_name_array = explode("@", $valuen['book_name']);
             $book_id_array = explode("@", $valuen['book_id']);
             $chaptername_array = explode("@", $valuen['chaptername']);
-            $_first_report = array();
-            $check_chapter = array();
             $array_jeje = array();
             $chapter_count = 0;
             foreach ($user_id_array as $keyp => $valuep) {
                 if (array_key_exists($valuep, $array_jeje)) {
-                    if (!$array_jeje[$valuep] == $chaptername_array[$keyp]) {
+                    if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
                         $chapter_count += 1;
                     }
                 } else {
                     $array_jeje[$valuep] = $chaptername_array[$keyp];
-                    $chapter_count = 1;
+                    $chapter_count += 1;
                 }
             }
+            $user_id_array_unqui = array_unique($user_id_array);
+            $sooth_array = array(
+                'chapters' => $chapter_count,
+                'unique_users' => count($user_id_array_unqui),
+                'books_veiwed' => count($book_name_array),
+                'course' => $name_course_array[0],
+                'book' => $book_name_array[0]
+            );
+            array_push($array_mega, $sooth_array);
         }
+        print_array($array_mega);
     }
 }
