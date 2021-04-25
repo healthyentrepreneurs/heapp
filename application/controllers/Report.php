@@ -717,7 +717,7 @@ class Report extends CI_Controller
             }
         }
         $array_mega = array();
-        foreach ($output_values as $keyn => $valuen) {
+        foreach ($new_array_mama as $keyn => $valuen) {
             $user_id_array = explode("@", $valuen['user_id']);
             $course_shortname_array = explode("@", $valuen['course_shortname']);
             $name_course_array = explode("@", $valuen['name_course']);
