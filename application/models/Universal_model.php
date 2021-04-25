@@ -388,9 +388,14 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    public function books_reports_chapter($array_table_n, $from_from, $to_to, $courseid, $bookid)
+    public function books_reports_chapter($array_table_n, $from_from, $to_to, $courseid, $bookid, $funco = "pop")
     {
-        $this->db->select($array_table_n);
+        if ($funco == "pop") {
+            $this->db->select($array_table_n);
+        } else if ($funco == "book") {
+            // name_course', 'book_name', 'user_id', 'he_names', 'date_inserted
+            $this->db->select('name_course,book_name,user_id,he_names,date_inserted,DATE_FORMAT(date_inserted,"%Y-%m-%d") as datelike');
+        }
         $this->db->from('viewtable');
         $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
         $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
