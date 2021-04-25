@@ -716,42 +716,36 @@ class Report extends CI_Controller
                 $new_array_mama[$unique_bookchap_id] = $value_peng;
             }
         }
-        print_array($new_array_mama);
-        // $array_mega = array();
-        // foreach ($output_values as $keyn => $valuen) {
-        //     $user_id_array = explode("@", $valuen['user_id']);
-        //     $course_shortname_array = explode("@", $valuen['course_shortname']);
-        //     $name_course_array = explode("@", $valuen['name_course']);
-        //     $book_name_array = explode("@", $valuen['book_name']);
-        //     $book_id_array = explode("@", $valuen['book_id']);
-        //     $chaptername_array = explode("@", $valuen['chaptername']);
-        //     $array_jeje = array();
-        //     $chapter_count = 0;
-        //     foreach ($user_id_array as $keyp => $valuep) {
-        //         if (array_key_exists($valuep, $array_jeje)) {
-        //             if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
-        //                 $chapter_count += 1;
-        //             }
-        //         } else {
-        //             $array_jeje[$valuep] = $chaptername_array[$keyp];
-        //             $chapter_count += 1;
-        //         }
-        //     }
-        //     $user_id_array_unqui = array_unique($user_id_array);
-        //     $sooth_array = array(
-        //         'chapters' => $chapter_count,
-        //         'unique_users' => count($user_id_array_unqui),
-        //         'books_veiwed' => count($book_name_array),
-        //         'course' => $name_course_array[$keyn],
-        //         'book' => $book_name_array[$keyn]
-        //     );
-        //     array_push($array_mega, $sooth_array);
-
-        //     print_array($book_id_array);
-        //     print_array(".......................<br>");
-        //     print_array($name_course_array);
-        //     print_array("**********************<br>");
-        // }
-        // print_array($output_values);
+        $array_mega = array();
+        foreach ($output_values as $keyn => $valuen) {
+            $user_id_array = explode("@", $valuen['user_id']);
+            $course_shortname_array = explode("@", $valuen['course_shortname']);
+            $name_course_array = explode("@", $valuen['name_course']);
+            $book_name_array = explode("@", $valuen['book_name']);
+            $book_id_array = explode("@", $valuen['book_id']);
+            $chaptername_array = explode("@", $valuen['chaptername']);
+            $array_jeje = array();
+            $chapter_count = 0;
+            foreach ($user_id_array as $keyp => $valuep) {
+                if (array_key_exists($valuep, $array_jeje)) {
+                    if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
+                        $chapter_count += 1;
+                    }
+                } else {
+                    $array_jeje[$valuep] = $chaptername_array[$keyp];
+                    $chapter_count += 1;
+                }
+            }
+            $user_id_array_unqui = array_unique($user_id_array);
+            $sooth_array = array(
+                'chapters' => $chapter_count,
+                'unique_users' => count($user_id_array_unqui),
+                'books_veiwed' => count($book_name_array),
+                'course' => $name_course_array[$keyn],
+                'book' => $book_name_array[$keyn]
+            );
+            array_push($array_mega, $sooth_array);
+        }
+        print_array($array_mega);
     }
 }
