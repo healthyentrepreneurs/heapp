@@ -810,7 +810,7 @@ class Report extends CI_Controller
             $last_act_array = $this->universal_model->get_value_max($user_id_array[0]);
             $last_act_array = array_shift($last_act_array);
             #End Function
-            $$book_name_unq = array_unique($book_name_array);
+            $book_name_unq = array_unique($book_name_array);
             $sooth_array = array(
                 'fullnames' => $he_names_array[0],
                 'username' => $user_id_array[0],
