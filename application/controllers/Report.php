@@ -726,19 +726,19 @@ class Report extends CI_Controller
             $chaptername_array = explode("@", $valuen['chaptername']);
             $array_jeje = array();
             $chapter_count = 0;
-            foreach ($user_id_array as $keyp => $valuep) {
-                if (array_key_exists($valuep, $array_jeje)) {
-                    if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
-                        $chapter_count += 1;
-                    }
-                } else {
-                    $array_jeje[$valuep] = $chaptername_array[$keyp];
-                    $chapter_count += 1;
-                }
-            }
+            // foreach ($user_id_array as $keyp => $valuep) {
+            //     if (array_key_exists($valuep, $array_jeje)) {
+            //         if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
+            //             $chapter_count += 1;
+            //         }
+            //     } else {
+            //         $array_jeje[$valuep] = $chaptername_array[$keyp];
+            //         $chapter_count += 1;
+            //     }
+            // }
             $user_id_array_unqui = array_unique($user_id_array);
             $sooth_array = array(
-                'chapters' => $chapter_count,
+                'chapters' => count($chaptername_array),
                 'unique_users' => count($user_id_array_unqui),
                 'books_veiwed' => count($book_name_array),
                 'course' => $name_course_array[0],
@@ -747,5 +747,7 @@ class Report extends CI_Controller
             array_push($array_mega, $sooth_array);
         }
         print_array($array_mega);
+        print_r('<br>');
+        print_array($new_array_mama);
     }
 }
