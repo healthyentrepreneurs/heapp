@@ -712,11 +712,11 @@ class Report extends CI_Controller
                 'chapters' => $chapter_count,
                 'unique_users' => count($user_id_array_unqui),
                 'books_veiwed' => count($book_name_array),
-                'course' => $name_course_array[0],
-                'book' => $book_name_array[0]
+                'course' => $name_course_array[$keyn],
+                'book' => $book_name_array[$keyn]
             );
             array_push($array_mega, $sooth_array);
         }
-        print_array($output_values);
+        print_array($array_mega);
     }
 }
