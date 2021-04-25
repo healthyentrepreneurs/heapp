@@ -15,7 +15,7 @@
     // print_array($surveydatas);
     ?>
     <div class="row">
-        <form id="timeperclientdet" method="post" class="form-horizontal" role="form">
+        <form id="formdetailschap" method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">
                     Start Date
@@ -80,7 +80,7 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdfdet" onclick="removepigichap()">
+                            <li><a href="#" id="exportpdfdet" onclick="removedetailschap()">
                                     Save as PDF </a></li>
                             <li>
                                 <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] .'chapter'. 'write.xls'); ?>" download>Export to Excel</a>
@@ -105,7 +105,7 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclientdet').formValidation('revalidateField', 'dateragestarttimedet');
+                $('#formdetailschap').formValidation('revalidateField', 'dateragestarttimedet');
             });
         $('#daterageendtimedet')
             .datepicker({
@@ -113,11 +113,11 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclientdet').formValidation('revalidateField', 'daterageendtimedet');
+                $('#formdetailschap').formValidation('revalidateField', 'daterageendtimedet');
             });
         //        Main.init();
         //        $('#tatamamaid').DataTable();
-        $('#timeperclientdet')
+        $('#formdetailschap')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},

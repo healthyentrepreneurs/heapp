@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover" id="my_chaptercha_table">
+<table class="table table-striped table-hover" id="detalschaptable">
     <thead>
         <tr>
             <th class="center">FULL NAMES</th>

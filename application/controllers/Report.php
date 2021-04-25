@@ -654,6 +654,48 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
+    public function sum_user_report()
+    {
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $persial_survey = $this->sum_user_data($startdate, $enddate);
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For Summary Users",
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            //Modified Data
+            $table_data['survey_reportdata'] = $persial_survey;
+            $table_data['startdate'] = $startdate;
+            $table_data['enddate'] = $enddate;
+            $table_data['controller'] = $this;
+            $table_data['taskname'] = "Summery Book Report";
+            $table_data['table_survey_url'] = 'pages/table/sumuser_table';
+            $json_return = array(
+                'report' => "Report in Range" . $startdate . '  To ' . $enddate,
+                'status' => 1,
+                'data' => $this->load->view('pages/cohort/sumuser_temp', $table_data, true),
+                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'sumusers' . 'write.xls'
+            );
+            $ara = array(
+                'FULL NAME',
+                'USERNAME',
+                'BOOKS VIEWED',
+                'CHAPTERS VIEWED',
+                'LAST ACTIVITY DATE'
+            );
+            $htmlString = $this->xxxxtimePerClientReport($persial_survey, $ara);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'sumusers' . 'write.xls');
+            echo json_encode($json_return);
+        }
+    }
+
+    #More Report Data Functions Below
     #Summery Book Report
     public function sum_book_data($startdate, $enddate)
     {
@@ -722,32 +764,22 @@ class Report extends CI_Controller
                     array_push($array_jeje, $user_id_chaptername);
                     $chapter_count += 1;
                 }
-                // if (array_key_exists($valuep, $array_jeje)) {
-                //     if ($array_jeje[$valuep] != $chaptername_array[$keyp]) {
-                //         $chapter_count += 1;
-                //     }
-                // } else {
-                //     $array_jeje[$valuep] = $chaptername_array[$keyp];
-                //     $chapter_count += 1;
-                // }
             }
             $user_id_array_unqui = array_unique($user_id_array);
             $sooth_array = array(
+                'book' => $book_name_array[0],
+                'course' => $name_course_array[0],
+                'books_veiwed' => count($book_name_array),
                 'chapters' => $chapter_count,
                 'unique_users' => count($user_id_array_unqui),
-                'books_veiwed' => count($book_name_array),
-                'course' => $name_course_array[0],
-                'book' => $book_name_array[0]
             );
             array_push($array_mega, $sooth_array);
         }
         return $array_mega;
     }
     #Summery User Report
-    public function sum_user_data()
+    public function sum_user_data($startdate, $enddate)
     {
-        $startdate = "01-04-2021";
-        $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'he_names', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
@@ -784,7 +816,7 @@ class Report extends CI_Controller
                 'username' => $user_id_array[0],
                 'books_veiwed' => count($book_name_unq),
                 'chapters' => count($chaptername_array),
-                'lastactivitydate' => $last_act_array['date_inserted']
+                'lastactivitydate' => date('d-m-Y', strtotime($last_act_array['date_inserted']))
             );
             // get_value_max
             array_push($array_mega, $sooth_array);
