@@ -759,14 +759,13 @@ class Report extends CI_Controller
     {
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
-        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
+        $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'he_names', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
             $city = $item['user_id'];
             if (array_key_exists($city, $carry)) {
                 $carry[$city]['user_id'] .= '@' . $item['user_id'];
-                $carry[$city]['course_shortname'] .= '@' . $item['course_shortname'];
-                $carry[$city]['name_course'] .= '@' . $item['name_course'];
+                $carry[$city]['he_names'] .= '@' . $item['he_names'];
                 $carry[$city]['book_name'] .= '@' . $item['book_name'];
                 $carry[$city]['book_id'] .= '@' . $item['book_id'];
                 $carry[$city]['chaptername'] .= '@' . $item['chaptername'];
@@ -777,6 +776,30 @@ class Report extends CI_Controller
             return $carry;
         }, array());
         $output_values = array_values($output);
-        print_array($output_values);
+        $array_mega = array();
+        foreach ($output_values as $keyn => $valuen) {
+            $user_id_array = explode("@", $valuen['user_id']);
+            $he_names_array = explode("@", $valuen['he_names']);
+            $book_name_array = explode("@", $valuen['book_name']);
+            $book_id_array = explode("@", $valuen['book_id']);
+            $chaptername_array = explode("@", $valuen['chaptername']);
+            $date_inserted_array = explode("@", $valuen['date_inserted']);
+            #End of arrays
+            #Additional Function
+            $last_act_array = $this->universal_model->get_value_max($user_id_array[0]);
+            $last_act_array = array_shift($last_act_array);
+            #End Function
+            $chapter_count_unq = array_unique($chaptername_array);
+            $sooth_array = array(
+                'fullnames' => $he_names_array[0],
+                'username' => $user_id_array[0],
+                'books_veiwed' => count($book_name_array),
+                'chapters' => count($chapter_count_unq),
+                'lastactivitydate' => $last_act_array['date_inserted']
+            );
+            // get_value_max
+            array_push($array_mega, $sooth_array);
+        }
+        print_array($array_mega);
     }
 }

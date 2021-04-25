@@ -429,4 +429,13 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+    public function get_value_max($user_id)
+    {
+        $this->db->from('viewtable');
+        $this->db->select('date_inserted', 'user_id');
+        $this->db->where('user_id', $user_id);
+        $this->db->select_max('date_inserted');
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
 }
