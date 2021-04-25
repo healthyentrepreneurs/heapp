@@ -388,11 +388,11 @@ class User extends CI_Controller
         $more_data = $this->test_extraction($course_id, $token, $book_id, $chapter_id, $date_received);
         //Add User Details 
         //  public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        $user_step1=$this->universal_model->selectz(array('firstname','lastname'),'mdl_user','username',$username);
-        $user_step2=array_shift($user_step1);
-        $user_step3=implode(" ",$user_step2);
+        $user_step1 = $this->universal_model->selectz(array('firstname', 'lastname'), 'mdl_user', 'username', $username);
+        $user_step2 = array_shift($user_step1);
+        $user_step3 = implode(" ", $user_step2);
         #User End
-        $_current_data = array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id,'he_names'=>$user_step3);
+        $_current_data = array('book_id' => $book_id, 'view_id' => $chapter_id, 'token' => $token, 'user_id' => $username, 'course_id' => $course_id, 'he_names' => $user_step3);
         $array_insert = array_merge($more_data, $_current_data);
         // return $server_output;
         // public function insertzwhere($table_name, $array_value)
@@ -406,7 +406,10 @@ class User extends CI_Controller
     }
     public function testviews()
     {
+        #THINGS TO LOOK AT
         //https://docs.moodle.org/dev/Talk:Web_service_API_functions
+        //https://docs.moodle.org/dev/Events_API
+        //https://rdrr.io/github/jchrom/moodler/f/README.md
         $mama = $this->viwedbook(104, 268, 'b536dbacaab00ab6924ddd9798a1a611');
         print_array($mama);
         // $domainname = 'https://app.healthyentrepreneurs.nl';
@@ -493,5 +496,22 @@ class User extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
         return $array_of_output;
+    }
+
+    public function test_get_course()
+    {
+        //   core_course_get_courses
+        //core_enrol_get_users_courses
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $functionname = 'core_course_get_courses';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $this->get_admin_token()['token'],
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json'
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        print_array($server_output);
     }
 }

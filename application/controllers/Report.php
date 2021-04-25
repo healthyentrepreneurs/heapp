@@ -671,7 +671,7 @@ class Report extends CI_Controller
             $table_data['startdate'] = $startdate;
             $table_data['enddate'] = $enddate;
             $table_data['controller'] = $this;
-            $table_data['taskname'] = "Summery Book Report";
+            $table_data['taskname'] = "Summery User Report In Range " . $startdate . ' To ' . $enddate;
             $table_data['table_survey_url'] = 'pages/table/sumuser_table';
             $json_return = array(
                 'report' => "Report in Range" . $startdate . '  To ' . $enddate,
