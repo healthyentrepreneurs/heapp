@@ -716,9 +716,12 @@ class Report extends CI_Controller
             //     'book' => $book_name_array[$keyn]
             // );
             // array_push($array_mega, $sooth_array);
+
             print_array($book_name_array);
             print_array(".......................<br>");
+            print_array($name_course_array);
+            print_array("**********************<br>");
         }
-        print_array($array_mega);
+        // print_array($array_mega);
     }
 }
