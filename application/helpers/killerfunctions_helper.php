@@ -1141,3 +1141,9 @@ function delete_value(&$original, $del_val)
     //The value was not found, nothing was deleted
     return false;
 }
+function cleanContent($content)
+{
+    $content = nl2br($content);
+    $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
+    return trim(strip_tags($content));
+}
