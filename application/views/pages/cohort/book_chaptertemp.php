@@ -6,7 +6,7 @@
 </style>
 <div class="col-md-12">
     <div class="panel-body">
-        <div class="table-responsive" id="mybookchaptertable_nm">
+        <div class="table-responsive" id="sumbooktablepane">
             <p>
                 <b>Summary Books Unique Users and Chapters Per User</b></h4>
             </p>
@@ -17,7 +17,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#mybookchaptertable_n').DataTable({
+        $('#summary_bool_report_table').DataTable({
             "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
@@ -29,8 +29,8 @@
     //     window.location.replace("http://localhost/heapp/welcome/admin/6?id=" + id);
     // }
 
-    function removepigi() {
-        var tble = document.getElementById('mybookchaptertable_n');
+    function removesumbootab() {
+        var tble = document.getElementById('summary_bool_report_table');
         var row = tble.rows; // Getting the rows 
         for (var i = 0; i < row[0].cells.length; i++) {
             // Getting the text of columnName 
@@ -51,7 +51,7 @@
         //     "info": false
         // });
         printJS({
-            printable: 'mybookchaptertable_nm',
+            printable: 'sumbooktablepane',
             type: 'html',
             header: 'PDF <?php echo $taskname ?>',
             maxWidth: '1000',

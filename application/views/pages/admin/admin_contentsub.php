@@ -62,7 +62,7 @@
                                         <tr>
                                             <td class="center"><?= $value_in_sub['modname'] ?></td>
                                             <td class="center"><?= $value_in_sub['name'] ?></td>
-                                            <td class="center"><img src="<?= $value_in_sub['modicon'] ?>" alt="image" width="50" height="50" /></td>
+                                            <td class="center"><img src="<?= $value_in_sub['modicon'] ?>" alt="image" width="50" height="50" style="background-color: #689F59;"/></td>
                                             <td class="center">
                                                 <div class="visible-md visible-lg hidden-sm hidden-xs">
                                                     <a href="<?= base_url('imagemanager/upload_image_sub?link=' . encryptValue($value_in_sub['modicon']) . '&name=' . $value_in_sub['name'] . '&type=' . $value_in_sub['modname']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-share"></i></a>

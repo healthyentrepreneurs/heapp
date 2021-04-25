@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover" id="mybookchaptertable_n">
+<table class="table table-striped table-hover" id="summary_bool_report_table">
     <thead>
         <tr>
             <th class="center">BOOK NAME</th>

@@ -47,7 +47,7 @@
                             <b>Click On Image To Upload</b>
                         </label>
                         <div class="col-sm-9">
-                            <img id="uploadPreview" src="<?= $icon_image ?>" onclick="Call_Uploader()" width="300" height="200" />
+                            <img id="uploadPreview" src="<?= $icon_image ?>" onclick="Call_Uploader()" width="300" height="200" style="background-color: #689F59;" />
                             <br><br>
                             <h6 class="error"><?php echo ($this->session->flashdata('validate_image')) ?></h6>
                             <input id="user_profile_pic" class="hidden" type="file" name="user_profile_pic" onChange="PreviewImage();" placeholder="Profile Picture" />

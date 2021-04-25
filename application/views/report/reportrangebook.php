@@ -10,7 +10,7 @@
     // print_array($surveydatas);
     ?>
     <div class="row">
-        <form id="timeperclient" method="post" class="form-horizontal" role="form">
+        <form id="formsumbooks" method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">
                     Start Date
@@ -48,7 +48,7 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdf" onclick="removepigi()">
+                            <li><a href="#" id="exportpdf" onclick="removesumbootab()">
                                     Save as PDF </a></li>
                             <li>
                                 <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] .'booksgeneral'. 'write.xls'); ?>" download>Export to Excel</a>
@@ -61,7 +61,7 @@
         <!--END-->
     </div>
     <br>
-    <div id="contentcostbyclient"></div>
+    <div id="contentsumbooks"></div>
 </div>
 <script>
     var report_perbooks = "<?php echo base_url('report/report_perbooks'); ?>";
@@ -72,7 +72,7 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclient').formValidation('revalidateField', 'dateragestarttime');
+                $('#formsumbooks').formValidation('revalidateField', 'dateragestarttime');
             });
         $('#daterageendtime')
             .datepicker({
@@ -80,11 +80,11 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#timeperclient').formValidation('revalidateField', 'daterageendtime');
+                $('#formsumbooks').formValidation('revalidateField', 'daterageendtime');
             });
         //        Main.init();
         //        $('#tatamamaid').DataTable();
-        $('#timeperclient')
+        $('#formsumbooks')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},
@@ -129,10 +129,10 @@
                     // console.log(response.path);
                     if (response.status === 1) {
                         $.notify(response.report, "success");
-                        $("#contentcostbyclient").html(response.data);
+                        $("#contentsumbooks").html(response.data);
                     } else {
                         $.notify(response.report, "error");
-                        $("#contentcostbyclient").html('');
+                        $("#contentsumbooks").html('');
                     }
                 });
             });
