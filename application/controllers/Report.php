@@ -717,6 +717,6 @@ class Report extends CI_Controller
             );
             array_push($array_mega, $sooth_array);
         }
-        print_array($array_mega);
+        print_array($output_values);
     }
 }
