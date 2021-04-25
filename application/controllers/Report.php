@@ -809,7 +809,7 @@ class Report extends CI_Controller
         // $bookid = "94";
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
-        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
+        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted','perday as DATE_FORMAT(date_inserted, "%d/%m/%Y")'), $startdate, $enddate, $courseid, $bookid);
         print_array($persial_survey);
     }
 }
