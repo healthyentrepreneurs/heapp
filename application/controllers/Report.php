@@ -707,15 +707,17 @@ class Report extends CI_Controller
                     $chapter_count += 1;
                 }
             }
-            $user_id_array_unqui = array_unique($user_id_array);
-            $sooth_array = array(
-                'chapters' => $chapter_count,
-                'unique_users' => count($user_id_array_unqui),
-                'books_veiwed' => count($book_name_array),
-                'course' => $name_course_array[$keyn],
-                'book' => $book_name_array[$keyn]
-            );
-            array_push($array_mega, $sooth_array);
+            // $user_id_array_unqui = array_unique($user_id_array);
+            // $sooth_array = array(
+            //     'chapters' => $chapter_count,
+            //     'unique_users' => count($user_id_array_unqui),
+            //     'books_veiwed' => count($book_name_array),
+            //     'course' => $name_course_array[$keyn],
+            //     'book' => $book_name_array[$keyn]
+            // );
+            // array_push($array_mega, $sooth_array);
+            print_array($book_name_array);
+            print_array(".......................<br>");
         }
         print_array($array_mega);
     }
