@@ -2,7 +2,7 @@
     <?php
     ?>
     <div class="row">
-        <form id="formdetailschap" method="post" class="form-horizontal" role="form">
+        <form id="formviewbybook" method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">
                     Start Date
@@ -93,7 +93,7 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formdetailschap').formValidation('revalidateField', 'dateragestarttimebook');
+                $('#formviewbybook').formValidation('revalidateField', 'dateragestarttimebook');
             });
         $('#daterageendtimebook')
             .datepicker({
@@ -101,7 +101,7 @@
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formdetailschap').formValidation('revalidateField', 'daterageendtimebook');
+                $('#formviewbybook').formValidation('revalidateField', 'daterageendtimebook');
             });
         $("#availaba_course").change(function() {
             var course_id = $(this).val();
@@ -124,7 +124,7 @@
                 }
             });
         });
-        $('#formdetailschap')
+        $('#formviewbybook')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},

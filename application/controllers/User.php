@@ -412,6 +412,7 @@ class User extends CI_Controller
         //https://docs.moodle.org/dev/Talk:Web_service_API_functions
         //https://docs.moodle.org/dev/Events_API
         //https://rdrr.io/github/jchrom/moodler/f/README.md
+        //https://docs.moodle.org/dev/Core_APIs#Access_API_.28access.29
         $mama = $this->viwedbook(104, 268, 'b536dbacaab00ab6924ddd9798a1a611');
         print_array($mama);
         // $domainname = 'https://app.healthyentrepreneurs.nl';
