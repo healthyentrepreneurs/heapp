@@ -425,6 +425,17 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
+    public function extract_books_data()
+    {
+        $date_inserted_format = date('Y-m-d H:i:s', strtotime('2021-04-21 23:42:22'));
+        $_courseid = '2';
+        $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
+        $book_id = '4';
+        $chapter_id = '8';
+        $date_inserted = $date_inserted_format;
+        $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
+        print_array($data_analysis);
+    }
     public function test_extraction($_courseid, $token, $book_id, $chapter_id, $date_inserted)
     {
         //   public function get_details_percourse($_courseid, $token, $show = 1)
