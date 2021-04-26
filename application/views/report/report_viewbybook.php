@@ -1,6 +1,6 @@
 <div class="panel-body" id="client_one">
     <?php
-    print_array($all_courses);
+    // print_array($all_courses);
     ?>
     <div class="row">
         <form id="formviewbybook" method="post" class="form-horizontal" role="form">
@@ -33,7 +33,7 @@
                         <?php
                         foreach ($all_courses as $value) {
                         ?>
-                            <option value="<?= $value['id']; ?>"><?= $value['fullname'] ?></option>
+                            <option value="<?= $value['id']; ?>"><?= $value['fullname'] . ' | ' . $value['shortname'] ?></option>
                         <?php
                         }
                         ?>

@@ -504,4 +504,32 @@ class User extends CI_Controller
         // print_array($array_of_output);
         return $array_of_output;
     }
+    public function get_chapters_perbookcourse($_courseid, $book_id)
+    {
+        //  public function extract_books_data($_courseid, $token, $book_id, $chapter_id, $date_inserted)
+        //     {
+        // $_courseid = '2';
+        // $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
+        // $book_id = '4';
+        // $chapter_id = '8';
+        $data_analysis = $this->get_details_percourse($_courseid, $this->get_admin_token()['token'], 0);
+        #Correct Wrong
+        $stop_search = false;
+        $contents_array = array();
+        foreach ($data_analysis as $value_books) {
+            $modules = $value_books['modules'];
+            foreach ($modules as  $module) {
+                if ($module['instance'] == $book_id && $module['modname'] == 'book') {
+                    $contents = $module['contents'][0]['content'];
+                    $contents_array = json_decode($contents, true);
+                    $stop_search = true;
+                    break;
+                }
+            }
+            if ($stop_search) {
+                break;
+            }
+        }
+        print_array($contents_array);
+    }
 }
