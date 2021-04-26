@@ -317,7 +317,7 @@ class Report extends CI_Controller
                             } else {
                                 $arrayc['description'] = "";
                             }
-                            $value_n = cleanContent($valuec['html']);
+                            $value_n =cleanContent($valuec['html']);
                             $arrayc['text'] = $valuec['html'];
                             $arrayc['value'] = "html_value";
                             array_push($array_of_array, $arrayc);
@@ -331,7 +331,7 @@ class Report extends CI_Controller
                                         'title' => "html_info",
                                         'description' => "",
                                     );
-                                    $value_n = cleanContent($valuec['html']);
+                                    $value_n =cleanContent($valuec['html']);
                                     $arrayc['text'] = $valuec['html'];
                                     $arrayc['value'] = "html_value";
                                     array_push($array_of_array, $arrayc);
@@ -535,7 +535,7 @@ class Report extends CI_Controller
         // print_array($array_of_output);
     }
 
-
+   
     public function report_perbooks()
     {
         $startdate = $this->input->post('startdate');
@@ -668,10 +668,10 @@ class Report extends CI_Controller
 
     #More Report Data Functions Below
     #Summery Book Report
-    public function sum_book_data($startdatex = 0, $enddatex = 0)
+    public function sum_book_data($startdate, $enddate)
     {
-        $startdate = "01-04-2021";
-        $enddate = "30-04-2021";
+        // $startdate = "01-04-2021";
+        // $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
@@ -746,14 +746,11 @@ class Report extends CI_Controller
             );
             array_push($array_mega, $sooth_array);
         }
-        print_array($output_values);
         return $array_mega;
     }
     #Summery User Report
-    public function sum_user_data($startdatex = 0, $enddatex = 0)
+    public function sum_user_data($startdate, $enddate)
     {
-        $startdate = "01-04-2021";
-        $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'he_names', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
@@ -795,7 +792,6 @@ class Report extends CI_Controller
             // get_value_max
             array_push($array_mega, $sooth_array);
         }
-        print_array($output_values);
         return $array_mega;
         // print_array($array_mega);
     }
