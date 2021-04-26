@@ -369,13 +369,8 @@ class User extends CI_Controller
         return $array_object;
     }
     #Test Get User Details
-    public function viwedbook()
+    public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)
     {
-        $username="6587";
-        $course_id = '2';
-        $token = '690876320308add9f965fc482f02382e';
-        $book_id = '4';
-        $chapter_id = '7';
         // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_book_view_book';
@@ -389,8 +384,7 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        // $date_received = $this->input->get('dateTime');
-        $date_received='2021-04-26 04:02:18';
+        $date_received = $this->input->get('dateTime');
         $more_data = $this->extract_books_data($course_id, $token, $book_id, $chapter_id, $date_received);
         //Add User Details 
         //  public function selectz($array_table_n, $table_n, $variable_1, $value_1)
@@ -406,6 +400,8 @@ class User extends CI_Controller
         if (!empty($array_of_output)) {
             $this->universal_model->insertzwhere('viewtable', $array_insert);
             echo empty_response("New User Successfully Created", 200, $array_of_output);
+        } else {
+            echo empty_response("Failed To Sync The Data", 500);
         }
         // print_array($array_of_output);
 
@@ -435,9 +431,9 @@ class User extends CI_Controller
     {
         $date_inserted_format = date('Y-m-d H:i:s', strtotime($date_inserted));
         // $_courseid = '2';
-        // $token = '690876320308add9f965fc482f02382e';
+        // $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
         // $book_id = '4';
-        // $chapter_id = '7';
+        // $chapter_id = '8';
         $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
         #Correct Wrong
         $bookname = "";
@@ -490,75 +486,12 @@ class User extends CI_Controller
             'name_course_image' => $name_course_image,
             'book_name' => $bookname,
             'chaptername' => $_page_title,
-            'modicon_book' => $modicon,
+            'modicon_chapter' => $modicon,
             'page_title' => 1,
             'date_inserted' => $date_inserted_format
         );
-        // print_array($array_data);
         return $array_data;
         #End Correction
-    }
-    public function test_extraction($_courseid, $token, $book_id, $chapter_id, $date_inserted)
-    {
-        //   public function get_details_percourse($_courseid, $token, $show = 1)
-        $date_inserted_format = date('Y-m-d H:i:s', strtotime($date_inserted));
-        $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
-        $chaptername = "";
-        $modicon = "";
-        $contents = "";
-        $_page_title = "";
-        $stop_search = false;
-        $name_levelone = "";
-        foreach ($data_analysis as $value_books) {
-            // print_array($value_books);
-            $name_levelone = $value_books['name'];
-            $modules = $value_books['modules'];
-            foreach ($modules as  $module) {
-                if ($module['instance'] == $book_id) {
-                    $chaptername = $module['name'];
-                    $modicon = $module['modicon'];
-                    $contents = $module['contents'][0]['content'];
-                    $contents_array = json_decode($contents, true);
-                    foreach ($contents_array as $keyn => $valuen) {
-                        if ($valuen['chapter_id'] == $chapter_id) {
-                            $_page_title = $valuen['title'];
-                            break;
-                        }
-                    }
-                    $stop_search = true;
-
-                    break;
-                }
-            }
-            if ($stop_search) {
-                break;
-            }
-        }
-        $array_co_id = array('id' => $_courseid);
-        $_courses = array();
-        array_push($_courses, $array_co_id);
-        $_courses_n = array_value_recursive('id', $_courses);
-        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
-        $the_course = array_shift($_courses_n_array);
-        $name_course = $the_course['fullname'];
-        $name_course_shortname = $the_course['shortname'];
-        $name_course_categoryname = $the_course['categoryname'];
-        // $name_course_image=$the_course['shortname'];
-        $name_course_image_extract = $the_course['overviewfiles'];
-        $course_image_get = array_shift($name_course_image_extract);
-        $name_course_image = $course_image_get['fileurl'] . '?token=' . $token;
-        $array_data = array(
-            'name_course' => $name_course,
-            'course_shortname' => $name_course_shortname,
-            'categoryname' => $name_course_categoryname,
-            'name_course_image' => $name_course_image,
-            'book_name' => $name_levelone,
-            'chaptername' => $chaptername,
-            'modicon_chapter' => $modicon,
-            'page_title' => $_page_title,
-            'date_inserted' => $date_inserted_format
-        );
-        return $array_data;
     }
     public function get_admin_token()
     {
