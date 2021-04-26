@@ -369,8 +369,13 @@ class User extends CI_Controller
         return $array_object;
     }
     #Test Get User Details
-    public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)
+    public function viwedbook()
     {
+        $username="6587";
+        $course_id = '2';
+        $token = '690876320308add9f965fc482f02382e';
+        $book_id = '4';
+        $chapter_id = '7';
         // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_book_view_book';
@@ -384,8 +389,9 @@ class User extends CI_Controller
 
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $date_received = $this->input->get('dateTime');
-        $more_data = $this->test_extraction($course_id, $token, $book_id, $chapter_id, $date_received);
+        // $date_received = $this->input->get('dateTime');
+        $date_received='2021-04-26 04:02:18';
+        $more_data = $this->extract_books_data($course_id, $token, $book_id, $chapter_id, $date_received);
         //Add User Details 
         //  public function selectz($array_table_n, $table_n, $variable_1, $value_1)
         $user_step1 = $this->universal_model->selectz(array('firstname', 'lastname'), 'mdl_user', 'username', $username);
@@ -425,13 +431,13 @@ class User extends CI_Controller
         // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
     }
-    public function extract_books_data()
+    public function extract_books_data($_courseid, $token, $book_id, $chapter_id, $date_inserted)
     {
-        $date_inserted_format = date('Y-m-d H:i:s', strtotime('2021-04-21 23:42:22'));
-        $_courseid = '2';
-        $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
-        $book_id = '4';
-        $chapter_id = '8';
+        $date_inserted_format = date('Y-m-d H:i:s', strtotime($date_inserted));
+        // $_courseid = '2';
+        // $token = '690876320308add9f965fc482f02382e';
+        // $book_id = '4';
+        // $chapter_id = '7';
         $data_analysis = $this->get_details_percourse($_courseid, $token, 0);
         #Correct Wrong
         $bookname = "";
@@ -488,8 +494,8 @@ class User extends CI_Controller
             'page_title' => 1,
             'date_inserted' => $date_inserted_format
         );
-        print_array($array_data);
-        // return $array_data;
+        // print_array($array_data);
+        return $array_data;
         #End Correction
     }
     public function test_extraction($_courseid, $token, $book_id, $chapter_id, $date_inserted)
