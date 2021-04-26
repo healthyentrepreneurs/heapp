@@ -410,7 +410,31 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-
+ public function books_reports_chapterson($array_table_n, $from_from, $to_to, $courseid, $bookid, $funco = "pop", $chapterid = "non")
+    {
+        if ($funco == "pop") {
+            $this->db->select($array_table_n);
+        } else if ($funco == "book") {
+            // name_course', 'book_name', 'user_id', 'he_names', 'date_inserted
+            $this->db->select('name_course,book_name,chaptername,user_id,he_names,date_inserted,DATE_FORMAT(date_inserted,"%m/%d/%Y") as datelike,DATE_FORMAT(date_inserted,"%H:%i") as hoursmins');
+        }
+        $this->db->from('viewtable');
+        $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
+        $this->db->where('DATE(viewtable.date_inserted) <=', date('Y-m-d', strtotime($to_to)));
+        if ($courseid != "non") {
+            $this->db->where('viewtable.course_id', $courseid);
+        }
+        if ($bookid != "non") {
+            $this->db->where('viewtable.book_id', $bookid);
+        }
+         if ($chapterid != "non") {
+            $this->db->where('viewtable.view_id', $chapterid);
+        }
+        $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
+        $this->db->order_by("viewtable.user_id", "asc");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
     public function book_select_uniqu_by($array_table_n, $array_order_by)
     {
         $this->db->select($array_table_n);

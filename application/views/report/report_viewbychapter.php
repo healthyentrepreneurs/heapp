@@ -69,7 +69,7 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdfdet" onclick="removeviewbybooktab()">
+                            <li><a href="#" id="exportpdfdet" onclick="removeviewbychapterentab()">
                                     Save as PDF </a></li>
                             <li>
                                 <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbychapter' . 'write.xls'); ?>" download>Export to Excel</a>
@@ -214,6 +214,11 @@
                 //End Books
                 var dateragestarttimechapterviewn = $('#dateragestarttimechapterviewn').val();
                 var daterageendtimechapterviewn = $('#daterageendtimechapterviewn').val();
+                //Start Chapter
+                var chapterid = document.getElementById("chapter_id_chap");
+                var chaptervalue = chapterid.options[chapterid.selectedIndex].value;
+                var chaptertext = chapterid.options[chapterid.selectedIndex].text;
+                //End Chapter
                 $.ajax({
                     method: "POST",
                     url: getmereportviewbychap,
@@ -223,6 +228,8 @@
                         'coursename': projectidtext,
                         'bookid': bookvalue,
                         'booktext': booktext,
+                        'chapterid': chaptervalue,
+                        'chaptertext': chaptertext,
                         'startdate': dateragestarttimechapterviewn,
                         'enddate': daterageendtimechapterviewn
                     }

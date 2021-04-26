@@ -718,7 +718,56 @@ class Report extends CI_Controller
     }
     public function reportby_viewchapter()
     {
-      echo json_encode($_POST);
+        $bookid = $this->input->post('bookid');
+        $courseid = $this->input->post('courseid');
+        $chapterid = $this->input->post('chapterid');
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $chaptername = $this->input->post('chaptertext');
+        //  public function perchapter_data($courseid, $bookid,$chapterid, $startdate, $enddate)
+        $persial_survey =  $this->perchapter_data($courseid, $bookid, $chapterid, $startdate, $enddate);
+        if (empty($persial_survey)) {
+            $json_return = array(
+                'report' => "No Report Found For Views By Chapter ".$chaptername,
+                'status' => 0,
+            );
+            echo json_encode($json_return);
+        } else {
+            //Modified Data
+            $table_data['survey_reportdata'] = $persial_survey;
+            $table_data['startdate'] = $startdate;
+            $table_data['enddate'] = $enddate;
+            $table_data['controller'] = $this;
+            $table_data['taskname'] = "View By Chapter " . $chaptername;
+            $table_data['table_survey_url'] = 'pages/table/viewbychapter_table';
+            $json_return = array(
+                'report' => "View By Chapter " . $chaptername . "Report in Range" . $startdate . '  To ' . $enddate,
+                'status' => 1,
+                'data' => $this->load->view('pages/cohort/viewbychapter_temp', $table_data, true),
+                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbychapter' . 'write.xls'
+            );
+            $arrange_xml = array();
+            foreach ($persial_survey as $keya => $valuea) {
+                unset_post($valuea, 'date_inserted');
+                $nowarray = array($valuea['name_course'], $valuea['book_name'], $valuea['chaptername'], $valuea['user_id'], $valuea['he_names'], $valuea['datelike'], $valuea['hoursmins']);
+                array_push($arrange_xml, $nowarray);
+            }
+            $ara = array(
+                'COURSE',
+                'BOOK',
+                'CHAPTER',
+                'USERNAME',
+                'FULL NAME',
+                'DATE',
+                'TIME'
+            );
+            $htmlString = $this->xxxxtimePerClientReport($arrange_xml, $ara);
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+            $spreadsheet = $reader->loadFromString($htmlString);
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbychapter' . 'write.xls');
+            echo json_encode($json_return);
+        }
     }
     #More Report Data Functions Below
     #Summery Book Report
@@ -776,10 +825,10 @@ class Report extends CI_Controller
         $array_mega = array();
         foreach ($new_array_mama as $keyn => $valuen) {
             $user_id_array = explode("@", $valuen['user_id']);
-            $course_shortname_array = explode("@", $valuen['course_shortname']);
+            // $course_shortname_array = explode("@", $valuen['course_shortname']);
             $name_course_array = explode("@", $valuen['name_course']);
             $book_name_array = explode("@", $valuen['book_name']);
-            $book_id_array = explode("@", $valuen['book_id']);
+            // $book_id_array = explode("@", $valuen['book_id']);
             $chaptername_array = explode("@", $valuen['chaptername']);
             $array_jeje = array();
             $chapter_count = 0;
@@ -882,6 +931,14 @@ class Report extends CI_Controller
         // $startdate = "01-04-2021";
         // $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->books_reports_chapter(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate, $courseid, $bookid, "book");
+        return $persial_survey;
+    }
+    public function perchapter_data($courseid, $bookid, $chapterid, $startdate, $enddate)
+    {
+        // $bookid = "94";
+        // $startdate = "01-04-2021";
+        // $enddate = "30-04-2021";
+        $persial_survey = $this->universal_model->books_reports_chapterson(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate, $courseid, $bookid, "book", $chapterid);
         return $persial_survey;
     }
     #End of End
