@@ -504,11 +504,7 @@ class User extends CI_Controller
         // print_array($array_of_output);
         return $array_of_output;
     }
-    // public function get_chapters_perbookcourse()
-    // {
-    //     echo json_encode($_POST);
-    // }
-    public function get_chapters_perbookcourse($_courseid, $book_id)
+    public function get_chapters_perbookcourse()
     {
         $_courseid = $this->input->post('courseid');
         $book_id = $this->input->post('book_id');
