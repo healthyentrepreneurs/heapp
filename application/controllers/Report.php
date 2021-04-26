@@ -583,7 +583,7 @@ class Report extends CI_Controller
         $bookid = $this->input->post('bookid');
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
+        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'user_id', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
         // echo json_encode($_POST);
         if (empty($persial_survey)) {
             $json_return = array(
@@ -612,6 +612,7 @@ class Report extends CI_Controller
             }
             $ara = array(
                 'FULL NAME',
+                'USERNAME',
                 'COURSE',
                 'BOOK NAME',
                 'CHAPTER',
@@ -728,7 +729,7 @@ class Report extends CI_Controller
         $persial_survey =  $this->perchapter_data($courseid, $bookid, $chapterid, $startdate, $enddate);
         if (empty($persial_survey)) {
             $json_return = array(
-                'report' => "No Report Found For Views By Chapter ".$chaptername,
+                'report' => "No Report Found For Views By Chapter " . $chaptername,
                 'status' => 0,
             );
             echo json_encode($json_return);

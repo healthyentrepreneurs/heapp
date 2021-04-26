@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th class="center">FULL NAMES</th>
+            <th class="center">USERNAME</th>
             <th class="center">COURSE</th>
             <th class="center">BOOK NAME</th>
             <th class="center">CHAPTER NAME</th>
@@ -15,6 +16,7 @@
         ?>
             <tr>
                 <td class="center"><?= $value_in_sub['he_names']  ?></td>
+                <td class="center"><?= $value_in_sub['user_id']  ?></td>
                 <td class="center"><?= '<b>' . $value_in_sub['course_shortname'] . '<b>'   ?></td>
                 <td class="center"><?= $value_in_sub['book_name'] ?></td>
                 <td class="center"><?= $value_in_sub['chaptername'] ?></td>
