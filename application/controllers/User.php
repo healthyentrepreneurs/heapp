@@ -503,40 +503,4 @@ class User extends CI_Controller
         // print_array($array_of_output);
         return $array_of_output;
     }
-
-    public function get_all_avail_course()
-    {
-        //   core_course_get_courses
-        //core_enrol_get_users_courses
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $functionname = 'core_course_get_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $this->get_admin_token()['token'],
-            'wsfunction' => $functionname,
-            'moodlewsrestformat' => 'json'
-
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $jaja = json_decode($server_output, true);
-        // cleanContent
-        print_array($jaja);
-    }
-    public function getbooksin_course()
-    {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $functionname = 'mod_book_get_books_by_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
-        $data = array(
-            'wstoken' => $this->get_admin_token()['token'],
-            'wsfunction' => $functionname,
-            'courseids[0]' => 2,
-            'moodlewsrestformat' => 'json'
-
-        );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        $jaja = json_decode($server_output, true);
-        // cleanContent
-        print_array($jaja);
-    }
 }

@@ -317,7 +317,7 @@ class Report extends CI_Controller
                             } else {
                                 $arrayc['description'] = "";
                             }
-                            $value_n =cleanContent($valuec['html']);
+                            $value_n = cleanContent($valuec['html']);
                             $arrayc['text'] = $valuec['html'];
                             $arrayc['value'] = "html_value";
                             array_push($array_of_array, $arrayc);
@@ -331,7 +331,7 @@ class Report extends CI_Controller
                                         'title' => "html_info",
                                         'description' => "",
                                     );
-                                    $value_n =cleanContent($valuec['html']);
+                                    $value_n = cleanContent($valuec['html']);
                                     $arrayc['text'] = $valuec['html'];
                                     $arrayc['value'] = "html_value";
                                     array_push($array_of_array, $arrayc);
@@ -535,7 +535,7 @@ class Report extends CI_Controller
         // print_array($array_of_output);
     }
 
-   
+
     public function report_perbooks()
     {
         $startdate = $this->input->post('startdate');
@@ -795,6 +795,33 @@ class Report extends CI_Controller
         return $array_mega;
         // print_array($array_mega);
     }
+    public function getbooksin_course()
+    {
+        $course_id=$this->input->post('courseid');
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $functionname = 'mod_book_get_books_by_courses';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $this->get_admin_token()['token'],
+            'wsfunction' => $functionname,
+            'courseids[0]' => $course_id,
+            'moodlewsrestformat' => 'json'
+
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $plain_data = json_decode($server_output, true);
+        $final_books = array();
+        if (!empty($plain_data)) {
+            $plain_data_1 = $plain_data['books'];
+            foreach ($plain_data_1 as $key => $value) {
+                $array_per_book = array('book_id' => $value['id'], 'bookname' => $value['name']);
+                array_push($final_books, $array_per_book);
+            }
+        }
+        echo json_encode($final_books);
+        // cleanContent
+        //    echo json_encode()
+    }
     public function books_data($bookid)
     {
         $courseid = "non";
@@ -803,5 +830,16 @@ class Report extends CI_Controller
         $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->books_reports_chapter(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate, $courseid, $bookid, "book");
         print_array($persial_survey);
+    }
+    #End of End
+    public function get_admin_token()
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
+        $serverurl = $domainname . '/login/token.php?';
+        $data = array();
+        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        // print_array($array_of_output);
+        return $array_of_output;
     }
 }

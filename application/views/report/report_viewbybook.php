@@ -8,8 +8,8 @@
                     Start Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="dateragestarttimedet">
-                        <input type="text" name="dateragestarttimedet" id="dateragestarttimedetn" class="form-control">
+                    <div class="input-group input-append date" id="dateragestarttimebook">
+                        <input type="text" name="dateragestarttimebook" id="dateragestarttimebookn" class="form-control">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -17,8 +17,8 @@
                     End Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="daterageendtimedet">
-                        <input type="text" class="form-control" name="daterageendtimedet" id="daterageendtimedetn">
+                    <div class="input-group input-append date" id="daterageendtimebook">
+                        <input type="text" class="form-control" name="daterageendtimebook" id="daterageendtimebookn">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -28,12 +28,12 @@
                     Course
                 </label>
                 <div class="col-sm-7">
-                    <select id="client_iddet" name="client_iddet" class="form-control" placeholder="Select Course">
-                        <option value="non">--Select Optional--</option>
+                    <select id="availaba_course" name="availaba_course" class="form-control" placeholder="Select Course">
+                        <option value="non">--Select Mandatory--</option>
                         <?php
-                        foreach ($course_content as $value) {
+                        foreach ($all_courses as $value) {
                         ?>
-                            <option value="<?= $value['course_id']; ?>"><?= $value['course_shortname'] ?></option>
+                            <option value="<?= $value['id']; ?>"><?= $value['fullname'] ?></option>
                         <?php
                         }
                         ?>
@@ -45,12 +45,12 @@
                     Book
                 </label>
                 <div class="col-sm-7">
-                    <select id="book_id" name="book_id" class="form-control" placeholder="Select Book">
-                        <option value="non">--Select Optional--</option>
+                    <select id="bookby_id" name="bookby_id" class="form-control" placeholder="Select Book">
+                        <option value="non">--Select Mandatory--</option>
                         <?php
                         foreach ($books_content as $value) {
                         ?>
-                            <option value="<?= $value['book_id']; ?>"><?= $value['book_name'] ?></option>
+                            <option value="<?= $value['bookby_id']; ?>"><?= $value['book_name'] ?></option>
                         <?php
                         }
                         ?>
@@ -70,7 +70,7 @@
                             <li><a href="#" id="exportpdfdet" onclick="removedetailschap()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] .'chapter'. 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>
@@ -80,36 +80,56 @@
         <!--END-->
     </div>
     <br>
-    <div id="contentcostbyclientdet"></div>
+    <div id="contentviewbybook"></div>
 </div>
 <script>
-    var getmereportclientcostdet = "<?php echo base_url('report/books_reportdetails'); ?>";
+    var getmereportviewbybook = "<?php echo base_url('report/books_reportdetails'); ?>";
+    var getbooks = "<?php echo base_url('report/getbooksin_course'); ?>";
     $(document).ready(function() {
         // $('.select2').select2();
-        $('#dateragestarttimedet')
+        $('#dateragestarttimebook')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formdetailschap').formValidation('revalidateField', 'dateragestarttimedet');
+                $('#formdetailschap').formValidation('revalidateField', 'dateragestarttimebook');
             });
-        $('#daterageendtimedet')
+        $('#daterageendtimebook')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formdetailschap').formValidation('revalidateField', 'daterageendtimedet');
+                $('#formdetailschap').formValidation('revalidateField', 'daterageendtimebook');
             });
-        //        Main.init();
-        //        $('#tatamamaid').DataTable();
+        $("#availaba_course").change(function() {
+            var course_id = $(this).val();
+            $.ajax({
+                url: getbooks,
+                type: 'post',
+                data: {
+                    courseid: course_id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    // var len = response.length;
+                    // $("#sel_user").empty();
+                    // for (var i = 0; i < len; i++) {
+                    //     var id = response[i]['id'];
+                    //     var name = response[i]['name'];
+                    //     $("#sel_user").append("<option value='" + id + "'>" + name + "</option>");
+                    // }
+                }
+            });
+        });
         $('#formdetailschap')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},
                 fields: {
-                    dateragestarttimedet: {
+                    dateragestarttimebook: {
                         validators: {
                             notEmpty: {
                                 message: 'Range Start is required'
@@ -120,7 +140,7 @@
                             }
                         }
                     },
-                    daterageendtimedet: {
+                    daterageendtimebook: {
                         validators: {
                             notEmpty: {
                                 message: 'Range End is required'
@@ -130,49 +150,55 @@
                                 message: 'The date is not a valid'
                             }
                         }
+                    },
+                    availaba_course: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Course is required'
+                            }
+                        }
+                    },
+                    bookby_id: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Book is required'
+                            }
+                        }
                     }
-                    // ,
-                    // client_iddet: {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Survey is required'
-                    //         }
-                    //     }
-                    // }
                 }
             }).on('success.form.fv', function(e) {
                 e.preventDefault();
-                var projectid = document.getElementById("client_iddet");
+                var projectid = document.getElementById("availaba_course");
                 var projectidvalue = projectid.options[projectid.selectedIndex].value;
                 var projectidtext = projectid.options[projectid.selectedIndex].text;
                 // Start Books
-                var bookid = document.getElementById("book_id");
+                var bookid = document.getElementById("bookby_id");
                 var bookvalue = bookid.options[bookid.selectedIndex].value;
                 var booktext = bookid.options[bookid.selectedIndex].text;
                 //End Books
-                var dateragestarttimedetn = $('#dateragestarttimedetn').val();
-                var daterageendtimedetn = $('#daterageendtimedetn').val();
+                var dateragestarttimebookn = $('#dateragestarttimebookn').val();
+                var daterageendtimebookn = $('#daterageendtimebookn').val();
                 $.ajax({
                     method: "POST",
-                    url: getmereportclientcostdet,
+                    url: getmereportviewbybook,
                     dataType: "JSON",
                     data: {
                         'courseid': projectidvalue,
                         'coursename': projectidtext,
                         'bookid': bookvalue,
                         'booktext': booktext,
-                        'startdate': dateragestarttimedetn,
-                        'enddate': daterageendtimedetn
+                        'startdate': dateragestarttimebookn,
+                        'enddate': daterageendtimebookn
                     }
                 }).done(function(response) {
                     // console.log(response);
                     // console.log(response.path);
                     if (response.status === 1) {
                         $.notify(response.report, "success");
-                        $("#contentcostbyclientdet").html(response.data);
+                        $("#contentviewbybook").html(response.data);
                     } else {
                         $.notify(response.report, "error");
-                        $("#contentcostbyclientdet").html('');
+                        $("#contentviewbybook").html('');
                     }
                 });
             });
