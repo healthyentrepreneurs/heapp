@@ -1,16 +1,16 @@
-<div class="panel-body" id="viewbybook">
+<div class="panel-body" id="viewbychapter">
     <?php
     // print_array($all_courses);
     ?>
     <div class="row">
-        <form id="formviewbybook" method="post" class="form-horizontal" role="form">
+        <form id="formviewbychapter" method="post" class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">
                     Start Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="dateragestarttimebook">
-                        <input type="text" name="dateragestarttimebook" id="dateragestarttimebookn" class="form-control">
+                    <div class="input-group input-append date" id="dateragestarttimechapterview">
+                        <input type="text" name="dateragestarttimechapterview" id="dateragestarttimechapterviewn" class="form-control">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -18,8 +18,8 @@
                     End Date
                 </label>
                 <div class="col-sm-4 date">
-                    <div class="input-group input-append date" id="daterageendtimebook">
-                        <input type="text" class="form-control" name="daterageendtimebook" id="daterageendtimebookn">
+                    <div class="input-group input-append date" id="daterageendtimechapterview">
+                        <input type="text" class="form-control" name="daterageendtimechapterview" id="daterageendtimechapterviewn">
                         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                     Course
                 </label>
                 <div class="col-sm-7">
-                    <select id="availaba_course" name="availaba_course" class="form-control" placeholder="Select Course">
+                    <select id="availaba_coursechap" name="availaba_coursechap" class="form-control" placeholder="Select Course">
                         <?php
                         foreach ($all_courses as $value) {
                         ?>
@@ -45,7 +45,16 @@
                     Book
                 </label>
                 <div class="col-sm-7">
-                    <select id="bookby_id" name="bookby_id" class="form-control" placeholder="Select Book">
+                    <select id="bookby_id_chap" name="bookby_id_chap" class="form-control" placeholder="Select Book">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label">
+                    Chapter
+                </label>
+                <div class="col-sm-7">
+                    <select id="chapter_id_chap" name="chapter_id_chap" class="form-control" placeholder="Select Chapter">
                     </select>
                 </div>
                 <div class="col-sm-1">
@@ -62,7 +71,7 @@
                             <li><a href="#" id="exportpdfdet" onclick="removeviewbybooktab()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbybook' . 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbychapter' . 'write.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>
@@ -72,33 +81,34 @@
         <!--END-->
     </div>
     <br>
-    <div id="contentviewbybook"></div>
+    <div id="contentviewbychapter"></div>
 </div>
 <script>
-    var getmereportviewbybook = "<?php echo base_url('report/reportby_booksid'); ?>";
-    var getbooks = "<?php echo base_url('report/getbooksin_course'); ?>";
+    var getmereportviewbychap = "<?php echo base_url('report/reportby_viewchapter'); ?>";
+    var getbookschaps = "<?php echo base_url('report/getbooksin_course'); ?>";
+    var getchapters = "<?php echo base_url('user/get_chapters_perbookcourse'); ?>";
     $(document).ready(function() {
         // $('.select2').select2();
-        $('#dateragestarttimebook')
+        $('#dateragestarttimechapterview')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formviewbybook').formValidation('revalidateField', 'dateragestarttimebook');
+                $('#formviewbychapter').formValidation('revalidateField', 'dateragestarttimechapterview');
             });
-        $('#daterageendtimebook')
+        $('#daterageendtimechapterview')
             .datepicker({
                 format: 'dd-mm-yyyy'
             })
             .on('changeDate', function(e) {
                 // Revalidate the date field
-                $('#formviewbybook').formValidation('revalidateField', 'daterageendtimebook');
+                $('#formviewbychapter').formValidation('revalidateField', 'daterageendtimechapterview');
             });
-        $("#availaba_course").change(function() {
+        $("#availaba_coursechap").change(function() {
             var course_id = $(this).val();
             $.ajax({
-                url: getbooks,
+                url: getbookschaps,
                 type: 'post',
                 data: {
                     courseid: course_id
@@ -107,21 +117,43 @@
                 success: function(response) {
                     // console.log(response);
                     var len = response.length;
-                    $("#bookby_id").empty();
+                    $("#bookby_id_chap").empty();
                     for (var i = 0; i < len; i++) {
                         var id = response[i]['book_id'];
                         var name = response[i]['bookname'];
-                        $("#bookby_id").append("<option value='" + id + "'>" + name + "</option>");
+                        $("#bookby_id_chap").append("<option value='" + id + "'>" + name + "</option>");
                     }
                 }
             });
         });
-        $('#formviewbybook')
+        $("#bookby_id_chap").change(function() {
+            var book_id = $(this).val();
+            $.ajax({
+                url: getbookschaps,
+                type: 'post',
+                data: {
+                    courseid: course_id,
+                    book_id: book_id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+                    // var len = response.length;
+                    // $("#chapter_id_chap").empty();
+                    // for (var i = 0; i < len; i++) {
+                    //     var id = response[i]['book_id'];
+                    //     var name = response[i]['bookname'];
+                    //     $("#chapter_id_chap").append("<option value='" + id + "'>" + name + "</option>");
+                    // }
+                }
+            });
+        });
+        $('#formviewbychapter')
             .formValidation({
                 framework: 'bootstrap',
                 icon: {},
                 fields: {
-                    dateragestarttimebook: {
+                    dateragestarttimechapterview: {
                         validators: {
                             notEmpty: {
                                 message: 'Range Start is required'
@@ -132,7 +164,7 @@
                             }
                         }
                     },
-                    daterageendtimebook: {
+                    daterageendtimechapterview: {
                         validators: {
                             notEmpty: {
                                 message: 'Range End is required'
@@ -143,14 +175,14 @@
                             }
                         }
                     },
-                    availaba_course: {
+                    availaba_coursechap: {
                         validators: {
                             notEmpty: {
                                 message: 'Course is required'
                             }
                         }
                     },
-                    bookby_id: {
+                    bookby_id_chap: {
                         validators: {
                             notEmpty: {
                                 message: 'Book is required'
@@ -160,37 +192,37 @@
                 }
             }).on('success.form.fv', function(e) {
                 e.preventDefault();
-                var projectid = document.getElementById("availaba_course");
+                var projectid = document.getElementById("availaba_coursechap");
                 var projectidvalue = projectid.options[projectid.selectedIndex].value;
                 var projectidtext = projectid.options[projectid.selectedIndex].text;
                 // Start Books
-                var bookid = document.getElementById("bookby_id");
+                var bookid = document.getElementById("bookby_id_chap");
                 var bookvalue = bookid.options[bookid.selectedIndex].value;
                 var booktext = bookid.options[bookid.selectedIndex].text;
                 //End Books
-                var dateragestarttimebookn = $('#dateragestarttimebookn').val();
-                var daterageendtimebookn = $('#daterageendtimebookn').val();
+                var dateragestarttimechapterviewn = $('#dateragestarttimechapterviewn').val();
+                var daterageendtimechapterviewn = $('#daterageendtimechapterviewn').val();
                 $.ajax({
                     method: "POST",
-                    url: getmereportviewbybook,
+                    url: getmereportviewbychap,
                     dataType: "JSON",
                     data: {
                         'courseid': projectidvalue,
                         'coursename': projectidtext,
                         'bookid': bookvalue,
                         'booktext': booktext,
-                        'startdate': dateragestarttimebookn,
-                        'enddate': daterageendtimebookn
+                        'startdate': dateragestarttimechapterviewn,
+                        'enddate': daterageendtimechapterviewn
                     }
                 }).done(function(response) {
                     // console.log(response);
                     // console.log(response.path);
                     if (response.status === 1) {
                         $.notify(response.report, "success");
-                        $("#contentviewbybook").html(response.data);
+                        $("#contentviewbychapter").html(response.data);
                     } else {
                         $.notify(response.report, "error");
-                        $("#contentviewbybook").html('');
+                        $("#contentviewbychapter").html('');
                     }
                 });
             });

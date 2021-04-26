@@ -504,7 +504,11 @@ class User extends CI_Controller
         // print_array($array_of_output);
         return $array_of_output;
     }
-    public function get_chapters_perbookcourse($_courseid, $book_id)
+    public function get_chapters_perbookcourse()
+    {
+        echo json_encode($_POST);
+    }
+    public function get_chapters_perbookcourse_($_courseid, $book_id)
     {
         //  public function extract_books_data($_courseid, $token, $book_id, $chapter_id, $date_inserted)
         //     {
@@ -530,6 +534,16 @@ class User extends CI_Controller
                 break;
             }
         }
-        print_array($contents_array);
+        $cleaner_array = array();
+        if (!empty($contents_array)) {
+            foreach ($contents_array as $key_con => $value_con) {
+                $array_chapters = array(
+                    'title' => $value_con['title'],
+                    'chapter_id' => $value_con['chapter_id']
+                );
+                array_push($cleaner_array, $array_chapters);
+            }
+        }
+        return $contents_array;
     }
 }

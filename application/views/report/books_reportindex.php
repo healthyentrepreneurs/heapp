@@ -37,7 +37,7 @@
             <?php echo $this->load->view('report/report_viewbybook', '', TRUE); ?>
         </div>
         <div id="surveysix" class="tab-pane padding-bottom-5">
-            <h1>Six</h1>
+            <?php echo $this->load->view('report/report_viewbychapter', '', TRUE); ?>
         </div>
         <div id="surveytwo" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/reportrangedetailsbooks', '', TRUE); ?>

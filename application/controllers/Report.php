@@ -716,6 +716,10 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
+    public function reportby_viewchapter()
+    {
+        # code...
+    }
     #More Report Data Functions Below
     #Summery Book Report
     public function sum_book_data($startdate, $enddate)
