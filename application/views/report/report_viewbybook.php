@@ -1,5 +1,6 @@
 <div class="panel-body" id="client_one">
     <?php
+    print_array($all_courses);
     ?>
     <div class="row">
         <form id="formviewbybook" method="post" class="form-horizontal" role="form">
@@ -29,7 +30,6 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="availaba_course" name="availaba_course" class="form-control" placeholder="Select Course">
-                        <option value="non">--Select Mandatory--</option>
                         <?php
                         foreach ($all_courses as $value) {
                         ?>
@@ -46,14 +46,6 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="bookby_id" name="bookby_id" class="form-control" placeholder="Select Book">
-                        <option value="non">--Select Mandatory--</option>
-                        <?php
-                        foreach ($books_content as $value) {
-                        ?>
-                            <option value="<?= $value['bookby_id']; ?>"><?= $value['book_name'] ?></option>
-                        <?php
-                        }
-                        ?>
                     </select>
                 </div>
                 <div class="col-sm-1">
