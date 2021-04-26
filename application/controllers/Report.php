@@ -718,7 +718,7 @@ class Report extends CI_Controller
     }
     public function reportby_viewchapter()
     {
-        # code...
+      echo json_encode($_POST);
     }
     #More Report Data Functions Below
     #Summery Book Report

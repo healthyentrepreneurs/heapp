@@ -30,6 +30,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="availaba_course" name="availaba_course" class="form-control" placeholder="Select Course">
+                        <option value="">--Mandatory--</option>
                         <?php
                         foreach ($all_courses as $value) {
                         ?>
@@ -108,6 +109,7 @@
                     // console.log(response);
                     var len = response.length;
                     $("#bookby_id").empty();
+                    $("#bookby_id").append("<option value=''>" + "--Mandatory--" + "</option>");
                     for (var i = 0; i < len; i++) {
                         var id = response[i]['book_id'];
                         var name = response[i]['bookname'];

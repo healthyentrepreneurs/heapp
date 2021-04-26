@@ -30,6 +30,7 @@
                 </label>
                 <div class="col-sm-7">
                     <select id="availaba_coursechap" name="availaba_coursechap" class="form-control" placeholder="Select Course">
+                        <option value="">--Mandatory--</option>
                         <?php
                         foreach ($all_courses as $value) {
                         ?>
@@ -118,7 +119,7 @@
                     // console.log(response);
                     var len = response.length;
                     $("#bookby_id_chap").empty();
-                    $("#bookby_id_chap").append("<option value=''>" + "Madatory" + "</option>");
+                    $("#bookby_id_chap").append("<option value=''>" + "--Mandatory--" + "</option>");
                     for (var i = 0; i < len; i++) {
                         var id = response[i]['book_id'];
                         var name = response[i]['bookname'];
@@ -140,14 +141,15 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-                    // var len = response.length;
-                    // $("#chapter_id_chap").empty();
-                    // for (var i = 0; i < len; i++) {
-                    //     var id = response[i]['book_id'];
-                    //     var name = response[i]['bookname'];
-                    //     $("#chapter_id_chap").append("<option value='" + id + "'>" + name + "</option>");
-                    // }
+                    // console.log(response);
+                    var len = response.length;
+                    $("#chapter_id_chap").empty();
+                    $("#chapter_id_chap").append("<option value=''>" + "--Mandatory--" + "</option>");
+                    for (var i = 0; i < len; i++) {
+                        var id = response[i]['chapter_id'];
+                        var name = response[i]['title'];
+                        $("#chapter_id_chap").append("<option value='" + id + "'>" + name + "</option>");
+                    }
                 }
             });
         });
@@ -189,6 +191,13 @@
                         validators: {
                             notEmpty: {
                                 message: 'Book is required'
+                            }
+                        }
+                    },
+                    chapter_id_chap: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Chapter is required'
                             }
                         }
                     }

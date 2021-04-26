@@ -510,8 +510,8 @@ class User extends CI_Controller
     }
     public function get_chapters_perbookcourse_($_courseid, $book_id)
     {
-        //  public function extract_books_data($_courseid, $token, $book_id, $chapter_id, $date_inserted)
-        //     {
+        $_courseid = $this->input->post('courseid');
+        $book_id = $this->input->post('book_id');
         // $_courseid = '2';
         // $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
         // $book_id = '4';
