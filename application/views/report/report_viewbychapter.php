@@ -118,6 +118,7 @@
                     // console.log(response);
                     var len = response.length;
                     $("#bookby_id_chap").empty();
+                    $("#bookby_id_chap").append("<option value=''>" + "Madatory" + "</option>");
                     for (var i = 0; i < len; i++) {
                         var id = response[i]['book_id'];
                         var name = response[i]['bookname'];
