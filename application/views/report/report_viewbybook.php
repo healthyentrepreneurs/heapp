@@ -67,10 +67,10 @@
                             Export <i class="fa fa-angle-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-light pull-right">
-                            <li><a href="#" id="exportpdfdet" onclick="removedetailschap()">
+                            <li><a href="#" id="exportpdfdet" onclick="removeviewbybooktab()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'viewbybook' . 'write.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>
@@ -191,15 +191,15 @@
                         'enddate': daterageendtimebookn
                     }
                 }).done(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     // console.log(response.path);
-                    // if (response.status === 1) {
-                    //     $.notify(response.report, "success");
-                    //     $("#contentviewbybook").html(response.data);
-                    // } else {
-                    //     $.notify(response.report, "error");
-                    //     $("#contentviewbybook").html('');
-                    // }
+                    if (response.status === 1) {
+                        $.notify(response.report, "success");
+                        $("#contentviewbybook").html(response.data);
+                    } else {
+                        $.notify(response.report, "error");
+                        $("#contentviewbybook").html('');
+                    }
                 });
             });
     });
