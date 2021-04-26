@@ -141,15 +141,15 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-                    // var len = response.length;
-                    // $("#chapter_id_chap").empty();
-                    // $("#chapter_id_chap").append("<option value=''>" + "--Mandatory--" + "</option>");
-                    // for (var i = 0; i < len; i++) {
-                    //     var id = response[i]['chapter_id'];
-                    //     var name = response[i]['title'];
-                    //     $("#chapter_id_chap").append("<option value='" + id + "'>" + name + "</option>");
-                    // }
+                    // console.log(response);
+                    var len = response.length;
+                    $("#chapter_id_chap").empty();
+                    $("#chapter_id_chap").append("<option value=''>" + "--Mandatory--" + "</option>");
+                    for (var i = 0; i < len; i++) {
+                        var id = response[i]['chapter_id'];
+                        var name = response[i]['title'];
+                        $("#chapter_id_chap").append("<option value='" + id + "'>" + name + "</option>");
+                    }
                 }
             });
         });

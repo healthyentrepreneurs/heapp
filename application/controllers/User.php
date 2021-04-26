@@ -540,6 +540,6 @@ class User extends CI_Controller
                 array_push($cleaner_array, $array_chapters);
             }
         }
-        return $cleaner_array;
+        echo json_encode($cleaner_array);
     }
 }
