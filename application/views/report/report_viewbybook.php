@@ -83,7 +83,7 @@
     <div id="contentviewbybook"></div>
 </div>
 <script>
-    var getmereportviewbybook = "<?php echo base_url('report/books_reportdetails'); ?>";
+    var getmereportviewbybook = "<?php echo base_url('report/reportby_booksid'); ?>";
     var getbooks = "<?php echo base_url('report/getbooksin_course'); ?>";
     $(document).ready(function() {
         // $('.select2').select2();
@@ -113,14 +113,14 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response);
-                    // var len = response.length;
-                    // $("#sel_user").empty();
-                    // for (var i = 0; i < len; i++) {
-                    //     var id = response[i]['id'];
-                    //     var name = response[i]['name'];
-                    //     $("#sel_user").append("<option value='" + id + "'>" + name + "</option>");
-                    // }
+                    // console.log(response);
+                    var len = response.length;
+                    $("#bookby_id").empty();
+                    for (var i = 0; i < len; i++) {
+                        var id = response[i]['book_id'];
+                        var name = response[i]['bookname'];
+                        $("#bookby_id").append("<option value='" + id + "'>" + name + "</option>");
+                    }
                 }
             });
         });
@@ -191,15 +191,15 @@
                         'enddate': daterageendtimebookn
                     }
                 }).done(function(response) {
-                    // console.log(response);
+                    console.log(response);
                     // console.log(response.path);
-                    if (response.status === 1) {
-                        $.notify(response.report, "success");
-                        $("#contentviewbybook").html(response.data);
-                    } else {
-                        $.notify(response.report, "error");
-                        $("#contentviewbybook").html('');
-                    }
+                    // if (response.status === 1) {
+                    //     $.notify(response.report, "success");
+                    //     $("#contentviewbybook").html(response.data);
+                    // } else {
+                    //     $.notify(response.report, "error");
+                    //     $("#contentviewbybook").html('');
+                    // }
                 });
             });
     });

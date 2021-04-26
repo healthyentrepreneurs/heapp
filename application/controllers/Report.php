@@ -665,7 +665,12 @@ class Report extends CI_Controller
             echo json_encode($json_return);
         }
     }
-
+    public function reportby_booksid()
+    {
+        $bookid = $this->input->post('bookid');
+        $databook =  $this->books_data($bookid);
+        echo json_encode($databook);
+    }
     #More Report Data Functions Below
     #Summery Book Report
     public function sum_book_data($startdate, $enddate)
@@ -797,7 +802,7 @@ class Report extends CI_Controller
     }
     public function getbooksin_course()
     {
-        $course_id=$this->input->post('courseid');
+        $course_id = $this->input->post('courseid');
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_book_get_books_by_courses';
         $serverurl = $domainname . '/webservice/rest/server.php';
@@ -829,7 +834,7 @@ class Report extends CI_Controller
         $startdate = "01-04-2021";
         $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->books_reports_chapter(array('name_course', 'book_name', 'user_id', 'he_names', 'date_inserted'), $startdate, $enddate, $courseid, $bookid, "book");
-        print_array($persial_survey);
+        return $persial_survey;
     }
     #End of End
     public function get_admin_token()
