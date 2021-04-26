@@ -129,7 +129,7 @@
         $("#bookby_id_chap").change(function() {
             var book_id = $(this).val();
             $.ajax({
-                url: getbookschaps,
+                url: getchapters,
                 type: 'post',
                 data: {
                     courseid: course_id,
