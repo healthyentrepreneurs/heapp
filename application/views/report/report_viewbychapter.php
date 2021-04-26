@@ -128,11 +128,13 @@
         });
         $("#bookby_id_chap").change(function() {
             var book_id = $(this).val();
+            var projectid = document.getElementById("availaba_coursechap");
+            var course_idem = projectid.options[projectid.selectedIndex].value;
             $.ajax({
                 url: getchapters,
                 type: 'post',
                 data: {
-                    courseid: course_id,
+                    courseid: course_idem,
                     book_id: book_id
                 },
                 dataType: 'json',
