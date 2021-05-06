@@ -146,8 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    print_array($final_arrayone);
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
