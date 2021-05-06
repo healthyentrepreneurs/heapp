@@ -141,15 +141,15 @@
                         'id_showdetailed': $('#id_showdetailed').val()
                     }
                 }).done(function(response) {
-                    // console.log(response);
+                    console.log(response);
                     // console.log(response.path);
-                    if (response.status === 1) {
-                        $.notify(response.report, "success");
-                        $("#contentcostbyclientdet").html(response.data);
-                    } else {
-                        $.notify(response.report, "error");
-                        $("#contentcostbyclientdet").html('');
-                    }
+                    // if (response.status === 1) {
+                    //     $.notify(response.report, "success");
+                    //     $("#contentcostbyclientdet").html(response.data);
+                    // } else {
+                    //     $.notify(response.report, "error");
+                    //     $("#contentcostbyclientdet").html('');
+                    // }
                 });
             });
     });
