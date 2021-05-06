@@ -18,7 +18,7 @@
                     <td><?= $value['title'] ?></td>
                     <td><?= $value['description'] ?></td>
                     <?php
-                    if (array_key_exists('text', $value) && $value['type'] != "file" && $value['type'] != "html") {
+                    if (array_key_exists('text', $value) && $value['type'] != "file") {
                     ?>
                         <td><?= $value['text'] ?></td>
                     <?php
