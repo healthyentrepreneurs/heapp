@@ -307,36 +307,36 @@ class Report extends CI_Controller
                             }
                         }
                         if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
-                            $arrayc = array(
-                                'type' => $valuec['type'],
-                                'title' => "html_info",
-                                // 'description' => "",
-                            );
-                            if (array_key_exists('description', $valuec)) {
-                                $arrayc['description'] = $valuec['description'];
-                            } else {
-                                $arrayc['description'] = "";
-                            }
-                            $value_n = cleanContent($valuec['html']);
-                            $arrayc['text'] = $valuec['html'];
-                            $arrayc['value'] = "html_value";
-                            array_push($array_of_array, $arrayc);
+                            // $arrayc = array(
+                            //     'type' => $valuec['type'],
+                            //     'title' => "html_info",
+                            //     // 'description' => "",
+                            // );
+                            // if (array_key_exists('description', $valuec)) {
+                            //     $arrayc['description'] = $valuec['description'];
+                            // } else {
+                            //     $arrayc['description'] = "";
+                            // }
+                            // $value_n = cleanContent($valuec['html']);
+                            // $arrayc['text'] = $valuec['html'];
+                            // $arrayc['value'] = "html_value";
+                            // array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
-                            if (is_array($valuea)) {
-                                // print_array($valuea);
-                            } else {
-                                if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
-                                    $arrayc = array(
-                                        'type' => $valuec['type'],
-                                        'title' => "html_info",
-                                        'description' => "",
-                                    );
-                                    $value_n = cleanContent($valuec['html']);
-                                    $arrayc['text'] = $valuec['html'];
-                                    $arrayc['value'] = "html_value";
-                                    array_push($array_of_array, $arrayc);
-                                }
-                            }
+                            // if (is_array($valuea)) {
+                            //     // print_array($valuea);
+                            // } else {
+                            //     if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                            //         $arrayc = array(
+                            //             'type' => $valuec['type'],
+                            //             'title' => "html_info",
+                            //             'description' => "",
+                            //         );
+                            //         $value_n = cleanContent($valuec['html']);
+                            //         $arrayc['text'] = $valuec['html'];
+                            //         $arrayc['value'] = "html_value";
+                            //         array_push($array_of_array, $arrayc);
+                            //     }
+                            // }
                         }
                         //Start Test
                         if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
