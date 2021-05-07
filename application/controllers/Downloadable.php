@@ -325,7 +325,9 @@ class Downloadable extends CI_Controller
                             $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap_nchange;
                             // print_array($file_name_chap_nchange);
-                            file_put_contents($absolutepath_book, file_get_contents($_token_url));
+                            print_array($absolutepath_book);
+                            file_get_contents($_token_url);
+                            // file_put_contents($absolutepath_book, file_get_contents($_token_url));
                             //Stop Writing
                             $value['fileurl'] = $japa;
                         }
