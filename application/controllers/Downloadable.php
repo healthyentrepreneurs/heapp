@@ -318,12 +318,13 @@ class Downloadable extends CI_Controller
                             $img_course_perbook = $dir_course_id . '/' . $url_chapter;
                             $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
-                            $_token_url = $value['fileurl'] . '?token=' . $token_nnn_u;
+                            $_token_url = str_replace("%20", " ", $value['fileurl']) . '?token=' . $token_nnn_u;
                             //Start Writing
                             $file_name_chap_nchange = str_replace("%28", "(", $file_name_chap);
                             $file_name_chap_nchange = str_replace("%29", ")", $file_name_chap_nchange);
                             $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap_nchange;
+                            //One replacement is rawurlencode
                             // print_array($file_name_chap_nchange);
                             print_array($absolutepath_book);
                             file_get_contents($_token_url);
@@ -361,7 +362,7 @@ class Downloadable extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-     public function get_admin_token()
+    public function get_admin_token()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
