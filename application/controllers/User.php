@@ -42,8 +42,9 @@ class User extends CI_Controller
             }
         }
         $array_object = $this->getme_cohort_get_cohort_members($user_id);
-        $njovu = array_merge($merge_sanitized_courses, $array_object);
-        echo json_encode($njovu);
+        print_array($array_object);
+        // $njovu = array_merge($merge_sanitized_courses, $array_object);
+        // echo json_encode($njovu);
     }
 
     public function get_list_courses_internal($user_id)

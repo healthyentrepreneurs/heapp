@@ -1,0 +1,285 @@
+SELECT VIEW_DEFINITION FROM INFORMATION_SCHEMA.VIEWS
+   WHERE TABLE_NAME = 'join_suv_report'
+
+SHOW PROCEDURE STATUS;
+
+SHOW FUNCTION STATUS;
+
+SHOW PROCEDURE STATUS WHERE Db = 'db_name';
+
+   select `u`.`username` AS `username`,concat(`u`.`firstname`,' ',`u`.`lastname`) AS `fullname`,`c`.`id` AS `id`,`s`.`id` AS `surveyid`,`c`.`userid` AS `userid`,`c`.`survey_id` AS `survey_id`,`c`.`dateadded` AS `dateadded`,`s`.`name` AS `name`,`c`.`surveyobject` AS `surveyobject`,`s`.`surveyjson` AS `surveyjson`,`s`.`surveydesc` AS `surveydesc`,`s`.`slug` AS `slug`,`c`.`dateadded` AS `dateaddedsurvey`,`s`.`image_url_small` AS `image_url_small` from ((`db_helper`.`survey_report` `c` left join `db_helper`.`survey` `s` on(`s`.`id` = `c`.`survey_id`)) left join `db_helper`.`mdl_user` `u` on(`u`.`id` = `c`.`userid`))
+
+https://www.mysqltutorial.org/create-the-first-trigger-in-mysql.aspx
+
+   CREATE TRIGGER before_survey_update 
+    BEFORE UPDATE ON survey
+    FOR EACH ROW 
+ INSERT INTO survey_auditupbefore
+ SET action = 'updatebefore',
+     survey_id = OLD.id,
+     changedat = NOW();
+
+
+CREATE TRIGGER trigger_delete_copy
+    BEFORE DELETE ON survey
+    FOR EACH ROW 
+ INSERT INTO survey_deleted
+     SET survey_id = OLD.id,
+     name = OLD.name,
+     surveydesc=OLD.surveydesc,
+     surveyjson=OLD.surveyjson,
+     image=OLD.image,
+     image_url_small=OLD.image_url_small,
+     datecreated=NOW(),
+     createdby=OLD.createdby,
+     type=OLD.type,
+     slug=OLD.slug;
+
+
+CREATE TABLE mdl_book_he_oninsert (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT NOT NULL,
+    book_name VARCHAR(50) NOT NULL,
+    changedat DATETIME DEFAULT NULL,
+    action VARCHAR(50) DEFAULT NULL
+);
+
+CREATE DEFINER=`##`@`%` PROCEDURE `surveyupdateprocedure`(IN survey_id INT)
+BEGIN
+    IF (SELECT count(*) FROM cms.variables WHERE tmplvarid = 5 and id = _id)>0 THEN
+    BEGIN
+    UPDATE cms.variables SET value = now() WHERE id = _id and tmplvarid = 5;
+    END;
+    ELSE 
+    BEGIN
+    INSERT INTO cms.variables (`tmplvarid`, `contentid`, `value`) VALUES (5, _id, now());
+    END;
+    END IF;
+END
+
+
+CREATE TABLE mdl_book_chap_he_onupdate (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    chap_id INT NOT NULL,
+    book_id INT NOT NULL,
+    book_name VARCHAR(50) NOT NULL,
+    changedat DATETIME DEFAULT NULL,
+    action VARCHAR(50) DEFAULT NULL
+);
+
+
+####  More Queries #####
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_update AFTER UPDATE ON mdl_book
+FOR EACH ROW
+BEGIN
+   CALL book_he_updateprocedure(OLD.id,OLD.course,'updated');
+END;
+$$
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_insert AFTER INSERT ON mdl_book
+FOR EACH ROW
+BEGIN
+   CALL book_he_updateprocedure(NEW.id,NEW.course,'updated');
+END;
+$$
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_delete AFTER DELETE ON mdl_book
+FOR EACH ROW
+BEGIN
+   CALL book_he_updateprocedure(OLD.id,OLD.course,'deleted');
+END;
+$$
+
+DELIMITER $$
+
+CREATE PROCEDURE book_he_updateprocedure(
+    IN  _book_id INT,IN  _course INT, IN p_type VARCHAR(255))
+BEGIN
+    IF (SELECT count(*) FROM mdl_book_aduit WHERE book_id = _book_id and course_id = _course)>0 THEN
+        BEGIN
+        UPDATE mdl_book_aduit SET changedat=NOW(),action =p_type WHERE book_id = _book_id AND course_id=_course;
+        END;
+    ELSE
+        BEGIN
+        INSERT INTO mdl_book_aduit SET action =p_type,book_id = _book_id,course_id=_course,changedat = NOW();
+        END;
+    END IF;
+END$$
+
+
+CREATE TABLE mdl_book_chapters_audit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    chapter_id INT NOT NULL,
+    book_id INT NOT NULL,
+    changedat DATETIME DEFAULT NULL,
+    action VARCHAR(50) DEFAULT NULL
+);
+
+CREATE TRIGGER trigger_he_book_chapters_insert
+    AFTER INSERT ON mdl_book_chapters
+    FOR EACH ROW 
+ INSERT INTO mdl_book_chapters_audit
+     SET action = 'insert',
+     chapter_id = NEW.id,
+     book_id = NEW.bookid,
+     changedat=NOW();
+
+
+DELIMITER $$
+
+CREATE PROCEDURE chapters_he_updateprocedure(
+    IN  _chapter_id INT,IN  _book_id INT,IN p_type VARCHAR(255))
+BEGIN
+    IF (SELECT count(*) FROM mdl_book_chapters_audit WHERE book_id = _book_id and chapter_id = _chapter_id)>0 THEN
+        BEGIN
+        UPDATE mdl_book_chapters_audit SET changedat=NOW(),action =p_type WHERE book_id = _book_id AND chapter_id=_chapter_id;
+        END;
+    ELSE
+        BEGIN
+        INSERT INTO mdl_book_chapters_audit SET action =p_type,chapter_id = _chapter_id,book_id =_book_id,changedat = NOW();
+        END;
+    END IF;
+END$$
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_chapters_update AFTER UPDATE ON mdl_book_chapters
+FOR EACH ROW
+BEGIN
+   CALL chapters_he_updateprocedure(OLD.id,OLD.bookid,'updated');
+END;
+$$
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_chapters_insert AFTER INSERT ON mdl_book_chapters
+FOR EACH ROW
+BEGIN
+   CALL chapters_he_updateprocedure(NEW.id,NEW.bookid,'updated');
+END;
+$$
+
+DELIMITER $$
+CREATE TRIGGER trigger_he_book_chapters_delete AFTER DELETE ON mdl_book_chapters
+FOR EACH ROW
+BEGIN
+   CALL chapters_he_updateprocedure(OLD.id,OLD.bookid,'deleted');
+END;
+$$
+
+
+
+CREATE TABLE mdl_user_audit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    changedat DATETIME DEFAULT NULL,
+    action VARCHAR(50) DEFAULT NULL
+);
+
+
+DELIMITER $$
+
+CREATE PROCEDURE users_he_updateprocedure(
+    IN  _userid INT,IN _username VARCHAR(255),IN p_type VARCHAR(255),IN delete_n INT)
+BEGIN
+    IF delete_n>0 THEN
+       SET p_type='deleted';
+    END IF;
+    IF (SELECT count(*) FROM mdl_user_audit WHERE user_id = _userid AND name =_username)>0 THEN
+        BEGIN
+        DECLARE keepinsert VARCHAR(20);
+        DECLARE state_del VARCHAR(10);
+        SELECT action INTO keepinsert FROM mdl_user_audit WHERE user_id = _userid AND name =_username;
+        SELECT deleted INTO state_del FROM mdl_user WHERE id = _userid AND username =_username;
+        IF keepinsert='updated' THEN
+           UPDATE mdl_user_audit SET changedat=NOW(),action =p_type WHERE user_id = _userid AND name =_username;
+        ELSEIF state_del>0 THEN
+           UPDATE mdl_user_audit SET changedat=NOW(),action ='deleted' WHERE user_id = _userid AND name =_username;
+        ELSE
+           UPDATE mdl_user_audit SET changedat=NOW() WHERE user_id = _userid AND name =_username;
+        END IF;
+        END;
+    ELSE
+        BEGIN
+        INSERT INTO mdl_user_audit SET action =p_type,user_id = _userid,name =_username,changedat = NOW();
+        END;
+    END IF;
+END$$
+
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_user_update AFTER UPDATE ON mdl_user
+FOR EACH ROW
+BEGIN
+   CALL users_he_updateprocedure(OLD.id,OLD.username,'updated',OLD.deleted);
+END;
+$$
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_user_insert AFTER INSERT ON mdl_user
+FOR EACH ROW
+BEGIN
+   CALL users_he_updateprocedure(NEW.id,NEW.username,'inserted',NEW.deleted);
+END;
+$$
+
+DELIMITER $$
+CREATE TRIGGER trigger_user_delete AFTER DELETE ON mdl_user
+FOR EACH ROW
+BEGIN
+   CALL users_he_updateprocedure(OLD.id,OLD.username,'deleted',OLD.deleted);
+END;
+$$
+
+
+
+##### SURVEY ########
+
+DELIMITER $$
+CREATE TRIGGER trigger_suvery_update AFTER UPDATE ON survey
+FOR EACH ROW
+BEGIN
+   CALL surveyupdateprocedure(OLD.id,'updated');
+END;
+$$
+
+
+DELIMITER $$
+CREATE TRIGGER trigger_survey_insert AFTER INSERT ON survey
+FOR EACH ROW
+BEGIN
+   CALL surveyupdateprocedure(NEW.id,'updated');
+END;
+$$
+
+DELIMITER $$
+CREATE TRIGGER trigger_survey_delete AFTER DELETE ON survey
+FOR EACH ROW
+BEGIN
+   CALL surveyupdateprocedure(OLD.id,'deleted');
+END;
+$$
+
+DELIMITER $$
+
+CREATE PROCEDURE surveyupdateprocedure(
+    IN _survey_id INT,IN p_type VARCHAR(15))
+BEGIN
+    IF (SELECT count(*) FROM survey_audit WHERE survey_id = _survey_id)>0 THEN
+        BEGIN
+        UPDATE survey_audit SET changedat=NOW(),action =p_type WHERE survey_id = _survey_id;
+        END;
+    ELSE
+        BEGIN
+        INSERT INTO survey_audit SET action =p_type,survey_id = _survey_id,changedat = NOW();
+        END;
+    END IF;
+END$$

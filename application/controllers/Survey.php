@@ -262,9 +262,11 @@ class Survey extends CI_Controller
                         $new_choices = array();
                         $_value = 1;
                         foreach ($choices as $key => $value) {
-                            $value['_value'] = $_value;
-                            $_value++;
-                            array_push($new_choices, $value);
+                            if(is_array($value)){
+                                $value['_value'] = $_value;
+                                $_value++;
+                                array_push($new_choices, $value);
+                            } 
                         }
                         $element['choices'] = $new_choices;
                         array_push($new_elementx, $element);
@@ -273,9 +275,10 @@ class Survey extends CI_Controller
                         $new_choices = array();
                         $_value = false;
                         foreach ($choices as $key => $value) {
-                            $value['_value'] = "false";
-                            // $_value = false;
-                            array_push($new_choices, $value);
+                            if(is_array($value)){
+                                $value['_value'] = "false";
+                                array_push($new_choices, $value);
+                            }
                         }
                         $element['choices'] = $new_choices;
                         array_push($new_elementx, $element);
