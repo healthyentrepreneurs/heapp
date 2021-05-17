@@ -375,14 +375,9 @@ class Downloadable extends CI_Controller
     public function videopic()
     {
         $ffmpeg = FFMpeg\FFMpeg::create();
-        // FFMpeg::create([
-        //     'ffmpeg.binaries'  => '\usr\bin\ffmpeg',
-        //     'ffprobe.binaries' => '\usr\bin\ffprobe',
-        //     'timeout'          => 3600,
-        //     'ffmpeg.threads'   => 12,
-        // ])->open($file)
-        //     ->getStreams()
-        //     ->videos()
-        //     ->first();
+        $video = $ffmpeg->open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
+        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
+        $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'excelfiles/'.'frame.jpg');
+        // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
     }
 }
