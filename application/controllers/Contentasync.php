@@ -149,8 +149,8 @@ class Contentasync extends CI_Controller
             $value_check_clear = array();
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
-                $value_check_clear = array_shift($value_check);
-                array_push($books_audit, $value_check_clear);
+                // $value_check_clear = array_shift($value_check);
+                array_push($books_audit, $value_check);
             }
         }
         $forupdate_book = array();
