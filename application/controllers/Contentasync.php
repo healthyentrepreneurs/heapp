@@ -26,9 +26,10 @@ class Contentasync extends CI_Controller
         foreach ($_ids_users as  $value_id) {
             $value_check = $this->universal_model->selectz('*', 'survey_audit', 'survey_id', $value_id['id']);
             $value_check_clear = array_shift($value_check);
-            if (!empty($value_check_clear)) {
-                array_push($survey_audit, $value_check_clear);
-            }
+            array_push($survey_audit, $value_check_clear);
+            // if (!empty($value_check_clear)) {
+            //     array_push($survey_audit, $value_check_clear);
+            // }
         }
         $forupdate_survey = array();
         $what_delete = array();
@@ -137,12 +138,8 @@ class Contentasync extends CI_Controller
         $username = array_shift($value_user)['username'];
         $value_check = $this->universal_model->selectbooksviewuni(array('book_id'), $username);
         $books_id = array();
-        if (!empty($value_check)) {
-            // $rawdata_n=array_shift($value_check);
-            // $token=$rawdata_n['token'];
-            foreach ($value_check as $all_bookin) {
-                array_push($books_id, $all_bookin['book_id']);
-            }
+        foreach ($value_check as $all_bookin) {
+            array_push($books_id, $all_bookin['book_id']);
         }
         $_queried = $this->getme_books($token, $id);
         //Now We Start
@@ -152,26 +149,24 @@ class Contentasync extends CI_Controller
             $value_check_clear = array();
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
-                // $value_check_clear = array_shift($value_check);
-                print_array($value_check);
-            }
-            #End URL
-            if (!empty($value_check_clear)) {
+                $value_check_clear = array_shift($value_check);
                 array_push($books_audit, $value_check_clear);
             }
         }
-        // $forupdate_book = array();
-        // $what_delete = array();
-        // foreach ($books_audit as $valuen) {
-        //     $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
-        //     if (empty($value_check)) {
-        //         if ($valuen['action'] == 'deleted') {
-        //             array_push($what_delete, $valuen);
-        //         } else {
-        //             array_push($forupdate_book, $valuen);
-        //         }
-        //     }
-        // }
+        $forupdate_book = array();
+        $what_delete = array();
+        foreach ($books_audit as $valuen) {
+            $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
+            if (empty($value_check)) {
+                if ($valuen['action'] == 'deleted') {
+                    array_push($what_delete, $valuen);
+                } else {
+                    array_push($forupdate_book, $valuen);
+                }
+            }
+        }
+        print_array($what_delete);
+        print_array($forupdate_book);
         // $updated_paths = array();
         // foreach ($forupdate_book as  $valueup_path) {
         //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'id'), 'survey', 'id', $valueup_path['survey_id']);
