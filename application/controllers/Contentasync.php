@@ -135,7 +135,7 @@ class Contentasync extends CI_Controller
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
         $value_user = $this->universal_model->selectz(array('username'), 'mdl_user', 'id', $id);
         $username = array_shift($value_user)['username'];
-        $value_check = $this->universal_model->selectbooksviewuni(array('book_id', 'token'), $username);
+        $value_check = $this->universal_model->selectbooksviewuni(array('book_id'), $username);
         $token = $user_token;
         $books_id = array();
         if (!empty($value_check)) {

@@ -464,7 +464,7 @@ class Universal_model extends CI_Model
         $this->db->select($array_data);
         $this->db->from('viewtable');
         $this->db->where('user_id', $value_1);
-        $this->db->order_by("token",'desc');
+        // $this->db->order_by("token",'desc');
         $this->db->group_by("book_id");
         $query = $this->db->get()->result_array();
         return $query;
