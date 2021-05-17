@@ -145,21 +145,22 @@ class Contentasync extends CI_Controller
             }
         }
         $_queried = $this->getme_books($token, $id);
+        print_array($_queried);
         //Now We Start
-        $books_audit = array();
-        foreach ($_queried as  $value_id) {
-            #URL getbookcourse_id
-            $value_check_clear = array();
-            $value_check = $this->getbookcourse_id($value_id['id']);
-            print_array($value_check);
-            if (!array_key_exists('code', $value_check)) {
-                $value_check_clear = array_shift($value_check);
-            }
-            #End URL
-            if (!empty($value_check_clear)) {
-                array_push($books_audit, $value_check_clear);
-            }
-        }
+        // $books_audit = array();
+        // foreach ($_queried as  $value_id) {
+        //     #URL getbookcourse_id
+        //     $value_check_clear = array();
+        //     $value_check = $this->getbookcourse_id($value_id['id']);
+        //     print_array($value_check);
+        //     if (!array_key_exists('code', $value_check)) {
+        //         $value_check_clear = array_shift($value_check);
+        //     }
+        //     #End URL
+        //     if (!empty($value_check_clear)) {
+        //         array_push($books_audit, $value_check_clear);
+        //     }
+        // }
         // $forupdate_book = array();
         // $what_delete = array();
         // foreach ($books_audit as $valuen) {
