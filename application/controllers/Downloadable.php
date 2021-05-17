@@ -372,14 +372,63 @@ class Downloadable extends CI_Controller
         // print_array($array_of_output);
         return $array_of_output;
     }
-    public function videopic()
+    // public function videopic()
+    // {
+    //     // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
+    //     //https://gist.github.com/jsturgis/3b19447b304616f18657
+    //     $ffmpeg = FFMpeg\FFMpeg::create();
+    //     $video = $ffmpeg->open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
+    //     $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
+    //     $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'excelfiles/'.'frame.jpg');
+    //     // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+    // }
+    public function book_course($user_id, $token,$id_course,$id_book)
     {
-        // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
-        //https://gist.github.com/jsturgis/3b19447b304616f18657
-        $ffmpeg = FFMpeg\FFMpeg::create();
-        $video = $ffmpeg->open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
-        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
-        $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'excelfiles/'.'frame.jpg');
-        // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
+        $dir_nextlink = $mypath . "next_link" . DIRECTORY_SEPARATOR;
+        $data_course = array(
+            'id' => $user_id,
+        );
+        $domainname = base_url();
+        $serverurl = $domainname . '/moodle/login';
+        $array_of_output_course = $this->getme_books($token,$user_id);
+        $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
+        print_array($key_course);
+        print_array($array_of_output_course[$key_course]);
+        // foreach ($array_of_output_course as $value_course) {
+        //     $course_nextlink = $value_course['next_link'];
+        //     $course_nextlink_array = explode('/', $course_nextlink);
+        //     $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
+        //     $dir_course_id = $dir_get_details_percourse . DIRECTORY_SEPARATOR . $course_nextlink_array[count($course_nextlink_array) - 2];
+        //     $server_output_book = curl_request($value_course['next_link'], $data_course, "post", array('App-Key: 123456'));
+        //     //End   Download Book
+        //     //Change Nextlink Books
+        //     $value_course['next_link'] = '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
+        //     $value_course['next_link'] =  '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
+        //     $img_course = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course';
+        //     $img_course_modicon = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon';
+        //     //Post Book Phase 1
+        //     $token_get_me = $course_nextlink_array[count($course_nextlink_array) - 1];
+        //     $relative_url = '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2];
+        //     $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
+        //     //Start Download Book
+        //     $server_opt_books_n = json_encode($server_opt_books_n);
+        //     $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
+        //     fwrite($file_n, $server_opt_books_n);
+        //     fclose($file_n);
+        //     $image_pathn = $this->getme_images($img_course, $user_id, $value_course);
+        //     $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
+        //     $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
+        // }
+    }
+
+    public function getme_books($token, $user_id)
+    {
+        // public function _get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+        $domainname = base_url('user/get_moodle_course_inter/') . $token . '/' . $user_id . '/1';
+        // echo $domainname;
+        $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
     }
 }
