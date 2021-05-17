@@ -136,9 +136,9 @@ class Contentasync extends CI_Controller
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
         $value_user = $this->universal_model->selectz(array('username'), 'mdl_user', 'id', $id);
         $username = array_shift($value_user)['username'];
-        $value_check = $this->universal_model->selectbooksviewuni(array('book_id'), $username);
+        $value_check_books = $this->universal_model->selectbooksviewuni(array('book_id'), $username);
         $books_id = array();
-        foreach ($value_check as $all_bookin) {
+        foreach ($value_check_books as $all_bookin) {
             array_push($books_id, $all_bookin['book_id']);
         }
         $_queried = $this->getme_books($token, $id);
@@ -149,7 +149,8 @@ class Contentasync extends CI_Controller
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
                 $value_check_clear = array_shift($value_check);
-                array_push($books_audit, $value_check_clear);
+                print_array($value_check_clear);
+                // array_push($books_audit, $value_check_clear);
             }
         }
         $forupdate_book = array();
@@ -165,8 +166,8 @@ class Contentasync extends CI_Controller
                 }
             }
         }
-        print_array($what_delete);
-        print_array($forupdate_book);
+        // print_array($what_delete);
+        // print_array($forupdate_book);
         // $updated_paths = array();
         // foreach ($forupdate_book as  $valueup_path) {
         //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'id'), 'survey', 'id', $valueup_path['survey_id']);
