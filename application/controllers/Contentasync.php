@@ -141,18 +141,20 @@ class Contentasync extends CI_Controller
         foreach ($value_check_books as $all_bookin) {
             array_push($books_id, $all_bookin['book_id']);
         }
+        print_array($books_id);
         $_queried = $this->getme_books($token, $id);
+        print_array($_queried);
         //Now We Start
         $books_audit = array();
         foreach ($_queried as  $value_id) {
             #URL getbookcourse_id
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
-                $value_check_clear = array_shift($value_check);
-                print_array($value_check_clear);
+                $books_audit=array_merge($books_audit,$value_check);
                 // array_push($books_audit, $value_check_clear);
             }
         }
+        print_array($books_audit);
         $forupdate_book = array();
         $what_delete = array();
         // print_array($books_audit);
