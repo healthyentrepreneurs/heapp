@@ -283,3 +283,9 @@ BEGIN
         END;
     END IF;
 END$$
+
+#Interview 
+
+O Oriented Connection
+Procedual Data Connection
+PDO

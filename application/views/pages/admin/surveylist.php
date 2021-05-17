@@ -42,7 +42,7 @@
                     foreach ($surveydatas as $keyvalue_in_sub => $value_in_sub) {
                     ?>
                         <tr>
-                            <td class="center"><img src="<?= base_url('uploadscustome/' . $value_in_sub['image']) ?>" alt="image" width="100" height="100" /></td>
+                            <td class="center"><img src="<?= base_url('uploadscustome/' . $value_in_sub['image']) ?>" alt="image" width="50" height="50" /></td>
                             <td class="center"><?= $value_in_sub['name'] ?></td>
                             <td class="center"><?= $value_in_sub['datecreated'] ?></td>
                             <td class="center">

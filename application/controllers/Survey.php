@@ -219,6 +219,7 @@ class Survey extends CI_Controller
     }
     public function getnexlink($id)
     {
+        header('Content-Type: application/json');
         $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'id', $id);
         $json_en_values = $this->survey_custom_values($attempt_d_n_n);
         $json_en = array_shift($json_en_values);

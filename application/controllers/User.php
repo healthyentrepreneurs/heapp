@@ -18,12 +18,21 @@ class User extends CI_Controller
     }
     public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
     {
+        header('Content-Type: application/json');
+        $merge_sanitized_courses = $this->get_moodle_course_inter($token, $user_id);
+        $array_object = $this->getme_cohort_get_cohort_members($user_id);
+        $njovu = array_merge($merge_sanitized_courses, $array_object);
+        echo json_encode($njovu);
+    }
+    ##Get Courses Authorised Users 
+    public function get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3, $returnformat = 0)
+    {
         $_courses = $this->get_list_courses_internal($user_id);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
         $merge_sanitized_courses = array();
         // print_array($_courses_n_array);
-        foreach ($_courses_n_array as $key => $courses) {
+        foreach ($_courses_n_array as $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
             $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
@@ -41,12 +50,13 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        $array_object = $this->getme_cohort_get_cohort_members($user_id);
-        print_array($array_object);
-        // $njovu = array_merge($merge_sanitized_courses, $array_object);
-        // echo json_encode($njovu);
+        if ($returnformat == 0) {
+            return $merge_sanitized_courses;
+        } else {
+            echo json_encode($merge_sanitized_courses);
+        }
     }
-
+    ##End Courses
     public function get_list_courses_internal($user_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
@@ -168,6 +178,7 @@ class User extends CI_Controller
             // return $array_of_courses;
             // Hello Sunshine 
             if ($show == 1) {
+                header('Content-Type: application/json');
                 echo empty_response("course sections loaded", 200, $array_merger);
                 // print_array($array_merger);
             } else {
@@ -302,7 +313,7 @@ class User extends CI_Controller
         curl_request($serverurl, $data, "post", array('App-Key: 123456'));
     }
     // core_cohort_get_cohort_members
-    public function getme_cohort_get_cohort_members($id_quetion)
+    public function getme_cohort_get_cohort_members($id_quetion, $returnformat = 0)
     {
         $value_check = $this->universal_model->join_suv_cohot();
         $array_ids_cohort = array();
@@ -366,8 +377,11 @@ class User extends CI_Controller
 
             // print_array($custome_onw);
         }
-        // print_array($array_object);
-        return $array_object;
+        if ($returnformat == 0) {
+            return $array_object;
+        } else {
+            echo json_encode($array_object);
+        }
     }
     #Test Get User Details
     public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)

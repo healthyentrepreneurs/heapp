@@ -6,6 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Neutron' => array($vendorDir . '/neutron/temporary-filesystem/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
     'Gaufrette' => array($vendorDir . '/knplabs/gaufrette/src'),
+    'FFMpeg' => array($vendorDir . '/php-ffmpeg/php-ffmpeg/src'),
+    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
+    'Alchemy' => array($vendorDir . '/alchemy/binary-driver/src'),
 );

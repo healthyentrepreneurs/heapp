@@ -302,9 +302,9 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-//Content Async
- 
-//End Content Async
+    //Content Async
+
+    //End Content Async
     public function join_suv_summery_nn($report_id, $from_from, $to_to)
     {
         $this->db->select('u.username,CONCAT(u.firstname," ",u.lastname) as fullname,c.id,s.id as surveyid,c.userid,s.name,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
@@ -401,7 +401,7 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
- public function books_reports_chapterson($array_table_n, $from_from, $to_to, $courseid, $bookid, $funco = "pop", $chapterid = "non")
+    public function books_reports_chapterson($array_table_n, $from_from, $to_to, $courseid, $bookid, $funco = "pop", $chapterid = "non")
     {
         if ($funco == "pop") {
             $this->db->select($array_table_n);
@@ -418,7 +418,7 @@ class Universal_model extends CI_Model
         if ($bookid != "non") {
             $this->db->where('viewtable.book_id', $bookid);
         }
-         if ($chapterid != "non") {
+        if ($chapterid != "non") {
             $this->db->where('viewtable.view_id', $chapterid);
         }
         $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
@@ -459,5 +459,14 @@ class Universal_model extends CI_Model
         return $query;
     }
     //Start Sync
-  
+    public function selectbooksviewuni($array_data, $value_1)
+    {
+        $this->db->select($array_data);
+        $this->db->from('viewtable');
+        $this->db->where('user_id', $value_1);
+        $this->db->order_by("token",'desc');
+        $this->db->group_by("book_id");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
 }

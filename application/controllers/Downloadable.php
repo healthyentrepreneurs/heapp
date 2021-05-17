@@ -2,6 +2,8 @@
 ini_set('max_execution_time', '3000');
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+require_once FCPATH . 'vendor/autoload.php';
+
 class Downloadable extends CI_Controller
 {
     public function __construct()
@@ -369,5 +371,18 @@ class Downloadable extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
         return $array_of_output;
+    }
+    public function videopic()
+    {
+        $ffmpeg = FFMpeg\FFMpeg::create();
+        // FFMpeg::create([
+        //     'ffmpeg.binaries'  => '\usr\bin\ffmpeg',
+        //     'ffprobe.binaries' => '\usr\bin\ffprobe',
+        //     'timeout'          => 3600,
+        //     'ffmpeg.threads'   => 12,
+        // ])->open($file)
+        //     ->getStreams()
+        //     ->videos()
+        //     ->first();
     }
 }

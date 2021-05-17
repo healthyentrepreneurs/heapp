@@ -14,6 +14,7 @@ return array(
     'e187e371b30897d6dc51cac6a8c94ff6' => $vendorDir . '/amphp/sync/src/ConcurrentIterator/functions.php',
     '8dc56fe697ca93c4b40d876df1c94584' => $vendorDir . '/amphp/process/lib/functions.php',
     '3da389f428d8ee50333e4391c3f45046' => $vendorDir . '/amphp/serialization/src/functions.php',
+    'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     '445532134d762b3cbc25500cac266092' => $vendorDir . '/daverandom/libdns/src/functions.php',
     '7ebf029ad4b246f1e3f66192b40a932f' => $vendorDir . '/amphp/dns/lib/functions.php',
     'e1e8b49c332434256b5df11b0f0c2a62' => $vendorDir . '/league/uri-parser/src/functions_include.php',

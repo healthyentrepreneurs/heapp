@@ -20,7 +20,8 @@
 		"phpoffice/phpspreadsheet": "^1.16",
 		"kherge/json": "^3",
 		"maxakawizard/json-collection-parser": "~1.0",
-		"halaxa/json-machine": "^0.6.0"
+		"halaxa/json-machine": "^0.6.0",
+		"php-ffmpeg/php-ffmpeg": "^0.18.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
