@@ -130,20 +130,18 @@ class Contentasync extends CI_Controller
         }
         echo json_encode($updates_survey);
     }
-    public function syncbooks($id, $user_token = null)
+    public function syncbooks($id, $token = null)
     {
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
         $value_user = $this->universal_model->selectz(array('username'), 'mdl_user', 'id', $id);
         $username = array_shift($value_user)['username'];
         $value_check = $this->universal_model->selectbooksviewuni(array('book_id'), $username);
-        $token = $user_token;
         $books_id = array();
         if (!empty($value_check)) {
             // $rawdata_n=array_shift($value_check);
             // $token=$rawdata_n['token'];
             foreach ($value_check as $all_bookin) {
                 array_push($books_id, $all_bookin['book_id']);
-                $token = $all_bookin['token'];
             }
         }
         $_queried = $this->getme_books($token, $id);
