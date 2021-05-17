@@ -53,6 +53,7 @@ class User extends CI_Controller
         if ($returnformat == 0) {
             return $merge_sanitized_courses;
         } else {
+            header('Content-Type: application/json');
             echo json_encode($merge_sanitized_courses);
         }
     }
@@ -380,6 +381,7 @@ class User extends CI_Controller
         if ($returnformat == 0) {
             return $array_object;
         } else {
+            header('Content-Type: application/json');
             echo json_encode($array_object);
         }
     }
@@ -414,8 +416,10 @@ class User extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         if (!empty($array_of_output)) {
             $this->universal_model->insertzwhere('viewtable', $array_insert);
+            header('Content-Type: application/json');
             echo empty_response("New User Successfully Created", 200, $array_of_output);
         } else {
+            header('Content-Type: application/json');
             echo empty_response("Failed To Sync The Data", 500);
         }
         // print_array($array_of_output);
@@ -555,6 +559,7 @@ class User extends CI_Controller
                 array_push($cleaner_array, $array_chapters);
             }
         }
+        header('Content-Type: application/json');
         echo json_encode($cleaner_array);
     }
 }
