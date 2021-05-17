@@ -374,6 +374,8 @@ class Downloadable extends CI_Controller
     }
     public function videopic()
     {
+        // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
+        //https://gist.github.com/jsturgis/3b19447b304616f18657
         $ffmpeg = FFMpeg\FFMpeg::create();
         $video = $ffmpeg->open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
         $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();

@@ -151,25 +151,29 @@ class Contentasync extends CI_Controller
         $books_audit = array();
         foreach ($_queried as  $value_id) {
             #URL getbookcourse_id
-            $value_check = $this->universal_model->selectz('*', 'mdl_book_aduit', 'course_id', $value_id['id']);
+            $value_check_clear = array();
+            $value_check = $this->getbookcourse_id($value_id['id']);
+            print_array($value_check);
+            if (!array_key_exists('code', $value_check)) {
+                $value_check_clear = array_shift($value_check);
+            }
             #End URL
-            $value_check_clear = array_shift($value_check);
             if (!empty($value_check_clear)) {
                 array_push($books_audit, $value_check_clear);
             }
         }
-        $forupdate_book = array();
-        $what_delete = array();
-        foreach ($books_audit as $valuen) {
-            $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
-            if (empty($value_check)) {
-                if ($valuen['action'] == 'deleted') {
-                    array_push($what_delete, $valuen);
-                } else {
-                    array_push($forupdate_book, $valuen);
-                }
-            }
-        }
+        // $forupdate_book = array();
+        // $what_delete = array();
+        // foreach ($books_audit as $valuen) {
+        //     $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
+        //     if (empty($value_check)) {
+        //         if ($valuen['action'] == 'deleted') {
+        //             array_push($what_delete, $valuen);
+        //         } else {
+        //             array_push($forupdate_book, $valuen);
+        //         }
+        //     }
+        // }
         // $updated_paths = array();
         // foreach ($forupdate_book as  $valueup_path) {
         //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'id'), 'survey', 'id', $valueup_path['survey_id']);
@@ -294,6 +298,16 @@ class Contentasync extends CI_Controller
     {
         // public function _get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
         $domainname = base_url('user/get_moodle_course_inter/') . $token . '/' . $user_id . '/1';
+        // echo $domainname;
+        $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        return $array_of_output;
+    }
+
+    public function getbookcourse_id($course_id)
+    {
+        // public function _get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+        $domainname = 'https://app.healthyentrepreneurs.nl/moodleapi/api/getbookcourse_id/' . $course_id;
         // echo $domainname;
         $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
