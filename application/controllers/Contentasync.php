@@ -161,7 +161,7 @@ class Contentasync extends CI_Controller
         foreach ($forupdate_book as  $valueup_path) {
             if (!in_array($valueup_path['course_id'], $course_update_one)) {
                 $now_val_json = array(
-                    'fileUrl' => base_url('downloadable/book_course/') . $id . '/' . $token,
+                    'fileUrl' => base_url('downloadable/book_course/') . $id . '/' . $token.'/'.$valueup_path['course_id'],
                     'mode' => 1,
                     'localFilePath' => '/next_link/get_details_percourse/' . $valueup_path['course_id'] . '.json'
                 );
@@ -169,11 +169,12 @@ class Contentasync extends CI_Controller
                 array_push($course_update_one, $valueup_path['course_id']);
             }
             $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . 'next_link/get_details_percourse/' . $valueup_path['course_id'] . DIRECTORY_SEPARATOR . $valueup_path['book_id'];
-            if (file_exists($mypath)) {
-                echo 'Book Exists';
-            } else {
-                echo 'Book For Download';
-            }
+            // if (file_exists($mypath)) {
+            //     echo 'Book Exists';
+            // } else {
+            //     echo 'Book For Download';
+            // }
+            print_array($valueup_path);
         }
         $deteled_paths = array();
         foreach ($what_delete as $value_del_path) {
@@ -183,8 +184,8 @@ class Contentasync extends CI_Controller
             );
             array_push($deteled_paths, $now_val_json);
         }
-        print_array($deteled_paths);
-        print_array($updated_paths);
+        // print_array($deteled_paths);
+        // print_array($updated_paths);
         // $updates_survey = array();
         // if (!empty($deteled_paths) || !empty($updated_paths)) {
         //     $_landing_json = array(

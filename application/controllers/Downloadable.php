@@ -402,6 +402,7 @@ class Downloadable extends CI_Controller
     // }
     public function book_course($user_id, $token, $id_course)
     {
+        header('Content-Type: application/json');
         $array_of_output_course = $this->getme_books($token, $user_id);
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
         $value_course = $array_of_output_course[$key_course];
