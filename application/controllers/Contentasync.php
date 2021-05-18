@@ -141,79 +141,50 @@ class Contentasync extends CI_Controller
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
                 $books_audit = array_merge($books_audit, $value_check);
-                print_array($books_audit);
                 // array_push($books_audit, $value_check_clear);
             }
         }
         $forupdate_book = array();
         $what_delete = array();
-        $what_inserted = array();
         foreach ($books_audit as $valuen) {
             $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
             if (empty($value_check)) {
                 if ($valuen['action'] == 'deleted') {
                     array_push($what_delete, $valuen);
-                } else if ($valuen['action'] == 'inserted') {
-                    array_push($what_inserted, $valuen);
                 } else {
                     array_push($forupdate_book, $valuen);
                 }
             }
         }
-        print_array($forupdate_book);
         $updated_paths = array();
-        // foreach ($forupdate_book as  $valueup_path) {
-        //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'id'), 'survey', 'id', $valueup_path['survey_id']);
-        //     if (!empty($value_check)) {
-        //         $value_check_n = array_shift($value_check);
-        //         // print_array($value_check_n);
-        //         $imagebig_name = explode('/', $value_check_n['image']);
-        //         $imagesmall_name = explode('/', $value_check_n['image_url_small']);
-        //         $now_val_big = array(
-        //             'fileUrl' => base_url('uploadscustome/') . $imagebig_name[count($imagebig_name) - 1],
-        //             'mode' => 1,
-        //             'localFilePath' => '/images/survey/' . $imagebig_name[count($imagebig_name) - 1]
-        //         );
-        //         $now_val_small = array(
-        //             'fileUrl' => base_url('uploadscustome/') . $imagesmall_name[count($imagesmall_name) - 1],
-        //             'mode' => 1,
-        //             'localFilePath' => '/images/survey/' . $imagesmall_name[count($imagesmall_name) - 1]
-        //         );
-        //         $now_val_json = array(
-        //             'fileUrl' => base_url('survey/getnexlink/') . $value_check_n['id'],
-        //             'mode' => 1,
-        //             'localFilePath' => '/next_link/survey/' . $value_check_n['id'] . '.json'
-        //         );
-        //         array_push($updated_paths, $now_val_big);
-        //         array_push($updated_paths, $now_val_small);
-        //         array_push($updated_paths, $now_val_json);
-        //     }
-        // }
-        // $deteled_paths = array();
-        // foreach ($what_delete as $value_del_path) {
-        //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'survey_id'), 'survey_deleted', 'survey_id', $value_del_path['survey_id']);
-        //     if (!empty($value_check)) {
-        //         $value_check_n = array_shift($value_check);
-        //         // print_array($value_check_n);
-        //         $imagebig_name = explode('/', $value_check_n['image']);
-        //         $imagesmall_name = explode('/', $value_check_n['image_url_small']);
-        //         $now_val_big = array(
-        //             'mode' => 0,
-        //             'localFilePath' => '/images/survey/' . $imagebig_name[count($imagebig_name) - 1]
-        //         );
-        //         $now_val_small = array(
-        //             'mode' => 0,
-        //             'localFilePath' => '/images/survey/' . $imagesmall_name[count($imagesmall_name) - 1]
-        //         );
-        //         $now_val_json = array(
-        //             'mode' => 0,
-        //             'localFilePath' => '/next_link/survey/' . $value_check_n['survey_id'] . '.json'
-        //         );
-        //         array_push($deteled_paths, $now_val_big);
-        //         array_push($deteled_paths, $now_val_small);
-        //         array_push($deteled_paths, $now_val_json);
-        //     }
-        // }
+        $course_update_one = array();
+        foreach ($forupdate_book as  $valueup_path) {
+            if (!in_array($valueup_path['course_id'], $course_update_one)) {
+                $now_val_json = array(
+                    'fileUrl' => base_url('downloadable/book_course/') . $id . '/' . $token,
+                    'mode' => 1,
+                    'localFilePath' => '/next_link/get_details_percourse/' . $valueup_path['course_id'] . '.json'
+                );
+                array_push($updated_paths, $now_val_json);
+                array_push($course_update_one, $valueup_path['course_id']);
+            }
+            $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $id . DIRECTORY_SEPARATOR . 'next_link/get_details_percourse/' . $valueup_path['course_id'] . DIRECTORY_SEPARATOR . $valueup_path['book_id'];
+            if (file_exists($mypath)) {
+                echo 'Book Exists';
+            } else {
+                echo 'Book For Download';
+            }
+        }
+        $deteled_paths = array();
+        foreach ($what_delete as $value_del_path) {
+            $now_val_json = array(
+                'mode' => 0,
+                'localFilePath' => '/next_link/get_details_percourse/' . $value_del_path['course_id'] . '/' . $value_del_path['book_id'] . '.json'
+            );
+            array_push($deteled_paths, $now_val_json);
+        }
+        print_array($deteled_paths);
+        print_array($updated_paths);
         // $updates_survey = array();
         // if (!empty($deteled_paths) || !empty($updated_paths)) {
         //     $_landing_json = array(

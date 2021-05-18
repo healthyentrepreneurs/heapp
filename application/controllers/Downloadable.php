@@ -337,7 +337,7 @@ class Downloadable extends CI_Controller
         return $array_of_output;
     }
 
-    public function getmecoursecontent($value_course, $user_id, $pull=0)
+    public function getmecoursecontent($value_course, $user_id, $pull = 0)
     {
         $data_course = array(
             'id' => $user_id,
@@ -383,7 +383,7 @@ class Downloadable extends CI_Controller
         $image_pathn = $this->getme_images($img_course, $user_id, $value_course, $pull);
         $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
         $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
-        return array('course'=>$value_course,'details_course'=>$server_opt_books_n);
+        return array('course' => $value_course, 'details_course' => $server_opt_books_n);
     }
 
 
@@ -400,13 +400,14 @@ class Downloadable extends CI_Controller
     //     $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'excelfiles/'.'frame.jpg');
     //     // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
     // }
-    public function book_course($user_id, $token, $id_course, $id_book)
+    public function book_course($user_id, $token, $id_course)
     {
         $array_of_output_course = $this->getme_books($token, $user_id);
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
         $value_course = $array_of_output_course[$key_course];
-        $sample_data = $this->getmecoursecontent($value_course, $user_id,1);
-        print_array($sample_data['details_course']);
+        $sample_data = $this->getmecoursecontent($value_course, $user_id, 1);
+        // print_array($sample_data['details_course']);
+        echo $sample_data['details_course'];
     }
 
     public function getme_books($token, $user_id)
@@ -417,12 +418,11 @@ class Downloadable extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-    public function book_update(){
-
+    public function book_update()
+    {
     }
     public function book_download()
     {
-        
     }
     public function book_delete()
     {
