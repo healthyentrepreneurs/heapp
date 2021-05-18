@@ -20,6 +20,10 @@ class Downloadable extends CI_Controller
     }
     public function create_content()
     {
+        echo json_encode($_POST);
+    }
+    public function create_content_n()
+    {
         $cohort_object = $this->input->post('cohort_object');
         $our_values = explode('@', $cohort_object);
         $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
