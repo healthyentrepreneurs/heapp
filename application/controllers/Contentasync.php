@@ -4,8 +4,6 @@ header('Access-Control-Allow-Origin: *');
 date_default_timezone_set("Africa/Nairobi");
 require_once FCPATH . 'vendor/autoload.php';
 
-use Spatie\Async\Pool;
-
 class Contentasync extends CI_Controller
 {
     public function __construct()
@@ -210,23 +208,6 @@ class Contentasync extends CI_Controller
                 'updates' => array()
             );
         }
-        $pool = Pool::create();
-        $pool[] = async(function () use ($updates_books) {
-            $jeje = json_encode($updates_books);
-            return $jeje;
-        })->then(function ($jeje) {
-            echo $jeje;
-        });
-        $pool[] = async(function () {
-            $count=0;
-            foreach (range(1, 1000) as $i) {
-                $count = $i * $count;
-            }
-            return $count;
-        })->then(function ($count) {
-            echo $count;
-        });
-        await($pool);
         // ->add(function () use ($download_books) {
         //     $domainname = base_url('downloadable/create_content/');
         //     $post_params = array(
