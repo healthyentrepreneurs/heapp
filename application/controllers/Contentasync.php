@@ -141,6 +141,7 @@ class Contentasync extends CI_Controller
             $value_check = $this->getbookcourse_id($value_id['id']);
             if (!array_key_exists('code', $value_check)) {
                 $books_audit = array_merge($books_audit, $value_check);
+                print_array($books_audit);
                 // array_push($books_audit, $value_check_clear);
             }
         }
