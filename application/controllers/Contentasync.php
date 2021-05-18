@@ -217,7 +217,7 @@ class Contentasync extends CI_Controller
                 'books' => json_encode($download_books)
             );
             // echo $domainname;
-            $server_output = curl_request($domainname, $post_params, "get", array('App-Key: 123456'));
+            $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
             $array_of_output = json_decode($server_output, true);
             return $array_of_output;
         })->then(function ($array_of_output) {
