@@ -405,6 +405,7 @@ class Downloadable extends CI_Controller
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
         //  public function getmecoursecontent($value_course,$user_id)
         $value_course = $array_of_output_course[$key_course];
+        print_array($value_course);
         $sample_data=$this->getmecoursecontent($value_course,$user_id);
         print_array($sample_data);
     }
