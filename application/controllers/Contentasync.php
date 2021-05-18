@@ -146,16 +146,20 @@ class Contentasync extends CI_Controller
         }
         $forupdate_book = array();
         $what_delete = array();
+        $what_inserted = array();
         foreach ($books_audit as $valuen) {
             $value_check = $this->universal_model->selectzxppp('*', 'updatetract', 'update_id', $valuen['id'], 'user_id', $id, 'update_type', 'book', 'dateaction', $valuen['changedat']);
             if (empty($value_check)) {
                 if ($valuen['action'] == 'deleted') {
                     array_push($what_delete, $valuen);
+                } else if ($valuen['action'] == 'inserted') {
+                    array_push($what_inserted, $valuen);
                 } else {
                     array_push($forupdate_book, $valuen);
                 }
             }
         }
+        print_array($forupdate_book);
         $updated_paths = array();
         // foreach ($forupdate_book as  $valueup_path) {
         //     $value_check = $this->universal_model->selectz(array('image_url_small', 'image', 'id'), 'survey', 'id', $valueup_path['survey_id']);

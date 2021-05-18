@@ -402,17 +402,9 @@ class Downloadable extends CI_Controller
     // }
     public function book_course($user_id, $token, $id_course, $id_book)
     {
-        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
-        $dir_nextlink = $mypath . "next_link" . DIRECTORY_SEPARATOR;
-        $data_course = array(
-            'id' => $user_id,
-        );
-        $domainname = base_url();
-        $serverurl = $domainname . '/moodle/login';
         $array_of_output_course = $this->getme_books($token, $user_id);
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
         $value_course = $array_of_output_course[$key_course];
-        print_array($value_course);
         $sample_data = $this->getmecoursecontent($value_course, $user_id,1);
         print_array($sample_data['details_course']);
     }
@@ -424,5 +416,16 @@ class Downloadable extends CI_Controller
         $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
+    }
+    public function book_update(){
+
+    }
+    public function book_download()
+    {
+        
+    }
+    public function book_delete()
+    {
+        # code...
     }
 }
