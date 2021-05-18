@@ -212,10 +212,17 @@ class Contentasync extends CI_Controller
         }
         $pool = Pool::create();
         $pool[] = async(function () use ($updates_books) {
-            $jeje=json_encode($updates_books);
+            $jeje = json_encode($updates_books);
             return $jeje;
         })->then(function ($jeje) {
             echo $jeje;
+        })->add(function () {
+            $output = 0;
+            foreach (range(1, 1000) as $i) {
+                $output = $i * $output;
+            }
+        })->then(function ($output) {
+            echo json_encode($output);
         });
         await($pool);
         // ->add(function () use ($download_books) {
