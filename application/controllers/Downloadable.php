@@ -111,7 +111,7 @@ class Downloadable extends CI_Controller
                     $value_course['image_url_small'] = '/images/survey/' . $image_path['image_url_small'];
                     $value_course['image_url'] = '/images/survey/' . $image_path['image_url'];
                 } elseif ($value_course['source'] == "moodle") {
-                    $value_course = $this->getmecoursecontent($value_course,$user_id);
+                    $value_course = $this->getmecoursecontent($value_course, $user_id)['course'];
                 }
                 array_push($modifyied_courses, $value_course);
             }
@@ -144,7 +144,7 @@ class Downloadable extends CI_Controller
         }
     }
 
-    public function getme_images($img_survey, $user_id, $value_course)
+    public function getme_images($img_survey, $user_id, $value_course, $pull = 0)
     {
         //Duplicate Images for download
         $image_url_smalloriginal = $value_course['image_url_small'];
@@ -165,26 +165,26 @@ class Downloadable extends CI_Controller
         $img_twon_x = $user_id . $_image_big_arr[count($_image_big_arr) - 1];
         $img_n = $img_survey . '/' . $imgn_x;
         $img_two_n = $img_survey . '/' . $img_twon_x;
-        $file_headers = @get_headers($image_url_smalloriginal);
-        if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
-            // print_array("No image_url_small");
-            file_put_contents($img_n, file_get_contents(base_url('uploadicons/60_user_profile_pic39K.png')));
-        } else {
-            file_put_contents($img_n, file_get_contents($image_url_smalloriginal));
-        }
-        $file_headers_n = @get_headers($image_url_original);
-        if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
-            // print_array("No image_url");
-            file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
-        } else {
-            file_put_contents($img_two_n, file_get_contents($image_url_original));
+        if ($pull == 0) {
+            $file_headers = @get_headers($image_url_smalloriginal);
+            if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+                file_put_contents($img_n, file_get_contents(base_url('uploadicons/60_user_profile_pic39K.png')));
+            } else {
+                file_put_contents($img_n, file_get_contents($image_url_smalloriginal));
+            }
+            $file_headers_n = @get_headers($image_url_original);
+            if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
+                file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
+            } else {
+                file_put_contents($img_two_n, file_get_contents($image_url_original));
+            }
         }
         return array(
             'image_url_small' => $imgn_x,
             'image_url' => $img_twon_x
         );
     }
-    public function downloadBook($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u)
+    public function downloadBook($server_output_book, $img_books, $dir_course_id, $relative_url, $token_nnn_u, $pull = 0)
     {
         $server_output = json_decode($server_output_book, true);
         if (empty($server_output)) {
@@ -206,12 +206,14 @@ class Downloadable extends CI_Controller
                     $modicon_url_arr = explode('/', $modicon_url);
                     $imgn_icon = $modicon_url_arr[count($modicon_url_arr) - 1];
                     $img_two_n = $img_books . '/' . $imgn_icon;
-                    $file_headers_n = @get_headers($modicon_url);
-                    if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
-                        // print_array("No image_url");
-                        file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
-                    } else {
-                        file_put_contents($img_two_n, file_get_contents($modicon_url));
+                    if ($pull == 0) {
+                        $file_headers_n = @get_headers($modicon_url);
+                        if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
+                            // print_array("No image_url");
+                            file_put_contents($img_two_n, file_get_contents(base_url('uploadicons/600_user_profile_pic39K.png')));
+                        } else {
+                            file_put_contents($img_two_n, file_get_contents($modicon_url));
+                        }
                     }
                     $modules_values['modicon'] = '/images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon' . '/' . $imgn_icon;
                     //End   Mid Icon
@@ -249,10 +251,12 @@ class Downloadable extends CI_Controller
                                 $absolutepath_book = $img_course_perbook . '/' . $file_name_chap;
                                 $japa = $relative_url . '/' . $url_chapter . '/' . $file_name_chap;
                                 //Write Files 
-                                $data = file_get_contents($value_in_con['filefullpath']);
-                                $fh = fopen($absolutepath_book, "w");
-                                fwrite($fh, $data);
-                                fclose($fh);
+                                if ($pull == 0) {
+                                    $data = file_get_contents($value_in_con['filefullpath']);
+                                    $fh = fopen($absolutepath_book, "w");
+                                    fwrite($fh, $data);
+                                    fclose($fh);
+                                }
                                 //Alternative Method
                                 // file_put_contents($absolutepath_book, file_get_contents($value_n['filefullpath']));
                                 //End Write Files
@@ -285,8 +289,10 @@ class Downloadable extends CI_Controller
                             $file_name_chap_nchange = str_replace("%20", " ", $file_name_chap_nchange);
                             $absolutepath_book = $img_course_perbook . '/' . $file_name_chap_nchange;
                             // print_array($file_name_chap_nchange);
-                            $_token_url_enco = str_replace(" ", "%20", $_token_url);
-                            file_put_contents($absolutepath_book, file_get_contents($_token_url_enco));
+                            if ($pull == 0) {
+                                $_token_url_enco = str_replace(" ", "%20", $_token_url);
+                                file_put_contents($absolutepath_book, file_get_contents($_token_url_enco));
+                            }
                             //Stop Writing
                             $value['fileurl'] = $japa;
                         }
@@ -331,7 +337,7 @@ class Downloadable extends CI_Controller
         return $array_of_output;
     }
 
-    public function getmecoursecontent($value_course,$user_id)
+    public function getmecoursecontent($value_course, $user_id, $pull=0)
     {
         $data_course = array(
             'id' => $user_id,
@@ -364,18 +370,20 @@ class Downloadable extends CI_Controller
         //Post Book Phase 1
         $token_get_me = $course_nextlink_array[count($course_nextlink_array) - 1];
         $relative_url = '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2];
-        $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
+        $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me, $pull);
         //Start Download Book
         // modicon
         // $server_opt_books_n = json_encode($server_opt_books_n, JSON_HEX_QUOT | JSON_HEX_APOS);
         $server_opt_books_n = json_encode($server_opt_books_n);
-        $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
-        fwrite($file_n, $server_opt_books_n);
-        fclose($file_n);
-        $image_pathn = $this->getme_images($img_course, $user_id, $value_course);
+        if ($pull == 0) {
+            $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
+            fwrite($file_n, $server_opt_books_n);
+            fclose($file_n);
+        }
+        $image_pathn = $this->getme_images($img_course, $user_id, $value_course, $pull);
         $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
         $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
-        return $value_course;
+        return array('course'=>$value_course,'details_course'=>$server_opt_books_n);
     }
 
 
@@ -403,16 +411,14 @@ class Downloadable extends CI_Controller
         $serverurl = $domainname . '/moodle/login';
         $array_of_output_course = $this->getme_books($token, $user_id);
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
-        //  public function getmecoursecontent($value_course,$user_id)
         $value_course = $array_of_output_course[$key_course];
         print_array($value_course);
-        $sample_data=$this->getmecoursecontent($value_course,$user_id);
-        print_array($sample_data);
+        $sample_data = $this->getmecoursecontent($value_course, $user_id,1);
+        print_array($sample_data['details_course']);
     }
 
     public function getme_books($token, $user_id)
     {
-        // public function _get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
         $domainname = base_url('user/get_moodle_course_inter/') . $token . '/' . $user_id . '/1';
         // echo $domainname;
         $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
