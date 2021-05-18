@@ -212,9 +212,9 @@ class Contentasync extends CI_Controller
         }
         $pool = Pool::create();
         $pool->add(function () use ($download_books) {
-            $domainname = base_url('downloadable/book_download/');
+            $domainname = base_url('downloadable/create_content/');
             $post_params = array(
-                'books' => json_encode($download_books)
+                'cohort_object' => '1@mega'
             );
             // echo $domainname;
             $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
