@@ -186,8 +186,8 @@ class Contentasync extends CI_Controller
             array_push($deteled_paths, $now_val_json);
         }
         $updates_books = array();
-        if (!empty($deteled_paths) || !empty($updated_paths)) {
-            $_what_update = array_merge($forupdate_book, $what_delete);
+        $_what_update = array_merge($forupdate_book, $what_delete);
+        if (!empty($_what_update)) {
             foreach ($_what_update as $value_updasql) {
                 $data_copy = array(
                     'user_id' => $id,
@@ -210,21 +210,26 @@ class Contentasync extends CI_Controller
                 'updates' => array()
             );
         }
-        // $pool = Pool::create();
-        // $pool->add(function () use ($download_books) {
-        //     $domainname = base_url('downloadable/create_content/');
-        //     $post_params = array(
-        //         'cohort_object' => '1@mega'
-        //     );
-        //     // echo $domainname;
-        //     $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
-        //     $array_of_output = json_decode($server_output, true);
-        //     return $array_of_output;
-        // })->then(function ($array_of_output) {
-        //     print_array($array_of_output);
-        // });
-        print_array($download_books);
-        echo json_encode($updates_books);
+        $pool = Pool::create();
+        $pool->add(function () use ($download_books) {
+            $domainname = base_url('downloadable/create_content/');
+            $post_params = array(
+                'cohort_object' => '1@mega'
+            );
+            // echo $domainname;
+            $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
+            $array_of_output = json_decode($server_output, true);
+            return $array_of_output;
+        })->then(function ($array_of_output) {
+            print_array($array_of_output);
+        })->add(function () use ($updates_books) {
+            $jeje = json_encode($updates_books);
+            return $jeje;
+        })->then(function ($jeje) {
+            echo $jeje;
+        });
+        // print_array($download_books);
+
         // download_books
         // echo json_encode($updates_survey);
     }
