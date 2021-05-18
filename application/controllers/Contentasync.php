@@ -216,13 +216,15 @@ class Contentasync extends CI_Controller
             return $jeje;
         })->then(function ($jeje) {
             echo $jeje;
-        })->add(function () {
-            $output = 0;
+        });
+        $pool[] = async(function () {
+            $count=0;
             foreach (range(1, 1000) as $i) {
-                $output = $i * $output;
+                $count = $i * $count;
             }
-        })->then(function ($output) {
-            echo json_encode($output);
+            return $count;
+        })->then(function ($count) {
+            echo $count;
         });
         await($pool);
         // ->add(function () use ($download_books) {
