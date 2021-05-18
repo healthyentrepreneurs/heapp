@@ -211,7 +211,13 @@ class Contentasync extends CI_Controller
             );
         }
         $pool = Pool::create();
-        $pool
+        $pool[] = $pool->async(function () use ($updates_books) {
+            $jeje=json_encode($updates_books);
+            return $jeje;
+        })->then(function ($jeje) {
+            echo $jeje;
+        });
+        $pool->await($pool);
         // ->add(function () use ($download_books) {
         //     $domainname = base_url('downloadable/create_content/');
         //     $post_params = array(
@@ -224,12 +230,7 @@ class Contentasync extends CI_Controller
         // })->then(function ($array_of_output) {
         //     print_array($array_of_output);
         // })
-        ->add(function () use ($updates_books) {
-            $jeje = json_encode($updates_books);
-            return $jeje;
-        })->then(function ($jeje) {
-            echo $jeje;
-        });
+
         // print_array($download_books);
 
         // download_books
