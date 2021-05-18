@@ -210,19 +210,20 @@ class Contentasync extends CI_Controller
                 'updates' => array()
             );
         }
-        $pool = Pool::create();
-        $pool->add(function () use ($download_books) {
-            $domainname = base_url('downloadable/create_content/');
-            $post_params = array(
-                'cohort_object' => '1@mega'
-            );
-            // echo $domainname;
-            $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
-            $array_of_output = json_decode($server_output, true);
-            return $array_of_output;
-        })->then(function ($array_of_output) {
-            print_array($array_of_output);
-        });
+        // $pool = Pool::create();
+        // $pool->add(function () use ($download_books) {
+        //     $domainname = base_url('downloadable/create_content/');
+        //     $post_params = array(
+        //         'cohort_object' => '1@mega'
+        //     );
+        //     // echo $domainname;
+        //     $server_output = curl_request($domainname, $post_params, "post", array('App-Key: 123456'));
+        //     $array_of_output = json_decode($server_output, true);
+        //     return $array_of_output;
+        // })->then(function ($array_of_output) {
+        //     print_array($array_of_output);
+        // });
+        print_array($download_books);
         echo json_encode($updates_books);
         // download_books
         // echo json_encode($updates_survey);
