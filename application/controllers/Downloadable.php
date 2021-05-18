@@ -419,13 +419,12 @@ class Downloadable extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-    public function book_update()
-    {
-    }
     public function book_download()
     {
+        echo json_encode($_POST);
+        //  $sample_data = $this->getmecoursecontent($value_course, $user_id, 1);
     }
-    public function book_delete()
+    public function course_download()
     {
         # code...
     }
