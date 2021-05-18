@@ -18,15 +18,9 @@ class Downloadable extends CI_Controller
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_content_n()
-    {
-        echo json_encode($_POST);
-    }
     public function create_content()
     {
-        //Sample {"cohort_object":"59@5722"}
-        // $cohort_object = $this->input->post('cohort_object');
-        $cohort_object = '59@5722';
+        $cohort_object = $this->input->post('cohort_object');
         $our_values = explode('@', $cohort_object);
         $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
         $datahery = array();
@@ -117,7 +111,7 @@ class Downloadable extends CI_Controller
                     $value_course['image_url_small'] = '/images/survey/' . $image_path['image_url_small'];
                     $value_course['image_url'] = '/images/survey/' . $image_path['image_url'];
                 } elseif ($value_course['source'] == "moodle") {
-                    $value_course = $this->getmecoursecontent($value_course, $dir_nextlink, $data_course, $mypath, $user_id);
+                    $value_course = $this->getmecoursecontent($value_course,$user_id);
                 }
                 array_push($modifyied_courses, $value_course);
             }
@@ -131,17 +125,17 @@ class Downloadable extends CI_Controller
             // Initialize archive object
 
             //---- zipping logic -----
-            // $output = shell_exec('(cd ' . $mypath . ' && zip -r ' . $tmp_file . ' .)');
-            // //---- zipping logic -----
-            // $filename = 'HE Health.zip';
-            // $size = filesize($tmp_file); // The way to avoid corrupted ZIP
-            // header('Content-Type: application/zip');
-            // header('Content-Disposition: attachment; filename=' . $filename);
-            // header('Content-Length: ' . $size);
-            // // Clean before! In order to avoid 500 error
-            // ob_end_clean();
-            // flush();
-            // readfile($tmp_file);
+            $output = shell_exec('(cd ' . $mypath . ' && zip -r ' . $tmp_file . ' .)');
+            //---- zipping logic -----
+            $filename = 'HE Health.zip';
+            $size = filesize($tmp_file); // The way to avoid corrupted ZIP
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename=' . $filename);
+            header('Content-Length: ' . $size);
+            // Clean before! In order to avoid 500 error
+            ob_end_clean();
+            flush();
+            readfile($tmp_file);
             //---
 
             //End Zipping
@@ -337,18 +331,13 @@ class Downloadable extends CI_Controller
         return $array_of_output;
     }
 
-    public function getmecoursecontent($value_course, $dir_nextlink, $data_course, $mypath, $user_id)
+    public function getmecoursecontent($value_course,$user_id)
     {
-        print_array('value_course');
-        print_array($value_course);
-        print_array('dir_nextlink');
-        print_array($dir_nextlink);
-        print_array('data_course');
-        print_array($data_course);
-        print_array('mypath');
-        print_array($mypath);
-        print_array('user_id');
-        print_array($user_id);
+        $data_course = array(
+            'id' => $user_id,
+        );
+        $mypath = APPPATH . 'datamine' . DIRECTORY_SEPARATOR . $user_id . DIRECTORY_SEPARATOR;
+        $dir_nextlink = $mypath . "next_link" . DIRECTORY_SEPARATOR;
         $course_nextlink = $value_course['next_link'];
         $course_nextlink_array = explode('/', $course_nextlink);
         $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
@@ -414,33 +403,10 @@ class Downloadable extends CI_Controller
         $serverurl = $domainname . '/moodle/login';
         $array_of_output_course = $this->getme_books($token, $user_id);
         $key_course = array_search($id_course, array_column($array_of_output_course, 'id'));
-        print_array($key_course);
-        print_array($array_of_output_course[$key_course]);
-        // foreach ($array_of_output_course as $value_course) {
-        //     $course_nextlink = $value_course['next_link'];
-        //     $course_nextlink_array = explode('/', $course_nextlink);
-        //     $dir_get_details_percourse = $dir_nextlink . "get_details_percourse";
-        //     $dir_course_id = $dir_get_details_percourse . DIRECTORY_SEPARATOR . $course_nextlink_array[count($course_nextlink_array) - 2];
-        //     $server_output_book = curl_request($value_course['next_link'], $data_course, "post", array('App-Key: 123456'));
-        //     //End   Download Book
-        //     //Change Nextlink Books
-        //     $value_course['next_link'] = '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
-        //     $value_course['next_link'] =  '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json";
-        //     $img_course = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course';
-        //     $img_course_modicon = $mypath . 'images' . DIRECTORY_SEPARATOR . 'course' . DIRECTORY_SEPARATOR . 'modicon';
-        //     //Post Book Phase 1
-        //     $token_get_me = $course_nextlink_array[count($course_nextlink_array) - 1];
-        //     $relative_url = '/next_link/get_details_percourse/' . $course_nextlink_array[count($course_nextlink_array) - 2];
-        //     $server_opt_books_n = $this->downloadBook($server_output_book, $img_course_modicon, $dir_course_id, $relative_url, $token_get_me);
-        //     //Start Download Book
-        //     $server_opt_books_n = json_encode($server_opt_books_n);
-        //     $file_n = fopen($dir_get_details_percourse . '/' . $course_nextlink_array[count($course_nextlink_array) - 2] . ".json", "w");
-        //     fwrite($file_n, $server_opt_books_n);
-        //     fclose($file_n);
-        //     $image_pathn = $this->getme_images($img_course, $user_id, $value_course);
-        //     $value_course['image_url_small'] = '/images/course/' . $image_pathn['image_url_small'];
-        //     $value_course['image_url'] = '/images/course/' . $image_pathn['image_url'];
-        // }
+        //  public function getmecoursecontent($value_course,$user_id)
+        $value_course = $array_of_output_course[$key_course];
+        $sample_data=$this->getmecoursecontent($value_course,$user_id);
+        print_array($sample_data);
     }
 
     public function getme_books($token, $user_id)
