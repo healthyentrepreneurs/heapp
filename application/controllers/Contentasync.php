@@ -224,7 +224,7 @@ class Contentasync extends CI_Controller
         // print_array($download_books);
 
         // download_books
-        // echo json_encode($updates_survey);
+        echo json_encode($updates_books);
     }
     public function surveyjson($id)
     {
