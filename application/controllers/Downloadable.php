@@ -18,7 +18,7 @@ class Downloadable extends CI_Controller
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_contentx($cohorts_ng = '1@3')
+    public function create_contentx($cohorts_ng = '1@mega')
     {
         $cohort_object = $this->input->post('cohort_object');
         if (empty($cohort_object)) {
