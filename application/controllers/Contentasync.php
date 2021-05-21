@@ -298,5 +298,6 @@ class Contentasync extends CI_Controller
         $nThreads = 20;
         //To use run the function.
         $results = multi_thread_curl($urlArray, $optionArray, $nThreads);
+        print_array($results);
     }
 }
