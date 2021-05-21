@@ -306,8 +306,7 @@
             }
             public function update_ng()
             {
-                $argv = 0;
-                Loop::run(static function ($argv) use ($argv): \Generator {
+                Loop::run(static function (): \Generator {
                     $uris = [
                         "https://helper.healthyentrepreneurs.nl/downloadable/book_download",
                         "https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34"
@@ -343,3 +342,5 @@
                 });
             }
         }
+
+        // https://github.com/llagerlof/MoodleRest/wiki/MoodleRest-examples
