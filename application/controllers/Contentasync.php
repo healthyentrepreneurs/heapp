@@ -310,9 +310,10 @@
                     $client = HttpClientBuilder::buildDefault();
 
                     $response = yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/book_download"));
-                    var_dump($response->getStatus());
-                    var_dump($response->getHeaders());
-                    var_dump(yield $response->getBody()->buffer());
+                    // var_dump($response->getStatus());
+                    // var_dump($response->getHeaders());
+                    // var_dump();
+                    echo json_encode(yield $response->getBody()->buffer());
                 });
             }
         }
