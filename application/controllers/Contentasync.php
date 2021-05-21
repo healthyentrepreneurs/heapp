@@ -309,7 +309,7 @@
                 Loop::run(static function (): \Generator {
                     $uris = [
                         "https://helper.healthyentrepreneurs.nl/downloadable/book_download",
-                        "https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34"
+                        "https://helper.healthyentrepreneurs.nl/downloadable/create_content/"
                     ];
 
                     // Instantiate the HTTP client
@@ -330,7 +330,6 @@
                         }
 
                         $bodies = yield $promises;
-
                         foreach ($bodies as $uri => $body) {
                             echo $uri . " - " . \strlen($body) . " bytes" . PHP_EOL;
                         }
