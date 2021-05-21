@@ -24,6 +24,14 @@ class Downloadable extends CI_Controller
         if (empty($cohort_object)) {
             $cohort_object = $cohorts_ng;
         }
+        echo $cohort_object;
+    }
+    public function create_content_($cohorts_ng = '1@3')
+    {
+        $cohort_object = $this->input->post('cohort_object');
+        if (empty($cohort_object)) {
+            $cohort_object = $cohorts_ng;
+        }
         $our_values = explode('@', $cohort_object);
         $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
         $datahery = array();
