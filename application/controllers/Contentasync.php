@@ -1,4 +1,4 @@
-       <?php
+        <?php
         defined('BASEPATH') or exit('No direct script access allowed');
         header('Access-Control-Allow-Origin: *');
         date_default_timezone_set("Africa/Nairobi");
@@ -310,10 +310,11 @@
                     $client = HttpClientBuilder::buildDefault();
 
                     $response = yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/book_download"));
+                    yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/create_content/"));
                     // var_dump($response->getStatus());
                     // var_dump($response->getHeaders());
                     // var_dump();
-                    echo json_encode(yield $response->getBody());
+                    echo json_encode(yield $response->getBody()->buffer());
                 });
             }
         }
