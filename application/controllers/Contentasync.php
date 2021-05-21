@@ -1,14 +1,9 @@
-        <?php
+         <?php
         defined('BASEPATH') or exit('No direct script access allowed');
         header('Access-Control-Allow-Origin: *');
         date_default_timezone_set("Africa/Nairobi");
         require_once FCPATH . 'vendor/autoload.php';
         // https://www.codegrepper.com/code-examples/whatever/codeigniter+asynchronous-processing
-        use Amp\Http\Client\HttpClientBuilder;
-        use Amp\Http\Client\HttpException;
-        use Amp\Http\Client\Request;
-        use Amp\Http\Client\Response;
-        use Amp\Loop;
 
         class Contentasync extends CI_Controller
         {
@@ -17,6 +12,7 @@
                 parent::__construct();
                 $this->load->model('universal_model');
                 $this->load->model('user_model', '', TRUE);
+                $this->load->library('asynclibrary');
             }
             public function index($var = null)
             {
@@ -306,16 +302,11 @@
             }
             public function update_ng()
             {
-                Loop::run(function () {
-                    $client = HttpClientBuilder::buildDefault();
-
-                    $response = yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/book_download"));
-                    yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/create_content/"));
-                    // var_dump($response->getStatus());
-                    // var_dump($response->getHeaders());
-                    // var_dump();
-                    echo json_encode(yield $response->getBody()->buffer());
-                });
+                $urlArray = array(
+                    'https://helper.healthyentrepreneurs.nl/downloadable/book_download',
+                    'https://helper.healthyentrepreneurs.nl/downloadable/create_content/',
+                    'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
+                );
             }
         }
 
