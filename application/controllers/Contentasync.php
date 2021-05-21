@@ -307,7 +307,7 @@
                     'https://helper.healthyentrepreneurs.nl/downloadable/create_content/',
                     'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
                 );
-                $param = array('email' => "jagroop@gmail.com" );
+                $param = array();
                 $this->asynclibrary->do_in_background('https://helper.healthyentrepreneurs.nl/downloadable/book_download', $param);
                 echo 'josn';
             }
