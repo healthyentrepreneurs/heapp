@@ -26,10 +26,10 @@ class Downloadable extends CI_Controller
         }
         $our_values = explode('@', $cohort_object);
         $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
-        $mma=array_merge($hery,$our_values);
+        $mma = array_merge($hery, $our_values);
         echo json_encode($mma);
     }
-    public function create_content($cohorts_ng = '1@3')
+    public function create_content($cohorts_ng = '1@mega')
     {
         $cohort_object = $this->input->post('cohort_object');
         if (empty($cohort_object)) {

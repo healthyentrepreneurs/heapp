@@ -290,7 +290,7 @@
             //Create an array of your urls.
             $urlArray = array(
                 'https://helper.healthyentrepreneurs.nl/downloadable/book_download',
-                'https://helper.healthyentrepreneurs.nl/downloadable/create_contentx/',
+                'https://helper.healthyentrepreneurs.nl/downloadable/create_content/',
                 'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
             );
             //Play around with this number and see what works best.
