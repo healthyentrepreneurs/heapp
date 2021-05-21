@@ -313,7 +313,7 @@
                     // var_dump($response->getStatus());
                     // var_dump($response->getHeaders());
                     // var_dump();
-                    echo json_encode(yield $response->getBody()->buffer());
+                    echo json_encode(yield $response->getBody());
                 });
             }
         }
