@@ -18,9 +18,12 @@ class Downloadable extends CI_Controller
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_content()
+    public function create_content($cohorts_ng = '1@3')
     {
         $cohort_object = $this->input->post('cohort_object');
+        if (empty($cohort_object)) {
+            $cohort_object = $cohorts_ng;
+        }
         $our_values = explode('@', $cohort_object);
         $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
         $datahery = array();
