@@ -421,11 +421,24 @@ class Downloadable extends CI_Controller
     }
     public function book_download()
     {
-        echo json_encode($_POST);
-        //  $sample_data = $this->getmecoursecontent($value_course, $user_id, 1);
+        $data_copy = array(
+            'user_id' => 101,
+            'update_id' => 101,
+            'update_type' => 'chag',
+            'dateaction' => '2021-05-17 17:03:51'
+        );
+        $this->universal_model->updateOnDuplicate('updatetract', $data_copy);
+        echo json_encode($data_copy);
     }
     public function course_download()
     {
-        # code...
+        $data_copy = array(
+            'user_id' => 100,
+            'update_id' => 100,
+            'update_type' => 'cheng',
+            'dateaction' => '2021-05-17 17:03:51'
+        );
+        $this->universal_model->updateOnDuplicate('updatetract', $data_copy);
+        echo json_encode($data_copy);
     }
 }
