@@ -1,4 +1,4 @@
-      <?php
+       <?php
         defined('BASEPATH') or exit('No direct script access allowed');
         header('Access-Control-Allow-Origin: *');
         date_default_timezone_set("Africa/Nairobi");
@@ -306,38 +306,13 @@
             }
             public function update_ng()
             {
-                Loop::run(static function (): \Generator {
-                    $uris = [
-                        "https://helper.healthyentrepreneurs.nl/downloadable/book_download",
-                        "https://helper.healthyentrepreneurs.nl/downloadable/create_content/"
-                    ];
-
-                    // Instantiate the HTTP client
+                Loop::run(function () {
                     $client = HttpClientBuilder::buildDefault();
 
-                    $requestHandler = static function (string $uri) use ($client): \Generator {
-                        /** @var Response $response */
-                        $response = yield $client->request(new Request($uri));
-
-                        return yield $response->getBody()->buffer();
-                    };
-
-                    try {
-                        $promises = [];
-
-                        foreach ($uris as $uri) {
-                            $promises[$uri] = Amp\call($requestHandler, $uri);
-                        }
-
-                        $bodies = yield $promises;
-                        foreach ($bodies as $uri => $body) {
-                            echo $uri . " - " . \strlen($body) . " bytes" . PHP_EOL;
-                        }
-                    } catch (HttpException $error) {
-                        // If something goes wrong Amp will throw the exception where the promise was yielded.
-                        // The HttpClient::request() method itself will never throw directly, but returns a promise.
-                        echo $error;
-                    }
+                    $response = yield $client->request(new Request("https://helper.healthyentrepreneurs.nl/downloadable/book_download"));
+                    var_dump($response->getStatus());
+                    var_dump($response->getHeaders());
+                    var_dump(yield $response->getBody()->buffer());
                 });
             }
         }
