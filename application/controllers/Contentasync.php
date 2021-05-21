@@ -284,7 +284,7 @@
 
                 CURLOPT_USERAGENT        => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',//Pick your user agent.
                 CURLOPT_RETURNTRANSFER   => TRUE,
-                CURLOPT_TIMEOUT          => 10
+                CURLOPT_TIMEOUT          => 0
 
             );
             //Create an array of your urls.
