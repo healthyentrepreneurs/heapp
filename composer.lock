@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9aac2085440b8d130c4e1be6c84be128",
+    "content-hash": "d312987357aecb4b7d16a4e7eac170a9",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -1977,6 +1977,40 @@
                 "source": "https://github.com/thephpleague/uri-parser/tree/master"
             },
             "time": "2018-11-22T07:55:51+00:00"
+        },
+        {
+            "name": "llagerlof/moodlerest",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/llagerlof/MoodleRest.git",
+                "reference": "3fb24a0dd494d8dbbac70999b26627ce4ee63ac4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/llagerlof/MoodleRest/zipball/3fb24a0dd494d8dbbac70999b26627ce4ee63ac4",
+                "reference": "3fb24a0dd494d8dbbac70999b26627ce4ee63ac4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "MoodleRest.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lawrence Lagerlof",
+                    "email": "llagerlof@gmail.com"
+                }
+            ],
+            "description": "MoodleRest is a PHP class to query Moodle REST webservices",
+            "homepage": "https://github.com/llagerlof",
+            "time": "2021-04-14T14:47:33+00:00"
         },
         {
             "name": "maennchen/zipstream-php",

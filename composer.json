@@ -13,7 +13,6 @@
 	"require": {
 		"php": ">=5.3.7",
 		"knplabs/gaufrette": "^0.10.0",
-		"amphp/amp": "^2.5",
 		"amphp/http-client": "^4.5",
 		"elementaryframework/fire-fs": "^1.1",
 		"gumlet/php-image-resize": "1.9.*",
@@ -21,7 +20,8 @@
 		"kherge/json": "^3",
 		"maxakawizard/json-collection-parser": "~1.0",
 		"halaxa/json-machine": "^0.6.0",
-		"php-ffmpeg/php-ffmpeg": "^0.18.0"
+		"php-ffmpeg/php-ffmpeg": "^0.18.0",
+		"llagerlof/moodlerest": "^2.4"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
