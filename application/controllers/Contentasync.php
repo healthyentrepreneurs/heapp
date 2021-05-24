@@ -309,8 +309,9 @@
                         'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
                     );
                     $this->load->library('backgroundprocess');
-                    $this->backgroundprocess->setCmd('php https://helper.healthyentrepreneurs.nl/downloadable/book_download');
-                    $this->backgroundprocess->start(true);
+                    // $this->backgroundprocess->setCmd('php https://helper.healthyentrepreneurs.nl/downloadable/book_download');
+                    $this->backgroundprocess->setCmd("curl -o /www/application/logs/log_background_process.log " . base_url('downloadable/book_download'));
+                    $this->backgroundprocess->start();
                     $pid = $this->backgroundprocess->getProcessId();
                     echo $this->backgroundprocess->get_log_paths();
                     echo $pid . "\n";
