@@ -315,7 +315,7 @@
                     $pid = $this->backgroundprocess->getProcessId();
                     // echo $this->backgroundprocess->get_log_paths();
                     // echo $pid . "\n";
-                    echo $this->update_ng_xx();
+                    print_array($this->update_ng_xx());
                 }
             }
 
