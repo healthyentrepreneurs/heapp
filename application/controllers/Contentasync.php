@@ -309,7 +309,7 @@
                         'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
                     );
                     $this->load->library('backgroundprocess');
-                    $this->backgroundprocess->setCmd('exec php https://helper.healthyentrepreneurs.nl/downloadable/book_download hello world');
+                    $this->backgroundprocess->setCmd('php https://helper.healthyentrepreneurs.nl/downloadable/book_download');
                     $this->backgroundprocess->start(true);
                     $pid = $this->backgroundprocess->getProcessId();
                     echo $this->backgroundprocess->get_log_paths();
