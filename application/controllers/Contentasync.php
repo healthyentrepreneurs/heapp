@@ -13,7 +13,6 @@
                     $this->load->model('universal_model');
                     $this->load->model('user_model', '', TRUE);
                     // $this->load->library('asynclibrary');
-                    $this->load->library('backgroundprocess');
                 }
                 public function index($var = null)
                 {
