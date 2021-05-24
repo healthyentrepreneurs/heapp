@@ -1,7 +1,7 @@
 <?php
 ini_set('max_execution_time', '3000');
 defined('BASEPATH') or exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Origin: *');
 require_once FCPATH . 'vendor/autoload.php';
 
 class Downloadable extends CI_Controller
