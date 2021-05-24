@@ -280,25 +280,7 @@
 
                 public function update_ng_xx()
                 {
-                    $optionArray = array(
-
-                        CURLOPT_USERAGENT        => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',//Pick your user agent.
-                        CURLOPT_RETURNTRANSFER   => TRUE,
-                        CURLOPT_TIMEOUT          => 0
-
-                    );
-                    //Create an array of your urls.
-                    $urlArray = array(
-                        'https://helper.healthyentrepreneurs.nl/downloadable/book_download',
-                        'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
-                    );
-                    //Play around with this number and see what works best.
-                    //This is how many urls it will try to do at one time.
-                    $nThreads = 20;
-                    //To use run the function.
-                    $results = multi_thread_curl($urlArray, $optionArray, $nThreads);
-                    return $results;
-                    // print_array($results);
+                 echo "Joahus Njovu";
                 }
                 public function update_ng()
                 {
