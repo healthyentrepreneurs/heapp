@@ -1,6 +1,6 @@
              <?php
             defined('BASEPATH') or exit('No direct script access allowed');
-            header('Access-Control-Allow-Origin: *');
+            // header('Access-Control-Allow-Origin: *');
             date_default_timezone_set("Africa/Nairobi");
             require_once FCPATH . 'vendor/autoload.php';
             // https://www.codegrepper.com/code-examples/whatever/codeigniter+asynchronous-processing
