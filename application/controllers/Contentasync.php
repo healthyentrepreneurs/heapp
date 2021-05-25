@@ -280,6 +280,7 @@
 
                     public function update_ng_xx()
                     {
+                      $this->load->library('backgroundprocess');
                        $proc=new BackgroundProcess('exec php /var/www/html/index.php Downloadable create_content');
                        echo "joshua";
                     }
