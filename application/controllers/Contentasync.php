@@ -280,9 +280,15 @@
 
                     public function update_ng_xx()
                     {
-                      $this->load->library('backgroundprocess');
-                       $proc=new BackgroundProcess('exec php /var/www/html/index.php Downloadable book_download');
-                       echo "joshua";
+                        $this->load->library('backgroundprocess');
+                        $this->backgroundprocess->setCmd('exec php /var/www/html/index.php Downloadable book_download');
+                        // $this->backgroundprocess->setCmd("curl -o /www/application/logs/log_background_process.log " . base_url('index.php/background/run'));
+                        //Please don't use "true" argument in a production, This will fill your storage if you not clean all the logs.
+                        $this->backgroundprocess->start(true);
+                        $pid = $this->backgroundprocess->getProcessId();
+                        echo $this->backgroundprocess->get_log_paths();
+                        echo $pid . "\n";
+                        // echo "joshua";
                     }
                     public function update_ng()
                     {
