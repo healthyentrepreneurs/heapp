@@ -280,7 +280,8 @@
 
                     public function update_ng_xx()
                     {
-                        echo "Joahus Njovu";
+                       $proc=new BackgroundProcess('exec php /var/www/html/index.php Downloadable create_content');
+                       echo "joshua";
                     }
                     public function update_ng()
                     {
