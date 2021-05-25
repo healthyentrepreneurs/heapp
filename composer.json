@@ -20,9 +20,7 @@
 		"maxakawizard/json-collection-parser": "~1.0",
 		"halaxa/json-machine": "^0.6.0",
 		"php-ffmpeg/php-ffmpeg": "^0.18.0",
-		"llagerlof/moodlerest": "^2.4",
-		"php-amqplib/php-amqplib": "^3.0",
-		"php-task/php-task": "^1.5"
+		"llagerlof/moodlerest": "^2.4"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
