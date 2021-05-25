@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     Description: Here we can run a PHP file (script) in background, This process is hidden to the end user. IT improves your Website efficiency.  
 */
 
-class BackgroundProcess
+class Backgroundprocess
 {
     private $pid;
     private $random;
