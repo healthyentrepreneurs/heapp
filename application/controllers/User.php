@@ -369,8 +369,8 @@ class User extends CI_Controller
                     'source' => $value['type'],
                     'summary_custome' => $value['surveydesc'],
                     "next_link" => base_url('survey/getnexlink/') . $value['sid'],
-                    'image_url_small' => base_url('uploadscustome/') . $value['image'],
-                    'image_url' => base_url('uploadscustome/') . $value['image_url_small']
+                    'image_url_small' => base_url('uploadscustome/') . $value['image_url_small'],
+                    'image_url' => base_url('uploadscustome/') . $value['image']
                 );
                 array_push($array_object, $custome_onw);
             }
