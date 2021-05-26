@@ -363,7 +363,7 @@ class User extends CI_Controller
             $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
             foreach ($slect_cho_sur as $key => $value) {
                 $custome_onw = array(
-                    'id' => $value['sid'],
+                    'id' => (int)$value['sid'],
                     'fullname' => $value['name'],
                     'categoryid' => 2,
                     'source' => $value['type'],
