@@ -42,12 +42,12 @@ class Surveyimage extends CI_Controller
                 'user_id' => $this->input->post('user_id'),
                 'survey_id' => $this->input->post('survey_id')
             );
-            // $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
-            // $array_n = array(
-            //     'code' => "200",
-            //     'msg' => "Successfully Processed and Stored"
-            // );
-            echo json_encode($name_file['file_name']);
+            $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+            $array_n = array(
+                'code' => "200",
+                'msg' => "Successfully Processed and Stored"
+            );
+            echo json_encode($array_n);
         } else {
             $error = array('error' => $this->upload->display_errors());
             echo json_encode($error);
@@ -58,7 +58,7 @@ class Surveyimage extends CI_Controller
         $array_image_survey = array(
             'image_name' => "Screenshot_20210603-015033.jpg",
             'user_id' => "3",
-            'survey_id' =>"2"
+            'survey_id' => "2"
         );
         $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
         $array_n = array(
