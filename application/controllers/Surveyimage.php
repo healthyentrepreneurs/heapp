@@ -17,7 +17,7 @@ class Surveyimage extends CI_Controller
     }
     public function do_upload()
     {
-        $_file_upload = BASEPATH . 'uploads_clientapp';
+        $_file_upload = FCPATH . 'uploads_clientapp';
         if (!is_dir($_file_upload)) {
             mkdir($_file_upload, 0755, true);
         }
