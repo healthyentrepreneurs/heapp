@@ -47,7 +47,7 @@ class Surveyimage extends CI_Controller
             //     'code' => "200",
             //     'msg' => "Successfully Processed and Stored"
             // );
-            echo json_encode($name_file);
+            echo json_encode($name_file['file_name']);
         } else {
             $error = array('error' => $this->upload->display_errors());
             echo json_encode($error);
