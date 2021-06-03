@@ -10,6 +10,9 @@ class Surveyimage extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('universal_model');
+        $this->load->model('user_model', '', TRUE);
+        // $this->load->library('asynclibrary');
     }
     public function index()
     {
