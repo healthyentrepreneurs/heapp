@@ -38,16 +38,16 @@ class Surveyimage extends CI_Controller
             $name_file = $data['upload_data'];
             // $_POST['image_name'] = $name_file['file_name'];
             $array_image_survey = array(
-                'image_name' => $name_file['file_name'],
+                // 'image_name' => $name_file['file_name'],
                 'user_id' => $this->input->post('user_id'),
                 'survey_id' => $this->input->post('survey_id')
             );
-            $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
-            $array_n = array(
-                'code' => "200",
-                'msg' => "Successfully Processed and Stored"
-            );
-            echo json_encode($array_n);
+            // $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+            // $array_n = array(
+            //     'code' => "200",
+            //     'msg' => "Successfully Processed and Stored"
+            // );
+            echo json_encode($array_image_survey);
         } else {
             $error = array('error' => $this->upload->display_errors());
             echo json_encode($error);
