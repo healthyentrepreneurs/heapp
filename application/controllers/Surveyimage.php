@@ -17,14 +17,6 @@ class Surveyimage extends CI_Controller
     }
     public function do_upload()
     {
-        $arr = array(
-            'name' => 'Njovu Joshua',
-            'age' => 32
-        );
-        echo json_encode($arr);
-    }
-    public function do_upload_n()
-    {
         $_file_upload = FCPATH . 'uploads_clientapp';
         if (!is_dir($_file_upload)) {
             mkdir($_file_upload, 0755, true);
