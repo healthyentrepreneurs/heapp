@@ -263,11 +263,11 @@ class Survey extends CI_Controller
                         $new_choices = array();
                         $_value = 1;
                         foreach ($choices as $key => $value) {
-                            if(is_array($value)){
+                            if (is_array($value)) {
                                 $value['_value'] = $_value;
                                 $_value++;
                                 array_push($new_choices, $value);
-                            } 
+                            }
                         }
                         $element['choices'] = $new_choices;
                         array_push($new_elementx, $element);
@@ -276,7 +276,7 @@ class Survey extends CI_Controller
                         $new_choices = array();
                         $_value = false;
                         foreach ($choices as $key => $value) {
-                            if(is_array($value)){
+                            if (is_array($value)) {
                                 $value['_value'] = "false";
                                 array_push($new_choices, $value);
                             }
@@ -395,6 +395,31 @@ class Survey extends CI_Controller
             'survey_id' => $array_nana['surveyId']
         );
         $id = $this->universal_model->insertz('survey_report', $array_on);
+        $code = 0;
+        if ($id == 0) {
+            $code = 500;
+            $msg = "Failed To Post The Survey";
+        } else {
+            $code = 200;
+            $msg = "Survey Posted Successfully";
+        }
+        $array_n = array(
+            'code' => $code,
+            'msg' => $msg
+        );
+        echo json_encode($array_n);
+    }
+
+    public function saveobject_surv_test()
+    {
+        $entityBody = file_get_contents('php://input');
+        $array_nana = json_decode($entityBody, true);
+        $array_on = array(
+            'userid' => $array_nana['userId'],
+            'surveyobject' => $array_nana['jsondata'],
+            'survey_id' => $array_nana['surveyId']
+        );
+        $id = $this->universal_model->insertz('survey_report_temp', $array_on);
         $code = 0;
         if ($id == 0) {
             $code = 500;
