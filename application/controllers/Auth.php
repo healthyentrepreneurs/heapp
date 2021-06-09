@@ -114,7 +114,7 @@ class Auth extends CI_Controller
                 $this->session->set_flashdata('password', form_error('password'));
                 redirect(base_url('welcome/landing/2'));
             } else {
-               redirect(base_url('welcome/admin'));
+                redirect(base_url('welcome/admin'));
             }
         }
     }
@@ -593,15 +593,18 @@ class Auth extends CI_Controller
         print_array($details_user);
         # code...
     }
-    public function get_admin_token()
+    public function get_admin_token($show = 1)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
-        $data = array(
-        );
+        $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         //print_array($array_of_output);
-        return $array_of_output;
+        if ($show == 1) {
+            return $array_of_output;
+        } else {
+            print_array($array_of_output);
+        }
     }
 }
