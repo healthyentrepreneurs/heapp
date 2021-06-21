@@ -415,9 +415,9 @@ class Survey extends CI_Controller
         $entityBody = file_get_contents('php://input');
         $array_nana = json_decode($entityBody, true);
         $array_on = array(
-            'userid' => $array_nana['userId'],
-            'surveyobject' => $array_nana['jsondata'],
-            'survey_id' => $array_nana['surveyId']
+            'userid' => 2,
+            'surveyobject' => $this->input->post('surveyJsonArray'),
+            'survey_id' => 3
         );
         $id = $this->universal_model->insertz('survey_report_temp', $array_on);
         $code = 0;
