@@ -416,7 +416,7 @@ class Survey extends CI_Controller
         $array_nana = json_decode($entityBody, true);
         $array_on = array(
             'userid' => 2,
-            'surveyobject' => "hey hey",
+            'surveyobject' => $entityBody,
             'survey_id' => 3
         );
         $id = $this->universal_model->insertz('survey_report', $array_on);
