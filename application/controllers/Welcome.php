@@ -431,6 +431,8 @@ class Welcome extends CI_Controller
                                 $arrayc['description'] = "";
                             }
                             //Tricky
+                            print_array($surveyobject[$keya]);
+                            print_array("<br>");
                             $jaja_image = array_shift($surveyobject[$keya]);
                             $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                             if (!empty($attempt_n_n_one)) {
