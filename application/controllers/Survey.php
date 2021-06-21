@@ -419,7 +419,7 @@ class Survey extends CI_Controller
             'surveyobject' => $this->input->post('surveyJsonArray'),
             'survey_id' => 3
         );
-        $id = $this->universal_model->insertz('survey_report_temp', $array_on);
+        $id = $this->universal_model->insertz('survey_report', $array_on);
         $code = 0;
         if ($id == 0) {
             $code = 500;
