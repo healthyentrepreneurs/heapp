@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -168,7 +168,7 @@ class Welcome extends CI_Controller
                     $course_content = $this->universal_model->book_select_uniqu_by(array('course_id', 'course_shortname'), array('viewtable.course_id'));
                     //These should be returned by AJAX not a hack
                     $books_content = $this->universal_model->book_select_uniqu_by(array('book_id', 'book_name'), array('viewtable.book_name'));
-                    $data['all_courses']=$this->get_all_avail_course();
+                    $data['all_courses'] = $this->get_all_avail_course();
                     $data['course_content'] = $course_content;
                     $data['books_content'] = $books_content;
                     $data['content_admin'] = 'report/books_reportindex';
@@ -431,11 +431,11 @@ class Welcome extends CI_Controller
                                 $arrayc['description'] = "";
                             }
                             //Tricky
-                            print_array($surveyobject[$keya]);
-                            print_array("<br>");
-                            $jaja_image = array_shift($surveyobject[$keya]);
+
+                            //Old Support Version 1
                             $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                            if (!empty($attempt_n_n_one)) {
+                            if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
+                                $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
                                     $name_final = getToken(10) . $jaja_image['name'];
                                     $one = $jaja_image['content'];
@@ -454,10 +454,19 @@ class Welcome extends CI_Controller
                                     $value_baby['value_name'] = "";
                                 }
                             } else {
-                                $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-                                $array_one = array_shift($attempt_n_n_one);
-                                $arrayc['text'] = $array_one['imageifany'];
-                                $arrayc['value'] = $keya;
+                                //Start New Image Versions
+                                $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
+                                if (!empty($attempt_n_n_two)) {
+                                    $arrayc['text'] = $surveyobject[$keya];
+                                    $arrayc['value'] = $keya;
+                                }
+                                //End  New Image Versions
+                                else {
+                                    $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+                                    $array_one = array_shift($attempt_n_n_one);
+                                    $arrayc['text'] = $array_one['imageifany'];
+                                    $arrayc['value'] = $keya;
+                                }
                             }
                             //End Tricky
                             // $arrayc['text'] = $jaja_image;
@@ -475,9 +484,9 @@ class Welcome extends CI_Controller
                                     $arrayc['description'] = "";
                                 }
                                 //Tricky
-                                $jaja_image = array_shift($surveyobject[$keya]);
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                                if (!empty($attempt_n_n_one)) {
+                                if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
+                                    $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
                                         $one = $jaja_image['content'];
@@ -496,10 +505,19 @@ class Welcome extends CI_Controller
                                         $value_baby['value_name'] = "";
                                     }
                                 } else {
-                                    $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-                                    $array_one = array_shift($attempt_n_n_one);
-                                    $arrayc['text'] = $array_one['imageifany'];
-                                    $arrayc['value'] = $keya;
+                                    //Start New Image Versions
+                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
+                                    if (!empty($attempt_n_n_two)) {
+                                        $arrayc['text'] = $surveyobject[$keya];
+                                        $arrayc['value'] = $keya;
+                                    }
+                                    //End  New Image Versions
+                                    else {
+                                        $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+                                        $array_one = array_shift($attempt_n_n_one);
+                                        $arrayc['text'] = $array_one['imageifany'];
+                                        $arrayc['value'] = $keya;
+                                    }
                                 }
                                 //End Tricky
                                 // $arrayc['text'] = $jaja_image;
