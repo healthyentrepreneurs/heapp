@@ -20,12 +20,12 @@ class Surveyimage extends CI_Controller
     }
     public function do_upload()
     {
-        $_file_upload = FCPATH . 'uploads_clientapp';
+        $_file_upload = FCPATH . 'uploadsurvey';
         if (!is_dir($_file_upload)) {
             mkdir($_file_upload, 0755, true);
         }
         $config = array(
-            'upload_path' => "./uploads_clientapp/",
+            'upload_path' => "./uploadsurvey/",
             'allowed_types' => "gif|jpg|jpeg|png|iso|dmg|zip|rar|doc|docx|xls|xlsx|ppt|pptx|csv|ods|odt|odp|pdf|rtf|sxc|sxi|txt|exe|avi|mpeg|mp3|mp4|3gp",
             'overwrite' => TRUE,
             'max_size' => "202048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
