@@ -165,7 +165,7 @@ class User extends CI_Controller
                                     // } catch (RuntimeException $e) {
                                     // }
                                 } else {
-                                    $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
+                                    $content_value['videocaption'] = base_url('vidoeimages/') . $imagename;
                                 }
                             }
                             //Remove Fake Characters
@@ -584,7 +584,7 @@ class User extends CI_Controller
             $video = $ffmpeg->open($vidoeurl);
             // $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
             $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
-            return base_url('vidoeimages') . $namefile;
+            return base_url('vidoeimages/') . $namefile;
         } catch (Exception $th) {
             return "";
         }
