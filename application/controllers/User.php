@@ -160,9 +160,11 @@ class User extends CI_Controller
                                 $is_caption = FCPATH . 'vidoeimages/' .$imagename;
                                 if (file_exists($is_caption) == false) {
                                     $video_url=$content_value['fileurl'] . "?token=" . $token;
+                                    print_array("Joash ".$this->get_videosnap($imagename,$video_url));
                                     $content_value['videocaption'] = $this->get_videosnap($imagename,$video_url);
                                 } else {
                                     $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
+                                    print_array("njovu ".base_url('vidoeimages') . $imagename);
                                 }
                             }
                             //Remove Fake Characters
@@ -580,7 +582,7 @@ class User extends CI_Controller
         //https://gist.github.com/jsturgis/3b19447b304616f18657
         $ffmpeg = FFMpeg\FFMpeg::create();
         $video = $ffmpeg->open($vidoeurl);
-        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
+        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
         $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
         // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
         return base_url('vidoeimages') . $namefile;
