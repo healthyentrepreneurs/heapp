@@ -154,7 +154,7 @@ class User extends CI_Controller
                                 $content_value['content'] = json_encode($cleaner_content);
                                 // array_push($new_content, $content_value);
                             }
-                            if ($content_value['type'] == "file"  && strpos($content_value['filename'], "mp4") !== false) {
+                            if ($content_value['type'] == "file"  && strpos($content_value['filename'], "mp4") != false) {
                                 $imagearray = explode('.', $content_value['filename']);
                                 $imagename = $imagearray[0] . ".jpg";
                                 $is_caption = FCPATH . 'vidoeimages/' . $imagename;
@@ -580,10 +580,12 @@ class User extends CI_Controller
         // $video = $ffmpeg->open($vidoeurl);
         // $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
         // $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
-        $fp = fopen($vidoeurl, 'r');
+        if (!$fp = fopen($vidoeurl, 'r')) {
+            print_array($vidoeurl);
+            trigger_error("Unable to open URL ($vidoeurl)", E_USER_ERROR);
+        }
         $meta = stream_get_meta_data($fp);
         print_array($meta);
-        print_array($vidoeurl);
         return base_url('vidoeimages') . $namefile;
     }
 }
