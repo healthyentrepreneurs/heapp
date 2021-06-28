@@ -159,11 +159,8 @@ class User extends CI_Controller
                                 $imagename = $imagearray[0] . ".jpg";
                                 $is_caption = FCPATH . 'vidoeimages/' . $imagename;
                                 if (file_exists($is_caption) == false) {
-                                    try {
-                                        $video_url = $content_value['fileurl'] . "?token=" . $token;
-                                        $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
-                                    } catch (Exception $e) {
-                                    }
+                                    $video_url = $content_value['fileurl'] . "?token=" . $token;
+                                    $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
                                 } else {
                                     $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
                                 }
@@ -579,13 +576,14 @@ class User extends CI_Controller
     }
     public function get_videosnap($namefile, $vidoeurl)
     {
-        // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
-        //https://gist.github.com/jsturgis/3b19447b304616f18657
-        $ffmpeg = FFMpeg\FFMpeg::create();
-        $video = $ffmpeg->open($vidoeurl);
-        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
-        $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
-        // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+        // $ffmpeg = FFMpeg\FFMpeg::create();
+        // $video = $ffmpeg->open($vidoeurl);
+        // $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
+        // $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
+        $fp = fopen($vidoeurl, 'r');
+        $meta = stream_get_meta_data($fp);
+        print_array($meta);
+        print_array($vidoeurl);
         return base_url('vidoeimages') . $namefile;
     }
 }
