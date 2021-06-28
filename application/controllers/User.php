@@ -154,17 +154,15 @@ class User extends CI_Controller
                                 $content_value['content'] = json_encode($cleaner_content);
                                 // array_push($new_content, $content_value);
                             }
-                            if ($content_value['type'] == "file" && $content_value['filename'] != "index.html") {
+                            if ($content_value['type'] == "file"  && strpos($content_value['filename'], "mp4") !== false) {
                                 $imagearray = explode('.', $content_value['filename']);
-                                $imagename=$imagearray[0].".jpg";
-                                $is_caption = FCPATH . 'vidoeimages/' .$imagename;
+                                $imagename = $imagearray[0] . ".jpg";
+                                $is_caption = FCPATH . 'vidoeimages/' . $imagename;
                                 if (file_exists($is_caption) == false) {
-                                    $video_url=$content_value['fileurl'] . "?token=" . $token;
-                                    print_array("Joash "."<br>".$video_url);
-                                    $content_value['videocaption'] = $this->get_videosnap($imagename,$video_url);
+                                    $video_url = $content_value['fileurl'] . "?token=" . $token;
+                                    $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
                                 } else {
                                     $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
-                                    print_array("njovu ".base_url('vidoeimages') . $imagename);
                                 }
                             }
                             //Remove Fake Characters
