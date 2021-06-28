@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 date_default_timezone_set("Africa/Nairobi");
+require_once FCPATH . 'vendor/autoload.php';
 class User extends CI_Controller
 {
     public function __construct()
@@ -152,6 +153,17 @@ class User extends CI_Controller
                                 }
                                 $content_value['content'] = json_encode($cleaner_content);
                                 // array_push($new_content, $content_value);
+                            }
+                            if ($content_value['type'] == "file" && $content_value['filename'] != "index.html") {
+                                $imagearray = explode('.', $content_value['filename']);
+                                $imagename=$imagearray[0].".jpg";
+                                $is_caption = FCPATH . 'vidoeimages/' .$imagename;
+                                if (file_exists($is_caption) == false) {
+                                    $video_url=$content_value['fileurl'] . "?token=" . $token;
+                                    $content_value['videocaption'] = $this->get_videosnap($imagename,$video_url);
+                                } else {
+                                    $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
+                                }
                             }
                             //Remove Fake Characters
                             $newfileurl = $content_value['fileurl'];
@@ -363,7 +375,7 @@ class User extends CI_Controller
             $slect_cho_sur = $this->universal_model->join_suv_cohot(2, $d_suvs['cohort_id']);
             foreach ($slect_cho_sur as $key => $value) {
                 $custome_onw = array(
-                    'id' => (int)$value['sid'],
+                    'id' => (int) $value['sid'],
                     'fullname' => $value['name'],
                     'categoryid' => 2,
                     'source' => $value['type'],
@@ -561,5 +573,16 @@ class User extends CI_Controller
         }
         header('Content-Type: application/json');
         echo json_encode($cleaner_array);
+    }
+    public function get_videosnap($namefile, $vidoeurl)
+    {
+        // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
+        //https://gist.github.com/jsturgis/3b19447b304616f18657
+        $ffmpeg = FFMpeg\FFMpeg::create();
+        $video = $ffmpeg->open($vidoeurl);
+        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
+        $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
+        // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
+        return base_url('vidoeimages') . $namefile;
     }
 }
