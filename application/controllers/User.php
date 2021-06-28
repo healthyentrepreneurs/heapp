@@ -159,8 +159,11 @@ class User extends CI_Controller
                                 $imagename = $imagearray[0] . ".jpg";
                                 $is_caption = FCPATH . 'vidoeimages/' . $imagename;
                                 if (file_exists($is_caption) == false) {
-                                    $video_url = $content_value['fileurl'] . "?token=" . $token;
-                                    $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
+                                    try {
+                                        $video_url = $content_value['fileurl'] . "?token=" . $token;
+                                        $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
+                                    } catch (Exception $e) {
+                                    }
                                 } else {
                                     $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
                                 }
