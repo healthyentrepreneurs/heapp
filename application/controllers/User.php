@@ -154,13 +154,16 @@ class User extends CI_Controller
                                 $content_value['content'] = json_encode($cleaner_content);
                                 // array_push($new_content, $content_value);
                             }
-                            if ($content_value['type'] == "file"  && strpos($content_value['filename'], "mp4") != false) {
+                            if ($content_value['type'] == "file"  && strpos($content_value['filename'], "mp4") !== false) {
                                 $imagearray = explode('.', $content_value['filename']);
                                 $imagename = $imagearray[0] . ".jpg";
                                 $is_caption = FCPATH . 'vidoeimages/' . $imagename;
                                 if (file_exists($is_caption) == false) {
-                                    $video_url = $content_value['fileurl'] . "?token=" . $token;
-                                    $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
+                                    try {
+                                        $video_url = $content_value['fileurl'] . "?token=" . $token;
+                                        $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
+                                    } catch (RuntimeException $e) {
+                                    }
                                 } else {
                                     $content_value['videocaption'] = base_url('vidoeimages') . $imagename;
                                 }
@@ -576,16 +579,14 @@ class User extends CI_Controller
     }
     public function get_videosnap($namefile, $vidoeurl)
     {
-        // $ffmpeg = FFMpeg\FFMpeg::create();
-        // $video = $ffmpeg->open($vidoeurl);
-        // $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
-        // $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
-        if (!$fp = fopen($vidoeurl, 'r')) {
-            print_array($vidoeurl);
-            trigger_error("Unable to open URL ($vidoeurl)", E_USER_ERROR);
+        try {
+            $ffmpeg = FFMpeg\FFMpeg::create();
+            $video = $ffmpeg->open($vidoeurl);
+            $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
+            $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
+            return base_url('vidoeimages') . $namefile;
+        } catch (Exception $th) {
+            return "";
         }
-        $meta = stream_get_meta_data($fp);
-        print_array($meta);
-        return base_url('vidoeimages') . $namefile;
     }
 }
