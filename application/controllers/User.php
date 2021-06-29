@@ -582,7 +582,7 @@ class User extends CI_Controller
         try {
             $ffmpeg = FFMpeg\FFMpeg::create();
             $video = $ffmpeg->open($vidoeurl);
-            // $video->filters()->resize(new FFMpeg\Coordinate\Dimension(100, 100))->synchronize();
+            $video->filters()->resize(new FFMpeg\Coordinate\Dimension(2, 2))->synchronize();
             $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'vidoeimages/' . $namefile);
             return base_url('vidoeimages/') . $namefile;
         } catch (Exception $th) {
