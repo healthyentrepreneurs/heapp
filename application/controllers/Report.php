@@ -35,7 +35,7 @@ class Report extends CI_Controller
         }
         echo memory_get_usage() - $startMemory, ' bytes';
     }
-    public function report_surveydetails()
+    public function report_surveydetails_temp()
     {
         $_POST['selectclientid'] = 1;
         $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
@@ -48,7 +48,7 @@ class Report extends CI_Controller
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
        echo json_encode($_POST);
     }
-    public function report_surveydetails_temp()
+    public function report_surveydetails()
     {
         // $_POST['selectclientid'] = 2;
         // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
