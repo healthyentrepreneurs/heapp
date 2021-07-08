@@ -376,15 +376,14 @@ class Report extends CI_Controller
                                 }
                                 //Triky One
                                 $key_value =trim($valuec['name']);
-                                print_array($key_value);
-                                print_array("....................<br>");
-                                print_array($surveyobject);
-                                $arrayc['text'] = $surveyobject[$key_value];
-                                $arrayc['value'] = $keya;
-                                array_push($array_of_array, $arrayc);
-                                // print_array($valuec);
+                                // print_array($key_value);
+                                #Njovu New Addition Thurs 8th July 2021 17:36
+                                if(array_key_exists($key_value,$surveyobject)){
+                                    $arrayc['text'] = $surveyobject[$key_value];
+                                    $arrayc['value'] = $keya;
+                                    array_push($array_of_array, $arrayc);
+                                }
                             }
-                            // print_array($arrayc);
                         }
                         //End Test
                         if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
