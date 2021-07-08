@@ -376,6 +376,9 @@ class Report extends CI_Controller
                                 }
                                 //Triky One
                                 $key_value = $valuec['name'];
+                                print_array($key_value);
+                                print_array("....................<br>");
+                                print_array($surveyobject);
                                 $arrayc['text'] = $surveyobject[$key_value];
                                 $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
