@@ -9,12 +9,6 @@ use Gaufrette\Filesystem;
 use Gaufrette\Adapter\InMemory as InMemoryAdapter;
 use Gaufrette\StreamWrapper;
 
-// use JsonMachine\JsonMachine;
-// use JsonMachine\JsonDecoder\PassThruDecoder;
-// use JsonMachine\JsonDecoder\DecodingError;
-// use JsonMachine\JsonDecoder\ErrorWrappingDecoder;
-// use JsonMachine\JsonDecoder\ExtJsonDecoder;
-
 class Report extends CI_Controller
 {
 
@@ -43,7 +37,7 @@ class Report extends CI_Controller
     }
     public function report_surveydetails()
     {
-       echo json_decode($_POST);
+       echo json_encode($_POST);
     }
     public function report_surveydetails_temp()
     {
