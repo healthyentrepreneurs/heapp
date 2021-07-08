@@ -37,6 +37,15 @@ class Report extends CI_Controller
     }
     public function report_surveydetails()
     {
+        $_POST['selectclientid'] = 1;
+        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        $_POST['startdate'] = "01-06-2021";
+        $_POST['enddate'] = "16-06-2021";
+        $surveyid = $this->input->post('selectclientid');
+        $selectclientname = $this->input->post('selectclientname');
+        $startdate = $this->input->post('startdate');
+        $enddate = $this->input->post('enddate');
+        $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
        echo json_encode($_POST);
     }
     public function report_surveydetails_temp()
