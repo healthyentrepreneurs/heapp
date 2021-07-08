@@ -43,6 +43,10 @@ class Report extends CI_Controller
     }
     public function report_surveydetails()
     {
+       echo json_decode($_POST);
+    }
+    public function report_surveydetails_temp()
+    {
         // $_POST['selectclientid'] = 2;
         // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
         // $_POST['startdate'] = "01-02-2021";
