@@ -129,7 +129,7 @@ class Welcome extends CI_Controller
                     // $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
                     $persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
                     $final_array = $this->report_surveydetails_data($persial_survey, $idnn);
-                    print_array($final_array);
+                    // print_array($final_array);
                     // $final_arrayone = array_shift($final_array);
                     // $data['controller'] = $this;
                     // $surveyname = $this->input->get('name');
@@ -247,26 +247,6 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
-    // public function report_surveydetails_data($persial_survey, $id)
-    // {
-    //     $array_object = array();
-    //     foreach ($persial_survey as $key => $value_object) {
-    //         $user_details_output = $this->get_meuserdetails($value_object['userid']);
-    //         $jaja_raary = array_shift($user_details_output);
-    //         $surveyobject = json_decode($value_object['surveyobject'], true);
-    //         $surveyjson = json_decode($value_object['surveyjson'], true);
-    //         $arrayn = array(
-    //             'username' => $jaja_raary['username'],
-    //             'fullname' => $jaja_raary['fullname'],
-    //             'submitted_date' => $value_object['dateaddedsurvey'],
-    //             // 'name' => $value_object['name'],
-    //             'surveyobject' => $surveyobject,
-    //             'surveyjson' => $surveyjson
-    //         );
-    //         array_push($array_object, $arrayn);
-    //     }
-    //     return $array_object;
-    // }
     public function report_surveydetails_data($persial_survey, $id)
     {
         $array_object = array();
@@ -483,7 +463,8 @@ $title_non_nill=$valuec['title'];
                                 }
                             } else {
                                 //Start New Image Versions
-                                $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
+                                // $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
+                                print_array($surveyobject[$keya]);
                                 if (!empty($attempt_n_n_two)) {
                                     $arrayc['text'] = $surveyobject[$keya];
                                     $arrayc['value'] = $keya;
