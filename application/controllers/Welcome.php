@@ -130,24 +130,24 @@ class Welcome extends CI_Controller
                     $persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
                     $final_array = $this->report_surveydetails_data($persial_survey, $idnn);
                     // print_array($final_array);
-                    // $final_arrayone = array_shift($final_array);
-                    // $data['controller'] = $this;
-                    // $surveyname = $this->input->get('name');
-                    // $user_profile = array(
-                    //     'username' => '<h4>' . $surveyname . '</h4>',
-                    //     'firstname' => $final_arrayone['username'],
-                    //     'lastname' => $final_arrayone['fullname'],
-                    //     'submitted_date' => $final_arrayone['submitted_date'],
-                    // );
-                    // unset_post($final_arrayone, 'username');
-                    // unset_post($final_arrayone, 'fullname');
-                    // unset_post($final_arrayone, 'submitted_date');
-                    // $data['survey_instance'] = $final_arrayone;
-                    // $data['user_profile'] = $user_profile;
-                    // $data['content_admin'] = 'pages/admin/survey_instance';
-                    // $surveyname = $this->input->get('name');
-                    // $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $final_arrayone = array_shift($final_array);
+                    $data['controller'] = $this;
+                    $surveyname = $this->input->get('name');
+                    $user_profile = array(
+                        'username' => '<h4>' . $surveyname . '</h4>',
+                        'firstname' => $final_arrayone['username'],
+                        'lastname' => $final_arrayone['fullname'],
+                        'submitted_date' => $final_arrayone['submitted_date'],
+                    );
+                    unset_post($final_arrayone, 'username');
+                    unset_post($final_arrayone, 'fullname');
+                    unset_post($final_arrayone, 'submitted_date');
+                    $data['survey_instance'] = $final_arrayone;
+                    $data['user_profile'] = $user_profile;
+                    $data['content_admin'] = 'pages/admin/survey_instance';
+                    $surveyname = $this->input->get('name');
+                    $data['surveyname'] = $surveyname;
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -388,7 +388,7 @@ class Welcome extends CI_Controller
                             // print_array($keya);
                             $title_non_nill="";
                             if(array_key_exists('title',$valuec)){
-$title_non_nill=$valuec['title'];
+                                $title_non_nill=$valuec['title'];
                             }
                             $arrayc = array(
                                 'type' => $valuec['type'],
@@ -427,7 +427,7 @@ $title_non_nill=$valuec['title'];
                         if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             $title_non_nill="";
                             if(array_key_exists('title',$valuec)){
-$title_non_nill=$valuec['title'];
+                                $title_non_nill=$valuec['title'];
                             }
                             $arrayc = array(
                                 'type' => $valuec['type'],
@@ -463,6 +463,7 @@ $title_non_nill=$valuec['title'];
                                 }
                             } else {
                                 //Start New Image Versions
+                                //To Be Back
                                 $attempt_n_n_two=array();
                                 $names_image=$surveyobject[$keya];
                                 if(is_array($names_image)){
