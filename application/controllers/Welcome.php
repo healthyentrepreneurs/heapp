@@ -463,8 +463,17 @@ $title_non_nill=$valuec['title'];
                                 }
                             } else {
                                 //Start New Image Versions
-                                $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
-                                print_array($attempt_n_n_two);
+                                $attempt_n_n_two=array();
+                                $names_image=$surveyobject[$keya];
+                                if(is_array($names_image)){
+                                    foreach($names_image as $images){
+                                     print_array($images);
+                                    }
+                                }else {
+                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
+                                    print_array($surveyobject[$keya]);
+                                }
+                                // print_array($surveyobject[$keya]);
                                 if (!empty($attempt_n_n_two)) {
                                     $arrayc['text'] = $surveyobject[$keya];
                                     $arrayc['value'] = $keya;
