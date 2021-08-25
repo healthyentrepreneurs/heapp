@@ -247,27 +247,27 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
+    // public function report_surveydetails_data($persial_survey, $id)
+    // {
+    //     $array_object = array();
+    //     foreach ($persial_survey as $key => $value_object) {
+    //         $user_details_output = $this->get_meuserdetails($value_object['userid']);
+    //         $jaja_raary = array_shift($user_details_output);
+    //         $surveyobject = json_decode($value_object['surveyobject'], true);
+    //         $surveyjson = json_decode($value_object['surveyjson'], true);
+    //         $arrayn = array(
+    //             'username' => $jaja_raary['username'],
+    //             'fullname' => $jaja_raary['fullname'],
+    //             'submitted_date' => $value_object['dateaddedsurvey'],
+    //             // 'name' => $value_object['name'],
+    //             'surveyobject' => $surveyobject,
+    //             'surveyjson' => $surveyjson
+    //         );
+    //         array_push($array_object, $arrayn);
+    //     }
+    //     return $array_object;
+    // }
     public function report_surveydetails_data($persial_survey, $id)
-    {
-        $array_object = array();
-        foreach ($persial_survey as $key => $value_object) {
-            $user_details_output = $this->get_meuserdetails($value_object['userid']);
-            $jaja_raary = array_shift($user_details_output);
-            $surveyobject = json_decode($value_object['surveyobject'], true);
-            $surveyjson = json_decode($value_object['surveyjson'], true);
-            $arrayn = array(
-                'username' => $jaja_raary['username'],
-                'fullname' => $jaja_raary['fullname'],
-                'submitted_date' => $value_object['dateaddedsurvey'],
-                // 'name' => $value_object['name'],
-                'surveyobject' => $surveyobject,
-                'surveyjson' => $surveyjson
-            );
-            array_push($array_object, $arrayn);
-        }
-        return $array_object;
-    }
-    public function report_surveydetails_data_temp($persial_survey, $id)
     {
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
