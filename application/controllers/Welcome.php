@@ -406,9 +406,13 @@ class Welcome extends CI_Controller
                         //Start Test
                         if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             // print_array($keya);
+                            $title_non_nill="";
+                            if(array_key_exists('title',$valuec)){
+$title_non_nill=$valuec['title'];
+                            }
                             $arrayc = array(
                                 'type' => $valuec['type'],
-                                'title' => $valuec['title'],
+                                'title' => $title_non_nill,
                             );
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
