@@ -466,10 +466,10 @@ $title_non_nill=$valuec['title'];
                                 $attempt_n_n_two=array();
                                 $names_image=$surveyobject[$keya];
                                 if(is_array($names_image)){
-                                    // print_array($names_image);
+                                    print_array($names_image);
                                     foreach($names_image as $images){
                                         $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $images["name"]);
-                                        print_array($images["name"]);
+                                        // print_array($images["name"]);
                                     }
                                 }else {
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
