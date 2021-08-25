@@ -30,7 +30,7 @@
                             if(is_array($object_image)){
                                 print_array($object_image);
 ?>
- <img src="<?= base_url('uploadsurvey/' . $object_image[1]['name']) ?>" alt="image" width="100" height="100" />
+ <img src="<?= base_url('uploadsurvey/' . $object_image[2]['name']) ?>" alt="image" width="100" height="100" />
 <?php
                             }else{
                                 ?>
