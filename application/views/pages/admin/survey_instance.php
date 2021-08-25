@@ -26,9 +26,17 @@
                     ?>
                         <td>
                             <?php
-                            print_array($value['text']);
+                            $object_image=$value['text'];
+                            if(is_array($object_image)){
+?>
+ <img src="<?= base_url('uploadsurvey/' . $object_image[0]['name']) ?>" alt="image" width="100" height="100" />
+<?php
+                            }else{
+                                ?>
+                                <img src="<?= base_url('uploadsurvey/' . $value['text']) ?>" alt="image" width="100" height="100" />
+                                <?php
+                            }
                             ?>
-                            <!-- <img src="<?= base_url('uploadsurvey/' . $value['text']) ?>" alt="image" width="100" height="100" /> -->
                         </td>
                     <?php
                     } else {
