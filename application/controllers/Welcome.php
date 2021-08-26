@@ -467,7 +467,22 @@ class Welcome extends CI_Controller
                             } elseif (is_array($surveyobject[$keya])) {
                                 //For more than 1 image scenerio.
                                 $jaja_image = array_shift($surveyobject[$keya]);
-                                print_array($jaja_image);
+                                if (!empty($jaja_image)) {
+                                    $name_final = getToken(10) . $jaja_image['name'];
+                                    $one = $jaja_image['content'];
+                                    $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                    print_array($name_final);
+                                    // $arrayc['text'] = $name_final;
+                                    // $arrayc['value'] = $keya;
+                                    // $path = FCPATH . "uploadsurvey/" . $name_final;
+                                    // $status = file_put_contents($path, base64_decode($two));
+                                    // if ($status) {
+                                    //     // public function updatez($variable, $value, $table_name, $updated_values)
+                                    //     $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                    // }
+                                } else {
+                                    $value_baby['value_name'] = "";
+                                }
                             }
                             else {
                                 // * Start New Image Versions
