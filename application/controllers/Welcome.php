@@ -468,10 +468,13 @@ class Welcome extends CI_Controller
                                 //For more than 1 image scenerio.
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
+                                    $array_imagejson=array();
                                     $name_final = getToken(10) . $jaja_image['name'];
                                     $one = $jaja_image['content'];
                                     $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    print_array($name_final);
+                                    array_push($array_imagejson,$name_final);
+                                    print_array($array_imagejson);
+                                    print_array("***************");
                                     // $arrayc['text'] = $name_final;
                                     // $arrayc['value'] = $keya;
                                     // $path = FCPATH . "uploadsurvey/" . $name_final;
