@@ -246,11 +246,11 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
-    public function report_surveydetails_data($persial_survey, $id)
+    public function report_surveydetails_data_temp($persial_survey, $id)
     {
         print_array($persial_survey);
     }
-    public function report_surveydetails_data_temp($persial_survey, $id)
+    public function report_surveydetails_data($persial_survey, $id)
     {
         $array_object = array();
         foreach ($persial_survey as $key => $value_object) {
