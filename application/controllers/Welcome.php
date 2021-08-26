@@ -473,15 +473,21 @@ class Welcome extends CI_Controller
                                     if(empty($attempt_n_n_two)){
                                         $one = $jaja_image['content'];
                                         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                        print_array($attempt_n_n_two);
-                                    // $arrayc['text'] = $name_final;
-                                    // $arrayc['value'] = $keya;
-                                    // $path = FCPATH . "uploadsurvey/" . $name_final;
-                                    // $status = file_put_contents($path, base64_decode($two));
-                                    // if ($status) {
-                                    //     // public function updatez($variable, $value, $table_name, $updated_values)
-                                    //     $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
-                                    // }
+                                    $arrayc['text'] = $name_final;
+                                    $arrayc['value'] = $keya;
+                                    $path = FCPATH . "uploadsurvey/" . $name_final;
+                                    $status = file_put_contents($path, base64_decode($two));
+                                    if ($status) {
+                                        $array_image_survey = array(
+                                            'image_name' => $name_final,
+                                            'user_id' => 0,
+                                            'survey_id' => $id
+                                        );
+                                        $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+                                    }
+                                    }else{
+                                        $arrayc['text'] = $name_final;
+                                        $arrayc['value'] = $keya;
                                     }
                                     
                                 } else {
