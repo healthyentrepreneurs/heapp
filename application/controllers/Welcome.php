@@ -282,7 +282,6 @@ class Welcome extends CI_Controller
             foreach ($surveyobject as $keya => $valuea) {
                 foreach ($surveyjson as $keyb => $valueb) {
                     $elements = $valueb['elements'];
-                    $multiple_images=array();
                     foreach ($elements as $keyc => $valuec) {
                         if ($valuec['type'] == "radiogroup" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             $arrayc = array(
@@ -469,12 +468,12 @@ class Welcome extends CI_Controller
                                 //For more than 1 image scenerio.
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
-                                    $name_final = getToken(10) . $jaja_image['name'];
-                                    $one = $jaja_image['content'];
-                                    $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    array_push($multiple_images,$name_final);
-                                    print_array($multiple_images);
-                                    // print_array("***************");
+                                    $name_final = $jaja_image['name'];
+                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $name_final);
+                                    if(empty($attempt_n_n_two)){
+                                        $one = $jaja_image['content'];
+                                        $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                        print_array($attempt_n_n_two);
                                     // $arrayc['text'] = $name_final;
                                     // $arrayc['value'] = $keya;
                                     // $path = FCPATH . "uploadsurvey/" . $name_final;
@@ -483,6 +482,8 @@ class Welcome extends CI_Controller
                                     //     // public function updatez($variable, $value, $table_name, $updated_values)
                                     //     $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
                                     // }
+                                    }
+                                    
                                 } else {
                                     $value_baby['value_name'] = "";
                                 }
@@ -562,8 +563,6 @@ class Welcome extends CI_Controller
                             }
                         }
                     }
-                    print_array($multiple_images);
-                    //End. of First forloop
                 }
             }
             $biggest = count($array_of_array);
