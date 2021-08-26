@@ -465,8 +465,24 @@ class Welcome extends CI_Controller
                                     $value_baby['value_name'] = "";
                                 }
                             } elseif (is_array($surveyobject[$keya])) {
-                                // print_array("We are hear");
+                                $jaja_image = array_shift($surveyobject[$keya]);
+                                print_array($jaja_image);
                                 print_array($surveyobject[$keya]);
+                                print_array("...........");
+                                // if (!empty($jaja_image)) {
+                                //     $name_final =$jaja_image['name'];
+                                //     $one = $jaja_image['content'];
+                                //     $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                //     $arrayc['text'] = $name_final;
+                                //     $arrayc['value'] = $keya;
+                                //     $path = FCPATH . "uploadsurvey/" . $name_final;
+                                //     $status = file_put_contents($path, base64_decode($two));
+                                //     if ($status) {
+                                //         $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                //     }
+                                // } else {
+                                //     $value_baby['value_name'] = "";
+                                // }
                             }
                             else {
                                 // * Start New Image Versions
