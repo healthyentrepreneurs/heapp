@@ -445,7 +445,6 @@ class Welcome extends CI_Controller
 
                             //Old Support Version 1
                             $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                            print_array($id);
                             if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
@@ -465,7 +464,10 @@ class Welcome extends CI_Controller
                                 } else {
                                     $value_baby['value_name'] = "";
                                 }
-                            } else {
+                            } elseif (is_array($surveyobject[$keya])) {
+                                print_array("We are hear");
+                            }
+                            else {
                                 // print_array($attempt_n_n_one);                                                          
                                 // * Start New Image Versions
                                 // * To Be Back
