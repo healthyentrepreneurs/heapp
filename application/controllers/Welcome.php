@@ -282,6 +282,7 @@ class Welcome extends CI_Controller
             foreach ($surveyobject as $keya => $valuea) {
                 foreach ($surveyjson as $keyb => $valueb) {
                     $elements = $valueb['elements'];
+                    $multiple_images=array();
                     foreach ($elements as $keyc => $valuec) {
                         if ($valuec['type'] == "radiogroup" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             $arrayc = array(
@@ -468,13 +469,12 @@ class Welcome extends CI_Controller
                                 //For more than 1 image scenerio.
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
-                                    $array_imagejson=array();
                                     $name_final = getToken(10) . $jaja_image['name'];
                                     $one = $jaja_image['content'];
                                     $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    array_push($array_imagejson,$name_final);
-                                    print_array($array_imagejson);
-                                    print_array("***************");
+                                    array_push($multiple_images,$name_final);
+                                    print_array($multiple_images);
+                                    // print_array("***************");
                                     // $arrayc['text'] = $name_final;
                                     // $arrayc['value'] = $keya;
                                     // $path = FCPATH . "uploadsurvey/" . $name_final;
@@ -562,6 +562,8 @@ class Welcome extends CI_Controller
                             }
                         }
                     }
+                    print_array($multiple_images);
+                    //End. of First forloop
                 }
             }
             $biggest = count($array_of_array);
