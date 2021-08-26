@@ -465,22 +465,7 @@ class Welcome extends CI_Controller
                                     $value_baby['value_name'] = "";
                                 }
                             } else {
-                                if(!empty($attempt_n_n_one)){
- print_array($attempt_n_n_one);
- print_array(" attempt_n_n_one HAS VALUES");
-                                }else {
-                                    print_array($attempt_n_n_one);
-                                    print_array("EMPTY  attempt_n_n_one");
-                                    # code...
-                                }
-                                if(is_array($surveyobject[$keya])){
-                                    print_array(" IS ARRAY surveyobject");
-                                                                   }else {
-                                                                       print_array(" NOT ARRAY surveyobject has values");
-                                                                       # code...
-                                                                   }
-                                                                   
-                                // print_array($surveyobject[$keya]);
+                                print_array($attempt_n_n_one);                                                          
                                 // * Start New Image Versions
                                 // * To Be Back
                                 // $attempt_n_n_two=array();
