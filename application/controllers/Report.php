@@ -11,7 +11,7 @@ use Gaufrette\StreamWrapper;
 
 class Report extends CI_Controller
 {
-
+   
     public function __construct()
     {
         parent::__construct();
@@ -25,6 +25,10 @@ class Report extends CI_Controller
     public function index()
     {
         echo '<h1>Report Api </h1>';
+    }
+    public function maybadphp(Type $var = null)
+    {
+        # code...
     }
     public function jaja()
     {
