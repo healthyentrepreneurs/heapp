@@ -466,17 +466,20 @@ class Welcome extends CI_Controller
                                 }
                             } else {
                                 if(!empty($attempt_n_n_one)){
- print_array($attempt_n_n_one."  Dude has values");
+ print_array($attempt_n_n_one);
+ print_array(" attempt_n_n_one HAS VALUES");
                                 }else {
-                                    print_array($attempt_n_n_one."  Dude has values");
+                                    print_array($attempt_n_n_one);
+                                    print_array("EMPTY  attempt_n_n_one");
                                     # code...
                                 }
                                 if(is_array($surveyobject[$keya])){
-                                    print_array("  surveyobject has values");
+                                    print_array(" IS ARRAY surveyobject");
                                                                    }else {
-                                                                       print_array("  surveyobject has values");
+                                                                       print_array(" NOT ARRAY surveyobject has values");
                                                                        # code...
                                                                    }
+                                                                   
                                 // print_array($surveyobject[$keya]);
                                 // * Start New Image Versions
                                 // * To Be Back
