@@ -468,9 +468,9 @@ class Welcome extends CI_Controller
                                 //For more than 1 image scenerio.
                                     $array_manyimages=array();
                                     $jaja_image=$surveyobject[$keya];
-                                    $name_final =getToken(10) .$jaja_image['name'];
-                                    array_push($array_manyimages,$name_final);
-                                    print_array($array_manyimages);
+                                    // $name_final =getToken(10) .$jaja_image['name'];
+                                    // array_push($array_manyimages,$name_final);
+                                    print_array($jaja_image);
                                     // $one = $jaja_image['content'];
                                     // $two = str_replace("data:image/jpeg;base64,", "", $one);
                                     // $arrayc['text'] = $name_final;
