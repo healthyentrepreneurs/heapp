@@ -129,24 +129,24 @@ class Welcome extends CI_Controller
                     // $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
                     $persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
                     $final_array = $this->report_surveydetails_data($persial_survey, $idnn);
-                    // $final_arrayone = array_shift($final_array);
-                    // $data['controller'] = $this;
-                    // $surveyname = $this->input->get('name');
-                    // $user_profile = array(
-                    //     'username' => '<h4>' . $surveyname . '</h4>',
-                    //     'firstname' => $final_arrayone['username'],
-                    //     'lastname' => $final_arrayone['fullname'],
-                    //     'submitted_date' => $final_arrayone['submitted_date'],
-                    // );
-                    // unset_post($final_arrayone, 'username');
-                    // unset_post($final_arrayone, 'fullname');
-                    // unset_post($final_arrayone, 'submitted_date');
-                    // $data['survey_instance'] = $final_arrayone;
-                    // $data['user_profile'] = $user_profile;
-                    // $data['content_admin'] = 'pages/admin/survey_instance';
-                    // $surveyname = $this->input->get('name');
-                    // $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $final_arrayone = array_shift($final_array);
+                    $data['controller'] = $this;
+                    $surveyname = $this->input->get('name');
+                    $user_profile = array(
+                        'username' => '<h4>' . $surveyname . '</h4>',
+                        'firstname' => $final_arrayone['username'],
+                        'lastname' => $final_arrayone['fullname'],
+                        'submitted_date' => $final_arrayone['submitted_date'],
+                    );
+                    unset_post($final_arrayone, 'username');
+                    unset_post($final_arrayone, 'fullname');
+                    unset_post($final_arrayone, 'submitted_date');
+                    $data['survey_instance'] = $final_arrayone;
+                    $data['user_profile'] = $user_profile;
+                    $data['content_admin'] = 'pages/admin/survey_instance';
+                    $surveyname = $this->input->get('name');
+                    $data['surveyname'] = $surveyname;
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
