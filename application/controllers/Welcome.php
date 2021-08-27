@@ -583,6 +583,7 @@ class Welcome extends CI_Controller
                                 else {
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
+                                    print_array($attempt_n_n_two);
                                     if (!empty($attempt_n_n_two)) {
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
@@ -590,6 +591,7 @@ class Welcome extends CI_Controller
                                     }
                                     //End  New Image Versions
                                     else {
+                                        print_array($surveyobject[$keya]);
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $arrayc['text'] = $array_one['imageifany'];
