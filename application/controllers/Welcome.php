@@ -529,6 +529,7 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
+                                    print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -585,6 +586,7 @@ class Welcome extends CI_Controller
                                     if (!empty($attempt_n_n_two)) {
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
+                                        print_array("Here We are xx");
                                     }
                                     //End  New Image Versions
                                     else {
@@ -592,6 +594,7 @@ class Welcome extends CI_Controller
                                         $array_one = array_shift($attempt_n_n_one);
                                         $arrayc['text'] = $array_one['imageifany'];
                                         $arrayc['value'] = $keya;
+                                        print_array("Here We are yy");
                                     }
                                 }
                                 //End Tricky
