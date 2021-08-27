@@ -560,24 +560,23 @@ class Welcome extends CI_Controller
                                     }
                                     //End  New Image Versions
                                     else {
-                                        // print_array($valuec);
-                                        // echo "............";
-                                        // print_array($keya."  Njovu");
-                                        // echo "............";
-                                        // print_array($surveyobject[$keya]);
-                                        // echo "............";
+                                        print_array($valuec);
+                                        echo "............";
+                                        print_array($keya."  Njovu");
+                                        echo "............";
+                                        print_array($surveyobject[$keya]);
+                                        echo "............";
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $is_none=$array_one['imageifany'];
-                                        print_array($surveyobject[$keya]);
-                                        // if(array_key_exists('image-upload',$surveyobject[$keya]) && $is_none=="none"){
-                                        //     $arrayc['text'] =$surveyobject[$keya]['image-upload'];
-                                        //     $arrayc['value'] = $keya;
-                                        // }else{
-                                        //     $arrayc['text'] =$is_none;
-                                        //     $arrayc['value'] = $keya;
-                                        // }
-                                        print_array($arrayc);
+                                        if(array_key_exists('image-upload',$surveyobject[$keya]) && $is_none=="none"){
+                                            $arrayc['text'] =$surveyobject[$keya]['image-upload'];
+                                            $arrayc['value'] = $keya;
+                                        }else{
+                                            $arrayc['text'] =$is_none;
+                                            $arrayc['value'] = $keya;
+                                        }
+                                       
                                         // print_array("Here We are yy");
                                     }
                                 }
