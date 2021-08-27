@@ -519,7 +519,6 @@ class Welcome extends CI_Controller
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             // $valuec['name'] == $keya 
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
-                                print_array("what fuck");
                                 $arrayc = array(
                                     'type' => $valuec['type'],
                                     'title' => $valuec['title'],
@@ -532,7 +531,7 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
-                                    // print_array("Here We are pup");
+                                    print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -553,6 +552,7 @@ class Welcome extends CI_Controller
                                     }
                                 }
                                 else {
+                                    print_array("what fuck");
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
@@ -562,12 +562,6 @@ class Welcome extends CI_Controller
                                     }
                                     //End  New Image Versions
                                     else {
-                                        // print_array($valuec);
-                                        // echo "............";
-                                        // print_array($keya."  Njovu");
-                                        // echo "............";
-                                        // print_array($surveyobject);
-                                        // echo "............";
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $is_none=$array_one['imageifany'];
