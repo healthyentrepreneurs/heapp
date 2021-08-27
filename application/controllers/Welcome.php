@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -530,7 +530,7 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
-                                    print_array("Here We are pup");
+                                    // print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -556,12 +556,12 @@ class Welcome extends CI_Controller
                                     if (!empty($attempt_n_n_two)) {
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
-                                        print_array("Here We are xx");
+                                        // print_array("Here We are xx");
                                     }
                                     //End  New Image Versions
                                     else {
                                         // print_array($valuec);
-                                        echo "............";
+                                        // echo "............";
                                         // print_array($keya."  Njovu");
                                         // echo "............";
                                         // print_array($surveyobject);
@@ -576,7 +576,7 @@ class Welcome extends CI_Controller
                                             $arrayc['text'] =$is_none;
                                             $arrayc['value'] = $keya;
                                         }
-                                        print_array($arrayc);
+                                        // print_array($arrayc);
                                     }
                                 }
                                 //End Tricky
