@@ -517,6 +517,8 @@ class Welcome extends CI_Controller
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             print_array($valuec);
+                            print_array($keya."  Njovu");
+                            // $valuec['name'] == $keya 
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
