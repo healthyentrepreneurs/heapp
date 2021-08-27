@@ -516,8 +516,6 @@ class Welcome extends CI_Controller
                             // $arrayc['value'] = $keya;
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
-                            print_array($valuec);
-                            print_array($keya."  Njovu");
                             // $valuec['name'] == $keya 
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
@@ -551,42 +549,12 @@ class Welcome extends CI_Controller
                                     } else {
                                         $value_baby['value_name'] = "";
                                     }
-                                } 
-                                elseif (is_array($surveyobject[$keya])) {
-                                    print_array("Here We are");
-                                    //For more than 1 image scenerio.
-                                    // $jaja_image = array_shift($surveyobject[$keya]);
-                                    // if (!empty($jaja_image)) {
-                                    //     $name_final = $jaja_image['name'];
-                                    //     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $name_final);
-                                    //     if(empty($attempt_n_n_two)){
-                                    //         $one = $jaja_image['content'];
-                                    //         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    //     $arrayc['text'] = $name_final;
-                                    //     $arrayc['value'] = $keya;
-                                    //     $path = FCPATH . "uploadsurvey/" . $name_final;
-                                    //     $status = file_put_contents($path, base64_decode($two));
-                                    //     if ($status) {
-                                    //         $array_image_survey = array(
-                                    //             'image_name' => $name_final,
-                                    //             'user_id' => 0,
-                                    //             'survey_id' => $id
-                                    //         );
-                                    //         $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
-                                    //     }
-                                    //     }else{
-                                    //         $arrayc['text'] = $name_final;
-                                    //         $arrayc['value'] = $keya;
-                                    //     }
-                                        
-                                    // } else {
-                                    //     $value_baby['value_name'] = "";
-                                    // }
                                 }
                                 else {
+                                    print_array($valuec);
+                                    print_array($keya."  Njovu");
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
-                                    print_array($attempt_n_n_two);
                                     if (!empty($attempt_n_n_two)) {
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
