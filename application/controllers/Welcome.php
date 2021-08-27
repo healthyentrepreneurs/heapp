@@ -563,6 +563,7 @@ class Welcome extends CI_Controller
                                     //End  New Image Versions
                                     else {
                                         print_array("what xap 2");
+                                        print_array($surveyobject);
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $is_none=$array_one['imageifany'];
