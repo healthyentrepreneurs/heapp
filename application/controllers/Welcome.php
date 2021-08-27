@@ -246,6 +246,10 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
+    public function report_surveydetails_data_temp($persial_survey, $id)
+    {
+        print_array($persial_survey);
+    }
     public function report_surveydetails_data($persial_survey, $id)
     {
         $array_object = array();
@@ -353,33 +357,9 @@ class Welcome extends CI_Controller
                             }
                         }
                         if ($valuec['type'] == "html" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
-                            // $arrayc = array(
-                            //     'type' => $valuec['type'],
-                            //     'title' => "html_info",
-                            // );
-                            // if (array_key_exists('description', $valuec)) {
-                            //     $arrayc['description'] = $valuec['description'];
-                            // } else {
-                            //     $arrayc['description'] = "";
-                            // }
-                            // $value_n = $this->cleanContent($valuec['html']);
-                            // $arrayc['text'] = $$valuec['html'];
-                            // $arrayc['value'] = "html_value";
-                            // array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "html") {
                             if (is_array($valuea)) {
                             } else {
-                                // if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
-                                //     $arrayc = array(
-                                //         'type' => $valuec['type'],
-                                //         'title' => "html_info",
-                                //         'description' => "",
-                                //     );
-                                //     $value_n = $this->cleanContent($valuec['html']);
-                                //     $arrayc['text'] = $valuec['html'];
-                                //     $arrayc['value'] = "html_value";
-                                //     array_push($array_of_array, $arrayc);
-                                // }
                             }
                         }
                         //Start Test
@@ -460,7 +440,7 @@ class Welcome extends CI_Controller
                                 } else {
                                     $value_baby['value_name'] = "";
                                 }
-                            } elseif (is_array($surveyobject[$keya]) && empty($attempt_n_n_one)) {
+                            } elseif (is_array($surveyobject[$keya])) {
                                 //For more than 1 image scenerio.
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
@@ -474,12 +454,18 @@ class Welcome extends CI_Controller
                                     $path = FCPATH . "uploadsurvey/" . $name_final;
                                     $status = file_put_contents($path, base64_decode($two));
                                     if ($status) {
-                                        $array_image_survey = array(
-                                            'image_name' => $name_final,
-                                            'user_id' => 0,
-                                            'survey_id' => $id
-                                        );
-                                        $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+                                        // $array_image_survey = array(
+                                        //     'id' => $id,
+                                        //     'imageifany' =>$name_final,
+                                        //     // 'userid' => $value_n['username']
+                                        // );
+                                        $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                        // $array_image_survey = array(
+                                        //     'image_name' => $name_final,
+                                        //     'user_id' => 0,
+                                        //     'survey_id' => $id
+                                        // );
+                                        // $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
                                     }
                                     }else{
                                         $arrayc['text'] = $name_final;
