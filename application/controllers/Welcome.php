@@ -464,37 +464,36 @@ class Welcome extends CI_Controller
                                 } else {
                                     $value_baby['value_name'] = "";
                                 }
-                            } 
-                            // elseif (is_array($surveyobject[$keya])) {
-                            //     //For more than 1 image scenerio.
-                            //     $jaja_image = array_shift($surveyobject[$keya]);
-                            //     if (!empty($jaja_image)) {
-                            //         $name_final = $jaja_image['name'];
-                            //         $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $name_final);
-                            //         if(empty($attempt_n_n_two)){
-                            //             $one = $jaja_image['content'];
-                            //             $two = str_replace("data:image/jpeg;base64,", "", $one);
-                            //         $arrayc['text'] = $name_final;
-                            //         $arrayc['value'] = $keya;
-                            //         $path = FCPATH . "uploadsurvey/" . $name_final;
-                            //         $status = file_put_contents($path, base64_decode($two));
-                            //         if ($status) {
-                            //             $array_image_survey = array(
-                            //                 'image_name' => $name_final,
-                            //                 'user_id' => 0,
-                            //                 'survey_id' => $id
-                            //             );
-                            //             $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
-                            //         }
-                            //         }else{
-                            //             $arrayc['text'] = $name_final;
-                            //             $arrayc['value'] = $keya;
-                            //         }
+                            } elseif (is_array($surveyobject[$keya])) {
+                                //For more than 1 image scenerio.
+                                $jaja_image = array_shift($surveyobject[$keya]);
+                                if (!empty($jaja_image)) {
+                                    $name_final = $jaja_image['name'];
+                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $name_final);
+                                    if(empty($attempt_n_n_two)){
+                                        $one = $jaja_image['content'];
+                                        $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                    $arrayc['text'] = $name_final;
+                                    $arrayc['value'] = $keya;
+                                    $path = FCPATH . "uploadsurvey/" . $name_final;
+                                    $status = file_put_contents($path, base64_decode($two));
+                                    if ($status) {
+                                        $array_image_survey = array(
+                                            'image_name' => $name_final,
+                                            'user_id' => 0,
+                                            'survey_id' => $id
+                                        );
+                                        $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+                                    }
+                                    }else{
+                                        $arrayc['text'] = $name_final;
+                                        $arrayc['value'] = $keya;
+                                    }
                                     
-                            //     } else {
-                            //         $value_baby['value_name'] = "";
-                            //     }
-                            // }
+                                } else {
+                                    $value_baby['value_name'] = "";
+                                }
+                            }
                             else {
                                 // * Start New Image Versions
                                 // * To Be Back
@@ -561,17 +560,24 @@ class Welcome extends CI_Controller
                                     }
                                     //End  New Image Versions
                                     else {
-                                        print_array($valuec);
-                                        echo "............";
-                                        print_array($keya."  Njovu");
-                                        echo "............";
-                                        print_array($surveyobject);
-                                        echo "............";
+                                        // print_array($valuec);
+                                        // echo "............";
+                                        // print_array($keya."  Njovu");
+                                        // echo "............";
+                                        // print_array($surveyobject[$keya]);
+                                        // echo "............";
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
-                                        $arrayc['text'] = $array_one['imageifany'];
-                                        $arrayc['value'] = $keya;
-                                        print_array("Here We are yy");
+                                        $is_none=$array_one['imageifany'];
+                                        if(array_key_exists('image-upload',$surveyobject[$keya]) && $is_none=="none"){
+                                            $arrayc['text'] =$surveyobject[$keya]['image-upload'];
+                                            $arrayc['value'] = $keya;
+                                        }else{
+                                            $arrayc['text'] =$is_none;
+                                            $arrayc['value'] = $keya;
+                                        }
+                                        print_array($arrayc);
+                                        // print_array("Here We are yy");
                                     }
                                 }
                                 //End Tricky
