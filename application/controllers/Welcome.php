@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    $this->load->view('pages/hometwo', $data);
+                    // $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -428,6 +428,7 @@ class Welcome extends CI_Controller
                         }
                         //End Test
                         if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
+                            print_array("what na");
                             $title_non_nill="";
                             if(array_key_exists('title',$valuec)){
                                 $title_non_nill=$valuec['title'];
@@ -516,6 +517,7 @@ class Welcome extends CI_Controller
                             // $arrayc['value'] = $keya;
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
+                            print_array("what fuck");
                             // $valuec['name'] == $keya 
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
