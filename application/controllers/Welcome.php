@@ -517,9 +517,9 @@ class Welcome extends CI_Controller
                             // $arrayc['value'] = $keya;
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
-                            print_array("what fuck");
                             // $valuec['name'] == $keya 
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                print_array("what fuck");
                                 $arrayc = array(
                                     'type' => $valuec['type'],
                                     'title' => $valuec['title'],
@@ -585,6 +585,8 @@ class Welcome extends CI_Controller
                                 // $arrayc['text'] = $jaja_image;
                                 // $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
+                            }else {
+                                print_array("what papa");
                             }
                         }
                     }
