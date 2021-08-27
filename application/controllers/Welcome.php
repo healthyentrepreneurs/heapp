@@ -552,16 +552,17 @@ class Welcome extends CI_Controller
                                     }
                                 }
                                 else {
-                                    print_array("what fuck");
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
+                                        print_array("what xap");
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
                                         // print_array("Here We are xx");
                                     }
                                     //End  New Image Versions
                                     else {
+                                        print_array("what xap 2");
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $is_none=$array_one['imageifany'];
