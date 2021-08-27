@@ -551,8 +551,6 @@ class Welcome extends CI_Controller
                                     }
                                 }
                                 else {
-                                    print_array($valuec);
-                                    print_array($keya."  Njovu");
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
@@ -562,7 +560,12 @@ class Welcome extends CI_Controller
                                     }
                                     //End  New Image Versions
                                     else {
-                                        print_array($surveyobject[$keya]);
+                                        print_array($valuec);
+                                        echo "............";
+                                        print_array($keya."  Njovu");
+                                        echo "............";
+                                        print_array($surveyobject);
+                                        echo "............";
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $arrayc['text'] = $array_one['imageifany'];
