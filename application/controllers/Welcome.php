@@ -669,7 +669,7 @@ class Welcome extends CI_Controller
                     print_array($name_final);
                 }
              }
-               if ($status==1) {
+               if ($staus==1) {
                      $this->universal_model->updatez("id", $perone['id'], "survey_report", array('imageifany' =>'1'));
                 }
             //  $_name_image_tra=substr($_name_image, 1);
