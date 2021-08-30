@@ -656,21 +656,20 @@ class Welcome extends CI_Controller
              foreach ($image_process as $key => $value_process) {
                 $name_final = $value_process['name'];
                 $path = FCPATH . "uploadsurvey/" . $name_final;
-                if (file_exists($path)){
-                    continue;
-                }else{
+                if (!file_exists($path)){
                     $_name_image.=",".$name_final; 
-                $one = $value_process['content'];
-                $two = str_replace("data:image/jpeg;base64,", "", $one);
-                file_put_contents($path, base64_decode($two));
-                    // echo "File does not exist.";
-                    print_array($name_final);
-                    print_array($perone['id']);
+                    $one = $value_process['content'];
+                    $two = str_replace("data:image/jpeg;base64,", "", $one);
+                    file_put_contents($path, base64_decode($two));
+                        // echo "File does not exist.";
+                        print_array($name_final);
+                        print_array($perone['id']);
+                    // continue;
                 }
              }
             //  $_name_image_tra=substr($_name_image, 1);
           }else {
-              continue;
+            //   continue;
           }
         }
     }
