@@ -639,4 +639,11 @@ class Welcome extends CI_Controller
         // cleanContent
         return $jaja;
     }
+     public function test_sql()
+    {
+        #6712
+        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+        $attempt_n_n_one = $this->universal_model->selectz('surveyobject', 'survey_report', 'id', '6712');
+        print_array($attempt_n_n_one);
+    }
 }
