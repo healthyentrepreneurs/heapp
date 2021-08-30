@@ -647,8 +647,14 @@ class Welcome extends CI_Controller
         // print_array($attempt_n_n_one);
 
         // public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
-        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',$amount);
-        print_array($attempt_n_n_one);
+        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',25);
+        foreach($attempt_n_n_one as $perone){
+          $step1=json_decode($perone['surveyobject'],true);
+          if(array_key_exists('image-upload',$step1)){
+              print_array($step1);
+          }
+        }
+        // print_array($attempt_n_n_one);
         // $jaja_image = array_shift($surveyobject[$keya]);
         //                         if (!empty($jaja_image)) {
         //                             $name_final = getToken(10) . $jaja_image['name'];
