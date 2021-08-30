@@ -653,7 +653,6 @@ class Welcome extends CI_Controller
           if(array_key_exists('image-upload',$step1)){
              $image_process=$step1['image-upload'];
              $_name_image="";
-             $staus=0;
              foreach ($image_process as $key => $value_process) {
                 $name_final = $value_process['name'];
                 $path = FCPATH . "uploadsurvey/" . $name_final;
@@ -664,14 +663,11 @@ class Welcome extends CI_Controller
                 $one = $value_process['content'];
                 $two = str_replace("data:image/jpeg;base64,", "", $one);
                 file_put_contents($path, base64_decode($two));
-                $staus=1;
                     // echo "File does not exist.";
                     print_array($name_final);
+                    print_array($perone['id']);
                 }
              }
-               if ($staus==1) {
-                     $this->universal_model->updatez("id", $perone['id'], "survey_report", array('imageifany' =>'1'));
-                }
             //  $_name_image_tra=substr($_name_image, 1);
           }else {
               continue;
