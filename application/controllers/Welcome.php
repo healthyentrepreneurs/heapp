@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -428,7 +428,7 @@ class Welcome extends CI_Controller
                         }
                         //End Test
                         if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
-                            print_array("what na");
+                            // print_array("what na");
                             $title_non_nill="";
                             if(array_key_exists('title',$valuec)){
                                 $title_non_nill=$valuec['title'];
@@ -531,7 +531,7 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
-                                    print_array("Here We are pup");
+                                    // print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -581,13 +581,14 @@ class Welcome extends CI_Controller
                                 // $arrayc['text'] = $jaja_image;
                                 // $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
-                            }else {
-                                print_array("What Na");
-                                print_array("-----------------------");
-                                echo "<br>";
-                                print_array($surveyobject);
-                                
                             }
+                            // else {
+                            //     print_array("What Na");
+                            //     print_array("-----------------------");
+                            //     echo "<br>";
+                            //     print_array($surveyobject);
+                                
+                            // }
                         }
                     }
                 }
