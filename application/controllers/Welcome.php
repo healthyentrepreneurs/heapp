@@ -639,7 +639,7 @@ class Welcome extends CI_Controller
         // cleanContent
         return $jaja;
     }
-     public function test_sql()
+     public function test_sql($amount=0)
     {
         #6712 , 6693
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
@@ -647,7 +647,7 @@ class Welcome extends CI_Controller
         // print_array($attempt_n_n_one);
 
         // public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
-        $attempt_n_n_one = $this->universal_model->selectzy('*', 'survey_report', 'imageifany', 'none');
+        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',$amount);
         print_array($attempt_n_n_one);
         // $jaja_image = array_shift($surveyobject[$keya]);
         //                         if (!empty($jaja_image)) {
