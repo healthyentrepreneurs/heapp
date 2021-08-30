@@ -651,25 +651,23 @@ class Welcome extends CI_Controller
         foreach($attempt_n_n_one as $perone){
           $step1=json_decode($perone['surveyobject'],true);
           if(array_key_exists('image-upload',$step1)){
-             $image_process=$step1['image-upload'];
-             $_name_image="";
-             foreach ($image_process as $key => $value_process) {
-                $name_final = $value_process['name'];
-                $path = FCPATH . "uploadsurvey/" . $name_final;
-                if (!file_exists($path)){
-                    $_name_image.=",".$name_final; 
-                    $one = $value_process['content'];
-                    $two = str_replace("data:image/jpeg;base64,", "", $one);
-                    file_put_contents($path, base64_decode($two));
-                        // echo "File does not exist.";
-                        print_array($name_final);
-                        print_array($perone['id']);
-                    // continue;
-                }
-             }
-            //  $_name_image_tra=substr($_name_image, 1);
-          }else {
-            //   continue;
+              print_array($step1);
+            //  $image_process=$step1['image-upload'];
+            //  $_name_image="";
+            //  foreach ($image_process as $key => $value_process) {
+            //     $name_final = $value_process['name'];
+            //     $path = FCPATH . "uploadsurvey/" . $name_final;
+            //     if (!file_exists($path)){
+            //         $_name_image.=",".$name_final; 
+            //         $one = $value_process['content'];
+            //         $two = str_replace("data:image/jpeg;base64,", "", $one);
+            //         file_put_contents($path, base64_decode($two));
+            //             // echo "File does not exist.";
+            //             print_array($name_final);
+            //             print_array($perone['id']);
+            //         // continue;
+            //     }
+            //  }
           }
         }
     }
