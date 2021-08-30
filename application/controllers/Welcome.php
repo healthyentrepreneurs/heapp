@@ -647,29 +647,34 @@ class Welcome extends CI_Controller
         // print_array($attempt_n_n_one);
 
         // public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
-        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',25);
+        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',$amount);
         foreach($attempt_n_n_one as $perone){
           $step1=json_decode($perone['surveyobject'],true);
           if(array_key_exists('image-upload',$step1)){
-              print_array($step1);
+             $image_process=$step1['image-upload'];
+             $_name_image="";
+             foreach ($image_process as $key => $value_process) {
+                $name_final = $value_process['name'];
+                $path = FCPATH . "uploadsurvey/" . $name_final;
+                if (file_exists($path)){
+                    continue;
+                }else{
+                    $_name_image.=",".$name_final; 
+                $one = $value_process['content'];
+                $two = str_replace("data:image/jpeg;base64,", "", $one);
+                file_put_contents($path, base64_decode($two));
+                    // echo "File does not exist.";
+                    print_array($name_final);
+                }
+                
+                // if ($status) {
+                //      $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                // }
+             }
+            //  $_name_image_tra=substr($_name_image, 1);
+          }else {
+              continue;
           }
         }
-        // print_array($attempt_n_n_one);
-        // $jaja_image = array_shift($surveyobject[$keya]);
-        //                         if (!empty($jaja_image)) {
-        //                             $name_final = getToken(10) . $jaja_image['name'];
-        //                             $one = $jaja_image['content'];
-        //                             $two = str_replace("data:image/jpeg;base64,", "", $one);
-        //                             // data:image/jpeg;base64,
-        //                             // $value_baby['image_base_obj'] = $two;
-        //                             $arrayc['text'] = $name_final;
-        //                             $arrayc['value'] = $keya;
-        //                             $path = FCPATH . "uploadsurvey/" . $name_final;
-        //                             $status = file_put_contents($path, base64_decode($two));
-        //                             if ($status) {
-        //                                 // public function updatez($variable, $value, $table_name, $updated_values)
-        //                                 $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
-        //                             }
-        //                         }
     }
 }
