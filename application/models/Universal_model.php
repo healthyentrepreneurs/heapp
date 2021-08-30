@@ -30,11 +30,14 @@ class Universal_model extends CI_Model
         return $query;
     }
 
-    public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+    public function selectz($array_table_n, $table_n, $variable_1, $value_1,$limit=0)
     {
         $this->db->select($array_table_n);
         $this->db->from($table_n);
         $this->db->where($variable_1, $value_1);
+        if($limit>0){
+            $this->db->limit($limit, 0);
+        }
         $query = $this->db->get()->result_array();
         return $query;
     }

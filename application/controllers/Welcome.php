@@ -641,9 +641,29 @@ class Welcome extends CI_Controller
     }
      public function test_sql()
     {
-        #6712
+        #6712 , 6693
         // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        $attempt_n_n_one = $this->universal_model->selectz('surveyobject', 'survey_report', 'id', '6712');
+        // $attempt_n_n_one = $this->universal_model->selectz('surveyobject', 'survey_report', 'id', '6712');
+        // print_array($attempt_n_n_one);
+
+        // public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
+        $attempt_n_n_one = $this->universal_model->selectzy('*', 'survey_report', 'imageifany', 'none');
         print_array($attempt_n_n_one);
+        // $jaja_image = array_shift($surveyobject[$keya]);
+        //                         if (!empty($jaja_image)) {
+        //                             $name_final = getToken(10) . $jaja_image['name'];
+        //                             $one = $jaja_image['content'];
+        //                             $two = str_replace("data:image/jpeg;base64,", "", $one);
+        //                             // data:image/jpeg;base64,
+        //                             // $value_baby['image_base_obj'] = $two;
+        //                             $arrayc['text'] = $name_final;
+        //                             $arrayc['value'] = $keya;
+        //                             $path = FCPATH . "uploadsurvey/" . $name_final;
+        //                             $status = file_put_contents($path, base64_decode($two));
+        //                             if ($status) {
+        //                                 // public function updatez($variable, $value, $table_name, $updated_values)
+        //                                 $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+        //                             }
+        //                         }
     }
 }
