@@ -582,7 +582,10 @@ class Welcome extends CI_Controller
                                 // $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
                             }else {
-                                print_array("what papa");
+                                print_array("-----------------------");
+                                echo "<br>";
+                                print_array($valuec);
+                                
                             }
                         }
                     }
