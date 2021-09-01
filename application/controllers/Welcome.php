@@ -515,7 +515,6 @@ class Welcome extends CI_Controller
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             // $valuec['name'] == $keya 
-                            print_array("Njovu");
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
@@ -528,6 +527,7 @@ class Welcome extends CI_Controller
                                 }
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
+                                print_array("Njovu");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
                                     // print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
@@ -580,13 +580,13 @@ class Welcome extends CI_Controller
                                 // $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
                             }
-                            // else {
-                            //     print_array("What Na");
-                            //     print_array("-----------------------");
-                            //     echo "<br>";
-                            //     print_array($surveyobject);
+                            else {
+                                print_array("What Na");
+                                // print_array("-----------------------");
+                                // echo "<br>";
+                                // print_array($surveyobject);
                                 
-                            // }
+                            }
                         }
                     }
                 }
