@@ -144,7 +144,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -508,12 +508,8 @@ class Welcome extends CI_Controller
                                 }
                             }
                             //End Tricky
-                            // $arrayc['text'] = $jaja_image;
-                            // $arrayc['value'] = $keya;
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
-                            // $valuec['name'] == $keya 
-                            // print_array($surveyobject);
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
@@ -527,7 +523,6 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
-                                    // print_array("hey 1");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -568,23 +563,22 @@ class Welcome extends CI_Controller
                                 }
                                 #Njovu 3
                                 elseif (empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
-                                    print_array($attempt_n_n_one);
-                                //     if(is_array($surveyobject['image-upload'])){
-                                //         $jaja_image = array_shift($surveyobject['image-upload']);
-                                //         $name_final = $jaja_image['name'];
-                                //         $one = $jaja_image['content'];
-                                //         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                //         $arrayc['text'] = $name_final;
-                                //         $arrayc['value'] = $keya;
-                                //         $path = FCPATH . "uploadsurvey/" . $name_final;
-                                //         $status = file_put_contents($path, base64_decode($two));
-                                //         if ($status) {
-                                //             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
-                                //         }
-                                //    }else {
-                                //        $arrayc['text'] = $surveyobject['image-upload'];
-                                //        $arrayc['value'] = $keya;
-                                //    }
+                                    if(is_array($surveyobject['image-upload'])){
+                                        $jaja_image = array_shift($surveyobject['image-upload']);
+                                        $name_final = $jaja_image['name'];
+                                        $one = $jaja_image['content'];
+                                        $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                        $arrayc['text'] = $name_final;
+                                        $arrayc['value'] = $keya;
+                                        $path = FCPATH . "uploadsurvey/" . $name_final;
+                                        $status = file_put_contents($path, base64_decode($two));
+                                        if ($status) {
+                                            $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                        }
+                                   }else {
+                                       $arrayc['text'] = $surveyobject['image-upload'];
+                                       $arrayc['value'] = $keya;
+                                   }
                                 }
                                 else { 
                                     //Start New Image Versions
@@ -592,12 +586,9 @@ class Welcome extends CI_Controller
                                     if (!empty($attempt_n_n_two)) {
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
-                                        // print_array("Here We are xx");
                                     }
                                     //End  New Image Versions
                                     else {
-                                        // print_array("what xap 2");
-                                        // print_array($surveyobject);
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
                                         $is_none=$array_one['imageifany'];
@@ -608,7 +599,6 @@ class Welcome extends CI_Controller
                                             $arrayc['text'] =$is_none;
                                             $arrayc['value'] = $keya;
                                         }
-                                        // print_array($arrayc);
                                     }
                                 }
                                 //End Tricky
