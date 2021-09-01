@@ -567,9 +567,10 @@ class Welcome extends CI_Controller
                                    }
                                 }
                                 else {
-                                    print_array($surveyobject);
-                                    print_array("hey 3");
-                                    print_array($keya);
+                                    // print_array($surveyobject);
+                                    // print_array("hey 3");
+                                    // print_array($keya);
+                                    print_array($attempt_n_n_one);
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
@@ -577,6 +578,10 @@ class Welcome extends CI_Controller
                                         $arrayc['value'] = $keya;
                                         // print_array("Here We are xx");
                                     }
+                                    #Njovu 3
+                                    // elseif (condition) {
+                                    //     # code...
+                                    // }
                                     //End  New Image Versions
                                     else {
                                         // print_array("what xap 2");
