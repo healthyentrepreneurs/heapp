@@ -549,7 +549,9 @@ class Welcome extends CI_Controller
                                 }
                                 //New Usecase 2 Njovu #2
                                 elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
+                                    print_array($surveyobject);
                                     print_array("hey 2");
+                                    print_array($keya);
                                    if(is_array($surveyobject['image-upload'])){
                                         $jaja_image = array_shift($surveyobject['image-upload']);
                                         $name_final = $jaja_image['name'];
@@ -560,7 +562,6 @@ class Welcome extends CI_Controller
                                         $path = FCPATH . "uploadsurvey/" . $name_final;
                                         $status = file_put_contents($path, base64_decode($two));
                                         if ($status) {
-                                            // public function updatez($variable, $value, $table_name, $updated_values)
                                             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
                                         }
                                    }
