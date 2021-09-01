@@ -25,19 +25,17 @@
                     } else if (array_key_exists('text', $value) && $value['type'] == "file") {
                         // To be Revisted
                         $image_sci=$value['text'];
-                        $image_temp="none";
+                        print_array($image_sci);
                         if(is_array($image_sci)){
                             $image_sci_second=array_shift($image_sci);
                             if(array_key_exists('name',$image_sci_second)){
-                                $image_temp=$image_sci_second['name'];
+                                $image_sci=$image_sci_second['name'];
                             }
-                        }else {
-                            $image_temp=$image_sci;
                         }
                         // print_array($image_sci);
                     ?>
                         <td>
-                            <img src="<?= base_url('uploadsurvey/' .$image_temp ) ?>" alt="image" width="100" height="100" />
+                            <img src="<?= base_url('uploadsurvey/' .$image_sci ) ?>" alt="image" width="100" height="100" />
                         </td>
                     <?php
                     } else {

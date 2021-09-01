@@ -553,8 +553,8 @@ class Welcome extends CI_Controller
                                         $name_final = $jaja_image['name'];
                                         $one = $jaja_image['content'];
                                         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                        $arrayc['text'] = $name_final;
-                                        $arrayc['value'] = $keya;
+                                        // $arrayc['text'] = $name_final;
+                                        // $arrayc['value'] = $keya;
                                         $path = FCPATH . "uploadsurvey/" . $name_final;
                                         $status = file_put_contents($path, base64_decode($two));
                                         if ($status) {
