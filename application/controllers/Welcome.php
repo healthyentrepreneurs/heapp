@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -548,7 +548,7 @@ class Welcome extends CI_Controller
                                         $value_baby['value_name'] = "";
                                     }
                                 }
-                                //New Usecase 2
+                                //New Usecase 2 Njovu #2
                                 elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
                                    if(is_array($surveyobject['image-upload'])){
                                         $jaja_image = array_shift($surveyobject['image-upload']);
