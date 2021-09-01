@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    // $this->load->view('pages/hometwo', $data);
+                    $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -245,6 +245,10 @@ class Welcome extends CI_Controller
         // nakafeero_teddy
         return $array_of_output;
         // print_array($array_of_output);
+    }
+    public function report_surveydetails_data_temp($persial_survey, $id)
+    {
+        print_array($persial_survey);
     }
     public function report_surveydetails_data($persial_survey, $id)
     {
@@ -492,22 +496,21 @@ class Welcome extends CI_Controller
                                 }
                             }
                             else {
-                                print_array($surveyobject);
                                 // * Start New Image Versions
                                 // * To Be Back
-                                //     $names_image=$surveyobject[$keya];
-                                //     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
-                                // if (!empty($attempt_n_n_two)) {
-                                //     $arrayc['text'] = $surveyobject[$keya];
-                                //     $arrayc['value'] = $keya;
-                                // }
-                                // // * End  New Image Versions
-                                // else {
-                                //     $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-                                //     $array_one = array_shift($attempt_n_n_one);
-                                //     $arrayc['text'] = $array_one['imageifany'];
-                                //     $arrayc['value'] = $keya;
-                                // }
+                                    $names_image=$surveyobject[$keya];
+                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
+                                if (!empty($attempt_n_n_two)) {
+                                    $arrayc['text'] = $surveyobject[$keya];
+                                    $arrayc['value'] = $keya;
+                                }
+                                // * End  New Image Versions
+                                else {
+                                    $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+                                    $array_one = array_shift($attempt_n_n_one);
+                                    $arrayc['text'] = $array_one['imageifany'];
+                                    $arrayc['value'] = $keya;
+                                }
                             }
                             //End Tricky
                             // $arrayc['text'] = $jaja_image;
