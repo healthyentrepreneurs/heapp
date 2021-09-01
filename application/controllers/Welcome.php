@@ -527,11 +527,6 @@ class Welcome extends CI_Controller
                                 }
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                                print_array("Njovu");
-                                print_array($surveyobject);
-                                print_array("pppp");
-                                print_array($keya);
-                                print_array("~~~~");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
                                     // print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
@@ -552,6 +547,23 @@ class Welcome extends CI_Controller
                                     } else {
                                         $value_baby['value_name'] = "";
                                     }
+                                }
+                                //New Usecase 2
+                                elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
+                                   if(is_array($surveyobject['image-upload'])){
+                                        $jaja_image = array_shift($surveyobject['image-upload']);
+                                        $name_final = $jaja_image['name'];
+                                        $one = $jaja_image['content'];
+                                        $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                        // $arrayc['text'] = $name_final;
+                                        // $arrayc['value'] = $keya;
+                                        $path = FCPATH . "uploadsurvey/" . $name_final;
+                                        $status = file_put_contents($path, base64_decode($two));
+                                        if ($status) {
+                                            // public function updatez($variable, $value, $table_name, $updated_values)
+                                            $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                        }
+                                   }
                                 }
                                 else {
                                     //Start New Image Versions
@@ -584,9 +596,6 @@ class Welcome extends CI_Controller
                                 array_push($array_of_array, $arrayc);
                             }
                             else {
-                                print_array("What Na");
-                                print_array($id);
-                                print_array("***");
                                 // print_array("-----------------------");
                                 // echo "<br>";
                                 // print_array($surveyobject);
