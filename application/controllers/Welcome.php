@@ -552,8 +552,7 @@ class Welcome extends CI_Controller
                                     // print_array($surveyobject);
                                     // print_array("hey 2");
                                     // print_array($keya);
-                                    $arrayc['text'] = $surveyobject[$keya];
-                                    $arrayc['value'] = $keya;
+                                    
                                    if(is_array($surveyobject['image-upload'])){
                                         $jaja_image = array_shift($surveyobject['image-upload']);
                                         $name_final = $jaja_image['name'];
@@ -566,6 +565,8 @@ class Welcome extends CI_Controller
                                         if ($status) {
                                             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
                                         }
+                                        $arrayc['text'] = $jaja_image['name'];
+                                        $arrayc['value'] = $keya;
                                    }
                                 }
                                 else {
