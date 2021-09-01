@@ -513,6 +513,7 @@ class Welcome extends CI_Controller
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             // $valuec['name'] == $keya 
+                            print_array($surveyobject);
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
@@ -648,37 +649,5 @@ class Welcome extends CI_Controller
         $jaja = json_decode($server_output, true);
         // cleanContent
         return $jaja;
-    }
-     public function test_sql($amount=0)
-    {
-        #6712 , 6693
-        // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
-        // $attempt_n_n_one = $this->universal_model->selectz('surveyobject', 'survey_report', 'id', '6712');
-        // print_array($attempt_n_n_one);
-
-        // public function selectzy($array_table_n, $table_n, $variable_1, $value_1, $variable_2, $value_2)
-        $attempt_n_n_one = $this->universal_model->selectz('*', 'survey_report', 'imageifany', 'none',$amount);
-        foreach($attempt_n_n_one as $perone){
-          $step1=json_decode($perone['surveyobject'],true);
-          if(array_key_exists('image-upload',$step1)){
-              print_array($step1);
-             $image_process=$step1['image-upload'];
-            //  $_name_image="";
-            //  foreach ($image_process as $key => $value_process) {
-            //     $name_final = $value_process['name'];
-            //     $path = FCPATH . "uploadsurvey/" . $name_final;
-            //     if (!file_exists($path)){
-            //         $_name_image.=",".$name_final; 
-            //         $one = $value_process['content'];
-            //         $two = str_replace("data:image/jpeg;base64,", "", $one);
-            //         file_put_contents($path, base64_decode($two));
-            //             // echo "File does not exist.";
-            //             print_array($name_final);
-            //             print_array($perone['id']);
-            //         // continue;
-            //     }
-            //  }
-          }
-        }
     }
 }
