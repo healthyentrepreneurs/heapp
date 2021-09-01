@@ -443,8 +443,6 @@ class Welcome extends CI_Controller
 
                             //Old Support Version 1
                             $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
-                            print_array($attempt_n_n_one);
-                            print_array($id);
                             if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
                                 $jaja_image = array_shift($surveyobject[$keya]);
                                 if (!empty($jaja_image)) {
@@ -517,6 +515,7 @@ class Welcome extends CI_Controller
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             // $valuec['name'] == $keya 
+                            print_array("Njovu");
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
