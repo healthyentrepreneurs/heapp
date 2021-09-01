@@ -146,7 +146,7 @@ class Welcome extends CI_Controller
                     $data['content_admin'] = 'pages/admin/survey_instance';
                     $surveyname = $this->input->get('name');
                     $data['surveyname'] = $surveyname;
-                    $this->load->view('pages/hometwo', $data);
+                    // $this->load->view('pages/hometwo', $data);
                     break;
                 case 8:
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
@@ -246,10 +246,7 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
-    public function report_surveydetails_data_temp($persial_survey, $id)
-    {
-        print_array($persial_survey);
-    }
+   
     public function report_surveydetails_data($persial_survey, $id)
     {
         $array_object = array();
