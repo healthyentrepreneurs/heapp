@@ -527,7 +527,7 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
-                                    print_array("hey 1");
+                                    // print_array("hey 1");
                                     $jaja_image = array_shift($surveyobject[$keya]);
                                     if (!empty($jaja_image)) {
                                         $name_final = getToken(10) . $jaja_image['name'];
@@ -549,10 +549,6 @@ class Welcome extends CI_Controller
                                 }
                                 //New Usecase 2 Njovu #2
                                 elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
-                                    // print_array($surveyobject);
-                                    // print_array("hey 2");
-                                    // print_array($keya);
-                                    
                                    if(is_array($surveyobject['image-upload'])){
                                         $jaja_image = array_shift($surveyobject['image-upload']);
                                         $name_final = $jaja_image['name'];
@@ -571,7 +567,9 @@ class Welcome extends CI_Controller
                                    }
                                 }
                                 else {
+                                    print_array($surveyobject);
                                     print_array("hey 3");
+                                    print_array($keya);
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
