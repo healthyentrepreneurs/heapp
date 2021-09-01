@@ -566,11 +566,27 @@ class Welcome extends CI_Controller
                                        $arrayc['value'] = $keya;
                                    }
                                 }
-                                else {
-                                    // print_array($surveyobject);
-                                    // print_array("hey 3");
-                                    // print_array($keya);
+                                #Njovu 3
+                                elseif (empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
                                     print_array($attempt_n_n_one);
+                                //     if(is_array($surveyobject['image-upload'])){
+                                //         $jaja_image = array_shift($surveyobject['image-upload']);
+                                //         $name_final = $jaja_image['name'];
+                                //         $one = $jaja_image['content'];
+                                //         $two = str_replace("data:image/jpeg;base64,", "", $one);
+                                //         $arrayc['text'] = $name_final;
+                                //         $arrayc['value'] = $keya;
+                                //         $path = FCPATH . "uploadsurvey/" . $name_final;
+                                //         $status = file_put_contents($path, base64_decode($two));
+                                //         if ($status) {
+                                //             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
+                                //         }
+                                //    }else {
+                                //        $arrayc['text'] = $surveyobject['image-upload'];
+                                //        $arrayc['value'] = $keya;
+                                //    }
+                                }
+                                else { 
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
@@ -578,10 +594,6 @@ class Welcome extends CI_Controller
                                         $arrayc['value'] = $keya;
                                         // print_array("Here We are xx");
                                     }
-                                    #Njovu 3
-                                    // elseif (condition) {
-                                    //     # code...
-                                    // }
                                     //End  New Image Versions
                                     else {
                                         // print_array("what xap 2");
