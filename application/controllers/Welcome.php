@@ -528,6 +528,8 @@ class Welcome extends CI_Controller
                                 //Tricky
                                 $attempt_n_n_one = $this->universal_model->selectzy('imageifany', 'survey_report', 'id', $id, 'imageifany', "none");
                                 print_array("Njovu");
+                                print_array($id);
+                                print_array("~~~~");
                                 if (!empty($attempt_n_n_one) && is_array($surveyobject[$keya])) {
                                     // print_array("Here We are pup");
                                     $jaja_image = array_shift($surveyobject[$keya]);
@@ -553,7 +555,6 @@ class Welcome extends CI_Controller
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
-                                        print_array("what xap");
                                         $arrayc['text'] = $surveyobject[$keya];
                                         $arrayc['value'] = $keya;
                                         // print_array("Here We are xx");
@@ -582,6 +583,8 @@ class Welcome extends CI_Controller
                             }
                             else {
                                 print_array("What Na");
+                                print_array($id);
+                                print_array("***");
                                 // print_array("-----------------------");
                                 // echo "<br>";
                                 // print_array($surveyobject);
