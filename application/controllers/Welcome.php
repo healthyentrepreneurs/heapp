@@ -57,8 +57,6 @@ class Welcome extends CI_Controller
     }
     public function admin($var = 0, $idnn = null, $id_twonn = null)
     {
-        // print_array($this->session->userdata('logged_in_lodda'));
-        // njovu
         if ($this->session->userdata('logged_in_lodda')) {
             $data['header'] = 'parts/header';
             $data['sidenav'] = 'pages/admin/navadmin';
@@ -555,8 +553,8 @@ class Welcome extends CI_Controller
                                         $name_final = $jaja_image['name'];
                                         $one = $jaja_image['content'];
                                         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                        // $arrayc['text'] = $name_final;
-                                        // $arrayc['value'] = $keya;
+                                        $arrayc['text'] = $name_final;
+                                        $arrayc['value'] = $keya;
                                         $path = FCPATH . "uploadsurvey/" . $name_final;
                                         $status = file_put_contents($path, base64_decode($two));
                                         if ($status) {
