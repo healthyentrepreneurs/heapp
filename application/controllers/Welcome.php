@@ -496,21 +496,22 @@ class Welcome extends CI_Controller
                                 }
                             }
                             else {
+                                print_array($surveyobject);
                                 // * Start New Image Versions
                                 // * To Be Back
-                                    $names_image=$surveyobject[$keya];
-                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
-                                if (!empty($attempt_n_n_two)) {
-                                    $arrayc['text'] = $surveyobject[$keya];
-                                    $arrayc['value'] = $keya;
-                                }
-                                // * End  New Image Versions
-                                else {
-                                    $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
-                                    $array_one = array_shift($attempt_n_n_one);
-                                    $arrayc['text'] = $array_one['imageifany'];
-                                    $arrayc['value'] = $keya;
-                                }
+                                //     $names_image=$surveyobject[$keya];
+                                //     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
+                                // if (!empty($attempt_n_n_two)) {
+                                //     $arrayc['text'] = $surveyobject[$keya];
+                                //     $arrayc['value'] = $keya;
+                                // }
+                                // // * End  New Image Versions
+                                // else {
+                                //     $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
+                                //     $array_one = array_shift($attempt_n_n_one);
+                                //     $arrayc['text'] = $array_one['imageifany'];
+                                //     $arrayc['value'] = $keya;
+                                // }
                             }
                             //End Tricky
                             // $arrayc['text'] = $jaja_image;
@@ -652,7 +653,7 @@ class Welcome extends CI_Controller
           $step1=json_decode($perone['surveyobject'],true);
           if(array_key_exists('image-upload',$step1)){
               print_array($step1);
-            //  $image_process=$step1['image-upload'];
+             $image_process=$step1['image-upload'];
             //  $_name_image="";
             //  foreach ($image_process as $key => $value_process) {
             //     $name_final = $value_process['name'];
