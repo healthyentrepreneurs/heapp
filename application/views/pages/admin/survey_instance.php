@@ -34,7 +34,7 @@
                         }
                     ?>
                         <td>
-                            <img src="<?= base_url('uploadsurvey/' .$image_sci ) ?>" alt="image" width="100%" height="50%" />
+                            <img src="<?= base_url('uploadsurvey/' .$image_sci ) ?>" alt="image" width="100%" height="auto" />
                         </td>
                     <?php
                     } else {
