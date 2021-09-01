@@ -513,8 +513,9 @@ class Welcome extends CI_Controller
                             array_push($array_of_array, $arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "file") {
                             // $valuec['name'] == $keya 
-                            print_array($surveyobject);
+                            // print_array($surveyobject);
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
+                                print_array("hey 1");
                                 $arrayc = array(
                                     'type' => $valuec['type'],
                                     'title' => $valuec['title'],
@@ -595,6 +596,7 @@ class Welcome extends CI_Controller
                                 array_push($array_of_array, $arrayc);
                             }
                             else {
+                                print_array("hey 2");
                                 // print_array("-----------------------");
                                 // echo "<br>";
                                 // print_array($surveyobject);
