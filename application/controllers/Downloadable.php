@@ -1,5 +1,7 @@
 <?php
-ini_set('max_execution_time', '3000');
+// ini_set('max_execution_time', '6000');
+set_time_limit(0);
+ignore_user_abort(true);
 defined('BASEPATH') or exit('No direct script access allowed');
 // header('Access-Control-Allow-Origin: *');
 date_default_timezone_set("Africa/Nairobi");

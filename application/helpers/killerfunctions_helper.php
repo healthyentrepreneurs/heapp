@@ -28,7 +28,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
             break;
     }
-
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $app_auth);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
