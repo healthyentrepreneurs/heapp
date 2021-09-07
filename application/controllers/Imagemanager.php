@@ -51,15 +51,15 @@ class Imagemanager extends CI_Controller
                     $_value_to_up=array(
                         'original_one'=>$modicon,
                         'id_id'=>$id_id_id,
-                        'name'=>$name
+                        // 'name'=>$name
 
                     );
-                    print_array($_value_to_up);
+                    $this->universal_model->updatez('name', $name,'icon_table',$_value_to_up);
+                    // print_array($_value_to_up);
                     // public function updatez($variable, $value, $table_name, $updated_values)
                 }
             }
-            print_array($subcontents);
-            // $this->load->view('pages/hometwo', $data);
+            $this->load->view('pages/hometwo', $data);
         } else {
             $data['content'] = 'pages/index';
             $this->load->view('pages/homeone', $data);
