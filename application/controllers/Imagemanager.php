@@ -40,6 +40,24 @@ class Imagemanager extends CI_Controller
             $data['content_admin'] = 'pages/admin/admin_contentsub';
             $data['sidenav'] = 'pages/admin/navadmin';
             $data['courses_sub'] = $subcontents;
+            foreach ($subcontents as $key_fix => $value_fix) {
+                $ths_id=$value_fix['id'];
+                $module=$value_fix['modules'];
+                foreach ($module as $valuemodule) {
+                    $id_one=$valuemodule['id'];
+                    $id_id_id=$ths_id."@".$id_one;
+                    $name=$valuemodule['name'];
+                    $modicon=$valuemodule['modicon'];
+                    $_value_to_up=array(
+                        'original_one'=>$modicon,
+                        'id_id'=>$id_id_id,
+                        'name'=>$name
+
+                    );
+                    print_array($_value_to_up);
+                    // public function updatez($variable, $value, $table_name, $updated_values)
+                }
+            }
             print_array($subcontents);
             // $this->load->view('pages/hometwo', $data);
         } else {
