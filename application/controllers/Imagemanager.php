@@ -40,8 +40,8 @@ class Imagemanager extends CI_Controller
             $data['content_admin'] = 'pages/admin/admin_contentsub';
             $data['sidenav'] = 'pages/admin/navadmin';
             $data['courses_sub'] = $subcontents;
-            // print_array($server_output);
-            $this->load->view('pages/hometwo', $data);
+            print_array($subcontents);
+            // $this->load->view('pages/hometwo', $data);
         } else {
             $data['content'] = 'pages/index';
             $this->load->view('pages/homeone', $data);
