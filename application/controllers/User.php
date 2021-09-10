@@ -615,7 +615,7 @@ class User extends CI_Controller
         if($show==0){
             print_array($array_elm);
         }else {
-            return $array_elm;
+            echo json_encode($array_elm);
         }
         
     }
