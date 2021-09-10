@@ -28,7 +28,7 @@ class Surveyimage extends CI_Controller
             'upload_path' => "./uploadsurvey/",
             'allowed_types' => "gif|jpg|jpeg|png|iso|dmg|zip|rar|doc|docx|xls|xlsx|ppt|pptx|csv|ods|odt|odp|pdf|rtf|sxc|sxi|txt|exe|avi|mpeg|mp3|mp4|3gp",
             'overwrite' => TRUE,
-            'max_size' => "202048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+            'max_size' => "202048000000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
             'max_height' => "60000",
             'max_width' => "60000"
         );
