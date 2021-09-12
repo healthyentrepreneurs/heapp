@@ -579,7 +579,7 @@ class User extends CI_Controller
     }
     public function get_videosnap($namefile, $vidoeurl)
     {
-        return "https://via.placeholder.com/150";
+        return base_url("uploads_clientapp/placeholderimage.png");
         // try {
         //     $ffmpeg = FFMpeg\FFMpeg::create();
         //     $video = $ffmpeg->open($vidoeurl);
