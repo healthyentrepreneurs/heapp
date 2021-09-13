@@ -605,6 +605,7 @@ class User extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         $array_elm=array();
         foreach ($array_of_output as $key_elm => $value_elm) {
+            print_array($value_elm);
             $in_array_elm=array(
                 'id'=>$value_elm['id'],
                 'shortname'=>$value_elm['shortname'],
