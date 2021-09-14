@@ -530,7 +530,7 @@ class User extends CI_Controller
         return $array_data;
         #End Correction
     }
-    public function get_admin_token()
+    public function get_admin_token($show=0)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
@@ -538,12 +538,11 @@ class User extends CI_Controller
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
-        // if($show==0){
+        if($show==0){
             return $array_of_output;
-        // }
-        // else {
-        //     print_array($array_of_output);
-        // }
+        }else {
+            print_array($array_of_output);
+        }
         
     }
     public function get_chapters_perbookcourse()
@@ -642,8 +641,8 @@ class User extends CI_Controller
         foreach ($_courses_n_array as $courses) {
             $courses['source'] = "moodle";
             $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
-            $courses['next_link'] = $this->get_details_percourse($courses['id'],$token);
-            // $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
+            // $courses['next_link'] = $this->get_details_percourse($courses['id'],$token);
+            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
                 $courses['image_url_small'] =base_url("uploads_clientapp/placeholderimage.png");
@@ -658,11 +657,11 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        // if ($returnformat == 0) {
-        //     return $merge_sanitized_courses;
-        // } else {
-        //     header('Content-Type: application/json');
-        //     echo json_encode($merge_sanitized_courses);
-        // }
+        if ($returnformat == 0) {
+            return $merge_sanitized_courses;
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($merge_sanitized_courses);
+        }
     }
 }
