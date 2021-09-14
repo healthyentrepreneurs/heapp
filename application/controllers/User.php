@@ -617,42 +617,46 @@ class User extends CI_Controller
         }
         if($show==0){
             print_array($array_elm);
-        }else {
+        }
+        else if($show==1){
+            return $array_elm;
+        }
+        else {
             echo json_encode($array_elm);
         }
         
     }
-    // public function get_allmoodle_course_inter($returnformat = 0)
-    // {
-    //     $token = $this->get_admin_token()['token'];
-    //     $_courses = $this->get_list_courses_internal($user_id);
-    //     $_courses_n = array_value_recursive('id', $_courses);
-    //     $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
-    //     $merge_sanitized_courses = array();
-    //     // print_array($_courses_n_array);
-    //     foreach ($_courses_n_array as $courses) {
-    //         $courses['source'] = "moodle";
-    //         $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
-    //         $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
-    //         $courses_overviewfiles = $courses['overviewfiles'];
-    //         if (empty($courses_overviewfiles)) {
-    //             $courses['image_url_small'] = "https://picsum.photos/100/100";
-    //             $courses['image_url'] = "https://picsum.photos/200/300";
-    //         } else {
-    //             $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
-    //             $courses['image_url'] = $courses['image_url_small'];
-    //         }
-    //         $server_output = $this->get_details_percourse($courses['id'], $token, 2);
-    //         if (!empty($server_output) && $courses['categoryid'] != 0) {
-    //             $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
-    //             array_push($merge_sanitized_courses, $sanitized_courses);
-    //         }
-    //     }
-    //     if ($returnformat == 0) {
-    //         return $merge_sanitized_courses;
-    //     } else {
-    //         header('Content-Type: application/json');
-    //         echo json_encode($merge_sanitized_courses);
-    //     }
-    // }
+    public function get_allmoodle_course_inter($returnformat = 0)
+    {
+        $token = $this->get_admin_token()['token'];
+        $_courses = $this->get_allcourse(2);
+        $_courses_n = array_value_recursive('id', $_courses);
+        $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
+        $merge_sanitized_courses = array();
+        // print_array($_courses_n_array);
+        foreach ($_courses_n_array as $courses) {
+            $courses['source'] = "moodle";
+            $courses['summary_custome'] = limit_words(strip_tags($courses['summary']), 120) . " .. ";
+            $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
+            $courses_overviewfiles = $courses['overviewfiles'];
+            if (empty($courses_overviewfiles)) {
+                $courses['image_url_small'] = "https://picsum.photos/100/100";
+                $courses['image_url'] = "https://picsum.photos/200/300";
+            } else {
+                $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
+                $courses['image_url'] = $courses['image_url_small'];
+            }
+            $server_output = $this->get_details_percourse($courses['id'], $token, 2);
+            if (!empty($server_output) && $courses['categoryid'] != 0) {
+                $sanitized_courses = array_slice_keys($courses, array('id', 'categoryid', 'fullname', "summary_custome", 'source', 'next_link', 'image_url_small', 'image_url'));
+                array_push($merge_sanitized_courses, $sanitized_courses);
+            }
+        }
+        if ($returnformat == 0) {
+            return $merge_sanitized_courses;
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($merge_sanitized_courses);
+        }
+    }
 }
