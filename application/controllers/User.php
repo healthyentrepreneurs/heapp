@@ -530,7 +530,7 @@ class User extends CI_Controller
         return $array_data;
         #End Correction
     }
-    public function get_admin_token($show=0)
+    public function get_admin_token()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
@@ -538,11 +538,12 @@ class User extends CI_Controller
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
-        if($show==0){
+        // if($show==0){
             return $array_of_output;
-        }else {
-            print_array($array_of_output);
-        }
+        // }
+        // else {
+        //     print_array($array_of_output);
+        // }
         
     }
     public function get_chapters_perbookcourse()
