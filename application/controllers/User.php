@@ -530,7 +530,7 @@ class User extends CI_Controller
         return $array_data;
         #End Correction
     }
-    public function get_admin_token($how=0)
+    public function get_admin_token($show=0)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
