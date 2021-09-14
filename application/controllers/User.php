@@ -631,7 +631,7 @@ class User extends CI_Controller
     }
     public function get_allmoodle_course_inter($returnformat = 0)
     {
-        $token = $this->get_admin_token()['token'];
+        $token = $this->get_token_mobile()['token'];
         $_courses = $this->get_allcourse(1);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
@@ -663,7 +663,7 @@ class User extends CI_Controller
             echo json_encode($merge_sanitized_courses);
         }
     }
-    public function get_xxx_token($show=0)
+    public function get_token_mobile($show=0)
     {
 
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23&service=moodle_mobile_app';
