@@ -664,4 +664,19 @@ class User extends CI_Controller
             echo json_encode($merge_sanitized_courses);
         }
     }
+    public function get_xxx_token($show=0)
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Mega1java123!@%23';
+        $serverurl = $domainname . '/login/token.php?';
+        $data = array();
+        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        // print_array($array_of_output);
+        if($show==0){
+            return $array_of_output;
+        }else {
+            print_array($array_of_output);
+        }
+        
+    }
 }
