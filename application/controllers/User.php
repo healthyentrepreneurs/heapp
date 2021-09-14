@@ -658,11 +658,11 @@ class User extends CI_Controller
                 array_push($merge_sanitized_courses, $sanitized_courses);
             }
         }
-        if ($returnformat == 0) {
-            return $merge_sanitized_courses;
-        } else {
-            header('Content-Type: application/json');
-            echo json_encode($merge_sanitized_courses);
-        }
+        // if ($returnformat == 0) {
+        //     return $merge_sanitized_courses;
+        // } else {
+        //     header('Content-Type: application/json');
+        //     echo json_encode($merge_sanitized_courses);
+        // }
     }
 }
