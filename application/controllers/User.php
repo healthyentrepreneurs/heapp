@@ -615,15 +615,16 @@ class User extends CI_Controller
             );
             array_push($array_elm,$in_array_elm);
         }
-        if($show==0){
-            print_array($array_elm);
-        }
-        else if($show==1){
-            return $array_elm;
-        }
-        else {
-            echo json_encode($array_elm);
-        }
+        print_array($show);
+        // if($show==0){
+        //     print_array($array_elm);
+        // }
+        // else if($show==1){
+        //     return $array_elm;
+        // }
+        // else {
+        //     echo json_encode($array_elm);
+        // }
         
     }
     public function get_allmoodle_course_inter($returnformat = 0)
