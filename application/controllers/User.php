@@ -30,7 +30,7 @@ class User extends CI_Controller
     {
         // Njovu
         $_courses = $this->get_list_courses_internal($user_id);
-        print_array($_courses);
+        // print_array($_courses);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
         $merge_sanitized_courses = array();
