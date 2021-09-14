@@ -628,7 +628,7 @@ class User extends CI_Controller
     public function get_allmoodle_course_inter($returnformat = 0)
     {
         $token = $this->get_admin_token()['token'];
-        $_courses = $this->get_allcourse(2);
+        $_courses = $this->get_allcourse(1);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
         $merge_sanitized_courses = array();
