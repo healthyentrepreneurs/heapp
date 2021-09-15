@@ -335,7 +335,7 @@ class User extends CI_Controller
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
-            'enrolments' => $par
+            'members' => $par
         );
        echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         // echo json_encode($par);
