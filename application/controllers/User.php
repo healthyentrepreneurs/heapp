@@ -257,16 +257,18 @@ class User extends CI_Controller
     }
     public function set_newuser()
     {
-        if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email'])) {
+        if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['username'])) {
             $firstname     = $this->input->post('firstname');
             $lastname     = $this->input->post('lastname');
             $email           = $this->input->post('email');
-            $city         = "Kampala";
-            $country      = "UG";
+            $username   =$this->input->post("username");
+            $city         = "Nairobi";
+            $country      = "KE";
             $description = "Auto generated description please edit";
+            //Parameters Passed
             $user1 = new stdClass();
-            $user1->username     = mb_strtolower($firstname) . '_' . mb_strtolower($lastname);
-            $user1->password     = "Newuser123!";
+            $user1->username     = $username;
+            $user1->password     = "123456";
             $user1->firstname     = $firstname;
             $user1->lastname     = $lastname;
             $user1->email         = $email;
@@ -309,6 +311,14 @@ class User extends CI_Controller
             }
         } else {
             echo empty_response("Credentials Are Required");
+        }
+    }
+    public function testposts($method=0)
+    {
+        if($method==0){
+            echo json_encode($_POST);
+        }else {
+            echo json_encode($_GET);
         }
     }
     function enrol($user_id, $course_id)
