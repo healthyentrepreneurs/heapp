@@ -299,14 +299,11 @@ class User extends CI_Controller
                 // message
                 echo empty_response(strip_tags($array_of_output['message']));
             } else {
-                // array_map(function ($v1, $v2) {
-                //     echo $v1['id'] . " " . $v2['id'];
-                // }, $array_of_output, $this->get_list_courses());
-                foreach ($this->get_list_courses_internal($token) as $key => $course) {
-                    foreach ($array_of_output as $key => $user) {
-                        $this->enrol($user['id'], $course['id']);
-                    }
-                }
+                // foreach ($this->get_list_courses_internal($token) as $key => $course) {
+                //     foreach ($array_of_output as $key => $user) {
+                //         $this->enrol($user['id'], $course['id']);
+                //     }
+                // }
                 echo empty_response("New User Successfully Created", 200, $array_of_output);
             }
         } else {
