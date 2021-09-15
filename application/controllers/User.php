@@ -322,9 +322,9 @@ class User extends CI_Controller
     {
         $user1 = new stdClass();
         $member->cohorttype[type]='id';
-        $member->cohorttype[value]=2;
+        $member->cohorttype["value"]=2;
         $member->usertype[type]='id';
-        $member->usertype[value]=8;
+        $member->usertype["value"]=8;
         $members = array($member);
         $par = array('members' => $members);
         echo json_encode($par);
