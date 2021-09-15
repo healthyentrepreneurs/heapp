@@ -268,7 +268,7 @@ class User extends CI_Controller
             //Parameters Passed
             $user1 = new stdClass();
             $user1->username     = $username;
-            $user1->password     = "123456";
+            $user1->password     = "Newuser123!";
             $user1->firstname     = $firstname;
             $user1->lastname     = $lastname;
             $user1->email         = $email;
