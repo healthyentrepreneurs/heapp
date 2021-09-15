@@ -318,18 +318,18 @@ class User extends CI_Controller
             echo json_encode($_GET);
         }
     }
-    public function addUserToCohorts()
+    public function addUserToCohorts($chortvalue,$username,$id_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_add_cohort_members';
         $member = new stdClass();
         $member->cohorttype["type"]='idnumber';
-        $member->cohorttype["value"]="CHE_KE_lu";
+        $member->cohorttype["value"]=$chortvalue;
         $member->usertype["type"]='username';
-        $member->usertype["value"]="kojjaxxpp11";
+        $member->usertype["value"]=$username;
         $members = array($member);
-        $par = array('members' => $members);
+        // $par = array('members' => $members);
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
@@ -337,6 +337,12 @@ class User extends CI_Controller
             'moodlewsrestformat' => 'json',
             'members'=>$members
         );
+        $data_copy = array(
+            'id_id' => $id_id,
+            'username' => $username,
+            'password' => 'Newuser123!',
+        );
+        $this->universal_model->updateOnDuplicate('user', $data_copy);
        echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         // echo json_encode($par);
     }
