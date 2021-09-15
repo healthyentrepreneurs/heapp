@@ -321,15 +321,24 @@ class User extends CI_Controller
     public function addUserToCohorts()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = $this->get_admin_token()['token'];
+        $functionname = 'core_cohort_add_cohort_members';
         $member = new stdClass();
-        $member->cohorttype["type"]='id';
-        $member->cohorttype["value"]=2;
-        $member->usertype["type"]='id';
-        $member->usertype["value"]=8;
+        $member->cohorttype["type"]='idnumber';
+        $member->cohorttype["value"]="CHE_KE_lu";
+        $member->usertype["type"]='username';
+        $member->usertype["value"]="kojjaxxpp11";
         $members = array($member);
         $par = array('members' => $members);
-        
-        echo json_encode($par);
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'enrolments' => $par
+        );
+       echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        // echo json_encode($par);
     }
     function enrol($user_id, $course_id)
     {
