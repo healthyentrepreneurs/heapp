@@ -321,9 +321,9 @@ class User extends CI_Controller
     public function addUserToCohorts()
     {
         $user1 = new stdClass();
-        $member->cohorttype[type]='id';
+        $member->cohorttype["type"]='id';
         $member->cohorttype["value"]=2;
-        $member->usertype[type]='id';
+        $member->usertype["type"]='id';
         $member->usertype["value"]=8;
         $members = array($member);
         $par = array('members' => $members);
