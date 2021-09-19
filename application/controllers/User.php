@@ -705,7 +705,7 @@ class User extends CI_Controller
         $serverurl = $domainname . '/login/token.php?';
         $data = array(
             'username'=>"mega",
-            'password'=>'Mega1java123!@#'
+            'password'=>'PapaWemba123!@#X'
         );
         $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
