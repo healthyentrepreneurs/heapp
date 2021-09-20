@@ -8,6 +8,6 @@ https://helper.healthyentrepreneurs.nl/
 
 core_user_get_users
 
-
-
 https://app.healthyentrepreneurs.nl/admin/tool/trigger/edit.php?workflowid=0
+
+"Content-Type: application/json\r\nAccept: application/json\r\n"

@@ -112,9 +112,13 @@ class Moodle extends CI_Controller
 
     public function adduserfrommoodle($state = 0)
     {
+        // papa Mega1java123!@# papa@gmail.com
+        // https://app.healthyentrepreneurs.nl/admin/tool/trigger/manage.php
         // testpost
         // jsonobject
         if ($state == 0) {
+            $_POST['papa']=1;
+            $_POST['jaja']="njovu";
             $json_obj = json_encode($_POST);
             $data_copy = array(
                 'jsonobject' => $json_obj
