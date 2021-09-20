@@ -162,8 +162,8 @@ class User extends CI_Controller
                                 $is_caption = FCPATH . 'vidoeimages/' . $imagename;
                                 if (file_exists($is_caption) == false) {
                                     // try {
-                                        $video_url = $content_value['fileurl'] . "?token=" . $token;
-                                        $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
+                                    $video_url = $content_value['fileurl'] . "?token=" . $token;
+                                    $content_value['videocaption'] = $this->get_videosnap($imagename, $video_url);
                                     // } catch (RuntimeException $e) {
                                     // }
                                 } else {
@@ -261,7 +261,7 @@ class User extends CI_Controller
             $firstname     = $this->input->post('firstname');
             $lastname     = $this->input->post('lastname');
             $email           = $this->input->post('email');
-            $username   =$this->input->post("username");
+            $username   = $this->input->post("username");
             $city         = "Nairobi";
             $country      = "KE";
             $description = "Auto generated description please edit";
@@ -310,24 +310,24 @@ class User extends CI_Controller
             echo empty_response("Credentials Are Required");
         }
     }
-    public function testposts($method=0)
+    public function testposts($method = 0)
     {
-        if($method==0){
+        if ($method == 0) {
             echo json_encode($_POST);
-        }else {
+        } else {
             echo json_encode($_GET);
         }
     }
-    public function addUserToCohorts($chortvalue,$username,$id_id)
+    public function addUserToCohorts($chortvalue, $username, $id_id)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_add_cohort_members';
         $member = new stdClass();
-        $member->cohorttype["type"]='idnumber';
-        $member->cohorttype["value"]=$chortvalue;
-        $member->usertype["type"]='username';
-        $member->usertype["value"]=$username;
+        $member->cohorttype["type"] = 'idnumber';
+        $member->cohorttype["value"] = $chortvalue;
+        $member->usertype["type"] = 'username';
+        $member->usertype["value"] = $username;
         $members = array($member);
         // $par = array('members' => $members);
         $serverurl = $domainname . '/webservice/rest/server.php';
@@ -335,7 +335,7 @@ class User extends CI_Controller
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
-            'members'=>$members
+            'members' => $members
         );
         $data_copy = array(
             'id_id' => $id_id,
@@ -343,7 +343,7 @@ class User extends CI_Controller
             'password' => 'Newuser123!',
         );
         $this->universal_model->updateOnDuplicate('user', $data_copy);
-       echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         // echo json_encode($par);
     }
     function enrol($user_id, $course_id)
@@ -565,19 +565,18 @@ class User extends CI_Controller
         return $array_data;
         #End Correction
     }
-    public function get_admin_token($show=0)
+    public function get_admin_token($show = 0)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=PapaWemba123!@%23X&service=addusers';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
-        if($show==0){
+        if ($show == 0) {
             return $array_of_output;
-        }else {
+        } else {
             print_array($array_of_output);
         }
-        
     }
     public function get_chapters_perbookcourse()
     {
@@ -631,7 +630,7 @@ class User extends CI_Controller
         //     return "";
         // }
     }
-    public  function get_allcourse($show=0)
+    public  function get_allcourse($show = 0)
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
@@ -644,25 +643,22 @@ class User extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        $array_elm=array();
+        $array_elm = array();
         foreach ($array_of_output as $key_elm => $value_elm) {
-            $in_array_elm=array(
-                'id'=>$value_elm['id'],
-                'shortname'=>$value_elm['shortname'],
-                'fullname'=>$value_elm['fullname']
+            $in_array_elm = array(
+                'id' => $value_elm['id'],
+                'shortname' => $value_elm['shortname'],
+                'fullname' => $value_elm['fullname']
             );
-            array_push($array_elm,$in_array_elm);
+            array_push($array_elm, $in_array_elm);
         }
-        if($show==0){
+        if ($show == 0) {
             print_array($array_elm);
-        }
-        else if($show==1){
+        } else if ($show == 1) {
             return $array_elm;
-        }
-        else {
+        } else {
             echo json_encode($array_elm);
         }
-        
     }
     public function get_allmoodle_course_inter($returnformat = 0)
     {
@@ -679,7 +675,7 @@ class User extends CI_Controller
             $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
-                $courses['image_url_small'] =base_url("uploads_clientapp/placeholderimage.png");
+                $courses['image_url_small'] = base_url("uploads_clientapp/placeholderimage.png");
                 $courses['image_url'] = base_url("uploads_clientapp/placeholderimage.png");
             } else {
                 $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
@@ -698,23 +694,22 @@ class User extends CI_Controller
             echo json_encode($merge_sanitized_courses);
         }
     }
-    public function get_token_mobile($show=0)
+    public function get_token_mobile($show = 0)
     {
 
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=PapaWemba123!@%23X&service=moodle_mobile_app';
         $serverurl = $domainname . '/login/token.php?';
         $data = array(
-            'username'=>"mega",
-            'password'=>'PapaWemba123!@#X'
+            'username' => "mega",
+            'password' => 'PapaWemba123!@#X'
         );
         $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // print_array($array_of_output);
-        if($show==0){
+        if ($show == 0) {
             return $array_of_output;
-        }else {
+        } else {
             print_array($array_of_output);
         }
-        
     }
 }

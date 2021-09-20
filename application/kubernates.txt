@@ -1,0 +1,33 @@
+Phase 1
+https://www.pluralsight.com/courses/getting-started-google-kubernetes-engine-4
+https://www.pluralsight.com/courses/kubernetes-monitoring-scaling-applications
+https://www.pluralsight.com/courses/configuring-managing-kubernetes-networking-services-ingress
+
+Phase 2
+https://www.pluralsight.com/courses/kubernetes-developers-deploying-code
+https://www.pluralsight.com/courses/configuring-managing-kubernetes-security
+https://www.pluralsight.com/courses/deploying-managing-aks-clusters
+
+Phase 3
+https://www.pluralsight.com/courses/kubernetes-getting-started
+https://www.pluralsight.com/courses/kubernetes-developers-moving-cloud
+https://www.pluralsight.com/courses/docker-kubernetes-dot-net-developers-fundamentals
+
+Phase 4
+https://www.pluralsight.com/courses/docker-kubernetes-big-picture
+https://www.pluralsight.com/courses/managing-advanced-kubernetes-logging-tracing
+https://www.pluralsight.com/courses/azure-container-service-big-picture
+
+Phase 5
+https://www.pluralsight.com/courses/kubernetes-developers-core-concepts
+https://www.pluralsight.com/courses/maintaining-monitoring-troubleshooting-kubernetes
+https://www.pluralsight.com/courses/kubernetes-creating-custom-resources
+
+Phase 6
+https://www.pluralsight.com/courses/configuring-managing-kubernetes-storage-scheduling
+https://www.pluralsight.com/courses/live-europe-2020-kubernetes
+https://www.pluralsight.com/courses/kubernetes-installation-configuration-fundamentals
+
+Phase 7
+https://www.pluralsight.com/courses/managing-kubernetes-controllers-deployments
+https://www.pluralsight.com/courses/istio-managing-apps-kubernetes

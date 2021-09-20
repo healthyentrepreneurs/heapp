@@ -99,15 +99,30 @@ class Moodle extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-     public function get_admin_token()
+    public function get_admin_token()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=PapaWemba123!@%23X&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
-        $data = array(
-        );
+        $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         //print_array($array_of_output);
         return $array_of_output;
+    }
+
+    public function adduserfrommoodle($state = 0)
+    {
+        // testpost
+        // jsonobject
+        if ($state == 0) {
+            $json_obj = json_encode($_POST);
+            $data_copy = array(
+                'jsonobject' => $json_obj
+            );
+            $this->universal_model->updateOnDuplicate('testpost', $data_copy);
+            echo $json_obj;
+        } else {
+            echo "joshia";
+        }
     }
 }
