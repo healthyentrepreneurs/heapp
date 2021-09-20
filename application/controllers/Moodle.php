@@ -119,29 +119,20 @@ class Moodle extends CI_Controller
         if ($state == 0) {
             // $_POST['papa']=1;
             // $_POST['jaja']="njovu";
-            $json_obj = json_encode($_POST);
-            // $entityBody = file_get_contents('php://input');
+            // $json_obj = json_encode($_POST);
+            $entityBody = file_get_contents('php://input');
             $data_copy = array(
-                'jsonobject' => $json_obj
+                'jsonobject' => $entityBody
             );
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
-            echo $json_obj;
+            echo $entityBody;
         } else {
             echo "joshia";
         }
     }
 }
 
+// Content-Type: application/json
+// Accept: application/json
 
-
-// Error execute workflow step: 3, \tool_trigger\steps\actions\http_post_action_step Invalid response value detected (HTTP Response code expected was 200, received 400)
-// line 235 of /admin/tool/trigger/classes/event_processor.php: call to debugging()
-// line 199 of /admin/tool/trigger/classes/event_processor.php: call to tool_trigger\event_processor->process_realtime_workflow()
-// line 111 of /admin/tool/trigger/classes/event_processor.php: call to tool_trigger\event_processor->process_realtime_workflows()
-// line 72 of /admin/tool/trigger/classes/event_processor.php: call to tool_trigger\event_processor->write()
-// line ? of unknownfile: call to tool_trigger\event_processor::process_event()
-// line 155 of /lib/classes/event/manager.php: call to call_user_func()
-// line 75 of /lib/classes/event/manager.php: call to core\event\manager::process_buffers()
-// line 834 of /lib/classes/event/base.php: call to core\event\manager::dispatch()
-// line 4379 of /lib/moodlelib.php: call to core\event\base->trigger()
-// line 107 of /admin/user.php: call to delete_user()
+// user[0]={user_id}&user[1]={user_username}&user[2]={user_firstname}&user[3]={user_lastname}
