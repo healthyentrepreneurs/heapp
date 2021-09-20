@@ -117,14 +117,16 @@ class Moodle extends CI_Controller
         // testpost
         // jsonobject
         if ($state == 0) {
-            $_POST['papa']=1;
-            $_POST['jaja']="njovu";
-            $json_obj = json_encode($_POST);
+            // $_POST['papa']=1;
+            // $_POST['jaja']="njovu";
+            // $json_obj = json_encode($_POST);
+            $entityBody = file_get_contents('php://input');
+            // $array_nana = json_decode($entityBody, true);
             $data_copy = array(
-                'jsonobject' => $json_obj
+                'jsonobject' => $entityBody
             );
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
-            echo $json_obj;
+            echo $entityBody;
         } else {
             echo "joshia";
         }
