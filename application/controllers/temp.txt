@@ -8,6 +8,16 @@ https://helper.healthyentrepreneurs.nl/
 
 core_user_get_users
 
-https://app.healthyentrepreneurs.nl/admin/tool/trigger/edit.php?workflowid=0
+//Small Icons Again
+https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon  #Trendy
 
-"Content-Type: application/json\r\nAccept: application/json\r\n"
+https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon #Updated
+
+
+https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1602920007/icon #old
+
+
+
+UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"
+
+UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"

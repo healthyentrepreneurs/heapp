@@ -112,7 +112,7 @@ class Moodle extends CI_Controller
 
     public function adduserfrommoodle($state = 0)
     {
-        // papa Mega1java123!@# papa@gmail.com
+        // papa Mega1java123!@# papa@gmail.com / papax@gmail.com  papay papata
         // https://app.healthyentrepreneurs.nl/admin/tool/trigger/manage.php
         // testpost
         // jsonobject
@@ -132,7 +132,8 @@ class Moodle extends CI_Controller
     }
 }
 
-// Content-Type: application/json
-// Accept: application/json
+// Content-Type: application/json Accept: application/json
 
 // user[0]={user_id}&user[1]={user_username}&user[2]={user_firstname}&user[3]={user_lastname}
+
+// action=course_completion&course[0]={course_id}&course[0]={course_shortname}&user[0]={user_id}&user[1]={user_username}&user[2]={user_firstname}&user[3]={user_lastname}
