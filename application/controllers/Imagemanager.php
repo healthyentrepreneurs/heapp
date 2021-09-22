@@ -89,13 +89,24 @@ class Imagemanager extends CI_Controller
     }
     public function upload_resize()
     {
-    
-        // $this->validate_image("user_profile_pic");
-        // print_array("ehehe");
-        // echo json_encode($_POST);
-        $this->addemployee_subfunc();
+        // $config['upload_path']          = './uploads/';
+        $config['upload_path'] = './uploadicons/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('user_profile_pic')) {
+            $error = array('error' => $this->upload->display_errors());
+            print_array($error);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            print_array($data);
+        }
+        // $this->addemployee_subfunc();
         // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
-        // $this->validate_image("papa");
     }
     function addemployee_subfunc()
     {
