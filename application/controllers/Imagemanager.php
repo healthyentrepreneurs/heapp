@@ -131,6 +131,8 @@ class Imagemanager extends CI_Controller
                 $user_add = array(
                     'name' => $this->input->post('name'),
                     'type' => $this->input->post('type'),
+                    'bookid' => $this->input->post('bookid'),
+                    'couseid' => $this->input->post('couseid'),
                     'original' => $this->input->post('original'),
                     'original_one' => $_original,
                     'image_small' => $this->input->post('image_small'),
