@@ -94,7 +94,7 @@ class Imagemanager extends CI_Controller
         // print_array("ehehe");
         // echo json_encode($_POST);
         $this->addemployee_subfunc();
-        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
+        // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
         // $this->validate_image("papa");
     }
     function addemployee_subfunc()
