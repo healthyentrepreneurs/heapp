@@ -126,9 +126,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                print_array($user_add);
-                print_array("Success");
-                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                // print_array($user_add);
+                // print_array("Success");
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             } else {
                 $_original = array_shift($value_check)['original_one'];
                 $user_add = array(
@@ -140,9 +140,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                print_array("Success X");
-                print_array($user_add);
-                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                // print_array("Success X");
+                // print_array($user_add);
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             }
         } else {
             $_POST['original'] = $this->input->post('original');
