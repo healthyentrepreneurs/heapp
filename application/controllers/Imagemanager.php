@@ -87,7 +87,7 @@ class Imagemanager extends CI_Controller
             $this->load->view('pages/homeone', $data);
         }
     }
-    public function upload_resize_n()
+    public function upload_resize()
     {
         $this->addemployee_subfunc();
         // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
@@ -121,9 +121,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                // print_array($user_add);
-                // print_array("Success");
-                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                print_array($user_add);
+                print_array("Success");
+                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             } else {
                 $_original = array_shift($value_check)['original_one'];
                 $user_add = array(
@@ -135,9 +135,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                // print_array("Success X");
-                // print_array($user_add);
-                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                print_array($user_add);
+                print_array("Success X");
+                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             }
         } else {
             $_POST['original'] = $this->input->post('original');
@@ -149,7 +149,7 @@ class Imagemanager extends CI_Controller
     {
         $config['overwrite'] = TRUE;
         // $config['upload_path']          = APPPATH.'datamine/';
-        $config['upload_path'] = './uploadscustome/';
+        $config['upload_path'] = './uploadicons/';
         $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
         $config['max_width'] = '6000';
@@ -165,45 +165,45 @@ class Imagemanager extends CI_Controller
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
                 $this->session->set_flashdata('validate_image', "Please Select An Image Icon");
-                print_array("You did not select a file to uploads");
+                // print_array("You did not select a file to uploads");
                 return FALSE;
             }
             if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'The filetype you are attempting to upload is not allowed');
                 $this->session->set_flashdata('validate_image', "The filetype you are attempting to upload is not allowed");
-                print_array("The filetype you are attempting to upload is not allowed");
+                // print_array("The filetype you are attempting to upload is not allowed");
                 return FALSE;
             }
             if (strpos($error['error'], "The image you are attempting to upload doesn't fit into the allowed dimensions.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
                 $this->session->set_flashdata('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
-                print_array("The filetype you are attempting to upload is not allowed");
+                // print_array("The filetype you are attempting to upload is not allowed");
                 return FALSE;
             }
             if (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The uploaded file exceeds the maximum allowed");
-                print_array("The uploaded file exceeds the maximum allowed size in your");
+                // print_array("The uploaded file exceeds the maximum allowed size in your");
                 $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
                 return FALSE;
             }
             if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
-                print_array("The upload path does not appear to be valid.");
-                $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
+                // print_array("The upload path does not appear to be valid.");
+                $this->form_validation->set_message('validate_image', 'The upload path is not valid');
                 return FALSE;
             }
-            // if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
-            //     $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
-            //     print_array("The upload path does not appear to be valid.");
-            //     $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
-            //     return FALSE;
-            // }
-            // upload destination folder does not appear to be writable
+            if (strpos($error['error'], "The upload destination folder does not appear to be writable.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The upload destination folder does not appear to be writable.");
+                // print_array("The upload destination folder does not appear to be writable.");
+                $this->form_validation->set_message('validate_image', 'Distination Folder Not writtable');
+                return FALSE;
+            }
+            //The upload destination folder does not appear to be writable
             // The upload path does not appear to be valid.
             // if()
         } else {
             $this->session->set_flashdata('validate_image_success', "Successfully Uploaded");
-            print_array("Mamama");
+            // print_array("Mamama");
             return TRUE;
         }
     }
@@ -225,7 +225,7 @@ class Imagemanager extends CI_Controller
         $image->resizeToBestFit($width, $height);
         $image->save($new_image);
     }
-    public function upload_resize()
+    public function test_imageupload()
     {
         // $config['upload_path']          = './uploads/';
         $config['upload_path'] = './uploadicons/';
