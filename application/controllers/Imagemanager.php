@@ -87,25 +87,9 @@ class Imagemanager extends CI_Controller
             $this->load->view('pages/homeone', $data);
         }
     }
-    public function upload_resize()
+    public function upload_resize_n()
     {
-        // $config['upload_path']          = './uploads/';
-        $config['upload_path'] = './uploadicons/';
-        $config['allowed_types']        = 'gif|jpg|png';
-        $config['max_size']             = 100;
-        $config['max_width']            = 1024;
-        $config['max_height']           = 768;
-
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload('user_profile_pic')) {
-            $error = array('error' => $this->upload->display_errors());
-            print_array($error);
-        } else {
-            $data = array('upload_data' => $this->upload->data());
-            print_array($data);
-        }
-        // $this->addemployee_subfunc();
+        $this->addemployee_subfunc();
         // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
     }
     function addemployee_subfunc()
@@ -165,7 +149,7 @@ class Imagemanager extends CI_Controller
     {
         $config['overwrite'] = TRUE;
         // $config['upload_path']          = APPPATH.'datamine/';
-        $config['upload_path'] = './uploadicons/';
+        $config['upload_path'] = './uploadscustome/';
         $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
         $config['max_width'] = '6000';
@@ -208,6 +192,13 @@ class Imagemanager extends CI_Controller
                 $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
                 return FALSE;
             }
+            // if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
+            //     $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
+            //     print_array("The upload path does not appear to be valid.");
+            //     $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
+            //     return FALSE;
+            // }
+            // upload destination folder does not appear to be writable
             // The upload path does not appear to be valid.
             // if()
         } else {
@@ -233,5 +224,26 @@ class Imagemanager extends CI_Controller
         $image = new ImageResize($image_source);
         $image->resizeToBestFit($width, $height);
         $image->save($new_image);
+    }
+    public function upload_resize()
+    {
+        // $config['upload_path']          = './uploads/';
+        $config['upload_path'] = './uploadicons/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 100;
+        $config['max_width']            = 1024;
+        $config['max_height']           = 768;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('user_profile_pic')) {
+            $error = array('error' => $this->upload->display_errors());
+            print_array($error);
+        } else {
+            $data = array('upload_data' => $this->upload->data());
+            print_array($data);
+        }
+        // $this->addemployee_subfunc();
+        // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
     }
 }
