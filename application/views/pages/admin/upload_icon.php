@@ -68,6 +68,8 @@
                             <input id="original" class="hidden" type="text" name="original" value="<?= $icon_image ?>" />
                             <input id="name" class="hidden" type="text" name="name" value="<?= $name ?>" />
                             <input id="type" class="hidden" type="text" name="type" value="<?= $type ?>" />
+                            <input id="couseid" class="hidden" type="text" name="couseid" value="<?= $couseid ?>" />
+                            <input id="bookid" class="hidden" type="text" name="bookid" value="<?= $bookid ?>" />
                         </div>
                     </div>
                     <div class="alert alert-warning">

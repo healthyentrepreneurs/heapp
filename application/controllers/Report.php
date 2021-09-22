@@ -26,10 +26,7 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-    public function maybadphp(Type $var = null)
-    {
-        # code...
-    }
+    
     public function jaja()
     {
         $startMemory = memory_get_usage();
