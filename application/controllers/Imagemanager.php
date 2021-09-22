@@ -90,7 +90,7 @@ class Imagemanager extends CI_Controller
     public function upload_resize()
     {
         $this->addemployee_subfunc();
-        // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
+        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type') . '&couseid=' . $this->input->post('couseid') . '&bookid=' . $this->input->post('bookid')));
     }
     function addemployee_subfunc()
     {
@@ -115,6 +115,8 @@ class Imagemanager extends CI_Controller
                 $user_add = array(
                     'name' => $this->input->post('name'),
                     'type' => $this->input->post('type'),
+                    'bookid' => $this->input->post('bookid'),
+                    'couseid' => $this->input->post('couseid'),
                     'original' => $this->input->post('original'),
                     'original_one' => $this->input->post('original_one'),
                     'image_small' => $this->input->post('image_small'),
