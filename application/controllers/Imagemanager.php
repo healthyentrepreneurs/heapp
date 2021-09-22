@@ -90,7 +90,7 @@ class Imagemanager extends CI_Controller
     public function upload_resize()
     {
         $this->addemployee_subfunc();
-        // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type') . '&couseid=' . $this->input->post('couseid') . '&bookid=' . $this->input->post('bookid')));
+        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type') . '&couseid=' . $this->input->post('couseid') . '&bookid=' . $this->input->post('bookid')));
     }
     function addemployee_subfunc()
     {
@@ -123,9 +123,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                print_array($user_add);
-                print_array("Success");
-                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                // print_array($user_add);
+                // print_array("Success");
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             } else {
                 $_original = array_shift($value_check)['original_one'];
                 $user_add = array(
@@ -139,9 +139,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                print_array($user_add);
-                print_array("Success X");
-                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                // print_array($user_add);
+                // print_array("Success X");
+                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             }
         } else {
             $_POST['original'] = $this->input->post('original');
