@@ -41,7 +41,7 @@
             </div>
             <div class="panel-body">
                 <h4 class="success"><?php echo ($this->session->flashdata('validate_image_success')) ?></h4>
-                <form id="upload_icon" method="post" class="form-horizontal" enctype="multipart/form-data" role="form" action="#">
+                <form id="upload_icon" method="post" class="form-horizontal" enctype="multipart/form-data" role="form" action="<?= base_url('imagemanager/upload_resize') ?>">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">
                             <b>Click On Image To Upload</b>

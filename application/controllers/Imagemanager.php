@@ -68,12 +68,16 @@ class Imagemanager extends CI_Controller
         $_link_content = $this->input->get('link');
         $name = $this->input->get('name');
         $type = $this->input->get('type');
+        $couseid = $this->input->get('couseid');
+        $bookid = $this->input->get('bookid');
         $next_link_course = decryptValue($_link_content);
         // echo $type;
         if ($this->session->userdata('logged_in_lodda')) {
             $data['header'] = 'parts/header';
             $data['name'] = $name;
             $data['type'] = $type;
+            $data['couseid'] = $couseid;
+            $data['bookid'] = $bookid;
             $data['icon_image'] = $next_link_course;
             $data['content_admin'] = 'pages/admin/upload_icon';
             $data['sidenav'] = 'pages/admin/navadmin';
@@ -85,10 +89,13 @@ class Imagemanager extends CI_Controller
     }
     public function upload_resize()
     {
+    
+        // $this->validate_image("user_profile_pic");
+        // print_array("ehehe");
+        // echo json_encode($_POST);
         $this->addemployee_subfunc();
-        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type')));
-        // original
-        // print_array($this->input->post('original'));
+        redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
+        // $this->validate_image("papa");
     }
     function addemployee_subfunc()
     {
@@ -119,7 +126,9 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                print_array($user_add);
+                print_array("Success");
+                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             } else {
                 $_original = array_shift($value_check)['original_one'];
                 $user_add = array(
@@ -131,16 +140,20 @@ class Imagemanager extends CI_Controller
                     'image_medium' => $this->input->post('image_medium'),
                     'image_big' => $this->input->post('image_big'),
                 );
-                $this->universal_model->updateOnDuplicate('icon_table', $user_add);
+                print_array("Success X");
+                print_array($user_add);
+                // $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             }
         } else {
             $_POST['original'] = $this->input->post('original');
+            print_array($_POST);
             # code...
         }
     }
     public function validate_image($generatedname)
     {
         $config['overwrite'] = TRUE;
+        // $config['upload_path']          = APPPATH.'datamine/';
         $config['upload_path'] = './uploadicons/';
         $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
@@ -157,29 +170,38 @@ class Imagemanager extends CI_Controller
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
                 $this->session->set_flashdata('validate_image', "Please Select An Image Icon");
-                // print_array("You did not select a file to uploads");
+                print_array("You did not select a file to uploads");
                 return FALSE;
             }
             if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'The filetype you are attempting to upload is not allowed');
                 $this->session->set_flashdata('validate_image', "The filetype you are attempting to upload is not allowed");
-                // print_array("The filetype you are attempting to upload is not allowed");
+                print_array("The filetype you are attempting to upload is not allowed");
                 return FALSE;
             }
             if (strpos($error['error'], "The image you are attempting to upload doesn't fit into the allowed dimensions.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
                 $this->session->set_flashdata('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
-                // print_array("The filetype you are attempting to upload is not allowed");
+                print_array("The filetype you are attempting to upload is not allowed");
                 return FALSE;
             }
             if (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The uploaded file exceeds the maximum allowed");
-                // print_array("The uploaded file exceeds the maximum allowed size in your");
+                print_array("The uploaded file exceeds the maximum allowed size in your");
                 $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
                 return FALSE;
             }
+            if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
+                print_array("The upload path does not appear to be valid.");
+                $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
+                return FALSE;
+            }
+            // The upload path does not appear to be valid.
+            // if()
         } else {
             $this->session->set_flashdata('validate_image_success', "Successfully Uploaded");
+            print_array("Mamama");
             return TRUE;
         }
     }

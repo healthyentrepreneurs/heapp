@@ -21,3 +21,6 @@ https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1602920007/i
 UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"
 
 UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"
+
+couseid
+bookid
