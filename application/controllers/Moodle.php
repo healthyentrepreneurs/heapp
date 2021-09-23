@@ -110,22 +110,20 @@ class Moodle extends CI_Controller
         return $array_of_output;
     }
 
-    public function adduserfrommoodle($state = 0)
+    public function pullfrommod($state = 1)
     {
         // papa Mega1java123!@# papa@gmail.com / papax@gmail.com  papay papata
         // https://app.healthyentrepreneurs.nl/admin/tool/trigger/manage.php
         // testpost
         // jsonobject
+        // $entityBody = file_get_contents('php://input');
+        $data_pushed = json_encode($_POST);
         if ($state == 0) {
-            // $_POST['papa']=1;
-            // $_POST['jaja']="njovu";
-            // $json_obj = json_encode($_POST);
-            $entityBody = file_get_contents('php://input');
             $data_copy = array(
-                'jsonobject' => $entityBody
+                'jsonobject' => $data_pushed
             );
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
-            echo $entityBody;
+            echo $data_pushed;
         } else {
             echo "joshia";
         }

@@ -40,23 +40,23 @@ class Imagemanager extends CI_Controller
             $data['content_admin'] = 'pages/admin/admin_contentsub';
             $data['sidenav'] = 'pages/admin/navadmin';
             $data['courses_sub'] = $subcontents;
-            // foreach ($subcontents as $key_fix => $value_fix) {
-            //     $ths_id=$value_fix['id'];
-            //     $module=$value_fix['modules'];
-            //     foreach ($module as $valuemodule) {
-            //         $id_one=$valuemodule['id'];
-            //         $id_id_id=$ths_id."@".$id_one;
-            //         $name=$valuemodule['name'];
-            //         $modicon=$valuemodule['modicon'];
-            //         $_value_to_up=array(
-            //             'original_one'=>$modicon,
-            //             'id_id'=>$id_id_id,
-            //             // 'name'=>$name
-
-            //         );
-            //         $this->universal_model->updatez('name', $name,'icon_table',$_value_to_up);
-            //     }
-            // }
+            foreach ($subcontents as $key_fix => $value_fix) {
+                $ths_id = $value_fix['id'];
+                $module = $value_fix['modules'];
+                foreach ($module as $valuemodule) {
+                    $id_one = $valuemodule['id'];
+                    $name = $valuemodule['name'];
+                    // $modicon=$valuemodule['modicon'];
+                    $_value_to_up = array(
+                        'couseid' => $ths_id,
+                        'bookid' => $id_one
+                    );
+                    $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table',$_value_to_up);
+                    // $_id_array = array_shift($pwapa);
+                    // public function updatez($variable, $value, $table_name, $updated_values)
+                    // $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
+                }
+            }
             $this->load->view('pages/hometwo', $data);
         } else {
             $data['content'] = 'pages/index';
@@ -249,5 +249,10 @@ class Imagemanager extends CI_Controller
         }
         // $this->addemployee_subfunc();
         // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
+    }
+    public function test_icons()
+    {
+        // $pwapa = $this->universal_model->updatez_maxone('name', "HIV-Okawuka kasiriimu");
+        // print_array($pwapa);
     }
 }

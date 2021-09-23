@@ -30,12 +30,12 @@ class Universal_model extends CI_Model
         return $query;
     }
 
-    public function selectz($array_table_n, $table_n, $variable_1, $value_1,$limit=0)
+    public function selectz($array_table_n, $table_n, $variable_1, $value_1, $limit = 0)
     {
         $this->db->select($array_table_n);
         $this->db->from($table_n);
         $this->db->where($variable_1, $value_1);
-        if($limit>0){
+        if ($limit > 0) {
             $this->db->limit($limit, 0);
         }
         $query = $this->db->get()->result_array();
@@ -209,6 +209,18 @@ class Universal_model extends CI_Model
         return $this->db->update($table_name, $updated_values);
     }
 
+    public function select_byid_maxone($variable, $value,$table_name,$updated_values)
+    {
+        $this->db->where($variable, $value);
+        $this->db->order_by("id", "asc");
+        $this->db->limit(1, 0);
+        $this->db->update($table_name, $updated_values);
+        // $this->db->select($table_name);
+        // $this->db->from($table_name);
+        // $query = $this->db->get()->result_array();
+        // return $query;
+    }
+
     public function updatem($variable, $value, $variable1, $value1, $table_name, $updated_values)
     {
         $this->db->where($variable, $value);
@@ -249,20 +261,6 @@ class Universal_model extends CI_Model
         $this->db->replace($tablename, $arrayvalues);
     }
 
-    // public function updateOnDuplicate($table, $data)
-    // {
-    //     if (empty($table) || empty($data)) {
-    //         return false;
-    //     }
-
-    //     $duplicate_data = array();
-    //     foreach ($data as $key => $value) {
-    //         $duplicate_data[] = sprintf("%s='%s'", $key, $value);
-    //     }
-    //     $sql = sprintf("%s ON DUPLICATE KEY UPDATE %s", $this->db->insert_string($table, $data), implode(',', $duplicate_data));
-    //     $this->db->query($sql);
-    //     return $this->db->insert_id();
-    // }
     public function updateOnDuplicate($table, $data)
     {
         if (empty($table) || empty($data))

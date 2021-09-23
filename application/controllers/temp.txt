@@ -3,24 +3,9 @@ joash
 Njovu123!@#
 db_helper
 
-
-https://helper.healthyentrepreneurs.nl/
-
-core_user_get_users
-
-//Small Icons Again
-https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon  #Trendy
-
-https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon #Updated
+https://stagingapp.healthyentrepreneurs.nl/imagemanager/upload_image_sub?link=bm9jaS84ODE2NjEyMzYxL2tvb2IvaW1lZGFjYS9zXy9waHAuZWdhbWkvZW1laHQvbG4uc3J1ZW5lcnBlcnRuZXlodGxhZWgucHBhLy86c3B0dGg=&name=Akakooko%20ka%20Siriimu&type=book&couseid=98&bookid=264
 
 
-https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1602920007/icon #old
+https://stagingapp.healthyentrepreneurs.nl/imagemanager/upload_image_sub?link=bm9jaS84ODE2NjEyMzYxL2tvb2IvaW1lZGFjYS9zXy9waHAuZWdhbWkvZW1laHQvbG4uc3J1ZW5lcnBlcnRuZXlodGxhZWgucHBhLy86c3B0dGg=&name=Okwegeita&type=book&couseid=98&bookid=265
 
-
-
-UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"
-
-UPDATE icon_table set original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1632166188/icon" WHERE original_one="https://app.healthyentrepreneurs.nl/theme/image.php/_s/academi/book/1631050397/icon"
-
-couseid
-bookid
+https://stagingapp.healthyentrepreneurs.nl/imagemanager/upload_image_sub?link=bm9jaS84ODE2NjEyMzYxL2tvb2IvaW1lZGFjYS9zXy9waHAuZWdhbWkvZW1laHQvbG4uc3J1ZW5lcnBlcnRuZXlodGxhZWgucHBhLy86c3B0dGg=&name=Okukundana.&type=book&couseid=98&bookid=267
