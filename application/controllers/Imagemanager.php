@@ -56,10 +56,11 @@ class Imagemanager extends CI_Controller
                             'couseid' => $ths_id,
                             'bookid' => $id_one
                         );
+                        $_id_array = array_shift($pepe);
+                        $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
                     } 
-                    $_id_array = array_shift($pepe);
                     // public function updatez($variable, $value, $table_name, $updated_values)
-                    $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
+                    
                 }
             }
             // $this->load->view('pages/hometwo', $data);
