@@ -51,8 +51,18 @@ class Imagemanager extends CI_Controller
                         'couseid' => $ths_id,
                         'bookid' => $id_one
                     );
-                    $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table',$_value_to_up);
-                    print_array($pwapa);
+                    $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table');
+                    if (empty($pwapa)) {
+                        $xxx = array(
+                            'couseid' => $ths_id,
+                            'bookid' => $id_one,
+                            'name' => $name
+                        );
+                        print_array($xxx);
+                    } else {
+                        print_array($pwapa);
+                    }
+
                     // $_id_array = array_shift($pwapa);
                     // public function updatez($variable, $value, $table_name, $updated_values)
                     // $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
@@ -111,7 +121,7 @@ class Imagemanager extends CI_Controller
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
             $_POST['original'] = base_url("uploadicons/600_" . $this->input->post('user_profile_pic'));
             unlink("uploadicons/" . $name_file['file_name']);
-            $value_check = $this->universal_model->select_bytwo_limit('bookid',$this->input->post('bookid'),'couseid',$this->input->post('type'),'type',$this->input->post('type'));
+            $value_check = $this->universal_model->select_bytwo_limit('bookid', $this->input->post('bookid'), 'couseid', $this->input->post('type'), 'type', $this->input->post('type'));
             // $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $this->input->post('original_one'), 'name', $this->input->post('name'), 'type', $this->input->post('type'));
             if (empty($value_check)) {
                 $user_add = array(
