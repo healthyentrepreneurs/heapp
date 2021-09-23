@@ -110,7 +110,8 @@ class Imagemanager extends CI_Controller
             $_POST['image_big'] = "600_" . $this->input->post('user_profile_pic');
             $_POST['original'] = base_url("uploadicons/600_" . $this->input->post('user_profile_pic'));
             unlink("uploadicons/" . $name_file['file_name']);
-            $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $this->input->post('original_one'), 'name', $this->input->post('name'), 'type', $this->input->post('type'));
+            $value_check = $this->universal_model->select_bytwo_limit('bookid',$this->input->post('bookid'),'couseid',$this->input->post('type'),'type',$this->input->post('type'));
+            // $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original', $this->input->post('original_one'), 'name', $this->input->post('name'), 'type', $this->input->post('type'));
             if (empty($value_check)) {
                 $user_add = array(
                     'name' => $this->input->post('name'),
