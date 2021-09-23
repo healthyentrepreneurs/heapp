@@ -57,9 +57,9 @@ class Imagemanager extends CI_Controller
                             'bookid' => $id_one
                         );
                         $_id_array = array_shift($pepe);
-                        $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
+                        print_array($pepe);
+                        // $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
                     } 
-                    // public function updatez($variable, $value, $table_name, $updated_values)
                     
                 }
             }
