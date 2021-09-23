@@ -47,31 +47,19 @@ class Imagemanager extends CI_Controller
                     $id_one = $valuemodule['id'];
                     $name = $valuemodule['name'];
                     // $modicon=$valuemodule['modicon'];
-                    $_value_to_up = array(
-                        'couseid' => $ths_id,
-                        'bookid' => $id_one
-                    );
+                   
                     // $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table');
-                    $pwapa = $this->universal_model->selectzx('*','icon_table','name',$name,'couseid',$ths_id,'bookid',$id_one);
+                    // $pwapa = $this->universal_model->selectzx('*','icon_table','name',$name,'couseid',$ths_id,'bookid',$id_one);
                     $pepe = $this->universal_model->selectzy('*','icon_table','name',$name,'couseid',null);
-                    if (empty($pwapa)) {
-                        
-                        $xxx = array(
+                    if (!empty($pepe)) {
+                        $_value_to_up = array(
                             'couseid' => $ths_id,
-                            'bookid' => $id_one,
-                            'name' => $name
+                            'bookid' => $id_one
                         );
-                        print_array($xxx);
-                        print_array("and");
-                        print_array($pepe);
-                    } else {
-                        print_array("joash");
-                        // print_array($pwapa);
-                    }
-
-                    // $_id_array = array_shift($pwapa);
+                    } 
+                    $_id_array = array_shift($pepe);
                     // public function updatez($variable, $value, $table_name, $updated_values)
-                    // $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
+                    $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
                 }
             }
             // $this->load->view('pages/hometwo', $data);
