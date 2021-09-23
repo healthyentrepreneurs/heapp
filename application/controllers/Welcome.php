@@ -71,7 +71,8 @@ class Welcome extends CI_Controller
                 'user_id' => $id
             );
             //End Token
-            $new_data_url_course = base_url('user/get_moodle_courses') . '/' . $token . '/' . $id;
+            // $new_data_url_course = base_url('user/get_moodle_courses') . '/' . $token . '/' . $id;
+            $new_data_url_course = base_url('user/get_allmoodle_course_inter/1');
             $server_output = curl_request($new_data_url_course, $array_n, "get", array('App-Key: 123456'));
             $courses = json_decode($server_output, true);
             if (empty($courses)) {
@@ -244,7 +245,7 @@ class Welcome extends CI_Controller
         return $array_of_output;
         // print_array($array_of_output);
     }
-   
+
     public function report_surveydetails_data($persial_survey, $id)
     {
         $array_object = array();
@@ -384,9 +385,9 @@ class Welcome extends CI_Controller
                         //Start Test
                         if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             // print_array($keya);
-                            $title_non_nill="";
-                            if(array_key_exists('title',$valuec)){
-                                $title_non_nill=$valuec['title'];
+                            $title_non_nill = "";
+                            if (array_key_exists('title', $valuec)) {
+                                $title_non_nill = $valuec['title'];
                             }
                             $arrayc = array(
                                 'type' => $valuec['type'],
@@ -424,9 +425,9 @@ class Welcome extends CI_Controller
                         //End Test
                         if ($valuec['type'] == "file" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
                             // print_array("what na");
-                            $title_non_nill="";
-                            if(array_key_exists('title',$valuec)){
-                                $title_non_nill=$valuec['title'];
+                            $title_non_nill = "";
+                            if (array_key_exists('title', $valuec)) {
+                                $title_non_nill = $valuec['title'];
                             }
                             $arrayc = array(
                                 'type' => $valuec['type'],
@@ -466,35 +467,33 @@ class Welcome extends CI_Controller
                                 if (!empty($jaja_image)) {
                                     $name_final = $jaja_image['name'];
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $name_final);
-                                    if(empty($attempt_n_n_two)){
+                                    if (empty($attempt_n_n_two)) {
                                         $one = $jaja_image['content'];
                                         $two = str_replace("data:image/jpeg;base64,", "", $one);
-                                    $arrayc['text'] = $name_final;
-                                    $arrayc['value'] = $keya;
-                                    $path = FCPATH . "uploadsurvey/" . $name_final;
-                                    $status = file_put_contents($path, base64_decode($two));
-                                    if ($status) {
-                                        $array_image_survey = array(
-                                            'image_name' => $name_final,
-                                            'user_id' => 0,
-                                            'survey_id' => $id
-                                        );
-                                        $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
-                                    }
-                                    }else{
+                                        $arrayc['text'] = $name_final;
+                                        $arrayc['value'] = $keya;
+                                        $path = FCPATH . "uploadsurvey/" . $name_final;
+                                        $status = file_put_contents($path, base64_decode($two));
+                                        if ($status) {
+                                            $array_image_survey = array(
+                                                'image_name' => $name_final,
+                                                'user_id' => 0,
+                                                'survey_id' => $id
+                                            );
+                                            $this->universal_model->updateOnDuplicate('survey_image', $array_image_survey);
+                                        }
+                                    } else {
                                         $arrayc['text'] = $name_final;
                                         $arrayc['value'] = $keya;
                                     }
-                                    
                                 } else {
                                     $value_baby['value_name'] = "";
                                 }
-                            }
-                            else {
+                            } else {
                                 // * Start New Image Versions
                                 // * To Be Back
-                                    $names_image=$surveyobject[$keya];
-                                    $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
+                                $names_image = $surveyobject[$keya];
+                                $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $names_image);
                                 if (!empty($attempt_n_n_two)) {
                                     $arrayc['text'] = $surveyobject[$keya];
                                     $arrayc['value'] = $keya;
@@ -543,8 +542,8 @@ class Welcome extends CI_Controller
                                     }
                                 }
                                 //New Usecase 2 Njovu #2
-                                elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
-                                   if(is_array($surveyobject['image-upload'])){
+                                elseif (!empty($attempt_n_n_one) && array_key_exists('image-upload', $surveyobject)) {
+                                    if (is_array($surveyobject['image-upload'])) {
                                         $jaja_image = array_shift($surveyobject['image-upload']);
                                         $name_final = $jaja_image['name'];
                                         $one = $jaja_image['content'];
@@ -556,14 +555,14 @@ class Welcome extends CI_Controller
                                         if ($status) {
                                             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
                                         }
-                                   }else {
-                                       $arrayc['text'] = $surveyobject['image-upload'];
-                                       $arrayc['value'] = $keya;
-                                   }
+                                    } else {
+                                        $arrayc['text'] = $surveyobject['image-upload'];
+                                        $arrayc['value'] = $keya;
+                                    }
                                 }
                                 #Njovu 3
-                                elseif (empty($attempt_n_n_one) && array_key_exists('image-upload',$surveyobject)) {
-                                    if(is_array($surveyobject['image-upload'])){
+                                elseif (empty($attempt_n_n_one) && array_key_exists('image-upload', $surveyobject)) {
+                                    if (is_array($surveyobject['image-upload'])) {
                                         $jaja_image = array_shift($surveyobject['image-upload']);
                                         $name_final = $jaja_image['name'];
                                         $one = $jaja_image['content'];
@@ -575,12 +574,11 @@ class Welcome extends CI_Controller
                                         if ($status) {
                                             $this->universal_model->updatez("id", $id, "survey_report", array('imageifany' => $name_final));
                                         }
-                                   }else {
-                                       $arrayc['text'] = $surveyobject['image-upload'];
-                                       $arrayc['value'] = $keya;
-                                   }
-                                }
-                                else { 
+                                    } else {
+                                        $arrayc['text'] = $surveyobject['image-upload'];
+                                        $arrayc['value'] = $keya;
+                                    }
+                                } else {
                                     //Start New Image Versions
                                     $attempt_n_n_two = $this->universal_model->selectz('id', 'survey_image', 'image_name', $surveyobject[$keya]);
                                     if (!empty($attempt_n_n_two)) {
@@ -591,12 +589,12 @@ class Welcome extends CI_Controller
                                     else {
                                         $attempt_n_n_one = $this->universal_model->selectz('imageifany', 'survey_report', 'id', $id);
                                         $array_one = array_shift($attempt_n_n_one);
-                                        $is_none=$array_one['imageifany'];
-                                        if(array_key_exists('image-upload',$surveyobject) && $is_none=="none"){
-                                            $arrayc['text'] =$surveyobject['image-upload'];
+                                        $is_none = $array_one['imageifany'];
+                                        if (array_key_exists('image-upload', $surveyobject) && $is_none == "none") {
+                                            $arrayc['text'] = $surveyobject['image-upload'];
                                             $arrayc['value'] = $keya;
-                                        }else{
-                                            $arrayc['text'] =$is_none;
+                                        } else {
+                                            $arrayc['text'] = $is_none;
                                             $arrayc['value'] = $keya;
                                         }
                                     }
@@ -605,13 +603,12 @@ class Welcome extends CI_Controller
                                 // $arrayc['text'] = $jaja_image;
                                 // $arrayc['value'] = $keya;
                                 array_push($array_of_array, $arrayc);
-                            }
-                            else {
+                            } else {
                                 // print_array("hey 2");
                                 // print_array("-----------------------");
                                 // echo "<br>";
                                 // print_array($surveyobject);
-                                
+
                             }
                         }
                     }
