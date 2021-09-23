@@ -47,10 +47,10 @@ class Imagemanager extends CI_Controller
                     $id_one = $valuemodule['id'];
                     $name = $valuemodule['name'];
                     // $modicon=$valuemodule['modicon'];
-                   
+
                     // $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table');
                     // $pwapa = $this->universal_model->selectzx('*','icon_table','name',$name,'couseid',$ths_id,'bookid',$id_one);
-                    $pepe = $this->universal_model->selectzy('*','icon_table','name',$name,'couseid',null);
+                    $pepe = $this->universal_model->selectzy('*', 'icon_table', 'name', $name, 'couseid', null);
                     if (!empty($pepe)) {
                         $_value_to_up = array(
                             'couseid' => $ths_id,
@@ -59,8 +59,7 @@ class Imagemanager extends CI_Controller
                         $_id_array = array_shift($pepe);
                         // print_array($pepe);
                         $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
-                    } 
-                    
+                    }
                 }
             }
             $this->load->view('pages/hometwo', $data);
@@ -257,10 +256,15 @@ class Imagemanager extends CI_Controller
         // $this->addemployee_subfunc();
         // redirect(base_url('imagemanager/upload_image_sub?link=' . encryptValue($this->input->post('original')) . '&name=' . $this->input->post('name') . '&type=' . $this->input->post('type'). '&couseid=' . $this->input->post('couseid'). '&bookid=' . $this->input->post('bookid')));
     }
-    public function test_icons()
+    public function test_icons($state = 0)
     {
         // 'name', "HIV-Okawuka kasiriimu"
-        $pwapa = $this->universal_model->getmedups();
-        print_array($pwapa);
+        if ($state == 0) {
+            $pwapa = $this->universal_model->getmedups();
+            print_array($pwapa);
+        } else {
+            $pwapa = $this->universal_model->deletedubs();
+            print_array($pwapa);
+        }
     }
 }

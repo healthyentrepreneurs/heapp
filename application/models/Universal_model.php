@@ -487,6 +487,7 @@ class Universal_model extends CI_Model
     }
 
     #Clean The Data 
+    // https://www.mysqltutorial.org/mysql-delete-duplicate-rows/ Nice 
     public function getmedups()
     {
         // $this->db->select('*');
@@ -501,5 +502,11 @@ class Universal_model extends CI_Model
         // $query = $this->db->get()->result_array();
         return $query;
         
+    }
+    public function deletedubs()
+    {
+       $querym="DELETE t1 FROM icon_table t1 INNER JOIN icon_table t2 WHERE t1.id>t2.id AND t1.name=t2.name AND t1.couseid=t2.couseid AND t1.bookid=t2.bookid";
+       $query=$this->db->query($querym);
+       return $query;
     }
 }
