@@ -209,6 +209,20 @@ class Universal_model extends CI_Model
         return $this->db->update($table_name, $updated_values);
     }
 
+    #New nSpe 23 2021
+    public function select_byid_maxone($variable, $value,$table_name)
+    {
+        $this->db->select('*');
+        $this->db->from($table_name);
+        $this->db->where($variable, $value);
+        $this->db->order_by("id", "asc");
+        $this->db->limit(1, 0);
+        // $this->db->update($table_name, $updated_values);
+        // $this->db->select($table_name);
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+    #New nSpe 23 2021
     public function select_bytwo_limit($variable, $value, $variable1, $value1, $variable2, $value2)
     {
         $this->db->select('*');
@@ -222,7 +236,6 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-
     public function updatem($variable, $value, $variable1, $value1, $table_name, $updated_values)
     {
         $this->db->where($variable, $value);
