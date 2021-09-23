@@ -58,7 +58,7 @@ class Imagemanager extends CI_Controller
                         );
                         $_id_array = array_shift($pepe);
                         print_array($pepe);
-                        // $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
+                        $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
                     } 
                     
                 }
