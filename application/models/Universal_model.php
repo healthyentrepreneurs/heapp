@@ -485,4 +485,21 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
+
+    #Clean The Data 
+    public function getmedups()
+    {
+        // $this->db->select('*');
+        // $this->db->from('icon_table');
+        // $this->db->where('user_id', $value_1);
+        // // $this->db->order_by("token",'desc');
+        // $this->db->group_by("book_id");
+        // $query = $this->db->get()->result_array();
+        // return $query;
+        $querym="SELECT name,couseid,bookid, COUNT(bookid) FROM icon_table GROUP BY name,couseid,bookid HAVING COUNT(bookid)>1";
+        $query=$this->db->query($querym)->result_array();
+        // $query = $this->db->get()->result_array();
+        return $query;
+        
+    }
 }
