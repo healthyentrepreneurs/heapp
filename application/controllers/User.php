@@ -110,9 +110,14 @@ class User extends CI_Controller
             foreach ($array_of_courses as $key => $_submodules) {
                 $_submodules['summary'] = strip_tags($_submodules['summary']);
                 // array_push($array_merger, $_submodules);
+                $course_id=$_submodules['id'];
                 $array_modules = array();
                 foreach ($_submodules['modules'] as $key => $_filter_modules) {
-                    $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original_one', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
+                    $book_id=$_filter_modules['id'];
+                    $type_book=$_filter_modules['modname'];
+                    // public function select_bytwo_limit($variable, $value, $variable1, $value1, $table_name)
+                    $value_check = $this->universal_model->select_bytwo_limit('bookid',$book_id,'couseid',$course_id,'type',$type_book);
+                    // $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original_one', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
                     if (!empty($value_check)) {
                         $url_icon = array_shift($value_check)['image_big'];
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);

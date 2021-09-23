@@ -67,6 +67,7 @@
                             <td class="center">
                                 <?php
                                 if ($value['source'] == "moodle") {
+                                    // print_array($value);
                                 ?>
                                     <div class="visible-md visible-lg hidden-sm hidden-xs">
                                         <a href="<?= base_url('imagemanager/couser_subcontent?link=' . encryptValue($value['next_link']) . '&fullname=' . $value['fullname']) ?>" class="btn btn-xs btn-green tooltips" data-placement="top" data-original-title="Check"><i class="fa fa-share"></i></a>

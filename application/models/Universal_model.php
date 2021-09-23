@@ -209,16 +209,18 @@ class Universal_model extends CI_Model
         return $this->db->update($table_name, $updated_values);
     }
 
-    public function select_byid_maxone($variable, $value,$table_name,$updated_values)
+    public function select_bytwo_limit($variable, $value, $variable1, $value1, $variable2, $value2)
     {
+        $this->db->select('*');
+        $this->db->from('icon_table');
         $this->db->where($variable, $value);
+        $this->db->where($variable1, $value1);
+        $this->db->where($variable2, $value2);
         $this->db->order_by("id", "asc");
         $this->db->limit(1, 0);
-        $this->db->update($table_name, $updated_values);
-        // $this->db->select($table_name);
         // $this->db->from($table_name);
-        // $query = $this->db->get()->result_array();
-        // return $query;
+        $query = $this->db->get()->result_array();
+        return $query;
     }
 
     public function updatem($variable, $value, $variable1, $value1, $table_name, $updated_values)
