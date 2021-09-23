@@ -259,7 +259,8 @@ class Imagemanager extends CI_Controller
     }
     public function test_icons()
     {
-        // $pwapa = $this->universal_model->updatez_maxone('name', "HIV-Okawuka kasiriimu");
-        // print_array($pwapa);
+        // 'name', "HIV-Okawuka kasiriimu"
+        $pwapa = $this->universal_model->getmedups();
+        print_array($pwapa);
     }
 }
