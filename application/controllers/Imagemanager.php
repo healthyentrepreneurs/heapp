@@ -53,7 +53,7 @@ class Imagemanager extends CI_Controller
                     );
                     // $pwapa = $this->universal_model->select_byid_maxone('name', $name, 'icon_table');
                     $pwapa = $this->universal_model->selectzx('*','icon_table','name',$name,'couseid',$ths_id,'bookid',$id_one);
-                    $pepe = $this->universal_model->selectz('*','icon_table','name',$name);
+                    $pepe = $this->universal_model->selectzy('*','icon_table','name',$name,'couseid','');
                     if (empty($pwapa)) {
                         
                         $xxx = array(
