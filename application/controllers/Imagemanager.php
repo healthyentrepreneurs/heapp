@@ -57,13 +57,13 @@ class Imagemanager extends CI_Controller
                             'bookid' => $id_one
                         );
                         $_id_array = array_shift($pepe);
-                        print_array($pepe);
+                        // print_array($pepe);
                         $this->universal_model->updatez('id', $_id_array['id'], 'icon_table', $_value_to_up);
                     } 
                     
                 }
             }
-            // $this->load->view('pages/hometwo', $data);
+            $this->load->view('pages/hometwo', $data);
         } else {
             $data['content'] = 'pages/index';
             $this->load->view('pages/homeone', $data);
