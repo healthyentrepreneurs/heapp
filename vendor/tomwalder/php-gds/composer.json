@@ -1,0 +1,41 @@
+{
+    "name": "tomwalder/php-gds",
+    "type": "library",
+    "description": "Google Cloud Datastore Library for PHP. Also Firestore in Datastore mode.",
+    "keywords": ["google", "datastore", "appengine", "gae", "cloud datastore", "nosql", "firestore"],
+    "homepage": "https://github.com/tomwalder/php-gds",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Tom Walder",
+            "email": "twalder@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-bcmath" : "*",
+        "google/auth": "^1.0"
+    },
+    "require-dev": {
+        "google/cloud-datastore": "^v1.12",
+        "phpunit/phpunit": "~8",
+        "satooshi/php-coveralls": "^v2.2"
+    },
+    "suggest": {
+        "google/cloud-datastore": "If you need to use the gRPC API & Gateway"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ],
+        "psr-4": {"GDS\\": "src/GDS/"}
+    },
+    "include-path": ["src/"],
+    "config": {
+        "platform": {
+            "php": "7.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

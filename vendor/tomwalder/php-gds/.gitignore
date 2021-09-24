@@ -1,0 +1,6 @@
+vendor/
+examples/scratch.php
+build/
+index.yaml
+composer.lock
+.phpunit.result.cache
