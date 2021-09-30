@@ -82,6 +82,7 @@ class Survey extends CI_Controller
         );
         // public function updatez($variable, $value, $table_name, $updated_values)
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
+        $this->go_surveyaddupdate($id,"surveyupdate");
         echo json_encode($array_survey);
     }
 
@@ -127,8 +128,9 @@ class Survey extends CI_Controller
                 'createdby' => 1,
             );
             $survey_id = $this->universal_model->insertz('survey', $user_add);
+            //GO Fung
+            $this->go_surveyaddupdate($survey_id,"surveycreate");
             // $checkwhatihave = $this->session->userdata('logged_in_lodda'); $id = $checkwhatihave['id'];
-            // $this->universal_model->updateOnDuplicate('survey', $user_add);
             // redirect(base_url('welcome/admin/1'));
             // echo json_encode($user_add);
             // curl_request(base_url('survey/getnexlink/3/1'), $this->getnexlink($survey_id,1), "post", array('App-Key: 123456'));
@@ -217,6 +219,7 @@ class Survey extends CI_Controller
         $surveyid = $this->input->post('surveyid');
         // public function deletez($table_name, $variable_1, $value_1)
         $this->universal_model->deletez('survey', 'id', $surveyid);
+        $this->go_surveyaddupdate($surveyid,"surveydelete");
         echo json_encode($_POST);
     }
     public function getnexlink($id, $format = 0)
@@ -443,15 +446,16 @@ class Survey extends CI_Controller
         );
         echo json_encode($array_n);
     }
-    public function surveytestadd()
+    public function go_surveyaddupdate($survey_id, $message)
     {
-        $getnextline = $this->getnexlink(3, 1);
+        // $_REMOTEGO = "http://localhost:8080/"+$message;
+        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/"+$message;
+        $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
-        // curl_request('http://localhost:8080/surveycreate', $getnextline, "post", array('App-Key: 123456'));
-        curl_request_json('http://localhost:8080/surveycreate', $json_nand);
+        curl_request_json($_REMOTEGO, $json_nand);
         $jajama = array(
-            'username' => "papa",
-            'password' => "Walaks123mr"
+            'actionon' => "surveys",
+            'message' => $message
         );
         echo json_encode($jajama);
     }
