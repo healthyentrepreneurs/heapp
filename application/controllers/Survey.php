@@ -19,6 +19,7 @@ class Survey extends CI_Controller
     public function index()
     {
         // WRAP NJWA
+        // surveytestadd
         echo "<h1>Survey Api ..</h1>";
     }
 
@@ -125,11 +126,12 @@ class Survey extends CI_Controller
                 'image_url_small' => $this->input->post('image_url_small'),
                 'createdby' => 1,
             );
-
-            $this->universal_model->insertz('survey', $user_add);
+            $survey_id = $this->universal_model->insertz('survey', $user_add);
+            // $checkwhatihave = $this->session->userdata('logged_in_lodda'); $id = $checkwhatihave['id'];
             // $this->universal_model->updateOnDuplicate('survey', $user_add);
             // redirect(base_url('welcome/admin/1'));
             // echo json_encode($user_add);
+            // curl_request(base_url('survey/getnexlink/3/1'), $this->getnexlink($survey_id,1), "post", array('App-Key: 123456'));
             $array_n = array(
                 'status' => 1,
                 'message' => "Successfully Added New Survey"
@@ -217,14 +219,21 @@ class Survey extends CI_Controller
         $this->universal_model->deletez('survey', 'id', $surveyid);
         echo json_encode($_POST);
     }
-    public function getnexlink($id)
+    public function getnexlink($id, $format = 0)
     {
         header('Content-Type: application/json');
         $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'id', $id);
         $json_en_values = $this->survey_custom_values($attempt_d_n_n);
         $json_en = array_shift($json_en_values);
         $array_objects_pages = $json_en['surveyjson'];
-        echo json_encode($array_objects_pages);
+        if ($format == 0) {
+            echo json_encode($array_objects_pages);
+        } else {
+            $msms = array_shift($attempt_d_n_n);
+            $msms['surveyjson'] = json_encode($array_objects_pages);
+            return $msms;
+        }
+
         // print_array($attempt_d_n_n);
     }
     public function survey_custom_values($attempt_d_n_n)
@@ -433,5 +442,17 @@ class Survey extends CI_Controller
             'msg' => $msg
         );
         echo json_encode($array_n);
+    }
+    public function surveytestadd()
+    {
+        $getnextline = $this->getnexlink(3, 1);
+        $json_nand = json_encode($getnextline);
+        // curl_request('http://localhost:8080/surveycreate', $getnextline, "post", array('App-Key: 123456'));
+        curl_request_json('http://localhost:8080/surveycreate', $json_nand);
+        $jajama = array(
+            'username' => "papa",
+            'password' => "Walaks123mr"
+        );
+        echo json_encode($jajama);
     }
 }

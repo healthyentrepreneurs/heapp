@@ -20,7 +20,6 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
-        // header('Access-Control-Allow-Origin: *');
         // $_POST['username'] = "admin";
         // $_POST['password'] = "Thijs123!@#";
         // $_POST['username'] = "mega";
@@ -118,7 +117,7 @@ class Moodle extends CI_Controller
         // jsonobject
         if ($state == 0) {
             $products = array($_POST);
-            $data_pushed = json_encode($products,JSON_HEX_QUOT | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+            $data_pushed = json_encode($products, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
             $data_copy = array(
                 'jsonobject' => $data_pushed
             );
@@ -128,18 +127,16 @@ class Moodle extends CI_Controller
             echo $data_pushed;
             // echo $data_pushed;
         } else {
-            echo "joshia xx";
+            echo "not event logged ";
         }
     }
     public function checkstate()
     {
         // $string_ma = '[{"eventname":"\\core\\event\\user_created","amp;component":"core","amp;action":"created","amp;target":"user","amp;objecttable":"user","amp;objectid":6,"amp;crud":"c","amp;edulevel":0,"amp;contextid":28,"amp;contextlevel":30,"amp;contextinstanceid":6,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":6,"amp;anonymous":0,"amp;timecreated":1632738348,"0":1632738348}]';
-        $string_ma='[{"eventname":"\\core\\event\\user_deleted","amp;component":"core","amp;action":"deleted","amp;target":"user","amp;objecttable":"user","amp;objectid":5,"amp;crud":"d","amp;edulevel":0,"amp;contextid":27,"amp;contextlevel":30,"amp;contextinstanceid":5,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":5,"amp;anonymous":0,"amp;other":{"username":"pwampa","email":"pwampa@gmail.com","idnumber":"","picture":0,"mnethostid":1},"amp;timecreated":1632738125,"0":1632738125}]';
+        $string_ma = '[{"eventname":"\\core\\event\\user_deleted","amp;component":"core","amp;action":"deleted","amp;target":"user","amp;objecttable":"user","amp;objectid":5,"amp;crud":"d","amp;edulevel":0,"amp;contextid":27,"amp;contextlevel":30,"amp;contextinstanceid":5,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":5,"amp;anonymous":0,"amp;other":{"username":"pwampa","email":"pwampa@gmail.com","idnumber":"","picture":0,"mnethostid":1},"amp;timecreated":1632738125,"0":1632738125}]';
         // $jsonpa = json_decode($string_ma);
         // $val = html_entity_decode(htmlentities($string_ma, ENT_QUOTES, "UTF-8"));
-        $paapa=explode("amp;",$string_ma);
-        $one=array_shift($paapa);
-        print_array($one);
-        // echo $jsonpa;
+        $paapa = explode("amp;", $string_ma);
+        $action = $paapa[0];
     }
 }
