@@ -493,4 +493,8 @@ class Survey extends CI_Controller
         // );
         // echo json_encode($jajama);
     }
+    public function test_survey($survey_id)
+    {
+        $this->go_surveyaddupdate($survey_id,"surveycreate");
+    }
 }
