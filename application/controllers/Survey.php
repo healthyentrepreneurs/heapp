@@ -487,10 +487,10 @@ class Survey extends CI_Controller
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
         curl_request_json($_REMOTEGO, $json_nand);
-        $jajama = array(
-            'actionon' => "surveys",
-            'message' => $message
-        );
-        echo json_encode($jajama);
+        // $jajama = array(
+        //     'actionon' => "surveys",
+        //     'message' => $message
+        // );
+        // echo json_encode($jajama);
     }
 }
