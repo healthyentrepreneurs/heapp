@@ -251,9 +251,15 @@ class Survey extends CI_Controller
     {
         // unlink("uploadscustome/" . $name_file['file_name']);
         $surveyid = $this->input->post('surveyid');
+        $getnextline = $this->getnexlink($surveyid, 1);
+        $json_nand = json_encode($getnextline);
         // $this->universal_model->deletez('survey', 'id', $surveyid);
         // $this->go_surveyaddupdate($surveyid,"surveydelete");
-        echo json_encode($_POST);
+        $array_of_a=array(
+            'post'=>$_POST,
+            'json_en'=>$getnextline
+        );
+        echo json_encode($array_of_a);
     }
     public function getnexlink($id, $format = 0)
     {
