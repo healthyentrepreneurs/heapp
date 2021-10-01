@@ -103,6 +103,18 @@ class Survey extends CI_Controller
         }
         // echo json_encode($_POST);
     }
+    public function test_survey()
+    {
+        $user_add = array(
+            'name' => "TEST SURVEY",
+            'surveydesc' => "This is the first test of survey designers",
+            'surveyjson' => 'Mammmmm  sksksksksksk',
+            'image' => "600_user_profile_picK6h.png",
+            'image_url_small' => "50_user_profile_picK6h.png",
+            'createdby' => 1,
+        );
+        $this->universal_model->insertz('survey', $user_add);
+    }
     function addemployee_subfunc()
     {
         if ($this->validate_image("user_profile_pic" . getToken(3))) {
@@ -158,6 +170,7 @@ class Survey extends CI_Controller
     public function validate_image($generatedname)
     {
         $config['overwrite'] = TRUE;
+        // $config['upload_path']          = APPPATH.'datamine/';
         $config['upload_path'] = './uploadscustome/';
         $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
@@ -195,8 +208,24 @@ class Survey extends CI_Controller
                 $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
                 return FALSE;
             }
+            if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
+                // print_array("The upload path does not appear to be valid.");
+                $this->form_validation->set_message('validate_image', 'The upload path is not valid');
+                return FALSE;
+            }
+            if (strpos($error['error'], "The upload destination folder does not appear to be writable.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The upload destination folder does not appear to be writable.");
+                // print_array("The upload destination folder does not appear to be writable.");
+                $this->form_validation->set_message('validate_image', 'Distination Folder Not writtable');
+                return FALSE;
+            }
+            //The upload destination folder does not appear to be writable
+            // The upload path does not appear to be valid.
+            // if()
         } else {
             $this->session->set_flashdata('validate_image_success', "Successfully Uploaded");
+            // print_array("Mamama");
             return TRUE;
         }
     }
