@@ -251,9 +251,8 @@ class Survey extends CI_Controller
     {
         // unlink("uploadscustome/" . $name_file['file_name']);
         $surveyid = $this->input->post('surveyid');
-        // public function deletez($table_name, $variable_1, $value_1)
-        $this->universal_model->deletez('survey', 'id', $surveyid);
-        $this->go_surveyaddupdate($surveyid,"surveydelete");
+        // $this->universal_model->deletez('survey', 'id', $surveyid);
+        // $this->go_surveyaddupdate($surveyid,"surveydelete");
         echo json_encode($_POST);
     }
     public function getnexlink($id, $format = 0)
@@ -505,6 +504,7 @@ class Survey extends CI_Controller
     }
     public function update_survey($survey_id)
     {
+        // os.Setenv("USERNAME", "MattDaemon")
         $this->go_surveyaddupdate($survey_id,"surveyupdate");
         echo json_encode(array('nana'=>"papa"));
     }

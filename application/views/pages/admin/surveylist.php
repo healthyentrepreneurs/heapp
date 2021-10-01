@@ -142,8 +142,10 @@
         var url_reportsurvey = "<?php echo base_url("welcome/admin/6?id="); ?>" + id;
         window.location.replace(url_reportsurvey);
     }
-
-    function foobar(id) {
+    // function foobar(id){
+    //     alert(id);
+    // }
+    function foobar_n(id) {
         var url_updatesurvey = "<?php echo base_url("survey/deletesurvey"); ?>";
         $.ajax({
             type: 'POST',
@@ -152,7 +154,7 @@
                 surveyid: id
             },
             success: function(result) {
-                // console.log(result);
+                console.log(result);
                 var notyf = new Notyf();
                 notyf.success('Your changes have been successfully saved!');
                 window.setTimeout(function() {
