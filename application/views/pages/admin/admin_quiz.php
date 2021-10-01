@@ -187,8 +187,8 @@
             .localStorage
             .setItem(localStorageName, creator.text);
         creator.text = JSON.stringify(defaultJSON);
-        // window.setTimeout(function() {
-        //     location.reload()
-        // }, 1500)
+        window.setTimeout(function() {
+            location.reload()
+        }, 1000)
     }
 </script>
