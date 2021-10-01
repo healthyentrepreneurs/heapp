@@ -155,11 +155,11 @@
             },
             success: function(result) {
                 console.log(result);
-                var notyf = new Notyf();
-                notyf.success('Your changes have been successfully saved!');
-                window.setTimeout(function() {
-                    location.reload()
-                }, 1000)
+                // var notyf = new Notyf();
+                // notyf.success('Your changes have been successfully saved!');
+                // window.setTimeout(function() {
+                //     location.reload()
+                // }, 1000)
 
             },
             error: function() {
