@@ -127,7 +127,12 @@ class Survey extends CI_Controller
                 'image_url_small' => $this->input->post('image_url_small'),
                 'createdby' => 1,
             );
-            $survey_id = $this->universal_model->insertz('survey', $user_add);
+            $papa = json_encode($user_add);
+            $nan = array(
+                'object' => $papa
+            );
+            $this->universal_model->insertz('datamon', $nan);
+            $this->universal_model->insertz('survey', $user_add);
             //GO Fung
             // $this->go_surveyaddupdate($survey_id,"surveycreate");
             // $checkwhatihave = $this->session->userdata('logged_in_lodda'); $id = $checkwhatihave['id'];
