@@ -142,9 +142,7 @@
         var url_reportsurvey = "<?php echo base_url("welcome/admin/6?id="); ?>" + id;
         window.location.replace(url_reportsurvey);
     }
-    // function foobar(id){
-    //     alert(id);
-    // }
+
     function foobar(id) {
         var url_updatesurvey = "<?php echo base_url("survey/deletesurvey"); ?>";
         $.ajax({
@@ -154,12 +152,12 @@
                 surveyid: id
             },
             success: function(result) {
-                console.log(result);
-                // var notyf = new Notyf();
-                // notyf.success('Your changes have been successfully saved!');
-                // window.setTimeout(function() {
-                //     location.reload()
-                // }, 1000)
+                // console.log(result);
+                var notyf = new Notyf();
+                notyf.success('Your changes have been successfully saved!');
+                window.setTimeout(function() {
+                    location.reload()
+                }, 1000)
 
             },
             error: function() {

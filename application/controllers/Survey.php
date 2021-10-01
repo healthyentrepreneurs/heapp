@@ -82,7 +82,7 @@ class Survey extends CI_Controller
         );
         // public function updatez($variable, $value, $table_name, $updated_values)
         $this->universal_model->updatez('id', $id, 'survey', $array_survey);
-        $this->go_surveyaddupdate($id,"surveyupdate");
+        $this->go_surveyaddupdate($id, "surveyupdate");
         echo json_encode($array_survey);
     }
 
@@ -144,9 +144,9 @@ class Survey extends CI_Controller
             $nan = array(
                 'object' => $papa
             );
-            $survey_id=$this->universal_model->insertz('survey', $user_add);
+            $survey_id = $this->universal_model->insertz('survey', $user_add);
             //GO Fung
-            $this->go_surveyaddupdate($survey_id,"surveycreate");
+            $this->go_surveyaddupdate($survey_id, "surveycreate");
             // $checkwhatihave = $this->session->userdata('logged_in_lodda'); $id = $checkwhatihave['id'];
             // redirect(base_url('welcome/admin/1'));
             // echo json_encode($user_add);
@@ -251,15 +251,10 @@ class Survey extends CI_Controller
     {
         // unlink("uploadscustome/" . $name_file['file_name']);
         $surveyid = $this->input->post('surveyid');
-        $getnextline = $this->getnexlink($surveyid, 1);
-        $json_nand = json_encode($getnextline);
-        // $this->universal_model->deletez('survey', 'id', $surveyid);
-        // $this->go_surveyaddupdate($surveyid,"surveydelete");
-        $array_of_a=array(
-            'post'=>$_POST,
-            'json_en'=>$getnextline
-        );
-        echo json_encode($array_of_a);
+        // public function deletez($table_name, $variable_1, $value_1)
+        $this->universal_model->deletez('survey', 'id', $surveyid);
+        $this->go_surveyaddupdate($surveyid, "surveydelete");
+        echo json_encode($_POST);
     }
     public function getnexlink($id, $format = 0)
     {
@@ -488,7 +483,7 @@ class Survey extends CI_Controller
     public function go_surveyaddupdate($survey_id, $message)
     {
         // $_REMOTEGO = "http://localhost:8080/".$message;
-        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/".$message;
+        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/" . $message;
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
         curl_request_json($_REMOTEGO, $json_nand);
@@ -498,20 +493,19 @@ class Survey extends CI_Controller
         // );
         // echo json_encode($jajama);
     }
-    public function test_survey($survey_id)
+    public function test_create_survey($survey_id)
     {
-        $this->go_surveyaddupdate($survey_id,"surveycreate");
-        echo json_encode(array('nana'=>"papa"));
+        $this->go_surveyaddupdate($survey_id, "surveycreate");
+        echo json_encode(array('nana' => "papa"));
     }
-    public function delete_survey($survey_id)
+    public function test_delete_survey($survey_id)
     {
-        $this->go_surveyaddupdate($survey_id,"surveydelete");
-        echo json_encode(array('nana'=>"papa"));
+        $this->go_surveyaddupdate($survey_id, "surveydelete");
+        echo json_encode(array('nana' => "papa"));
     }
-    public function update_survey($survey_id)
+    public function test_update_survey($survey_id)
     {
-        // os.Setenv("USERNAME", "MattDaemon")
-        $this->go_surveyaddupdate($survey_id,"surveyupdate");
-        echo json_encode(array('nana'=>"papa"));
+        $this->go_surveyaddupdate($survey_id, "surveyupdate");
+        echo json_encode(array('nana' => "papa"));
     }
 }
