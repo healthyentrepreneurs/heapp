@@ -145,7 +145,7 @@
     // function foobar(id){
     //     alert(id);
     // }
-    function foobar_n(id) {
+    function foobar(id) {
         var url_updatesurvey = "<?php echo base_url("survey/deletesurvey"); ?>";
         $.ajax({
             type: 'POST',
