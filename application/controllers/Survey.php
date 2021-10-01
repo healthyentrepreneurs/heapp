@@ -483,7 +483,7 @@ class Survey extends CI_Controller
     public function go_surveyaddupdate($survey_id, $message)
     {
         // $_REMOTEGO = "http://localhost:8080/"+$message;
-        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/"+$message;
+        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/".$message;
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
         curl_request_json($_REMOTEGO, $json_nand);
