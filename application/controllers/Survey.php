@@ -482,7 +482,7 @@ class Survey extends CI_Controller
     }
     public function go_surveyaddupdate($survey_id, $message)
     {
-        // $_REMOTEGO = "http://localhost:8080/"+$message;
+        // $_REMOTEGO = "http://localhost:8080/".$message;
         $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/".$message;
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
@@ -496,5 +496,16 @@ class Survey extends CI_Controller
     public function test_survey($survey_id)
     {
         $this->go_surveyaddupdate($survey_id,"surveycreate");
+        echo json_encode(array('nana'=>"papa"));
+    }
+    public function delete_survey($survey_id)
+    {
+        $this->go_surveyaddupdate($survey_id,"surveydelete");
+        echo json_encode(array('nana'=>"papa"));
+    }
+    public function update_survey($survey_id)
+    {
+        $this->go_surveyaddupdate($survey_id,"surveyupdate");
+        echo json_encode(array('nana'=>"papa"));
     }
 }
