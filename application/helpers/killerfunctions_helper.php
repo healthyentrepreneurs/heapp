@@ -16,7 +16,7 @@ function mssql_escape($str)
 function curl_request($url, array $data = null, $method, array $app_auth = null)
 {
     $ch = curl_init($url);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     switch ($method) {
         case 'get':
             array_walk($data, function (&$a, $b) {
@@ -58,7 +58,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
 function curl_request_json($url,$data)
 {
     $ch = curl_init($url);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
@@ -1106,33 +1106,6 @@ function array_value_recursive($key, array $arr)
     });
     return count($val) > 1 ? $val : array_pop($val);
 }
-// function delete_value(&$original, $del_val)
-// {
-//     //make a copy of the original, to avoid problems of modifying an array that is being currently iterated through
-//     $copy = $original;
-//     foreach ($original as $key => $value) {
-//         //for each value evaluate if it is equivalent to the one to be deleted, and if it is capture its key name.
-//         if ($del_val === $value) $del_key[] = $key;
-//     };
-//     //If there was a value found, delete all its instances
-//     if ($del_key !== null) {
-//         foreach ($del_key as $dk_i) {
-//             unset($original[$dk_i]);
-//         };
-//         //optional reordering of the keys. WARNING: only use it with arrays with numeric indexes!
-//         /*
-//     $copy = $original;
-//     $original = array();
-//     foreach ($copy as $value) {
-//         $original[] = $value;
-//     };
-//     */
-//         //the value was found and deleted
-//         return true;
-//     };
-//     //The value was not found, nothing was deleted
-//     return false;
-// }
 function delete_value(&$original, $del_val)
 {
     //make a copy of the original, to avoid problems of modifying an array that is being currently iterated through

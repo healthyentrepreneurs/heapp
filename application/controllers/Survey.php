@@ -508,4 +508,9 @@ class Survey extends CI_Controller
         $this->go_surveyaddupdate($survey_id, "surveyupdate");
         echo json_encode(array('nana' => "papa"));
     }
+    //Reflect Users Added, Deleted
+    public function testdarmphp()
+    {
+        echo json_encode(array('name' => 'praisexxx'));
+    }
 }
