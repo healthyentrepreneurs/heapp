@@ -957,7 +957,7 @@ class Report extends CI_Controller
     #End of End
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=PapaWemba123!@%23X&service=addusers';
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=GoatNa123!@%23XCMan&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
