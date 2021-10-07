@@ -177,6 +177,7 @@ class Moodle extends CI_Controller
             $data_copy = array(
                 'jsonobject' => $data_pushed
             );
+            curl_request_json("https://he-test-server.uc.r.appspot.com/moodlevent", $data_pushed);
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
             header("Content-type: application/json");
             header('Content-Type: charset=utf-8');
@@ -184,49 +185,6 @@ class Moodle extends CI_Controller
             echo "not event book ";
         }
     }
-    public function bookops()
-    {
-        $BOOKSURL = base_url("user/get_chapters_perbookcourse");
-        // "http://localhost/heapp/";
-        // $string_ma = '[{"eventname":"\\mod_book\\event\\chapter_updated","amp;component":"mod_book","amp;action":"updated","amp;target":"chapter","amp;objecttable":"book_chapters","amp;objectid":4,"amp;crud":"u","amp;edulevel":1,"amp;contextid":30,"amp;contextlevel":70,"amp;contextinstanceid":2,"amp;userid":2,"amp;courseid":2,"amp;anonymous":0,"amp;timecreated":1633341234,"0":1633341234}]';
-        // $string_ma = '[{"eventname":"\\mod_book\\event\\chapter_deleted","amp;component":"mod_book","amp;action":"deleted","amp;target":"chapter","amp;objecttable":"book_chapters","amp;objectid":4,"amp;crud":"d","amp;edulevel":1,"amp;contextid":30,"amp;contextlevel":70,"amp;contextinstanceid":2,"amp;userid":2,"amp;courseid":2,"amp;anonymous":0,"amp;timecreated":1633341250,"0":1633341250}]';
-        $string_ma = '[{"eventname":"\\mod_book\\event\\chapter_created","amp;component":"mod_book","amp;action":"created","amp;target":"chapter","amp;objecttable":"book_chapters","amp;objectid":11,"amp;crud":"c","amp;edulevel":1,"amp;contextid":37,"amp;contextlevel":70,"amp;contextinstanceid":9,"amp;userid":2,"amp;courseid":2,"amp;anonymous":0,"amp;timecreated":1633348673,"0":1633348673}]';
-        // $string_ma = '[{"eventname":"\\core\\event\\course_module_created","amp;component":"core","amp;action":"created","amp;target":"course_module","amp;objecttable":"course_modules","amp;objectid":9,"amp;crud":"c","amp;edulevel":1,"amp;contextid":37,"amp;contextlevel":70,"amp;contextinstanceid":9,"amp;userid":2,"amp;courseid":2,"amp;anonymous":0,"amp;other":{"modulename":"book","instanceid":8,"name":"Book Njovu"},"amp;timecreated":1633348655,"0":1633348655}]';
-        $amparray = explode("amp;", $string_ma);
-        $newstring = implode("", $amparray);
-        $paapa = explode(",", $newstring);
-        // print_array($paapa);
-        $event = $paapa[0];
-        if (strpos($event, "course_module_created") !== false) {
-            $objectid = explode(':', $paapa[5]);
-            $userid = explode(':', $paapa[11]);
-            $courseid = explode(':', $paapa[12]);
-            $bookid = explode(':', $paapa[15]);  //instanceid
-            $timecreated = explode(':', $paapa[17]);
-            // print_array($paapa);
-            echo "books created";
-        } else if (strpos($event, "chapter_created") !== false || strpos($event, "chapter_updated") !== false) {
-            // echo "Chapter Created";
-            $objectid = explode(':', $paapa[5]);
-            $userid = explode(':', $paapa[11]);
-            $courseid = explode(':', $paapa[12]);
-            $timecreated = explode(':', $paapa[14]);
-            // get_chapters_perbookcourse
-            // 346
-            $server_output = curl_request($BOOKSURL, array('courseid' => 20, 'book_id' => 346), "post", array('App-Key: 123456'));
-            $user_array = json_decode($server_output, true);
-            if (!empty($user_array)) {
-                print_array($user_array);
-            } else {
-                echo "Chapter Created / Chapter Updated";
-            }
-            // print_array($server_output);
-
-        } else if (strpos($event, "chapter_deleted") !== false) {
-            print_array($paapa);
-            echo "Chapter Deleted";
-        } else {
-            echo "Nara Papa";
-        }
-    }
+    // define("GOLANGURL", "https://he-test-server.uc.r.appspot.com/moodlevent");
+    // define("GOLANGURL", "https://helper.healthyentrepreneurs.nl/moodle/pullbook/0");
 }
