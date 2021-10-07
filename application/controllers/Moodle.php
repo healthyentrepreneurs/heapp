@@ -177,7 +177,7 @@ class Moodle extends CI_Controller
             $data_copy = array(
                 'jsonobject' => $data_pushed
             );
-            curl_request_json("https://he-test-server.uc.r.appspot.com/moodlevent", $data_pushed);
+            // curl_request_json("https://he-test-server.uc.r.appspot.com/moodlevent", $data_pushed);
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
             header("Content-type: application/json");
             header('Content-Type: charset=utf-8');
