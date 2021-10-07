@@ -16,7 +16,7 @@ function mssql_escape($str)
 function curl_request($url, array $data = null, $method, array $app_auth = null)
 {
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     switch ($method) {
         case 'get':
             array_walk($data, function (&$a, $b) {
@@ -58,7 +58,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
 function curl_request_json($url,$data)
 {
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS,$data);

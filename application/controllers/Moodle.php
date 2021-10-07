@@ -181,6 +181,7 @@ class Moodle extends CI_Controller
             $this->universal_model->updateOnDuplicate('testpost', $data_copy);
             header("Content-type: application/json");
             header('Content-Type: charset=utf-8');
+            echo "not book ";
         } else {
             echo "not event book ";
         }
