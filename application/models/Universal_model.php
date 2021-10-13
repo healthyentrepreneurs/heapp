@@ -364,7 +364,7 @@ class Universal_model extends CI_Model
     public function join_suv_reportpapa($report_id, $from_from, $to_to)
     {
         $this->db->select('c.username,c.fullname,c.id,c.surveyid,c.userid,c.name,c.surveyobject,c.dateadded,c.surveyjson,c.surveydesc,c.dateadded dateaddedsurvey,c.image_url_small');
-        $this->db->from('mama_nam c');
+        $this->db->from('survey_report c');
         $this->db->where('c.slug', 1);
         $this->db->where('c.survey_id', $report_id);
         $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
@@ -376,7 +376,7 @@ class Universal_model extends CI_Model
     public function join_suv_report_details($survey_id, $surveyrepo_id)
     {
         $this->db->select('c.id,s.id as surveyid,c.userid,c.surveyobject,s.name,s.surveydesc,s.surveyjson,c.dateadded dateaddedsurvey,s.image_url_small,c.imageifany');
-        $this->db->from('survey_report c');
+        $this->db->from('mama_nam c');
         $this->db->join('survey s', 's.id=c.survey_id', 'left');
         $this->db->where('s.slug', 1);
         $this->db->where('s.id', $survey_id);
