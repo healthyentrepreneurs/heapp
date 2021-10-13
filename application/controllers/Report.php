@@ -47,8 +47,8 @@ class Report extends CI_Controller
         $startdate = $this->input->post('startdate');
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->join_suv_reportpapa($surveyid, $startdate, $enddate);
-        $final_array = $this->report_surveydetails_data($persial_survey);
-        print_array($final_array);
+        // $final_array = $this->report_surveydetails_data($persial_survey);
+        print_array($persial_survey);
         //    echo json_encode($persial_survey);
     }
     public function report_surveydetails()
