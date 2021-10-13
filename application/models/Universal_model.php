@@ -347,13 +347,12 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    public function join_suv_repor_nn($report_id, $from_from, $to_to)
+
+    public function join_suv_report($report_id, $from_from, $to_to)
     {
-        $this->db->select('u.username,CONCAT(u.firstname," ",u.lastname) as fullname,c.id,s.id as surveyid,c.userid,s.name,c.surveyobject,c.dateadded,s.surveyjson,s.surveydesc,c.dateadded dateaddedsurvey,s.image_url_small');
-        $this->db->from('survey_report c');
-        $this->db->join('survey s', 's.id=c.survey_id', 'left');
-        $this->db->join('mdl_user u', 'u.id=c.userid', 'left');
-        $this->db->where('s.slug', 1);
+        $this->db->select('c.username,c.fullname,c.id,c.surveyid,c.userid,c.name,c.surveyobject,c.dateadded,c.surveyjson,c.surveydesc,c.dateadded dateaddedsurvey,c.image_url_small');
+        $this->db->from('join_suv_report c');
+        $this->db->where('c.slug', 1);
         $this->db->where('c.survey_id', $report_id);
         $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
         $this->db->where('DATE(c.dateadded) <=', date('Y-m-d', strtotime($to_to)));
@@ -361,10 +360,11 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-    public function join_suv_report($report_id, $from_from, $to_to)
+
+    public function join_suv_reportpapa($report_id, $from_from, $to_to)
     {
         $this->db->select('c.username,c.fullname,c.id,c.surveyid,c.userid,c.name,c.surveyobject,c.dateadded,c.surveyjson,c.surveydesc,c.dateadded dateaddedsurvey,c.image_url_small');
-        $this->db->from('join_suv_report c');
+        $this->db->from('mama_nam c');
         $this->db->where('c.slug', 1);
         $this->db->where('c.survey_id', $report_id);
         $this->db->where('DATE(c.dateadded) >=', date('Y-m-d', strtotime($from_from)));
