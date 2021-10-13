@@ -11,7 +11,7 @@ use Gaufrette\StreamWrapper;
 
 class Report extends CI_Controller
 {
-   
+
     public function __construct()
     {
         parent::__construct();
@@ -26,7 +26,7 @@ class Report extends CI_Controller
     {
         echo '<h1>Report Api </h1>';
     }
-    
+
     public function jaja()
     {
         $startMemory = memory_get_usage();
@@ -49,7 +49,7 @@ class Report extends CI_Controller
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
         $final_array = $this->report_surveydetails_data($persial_survey);
         print_array($final_array);
-    //    echo json_encode($persial_survey);
+        //    echo json_encode($persial_survey);
     }
     public function report_surveydetails()
     {
@@ -353,8 +353,11 @@ class Report extends CI_Controller
                             // print_array($keya);
                             $arrayc = array(
                                 'type' => $valuec['type'],
-                                'title' => $valuec['title'],
+                                // 'title' => $valuec['title'],
                             );
+                            if (array_key_exists('title', $valuec)) {
+                                $arrayc['title'] = $valuec['title'];
+                            }
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
                             } else {
@@ -376,10 +379,10 @@ class Report extends CI_Controller
                                     $arrayc['description'] = "";
                                 }
                                 //Triky One
-                                $key_value =trim($valuec['name']);
+                                $key_value = trim($valuec['name']);
                                 // print_array($key_value);
                                 #Njovu New Addition Thurs 8th July 2021 17:36
-                                if(array_key_exists($key_value,$surveyobject)){
+                                if (array_key_exists($key_value, $surveyobject)) {
                                     $arrayc['text'] = $surveyobject[$key_value];
                                     $arrayc['value'] = $keya;
                                     array_push($array_of_array, $arrayc);
