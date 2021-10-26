@@ -138,7 +138,7 @@ class Downloadable extends CI_Controller
             $bundleurl="https://databundles-dot-he-test-server.uc.r.appspot.com/bundleone/";
             $bundlejsonname=$user_id."bundle.json";
             $server_output_bundle = curl_request($bundleurl, array(), "get", array('App-Key: 123456'));
-            $file = fopen($dir_survey . '/' . $bundlejsonname, "w");
+            $file = fopen($dir . '/' . $bundlejsonname, "w");
             fwrite($file, $server_output_bundle);
             fclose($file);
             //End   Bundle Download
