@@ -135,7 +135,7 @@ class Downloadable extends CI_Controller
             fwrite($file, $modifyied_courses_json);
             fclose($file);
             //Start Bundle Download
-            $bundleurl="https://databundles-dot-he-test-server.uc.r.appspot.com/bundleone/";
+            $bundleurl="https://databundles-dot-he-test-server.uc.r.appspot.com/bundleone/".$user_id;
             $bundlejsonname=$user_id."bundle.json";
             $server_output_bundle = curl_request($bundleurl, array(), "get", array('App-Key: 123456'));
             $file = fopen($dir . '/' . $bundlejsonname, "w");
