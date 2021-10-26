@@ -21,14 +21,12 @@ class Downloadable extends CI_Controller
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_contentx($cohorts_ng = '1@mega')
+    public function create_contentx()
     {
-        $cohort_object = $this->input->post('cohort_object');
-        if (empty($cohort_object)) {
-            $cohort_object = $cohorts_ng;
-        }
-        $our_values = explode('@', $cohort_object);
-        $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
+       
+        // $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
+        // kenya_test
+        $hery = $this->universal_model->selectz('*', 'user', 'username', 'kenya_test');
         $mma = array_merge($hery, $our_values);
         echo json_encode($mma);
     }
