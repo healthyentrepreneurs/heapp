@@ -134,6 +134,14 @@ class Downloadable extends CI_Controller
             $file = fopen($dir . '/' . 'get_moodle_courses' . ".json", "w");
             fwrite($file, $modifyied_courses_json);
             fclose($file);
+            //Start Bundle Download
+            $bundleurl="https://databundles-dot-he-test-server.uc.r.appspot.com/bundleone/";
+            $bundlejsonname=$user_id."bundle.json";
+            $server_output_bundle = curl_request($bundleurl, array(), "get", array('App-Key: 123456'));
+            $file = fopen($dir_survey . '/' . $bundlejsonname, "w");
+            fwrite($file, $server_output_bundle);
+            fclose($file);
+            //End   Bundle Download
             //Start Ziping
             //Zip and Download
             $tmp_file =  $subpath . $user_id . 'HE_Health.zip';
