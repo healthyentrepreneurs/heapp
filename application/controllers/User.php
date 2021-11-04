@@ -262,6 +262,10 @@ class User extends CI_Controller
     }
     public function set_newuser()
     {
+     $_POST['firstname']="onneckdrex";
+$_POST['lastname']="onneckdlast";
+ $_POST['email']="onneckdlast@gmail.com";
+ $_POST['username']="onneckdlast";
         if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['username'])) {
             $firstname     = $this->input->post('firstname');
             $lastname     = $this->input->post('lastname');
