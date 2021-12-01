@@ -246,27 +246,7 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         foreach ($questions_n1 as $key => $value) {
-            // $dom = new Dom;
-            // $dom->loadStr($value['html']);
-            // $contents = $dom->find('.info');
-            // foreach ($contents as $content) {
-            //     // get the class attr
-            //     $class = $content->getElementById('class');
-            //     // do something with the html
-            //     $html = $content->innerHtml;
-            //     // or refine the find some more
-            //     $child = $content->firstChild();
-            //     $child->find('.no');
-            //     $classatr1 = $child->getAttribute('class');
-            //     $html1 = $child->innerHtml;
-            //     $sibling = $child->nextSibling();
-            //     $html2 = $sibling->innerHtml;
-            // }
-            $DOM = new DOMDocument();
-            $DOM->preserveWhiteSpace = false;
-            @$DOM->loadHTML($value['html']);
-            $namamam = $this->html_to_obj($value['html']);
-            print_array($namamam);
+            print_array($value);
         }
     }
     function html_to_obj($html)
