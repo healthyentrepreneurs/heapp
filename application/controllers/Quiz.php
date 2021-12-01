@@ -112,7 +112,6 @@ class Quiz extends CI_Controller
             $attempdata = 0;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
-            $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
