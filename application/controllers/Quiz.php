@@ -40,7 +40,6 @@ class Quiz extends CI_Controller
     public function quiz_get_quizzes_by_courses()
     {
         # mod_quiz_get_quizzes_by_courses
-        #token for Mega is = de81bb4eb4e8303a15b00a5c61554e2a
         $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quizzes_by_courses';
@@ -75,9 +74,7 @@ class Quiz extends CI_Controller
     public function quiz_start_attempt($quizid = null, $token)
     {
         # mod_quiz_start_attempt
-        #de81bb4eb4e8303a15b00a5c61554e2a
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        // $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
         $functionname = 'mod_quiz_start_attempt';
         // preflightdata
         $serverurl = $domainname . '/webservice/rest/server.php';
@@ -183,7 +180,6 @@ class Quiz extends CI_Controller
     {
         // https://app.healthyentrepreneurs.nl/webservice/rest/server.php?moodlewsrestformat=json&quizid=3&wsfunction=mod_quiz_get_attempt_access_information&wstoken=f84bf33b56e86a4664284d8a3dfb5280
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        // $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
         $functionname = 'mod_quiz_get_attempt_data';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -203,7 +199,7 @@ class Quiz extends CI_Controller
     public function get_user_attempts()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_user_attempts';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -220,7 +216,7 @@ class Quiz extends CI_Controller
     public function quiz_get_quiz_access_information()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quiz_access_information';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -240,9 +236,7 @@ class Quiz extends CI_Controller
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
 
         if (array_key_exists('exception', $check_start_quiz)) {
-            $attempt_d_n_n = $this->universal_model->selectzy('*', 'quiz_track', 'token', $token, 'quiz', $quizid);
-            $attempt_d_n = array_shift($attempt_d_n_n);
-            $attempdata = $attempt_d_n['id'];
+            $attempdata = 1;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
             $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
