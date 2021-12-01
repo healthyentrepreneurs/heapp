@@ -89,7 +89,7 @@ class Quiz extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
-        print_array($array_of_courses);
+        // print_array($array_of_courses);
         if (empty($array_of_courses)) {
             return array();
             // echo empty_response("No Quiz Started .. ");
@@ -176,6 +176,7 @@ class Quiz extends CI_Controller
 
         return $array;
     }
+    //Helper Function
     public function quiz_get_attempt_data($attemptid = null, $page = 0, $token)
     {
         // https://app.healthyentrepreneurs.nl/webservice/rest/server.php?moodlewsrestformat=json&quizid=3&wsfunction=mod_quiz_get_attempt_access_information&wstoken=f84bf33b56e86a4664284d8a3dfb5280
@@ -212,7 +213,7 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
-
+//Helper Function
     public function quiz_get_quiz_access_information()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
@@ -239,7 +240,6 @@ class Quiz extends CI_Controller
             $attempdata = 1;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
-            $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
