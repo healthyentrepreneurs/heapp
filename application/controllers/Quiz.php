@@ -92,7 +92,7 @@ class Quiz extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
-        // print_array($array_of_courses);
+        print_array($array_of_courses);
         if (empty($array_of_courses)) {
             return array();
             // echo empty_response("No Quiz Started .. ");
@@ -109,9 +109,7 @@ class Quiz extends CI_Controller
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
 
         if (array_key_exists('exception', $check_start_quiz)) {
-            $attempt_d_n_n = $this->universal_model->selectzy('*', 'quiz_track', 'token', $token, 'quiz', $quizid);
-            $attempt_d_n = array_shift($attempt_d_n_n);
-            $attempdata = $attempt_d_n['id'];
+            $attempdata = 0;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
             $this->universal_model->updateOnDuplicate('quiz_track', $check_start_quiz['attempt']);
