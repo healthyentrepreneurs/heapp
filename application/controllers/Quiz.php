@@ -246,7 +246,7 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         foreach ($questions_n1 as $key => $value) {
-            print_array($value);
+            // print_array($value);
         }
     }
     function html_to_obj($html)
