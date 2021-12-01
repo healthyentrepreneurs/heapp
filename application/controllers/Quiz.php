@@ -92,6 +92,7 @@ class Quiz extends CI_Controller
         );
         $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
+        print_array($array_of_courses);
         if (empty($array_of_courses)) {
             return array();
             // echo empty_response("No Quiz Started .. ");
