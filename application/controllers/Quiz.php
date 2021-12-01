@@ -249,8 +249,8 @@ class Quiz extends CI_Controller
             // JSON_UNESCAPED_SLASHES
             // $questions_n1[$key]['html']=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
             $unescaped=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
-            var_dump($unescaped);
-            // print_array($value);
+            // var_dump($value['html']);
+            print_array($value);
             break;
         }
     }
