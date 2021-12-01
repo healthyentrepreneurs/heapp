@@ -26,7 +26,7 @@ class Quiz extends CI_Controller
         $functionname = 'mod_quiz_get_quiz_required_qtypes';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'quizid' => 3,
+            'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
