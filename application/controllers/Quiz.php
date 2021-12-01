@@ -139,43 +139,6 @@ class Quiz extends CI_Controller
         // print_array($questions_n1);
         // echo json_encode($attempt_data_now);
     }
-    function Dom2Array($root)
-    {
-        $array = array();
-
-        //list attributes
-        if ($root->hasAttributes()) {
-            foreach ($root->attributes as $attribute) {
-                $array['_attributes'][$attribute->name] = $attribute->value;
-            }
-        }
-
-        //handle classic node
-        if ($root->nodeType == XML_ELEMENT_NODE) {
-            $array['_type'] = $root->nodeName;
-            if ($root->hasChildNodes()) {
-                $children = $root->childNodes;
-                for ($i = 0; $i < $children->length; $i++) {
-                    $child = $this->Dom2Array($children->item($i));
-
-                    //don't keep textnode with only spaces and newline
-                    if (!empty($child)) {
-                        $array['_children'][] = $child;
-                    }
-                }
-            }
-
-            //handle text node
-        } elseif ($root->nodeType == XML_TEXT_NODE || $root->nodeType == XML_CDATA_SECTION_NODE) {
-            $value = $root->nodeValue;
-            if (!empty($value)) {
-                $array['_type'] = '_text';
-                $array['_content'] = $value;
-            }
-        }
-
-        return $array;
-    }
     //Helper Function
     public function quiz_get_attempt_data($attemptid = null, $page = 0, $token)
     {
@@ -233,9 +196,7 @@ class Quiz extends CI_Controller
     //This is it
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
-
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
-
         if (array_key_exists('exception', $check_start_quiz)) {
             $attempdata = 1;
         } else {
@@ -246,7 +207,7 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         foreach ($questions_n1 as $key => $value) {
-            $questions_n1[$key]['html']=base64_encode($value['html']);
+            // $questions_n1[$key]['html']=base64_encode($value['html']);
             // break;
         }
         print_array($questions_n1);
