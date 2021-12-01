@@ -210,6 +210,7 @@ class Quiz extends CI_Controller
             // $questions_n1[$key]['html']=base64_encode($value['html']);
             // break;
         }
-        print_array($questions_n1);
+        echo json_encode($questions_n1);
+        // print_array($questions_n1);
     }
 }
