@@ -246,12 +246,9 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         foreach ($questions_n1 as $key => $value) {
-            // JSON_UNESCAPED_SLASHES
-            // $questions_n1[$key]['html']=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
-            $unescaped=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
-            // var_dump($value['html']);
-            print_array($value);
-            break;
+            $questions_n1[$key]['html']=base64_encode($value['html']);
+            // break;
         }
+        print_array($questions_n1);
     }
 }
