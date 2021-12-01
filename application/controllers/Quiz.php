@@ -272,7 +272,7 @@ class Quiz extends CI_Controller
             $DOM->preserveWhiteSpace = false;
             @$DOM->loadHTML($value['html']);
             $namamam = $this->html_to_obj($value['html']);
-            // print_array($namamam);
+            print_array($namamam);
         }
     }
     function html_to_obj($html)
