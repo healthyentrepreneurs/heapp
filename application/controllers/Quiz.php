@@ -224,7 +224,7 @@ class Quiz extends CI_Controller
         $functionname = 'mod_quiz_get_quiz_access_information';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'quizid' => 3,
+            'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
