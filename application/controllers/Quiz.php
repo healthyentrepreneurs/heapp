@@ -246,30 +246,12 @@ class Quiz extends CI_Controller
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         foreach ($questions_n1 as $key => $value) {
-            var_dump($value);
+            // JSON_UNESCAPED_SLASHES
+            // $questions_n1[$key]['html']=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
+            $unescaped=json_encode($value['html'],JSON_UNESCAPED_SLASHES);
+            var_dump($unescaped);
             // print_array($value);
             break;
         }
-    }
-    function html_to_obj($html)
-    {
-        $dom = new DOMDocument();
-        $dom->loadHTML($html);
-        return $this->element_to_obj($dom->documentElement);
-    }
-    function element_to_obj($element)
-    {
-        $obj = array("tag" => $element->tagName);
-        foreach ($element->attributes as $attribute) {
-            $obj[$attribute->name] = $attribute->value;
-        }
-        foreach ($element->childNodes as $subElement) {
-            if ($subElement->nodeType == XML_TEXT_NODE) {
-                $obj["html"] = $subElement->wholeText;
-            } else {
-                $obj["children"][] = $this->element_to_obj($subElement);
-            }
-        }
-        return $obj;
     }
 }
