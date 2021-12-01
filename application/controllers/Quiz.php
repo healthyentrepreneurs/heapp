@@ -22,7 +22,7 @@ class Quiz extends CI_Controller
     public function quiz_get_quiz_required_qtypes()
     {
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quiz_required_qtypes';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -42,7 +42,7 @@ class Quiz extends CI_Controller
         # mod_quiz_get_quizzes_by_courses
         #token for Mega is = de81bb4eb4e8303a15b00a5c61554e2a
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quizzes_by_courses';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
@@ -59,7 +59,7 @@ class Quiz extends CI_Controller
     {
         # mod_quiz_view_quiz
         $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'de81bb4eb4e8303a15b00a5c61554e2a';
+        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_view_quiz';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
