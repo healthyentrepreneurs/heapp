@@ -63,7 +63,7 @@ class Quiz extends CI_Controller
         $functionname = 'mod_quiz_view_quiz';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'quizid' => 3,
+            'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -82,7 +82,7 @@ class Quiz extends CI_Controller
         // preflightdata
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            // 'forcenew' => 1,
+            'forcenew' => 1,
             'preflightdata[0][name]' => 'quizpassword',
             'preflightdata[0][value]' => '123!@#',
             'quizid' => $quizid,
@@ -209,7 +209,7 @@ class Quiz extends CI_Controller
         $functionname = 'mod_quiz_get_user_attempts';
         $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
-            'quizid' => 3,
+            'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
