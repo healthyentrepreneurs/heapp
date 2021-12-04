@@ -56,43 +56,28 @@
         creator.rightContainerActiveItem("toolbox");
         document.getElementsByClassName('svd_commercial_product')[0].style.visibility = 'hidden';
         document.getElementsByClassName('svd-svg-icon')[0].style.visibility = 'hidden';
-        creator.saveSurveyFunc = function(saveNo, callback) {
-            //save the survey JSON
-            // console.log(creator.text);
-            $.ajax({
-                type: 'POST',
-                url: url_updatesurvey,
-                data: {
-                    surveyname: document.getElementById("survey_name").value,
-                    surveyid: document.getElementById("survey_id").value,
-                    surveydesc:document.getElementById("surveydesc").value,
-                    surveyobj: creator.text,
-                },
-                success: function(result) {
-                    // console.log(result);
-                    var notyf = new Notyf();
-                    notyf.success('Your changes have been successfully saved!');
-                    // alert("Hey Hey");
-                    // $('#sonuc').html(result);
-                },
-                error: function() {
-                    alert('Some error found. Please try again!');
-                }
-            });
-            //We assume that we can't get error on saving data in local storage
-            //Tells creator that changing (saveNo) saved successfully.
-            //Creator will update the status from Saving to saved
-            callback(saveNo, true);
-        }
-        // var defaultJSON = {
-        //     pages: [{
-        //         name: 'page1',
-        //         questions: [{
-        //             type: 'text',
-        //             name: "q1"
-        //         }]
-        //     }]
-        // };
+        // creator.saveSurveyFunc = function(saveNo, callback) {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: url_updatesurvey,
+        //         data: {
+        //             surveyname: document.getElementById("survey_name").value,
+        //             surveyid: document.getElementById("survey_id").value,
+        //             surveydesc:document.getElementById("surveydesc").value,
+        //             surveyobj: creator.text,
+        //         },
+        //         success: function(result) {
+        //             // console.log(result);
+        //             var notyf = new Notyf();
+        //             // notyf.success('Your changes have been successfully saved!');
+        //             notyf.success('Changed Disabled Because They Affect existing Data!');
+        //         },
+        //         error: function() {
+        //             alert('Some error found. Please try again!');
+        //         }
+        //     });
+        //     callback(saveNo, true);
+        // }
         var defaultJSON = <?php echo $surveydataone['surveyjson']; ?>;
         // console.log(defaultJSON);
         creator.text = JSON.stringify(defaultJSON);
