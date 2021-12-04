@@ -354,6 +354,8 @@ class Report extends CI_Controller
                             );
                             if (array_key_exists('title', $valuec)) {
                                 $arrayc['title'] = $valuec['title'];
+                            }else {
+                                $arrayc['title'] = "";
                             }
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
