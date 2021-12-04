@@ -355,7 +355,7 @@ class Report extends CI_Controller
                             if (array_key_exists('title', $valuec)) {
                                 $arrayc['title'] = $valuec['title'];
                             }else {
-                                //Njovu changes to be 
+                                //Njovu when title is missing
                                 $arrayc['title'] = $valuec['name'];
                             }
                             if (array_key_exists('description', $valuec)) {
