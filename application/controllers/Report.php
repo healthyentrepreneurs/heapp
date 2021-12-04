@@ -347,21 +347,13 @@ class Report extends CI_Controller
                         }
                         //Start Test
                         if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
-                            // print_array($keya);
+                            print_array($valuec);
                             $arrayc = array(
                                 'type' => $valuec['type'],
                                 // 'title' => $valuec['title'],
                             );
                             if (array_key_exists('title', $valuec)) {
                                 $arrayc['title'] = $valuec['title'];
-                            }else {
-                                //Njovu changes to be 
-                                if (array_key_exists('value', $valuec)) {
-                                    $arrayc['title'] = $valuec['value'];
-                                } else {
-                                    $arrayc['title'] = "Tata";
-                                }
-                                
                             }
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
@@ -373,6 +365,8 @@ class Report extends CI_Controller
                             array_push($array_of_array, $arrayc);
                             // print_array($arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "text") {
+                            print_array("joash");
+                            print_array($valuec);
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
