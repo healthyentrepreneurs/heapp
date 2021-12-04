@@ -81,8 +81,8 @@ class Survey extends CI_Controller
             'createdby' => 1
         );
         // public function updatez($variable, $value, $table_name, $updated_values)
-        // $this->universal_model->updatez('id', $id, 'survey', $array_survey);
-        // $this->go_surveyaddupdate($id, "surveyupdate");
+        $this->universal_model->updatez('id', $id, 'survey', $array_survey);
+        $this->go_surveyaddupdate($id, "surveyupdate");
         echo json_encode($array_survey);
     }
 
