@@ -48,7 +48,7 @@ class Report extends CI_Controller
         $enddate = $this->input->post('enddate');
         $persial_survey = $this->universal_model->join_suv_report($surveyid, $startdate, $enddate);
         $final_array = $this->report_surveydetails_data($persial_survey);
-        // print_array($final_array);
+        print_array($final_array);
         //    echo json_encode($persial_survey);
     }
     public function report_surveydetails()
@@ -347,13 +347,16 @@ class Report extends CI_Controller
                         }
                         //Start Test
                         if ($valuec['type'] == "text" && $valuec['name'] == $keya && !array_key_exists('visibleIf', $valuec)) {
-                            print_array($valuec);
+                            // print_array($keya);
                             $arrayc = array(
                                 'type' => $valuec['type'],
                                 // 'title' => $valuec['title'],
                             );
                             if (array_key_exists('title', $valuec)) {
                                 $arrayc['title'] = $valuec['title'];
+                            }else {
+                                //Njovu changes to be 
+                                $arrayc['title'] = $valuec['name'];
                             }
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
@@ -365,8 +368,6 @@ class Report extends CI_Controller
                             array_push($array_of_array, $arrayc);
                             // print_array($arrayc);
                         } elseif (array_key_exists('visibleIf', $valuec) && $valuec['type'] == "text") {
-                            print_array("joash");
-                            print_array($valuec);
                             if (strpos($valuec['visibleIf'], $keya) == true && strpos($valuec['visibleIf'], $valuea) == true) {
                                 $arrayc = array(
                                     'type' => $valuec['type'],
