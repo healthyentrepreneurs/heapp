@@ -356,8 +356,7 @@ class Report extends CI_Controller
                                 $arrayc['title'] = $valuec['title'];
                             }else {
                                 //Njovu changes to be 
-                                // $valuec['value']
-                                $arrayc['title'] = " Tata";
+                                $arrayc['title'] = $arrayc['value'];
                             }
                             if (array_key_exists('description', $valuec)) {
                                 $arrayc['description'] = $valuec['description'];
