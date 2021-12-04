@@ -53,10 +53,11 @@ class Report extends CI_Controller
     }
     public function report_surveydetails()
     {
-        // $_POST['selectclientid'] = 2;
-        // $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
-        // $_POST['startdate'] = "01-02-2021";
-        // $_POST['enddate'] = "28-02-2021";
+        $_POST['selectclientid'] = 1;
+        $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
+        $_POST['startdate'] = "01-10-2021";
+        $_POST['enddate'] = "15-10-2021";
+        //Sample Data 
         $surveyid = $this->input->post('selectclientid');
         $selectclientname = $this->input->post('selectclientname');
         $startdate = $this->input->post('startdate');
