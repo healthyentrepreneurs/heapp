@@ -53,7 +53,7 @@ class Report extends CI_Controller
     }
     public function report_surveydetails()
     {
-        $_POST['selectclientid'] = 1;
+        $_POST['selectclientid'] = 41;
         $_POST['selectclientname'] = "Workflow: ICCM children under 5 (KE)";
         $_POST['startdate'] = "01-10-2021";
         $_POST['enddate'] = "15-10-2021";
