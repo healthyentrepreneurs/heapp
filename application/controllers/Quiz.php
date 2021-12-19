@@ -205,7 +205,7 @@ class Quiz extends CI_Controller
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
-        print_array($attempt_data_now);
+        // print_array($attempt_data_now);
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         $html_string="";
