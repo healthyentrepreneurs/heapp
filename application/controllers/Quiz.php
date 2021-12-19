@@ -206,11 +206,21 @@ class Quiz extends CI_Controller
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         print_array($attempt_data_now);
-        // $questions_n1 = $attempt_data_now['questions'];
-        // $array_questions = array();
-        // foreach ($questions_n1 as $key => $value) {
-        //     $questions_n1[$key]['html']=base64_encode($value['html']);
-        // }
-        // echo json_encode($questions_n1);
+        $questions_n1 = $attempt_data_now['questions'];
+        $array_questions = array();
+        $html_string="";
+        foreach ($questions_n1 as $key => $value) {
+            // $questions_n1[$key]['html']=base64_encode($value['html']);
+            $htmlscriptarray=explode("<script",$value['html']);
+            $html_string=$htmlscriptarray[0]."".$html_string;
+        }
+        $array_questions['html']=base64_encode($html_string);
+        $array_questions['layout']=count(explode($attempt_data_now['attempt']['layout']))-1;
+        $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
+        $array_questions['macrostate']=$attempt_data_now['attempt']['inprogress'];
+        // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
+        // [state] => inprogress
+        $array_questions['nextpage']=$attempt_data_now['nextpage'];
+        echo json_encode($array_questions);
     }
 }
