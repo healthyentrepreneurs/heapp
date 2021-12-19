@@ -116,6 +116,7 @@ class Quiz extends CI_Controller
         $formatter_clean = array();
         foreach ($questions_n1 as $key => $value) {
             $mama = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value['html']);
+            print_array($mama);
             $next_array = array(
                 'html' =>  "Hey Html",
                 'page' => $value['page'],
@@ -204,12 +205,12 @@ class Quiz extends CI_Controller
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
-        $questions_n1 = $attempt_data_now['questions'];
-        $array_questions = array();
-        foreach ($questions_n1 as $key => $value) {
-            $questions_n1[$key]['html']=base64_encode($value['html']);
-        }
-        echo json_encode($questions_n1);
-        // print_array($questions_n1);
+        print_array($attempt_data_now);
+        // $questions_n1 = $attempt_data_now['questions'];
+        // $array_questions = array();
+        // foreach ($questions_n1 as $key => $value) {
+        //     $questions_n1[$key]['html']=base64_encode($value['html']);
+        // }
+        // echo json_encode($questions_n1);
     }
 }
