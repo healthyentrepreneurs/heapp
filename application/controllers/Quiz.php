@@ -217,7 +217,7 @@ class Quiz extends CI_Controller
         $array_questions['html']=base64_encode($html_string);
         $array_questions['layout']=count(explode($attempt_data_now['attempt']['layout']))-1;
         $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
-        $array_questions['macrostate']=$attempt_data_now['attempt']['inprogress'];
+        $array_questions['state']=$attempt_data_now['attempt']['state'];
         // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
         // [state] => inprogress
         $array_questions['nextpage']=$attempt_data_now['nextpage'];
