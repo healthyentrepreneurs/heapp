@@ -54,6 +54,23 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
+    public  function get_courseresources()
+    {
+        $domainname = 'https://app.healthyentrepreneurs.nl';
+        $token = '01bd8b1e707671384445694d743f6ba8';
+        $functionname = 'mod_resource_get_resources_by_courses';
+        $serverurl = $domainname . '/webservice/rest/server.php';
+        $data = array(
+            'courseids[0]' => 2,
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json'
+        );
+        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $array_of_courses = json_decode($server_output, true);
+        print_array($array_of_courses);
+
+    }
     public function quiz_view_quiz()
     {
         # mod_quiz_view_quiz
@@ -194,6 +211,7 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
+    
     //This is it
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
