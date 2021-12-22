@@ -213,6 +213,27 @@ class Quiz extends CI_Controller
     }
     
     //This is it
+    public function get_quiz_em_dddd($quizid, $page = 0, $token)
+    {
+        $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
+        if (array_key_exists('exception', $check_start_quiz)) {
+            $attempdata = 1;
+        } else {
+            $check_start_quiz['attempt']['token'] = $token;
+            $attempdata = $check_start_quiz['attempt']['id'];
+        }
+        $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
+        // print_array($attempt_data_now);
+        $questions_n1 = $attempt_data_now['questions'];
+        $array_questions = array();
+        $html_string="";
+        foreach ($questions_n1 as $key => $value) {
+            // $questions_n1[$key]['html']=base64_encode($value['html']);
+            $htmlscriptarray=explode("<script",$value['html']);
+            $html_string=$htmlscriptarray[0]."".$html_string;
+        }
+        print_array($questions_n1);
+    }
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
