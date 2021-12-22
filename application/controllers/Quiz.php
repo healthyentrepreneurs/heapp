@@ -232,7 +232,16 @@ class Quiz extends CI_Controller
             $htmlscriptarray=explode("<script",$value['html']);
             $html_string=$htmlscriptarray[0]."".$html_string;
         }
-        print_array($questions_n1);
+        
+        $array_questions['page']=$questions_n1[0]['page'];
+        $array_questions['html']=base64_encode($html_string);
+        $array_questions['layout']=count(explode(",0",$attempt_data_now['attempt']['layout']))-1;
+        $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
+        $array_questions['state']=$attempt_data_now['attempt']['state'];
+        // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
+        // [state] => inprogress
+        $array_questions['nextpage']=$attempt_data_now['nextpage'];
+        echo json_encode($array_questions);
     }
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
