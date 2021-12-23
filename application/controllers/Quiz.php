@@ -280,7 +280,7 @@ class Quiz extends CI_Controller
         //     $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
         // }
         // echo $dom;
-        $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505xsss.jpg";
+        $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505xsssmsmms.jpg";
         //Check Image Url Exists
         $file_headers_n = @get_headers($url_image);
         if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
@@ -293,7 +293,7 @@ class Quiz extends CI_Controller
        
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
-        echo $image;
+        // echo $image;
         $status=check_file_existance(FCPATH."quizimages/".$imageurl);
         //Is image there 
         // if($status){
