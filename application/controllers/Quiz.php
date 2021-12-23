@@ -279,7 +279,7 @@ class Quiz extends CI_Controller
         foreach($a as $link){
             $class = $link->getAttribute('href');
 	        $html = $link->innerHtml;
-echo $html;
+echo $class;
         }
 
     }
