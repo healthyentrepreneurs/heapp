@@ -223,7 +223,6 @@ class Quiz extends CI_Controller
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
-        // print_array($attempt_data_now);
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         $html_string="";
@@ -270,5 +269,12 @@ class Quiz extends CI_Controller
         // [state] => inprogress
         $array_questions['nextpage']=$attempt_data_now['nextpage'];
         echo json_encode($array_questions);
+    }
+    public function checkdom()
+    {
+        $dom = new Dom;
+$dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
+$a = $dom->find('a')[0];
+echo $a->text;
     }
 }
