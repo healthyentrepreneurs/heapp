@@ -282,13 +282,11 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505xsssmsmms.jpg";
         //Check Image Url Exists
-        $file_headers_n = @get_headers($url_image);
-        if (!$file_headers_n || $file_headers_n[0] == 'HTTP/1.1 404 Not Found') {
-           echo "Does not exists";
-        //    quizplaceholder.jpg
-        } else {
-            echo "xists";
-           }
+        if (file_exists($$url_image)) {
+            echo "Does exists";
+        }else {
+            echo "Does Not exists";
+        }
         //End Check  Image Urls
        
         $imagecountarray=explode("/",$url_image);
