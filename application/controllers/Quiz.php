@@ -282,7 +282,7 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
         //Check Image Url Exists
-        if (@getimagesize($url_image)) {
+        if (is_file_url_exists($url_image)) {
             echo "W exists";
         }else {
             echo "N Not exists";
@@ -299,5 +299,12 @@ class Quiz extends CI_Controller
         // }else {
         //     echo "Nop no";
         // }
+    }
+    public static function is_file_url_exists($url) {
+        if (@file_get_contents($url, 0, NULL, 0, 1)) {
+            return 1;
+        }
+
+        return 0;           
     }
 }
