@@ -278,9 +278,8 @@ class Quiz extends CI_Controller
         $a = $dom->find('a');
         foreach($a as $link){
             $class = $link->getAttribute('href');
-	        $html = $link->innerHtml;
-echo $class;
+            $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
         }
-
+        echo $dom;
     }
 }
