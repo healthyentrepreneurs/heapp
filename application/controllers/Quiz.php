@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
-
+// https://github.com/paquettg/php-html-parser
 use PHPHtmlParser\Dom;
 
 header('Access-Control-Allow-Origin: *');
@@ -270,16 +270,21 @@ class Quiz extends CI_Controller
         $array_questions['nextpage']=$attempt_data_now['nextpage'];
         echo json_encode($array_questions);
     }
-    public function checkdom()
+    public function checkdom($imageurl="IMG_20211019_152036.jpg")
     {
-        // https://github.com/paquettg/php-html-parser
-        $dom = new Dom;
-        $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
-        $a = $dom->find('a');
-        foreach($a as $link){
-            $class = $link->getAttribute('href');
-            $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
+        // $dom = new Dom;
+        // $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
+        // $a = $dom->find('a');
+        // foreach($a as $link){
+        //     $class = $link->getAttribute('href');
+        //     $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
+        // }
+        // echo $dom;
+        $status=check_file_existance(FCPATH."quizimages/".$imageurl);
+        if($status){
+            echo "its there";
+        }else {
+            echo "Nop no";
         }
-        echo $dom;
     }
 }
