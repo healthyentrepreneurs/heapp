@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 // https://github.com/paquettg/php-html-parser
+// https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html
 use PHPHtmlParser\Dom;
 
 header('Access-Control-Allow-Origin: *');
@@ -283,7 +284,7 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
         //Check Image Url Exists
-        $img_n=$quizpath."dog.jpg";
+        $img_n=$quizpath."dog.jpeg";
         file_put_contents($img_n, file_get_contents($url_image));
         //End Check  Image Urls
         $imagecountarray=explode("/",$url_image);
