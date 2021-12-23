@@ -274,8 +274,13 @@ class Quiz extends CI_Controller
     {
         // https://github.com/paquettg/php-html-parser
         $dom = new Dom;
-$dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
-$a = $dom->find('a');
-echo count($a);
+        $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
+        $a = $dom->find('a');
+        foreach($a as $link){
+            $class = $link->getAttribute('href');
+	        $html = $content->innerHtml;
+echo $html;
+        }
+
     }
 }
