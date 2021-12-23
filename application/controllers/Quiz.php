@@ -280,7 +280,7 @@ class Quiz extends CI_Controller
         //     $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
         // }
         // echo $dom;
-        $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
+        $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505nnnnn.jpg";
         //Check Image Url Exists
         if ($this->is_file_url_exists($url_image)) {
             echo "W exists";
