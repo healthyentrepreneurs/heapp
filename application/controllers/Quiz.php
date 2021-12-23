@@ -272,6 +272,7 @@ class Quiz extends CI_Controller
     }
     public function checkdom($imageurl="IMG_20211019_152036.jpg")
     {
+        $quizpath=FCPATH."quizimages/";
         // $dom = new Dom;
         // $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
         // $a = $dom->find('a');
@@ -282,29 +283,17 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505nnnnn.jpg";
         //Check Image Url Exists
-        if ($this->is_file_url_exists($url_image)) {
-            echo "W exists";
-        }else {
-            echo "N Not exists";
-        }
+        file_put_contents($img_n, file_get_contents($url_image));
         //End Check  Image Urls
-       
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
         // echo $image;
-        $status=check_file_existance(FCPATH."quizimages/".$imageurl);
+        $status=check_file_existance(quizpath.$imageurl);
         //Is image there 
         // if($status){
         //     echo "its there";
         // }else {
         //     echo "Nop no";
         // }
-    }
-    public static function is_file_url_exists($url) {
-        if (@file_get_contents($url, 0, NULL, 0, 1)) {
-            return 1;
-        }
-
-        return 0;           
     }
 }
