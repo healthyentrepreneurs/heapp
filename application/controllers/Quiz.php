@@ -282,7 +282,7 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
         //Check Image Url Exists
-        if (is_file_url_exists($url_image)) {
+        if ($this->is_file_url_exists($url_image)) {
             echo "W exists";
         }else {
             echo "N Not exists";
