@@ -272,9 +272,10 @@ class Quiz extends CI_Controller
     }
     public function checkdom()
     {
+        // https://github.com/paquettg/php-html-parser
         $dom = new Dom;
 $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
-$a = $dom->find('a')[1];
-echo $a->text;
+$a = $dom->find('a');
+print_array($a);
     }
 }
