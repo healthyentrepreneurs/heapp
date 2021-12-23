@@ -283,6 +283,7 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505nnnnn.jpg";
         //Check Image Url Exists
+        $img_n=$quizpath."jsjsjss.jpg";
         file_put_contents($img_n, file_get_contents($url_image));
         //End Check  Image Urls
         $imagecountarray=explode("/",$url_image);
