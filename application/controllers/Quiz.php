@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require "vendor/autoload.php";
+require_once FCPATH . 'vendor/autoload.php';
 
 use PHPHtmlParser\Dom;
 
