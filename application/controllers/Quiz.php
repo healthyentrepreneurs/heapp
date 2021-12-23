@@ -278,7 +278,7 @@ class Quiz extends CI_Controller
         $a = $dom->find('a');
         foreach($a as $link){
             $class = $link->getAttribute('href');
-	        $html = $content->innerHtml;
+	        $html = $link->innerHtml;
 echo $html;
         }
 
