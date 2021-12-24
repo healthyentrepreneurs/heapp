@@ -233,16 +233,9 @@ class Quiz extends CI_Controller
             $htmlscriptarray=explode("<script",$value['html']);
             $html_string=$htmlscriptarray[0]."".$html_string;
         }
-        
         $array_questions['page']=$questions_n1[0]['page'];
         $array_questions['html']=base64_encode($html_string);
-        $array_questions['layout']=count(explode(",0",$attempt_data_now['attempt']['layout']))-1;
-        $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
-        $array_questions['state']=$attempt_data_now['attempt']['state'];
-        // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
-        // [state] => inprogress
-        $array_questions['nextpage']=$attempt_data_now['nextpage'];
-        echo json_encode($array_questions);
+        // echo json_encode($array_questions);
     }
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
@@ -266,6 +259,7 @@ class Quiz extends CI_Controller
         $array_questions['html']=base64_encode($html_string);
         $array_questions['layout']=count(explode(",0",$attempt_data_now['attempt']['layout']))-1;
         $array_questions['currentpage']=$questions_n1[0]['page'];
+        // $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
         $array_questions['state']=$attempt_data_now['attempt']['state'];
         // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
         // [state] => inprogress
@@ -274,15 +268,30 @@ class Quiz extends CI_Controller
     }
     public function checkdom()
     {
+        $dom = new Dom;
+        $dom->loadStr('<div class="r1"><input type="radio" name="q1301:4_answer" value="1" id="q1301:4_answer1"
+        aria-labelledby="q1301:4_answer1_label" />
+    <div class="d-flex w-100" id="q1301:4_answer1_label" data-region="answer-label">
+        <span class="answernumber">b. </span>
+        <div class="flex-fill ml-1">
+            <p dir="ltr" style="text-align: left;"><img
+                    src="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1301/4/42/Boer%20goat444.jpg"
+                    alt="goat" width="255" height="191"
+                    class="img-fluid atto_image_button_text-bottom"><br></p>
+        </div>
+    </div>
+</div>');
+        $images = $dom->find('img');
+        foreach($images as $link){
+            $src = $link->getAttribute('src');
+            print_array($src);
+            $link->setAttribute('src',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
+        }
+        echo $dom;
+    }
+    public function checkdom_later()
+    {
         $URL_GET_IMAGES="https://app.healthyentrepreneurs.nl/moodleapi/api/get_file_url";
-        // $dom = new Dom;
-        // $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
-        // $a = $dom->find('a');
-        // foreach($a as $link){
-        //     $class = $link->getAttribute('href');
-        //     $link->setAttribute('href',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
-        // }
-        // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
         //Check Image Url Exists
         $imagecountarray=explode("/",$url_image);
@@ -290,7 +299,7 @@ class Quiz extends CI_Controller
 
         $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        print_array($array_of_output);
+        print_array($array_of_output['image_url']);
         // curl
         // echo $image;
     }
