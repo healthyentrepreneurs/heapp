@@ -256,7 +256,8 @@ class Quiz extends CI_Controller
             $htmlscriptarray=explode("<script",$value['html']);
             $html_string=$htmlscriptarray[0]."".$html_string;
         }
-        $array_questions['html']=base64_encode($html_string);
+        $image_handler=$this->checkdom($html_string);
+        $array_questions['html']=base64_encode($image_handler);
         $array_questions['layout']=count(explode(",0",$attempt_data_now['attempt']['layout']))-1;
         $array_questions['currentpage']=$questions_n1[0]['page'];
         // $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
@@ -266,28 +267,17 @@ class Quiz extends CI_Controller
         $array_questions['nextpage']=$attempt_data_now['nextpage'];
         echo json_encode($array_questions);
     }
-    public function checkdom()
+    public function checkdom($quizhtmlimage)
     {
         $dom = new Dom;
-        $dom->loadStr('<div class="r1"><input type="radio" name="q1301:4_answer" value="1" id="q1301:4_answer1"
-        aria-labelledby="q1301:4_answer1_label" />
-    <div class="d-flex w-100" id="q1301:4_answer1_label" data-region="answer-label">
-        <span class="answernumber">b. </span>
-        <div class="flex-fill ml-1">
-            <p dir="ltr" style="text-align: left;"><img
-                    src="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1301/4/42/Boer%20goat444.jpg"
-                    alt="goat" width="255" height="191"
-                    class="img-fluid atto_image_button_text-bottom"><br></p>
-        </div>
-    </div>
-</div>');
+        $dom->loadStr($quizhtmlimage);
         $images = $dom->find('img');
         foreach($images as $link){
             $src = $link->getAttribute('src');
             $newsrc=$this->getquizimage_moodleapi($src);
             $link->setAttribute('src',$newsrc);
         }
-        echo $dom;
+        return $dom;
     }
 
     public function getquizimage_moodleapi($url_image)
