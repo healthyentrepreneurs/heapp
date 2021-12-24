@@ -288,7 +288,7 @@ class Quiz extends CI_Controller
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
 
-        $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "get", array('App-Key: 123456'));
+        $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         print_array($array_of_output);
         // curl
