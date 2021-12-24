@@ -284,23 +284,28 @@ class Quiz extends CI_Controller
         $images = $dom->find('img');
         foreach($images as $link){
             $src = $link->getAttribute('src');
-            print_array($src);
-            $link->setAttribute('src',"https://helper.healthyentrepreneurs.nl/quiz/checkdom");
+            $newsrc=$this->getquizimage_moodleapi($src);
+            $link->setAttribute('src',$newsrc);
         }
         echo $dom;
     }
-    public function checkdom_later()
+
+    public function getquizimage_moodleapi($url_image)
     {
         $URL_GET_IMAGES="https://app.healthyentrepreneurs.nl/moodleapi/api/get_file_url";
-        $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
-        //Check Image Url Exists
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
-
-        $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        print_array($array_of_output['image_url']);
-        // curl
-        // echo $image;
+        if ($image!="unflagged") {
+            $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
+            $array_of_output = json_decode($server_output, true);
+            if($array_of_output['status']==0){
+                return "https://app.healthyentrepreneurs.nl/moodleapi/quizimages/image_error.jpeg";
+            }else {
+                return $array_of_output['image_url'];
+            }
+        }else {
+             return $url_image;
+        }
+        
     }
 }
