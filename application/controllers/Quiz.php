@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 require_once FCPATH . 'vendor/autoload.php';
 // https://github.com/paquettg/php-html-parser
 // https://stackoverflow.com/questions/8499633/how-to-display-base64-images-in-html
+// https://stackoverflow.com/questions/7214702/convert-image-to-base64-while-fetching-them-from-other-urls/7215585
 use PHPHtmlParser\Dom;
 
 header('Access-Control-Allow-Origin: *');
@@ -271,9 +272,9 @@ class Quiz extends CI_Controller
         $array_questions['nextpage']=$attempt_data_now['nextpage'];
         echo json_encode($array_questions);
     }
-    public function checkdom($imageurl="IMG_20211019_152036.jpg")
+    public function checkdom()
     {
-        $quizpath=FCPATH."quizimages/";
+        $URL_GET_IMAGES="https://app.healthyentrepreneurs.nl/moodleapi/api/get_file_url";
         // $dom = new Dom;
         // $dom->loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a> <a href="walah.com">click zoom</a> <br /> :)</p></div>');
         // $a = $dom->find('a');
@@ -284,18 +285,13 @@ class Quiz extends CI_Controller
         // echo $dom;
         $url_image="https://app.healthyentrepreneurs.nl/pluginfile.php/30/question/answer/1304/4/41/20110425%20German%20Shepherd%20Dog%208505.jpg";
         //Check Image Url Exists
-        $img_n=$quizpath."dog.jpeg";
-        file_put_contents($img_n, file_get_contents($url_image));
-        //End Check  Image Urls
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
+
+        $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "get", array('App-Key: 123456'));
+        $array_of_output = json_decode($server_output, true);
+        print_array($array_of_output);
+        // curl
         // echo $image;
-        $status=check_file_existance($quizpath.$imageurl);
-        //Is image there 
-        // if($status){
-        //     echo "its there";
-        // }else {
-        //     echo "Nop no";
-        // }
     }
 }
