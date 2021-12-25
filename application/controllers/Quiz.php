@@ -240,15 +240,6 @@ class Quiz extends CI_Controller
             return;
         } 
         print_array($attempt_data_now);
-        // $questions_n1 = $attempt_data_now['questions'];
-        // $array_questions = array();
-        // $html_string="";
-        // foreach ($questions_n1 as $key => $value) {
-        //     $htmlscriptarray=explode("<script",$value['html']);
-        //     $html_string=$htmlscriptarray[0]."".$html_string;
-        // }
-        // $array_questions['page']=$questions_n1[0]['page'];
-        // $array_questions['html']=base64_encode($html_string);
     }
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
@@ -256,7 +247,7 @@ class Quiz extends CI_Controller
         if (array_key_exists('exception', $check_start_quiz)) {
             $array_arror=array(
                 'code'=>"400",
-                'message'=>limit_words($check_start_quiz['message'],20),
+                'message'=>limit_words($check_start_quiz['message'],25),
                 'data'=>null
             );
             echo json_encode($array_arror);
