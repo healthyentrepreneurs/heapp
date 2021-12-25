@@ -215,7 +215,7 @@ class Quiz extends CI_Controller
     }
     
     //This is it
-    public function get_quiz_em_dddd($quizid, $page = 0, $token)
+    public function get_quiz_em_test($quizid, $page = 0, $token)
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
         if (array_key_exists('exception', $check_start_quiz)) {
@@ -225,17 +225,16 @@ class Quiz extends CI_Controller
             $attempdata = $check_start_quiz['attempt']['id'];
         }
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
-        $questions_n1 = $attempt_data_now['questions'];
-        $array_questions = array();
-        $html_string="";
-        foreach ($questions_n1 as $key => $value) {
-            // $questions_n1[$key]['html']=base64_encode($value['html']);
-            $htmlscriptarray=explode("<script",$value['html']);
-            $html_string=$htmlscriptarray[0]."".$html_string;
-        }
-        $array_questions['page']=$questions_n1[0]['page'];
-        $array_questions['html']=base64_encode($html_string);
-        // echo json_encode($array_questions);
+        print_array($attempt_data_now);
+        // $questions_n1 = $attempt_data_now['questions'];
+        // $array_questions = array();
+        // $html_string="";
+        // foreach ($questions_n1 as $key => $value) {
+        //     $htmlscriptarray=explode("<script",$value['html']);
+        //     $html_string=$htmlscriptarray[0]."".$html_string;
+        // }
+        // $array_questions['page']=$questions_n1[0]['page'];
+        // $array_questions['html']=base64_encode($html_string);
     }
     public function get_quiz_em_format($quizid, $page = 0, $token)
     {
