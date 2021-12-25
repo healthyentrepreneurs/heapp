@@ -219,8 +219,11 @@ class Quiz extends CI_Controller
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
         if (array_key_exists('exception', $check_start_quiz)) {
-            echo "nope";
-            // return;
+            $array_arror=array(
+                "firstname"=>'joshua'
+            );
+            echo json_encode($array_arror);
+            return;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
             $attempdata = $check_start_quiz['attempt']['id'];
