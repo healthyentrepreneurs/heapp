@@ -221,7 +221,7 @@ class Quiz extends CI_Controller
         if (array_key_exists('exception', $check_start_quiz)) {
             $array_arror=array(
                 'code'=>"400",
-                'message'=>$check_start_quiz['message'],
+                'message'=>limit_words($check_start_quiz['message'],20),
                 'data'=>null
             );
             echo json_encode($array_arror);
@@ -254,13 +254,27 @@ class Quiz extends CI_Controller
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
         if (array_key_exists('exception', $check_start_quiz)) {
-            $attempdata = 1;
-        } else {
-            $check_start_quiz['attempt']['token'] = $token;
-            $attempdata = $check_start_quiz['attempt']['id'];
-        }
+            $array_arror=array(
+                'code'=>"400",
+                'message'=>limit_words($check_start_quiz['message'],20),
+                'data'=>null
+            );
+            echo json_encode($array_arror);
+            return;
+        } 
+        $check_start_quiz['attempt']['token'] = $token;
+        $attempdata = $check_start_quiz['attempt']['id'];
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         // print_array($attempt_data_now);
+        if (array_key_exists('exception', $attempt_data_now)) {
+            $array_arror=array(
+                'code'=>"400",
+                'message'=>$attempt_data_now['message'],
+                'data'=>null
+            );
+            echo json_encode($array_arror);
+            return;
+        } 
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
         $html_string="";
