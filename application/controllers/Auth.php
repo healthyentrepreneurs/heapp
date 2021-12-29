@@ -595,7 +595,7 @@ class Auth extends CI_Controller
     }
     public function get_admin_token($show = 1)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=GoatNa123!@%23XCMan&service=addusers';
+        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
@@ -608,5 +608,5 @@ class Auth extends CI_Controller
         }
     }
 }
-// GoatNa123!@#XCMan   GoatNa123!@%23XCMan
-//GoatNa123!@%23XCMan
+// Walah123!@#CMaw   Walah123!@%23CMaw
+//Walah123!@%23CMaw
