@@ -243,7 +243,7 @@
                     }
                     public function get_admin_token()
                     {
-                        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+                        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
                         $data = array();
                         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
                         $array_of_output = json_decode($server_output, true);
@@ -271,7 +271,7 @@
                     public function getbookcourse_id($course_id)
                     {
                         // public function _get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
-                        $domainname = 'https://app.healthyentrepreneurs.nl/moodleapi/api/getbookcourse_id/' . $course_id;
+                        $domainname = MOODLEAPP_DOMAIN . '/moodleapi/api/getbookcourse_id/' . $course_id;
                         // echo $domainname;
                         $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
                         $array_of_output = json_decode($server_output, true);
@@ -289,22 +289,6 @@
                         echo $this->backgroundprocess->get_log_paths();
                         echo $pid . "\n";
                         // echo "joshua";
-                    }
-                    public function update_ng()
-                    {
-                        $urlArray = array(
-                            'https://helper.healthyentrepreneurs.nl/downloadable/book_download',
-                            'https://helper.healthyentrepreneurs.nl/downloadable/create_content/',
-                            'https://helper.healthyentrepreneurs.nl/contentasync/syncbooks/3/2cedf0d2bd87e32db7e9b57fc6ec9a34'
-                        );
-                        $this->load->library('backgroundprocess');
-                        // $this->backgroundprocess->setCmd('php https://helper.healthyentrepreneurs.nl/downloadable/book_download');
-                        $this->backgroundprocess->setCmd("curl -o /www/application/logs/log_background_process.log " . base_url('downloadable/create_content'));
-                        $this->backgroundprocess->start();
-                        $pid = $this->backgroundprocess->getProcessId();
-                        // echo $this->backgroundprocess->get_log_paths();
-                        // echo $pid . "\n";
-                        print_array($this->update_ng_xx());
                     }
                 }
 

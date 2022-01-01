@@ -30,8 +30,7 @@ class Moodle extends CI_Controller
             $username = str_replace(' ', '', $this->input->post('username'));
             $password = str_replace('#', '%23', $this->input->post('password'));
             // $password = $this->input->post('password');
-            $domainname = 'https://app.healthyentrepreneurs.nl';
-            $serverurl = $domainname . '/login/token.php';
+            $serverurl = MOODLEAPP_DOMAIN . '/login/token.php';
             $data = array(
                 'username' => $username,
                 'password' => $password,
@@ -64,10 +63,8 @@ class Moodle extends CI_Controller
     }
     public function get_userdetails_internal($username = null)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token =  $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -76,16 +73,14 @@ class Moodle extends CI_Controller
             'values[0]' => $username
 
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
     public function get_userdetails_internal_todelete($username = null)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -94,34 +89,24 @@ class Moodle extends CI_Controller
             'values[0]' => $username
 
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
-        $serverurl = $domainname . '/login/token.php?';
+        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        //print_array($array_of_output);
         return $array_of_output;
     }
     //User Api Moodle
     public function pullfrommod($state = 1)
     {
-        // papa Mega1java123!@# papa@gmail.com / papax@gmail.com  papay papata
-        // https://app.healthyentrepreneurs.nl/admin/tool/trigger/manage.php
-        // testpost
-        // jsonobject
         if ($state == 0) {
             $products = array($_POST);
             $data_pushed = json_encode($products, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
-            // $data_copy = array(
-            //     'jsonobject' => $data_pushed
-            // );
-            // $this->universal_model->updateOnDuplicate('testpost', $data_copy);
             // header("Content-type: application/json");
             // header('Content-Type: charset=utf-8');
             $this->checkstate($data_pushed);
@@ -132,7 +117,7 @@ class Moodle extends CI_Controller
     //User Api Moodle
     public function checkstate($string_ma)
     {
-        $USERURL = "https://app.healthyentrepreneurs.nl/moodleapi/api/getusers/";
+        $USERURL = MOODLEAPP_DOMAIN . "/moodleapi/api/getusers/";
         // $string_ma = '[{"eventname":"\\core\\event\\user_created","amp;component":"core","amp;action":"created","amp;target":"user","amp;objecttable":"user","amp;objectid":6,"amp;crud":"c","amp;edulevel":0,"amp;contextid":28,"amp;contextlevel":30,"amp;contextinstanceid":6,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":6,"amp;anonymous":0,"amp;timecreated":1632738348,"0":1632738348}]';
         // $string_ma = '[{"eventname":"\\core\\event\\user_deleted","amp;component":"core","amp;action":"deleted","amp;target":"user","amp;objecttable":"user","amp;objectid":5,"amp;crud":"d","amp;edulevel":0,"amp;contextid":27,"amp;contextlevel":30,"amp;contextinstanceid":5,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":5,"amp;anonymous":0,"amp;other":{"username":"pwampa","email":"pwampa@gmail.com","idnumber":"","picture":0,"mnethostid":1},"amp;timecreated":1632738125,"0":1632738125}]';
         // $string_ma = '[{"eventname":"\\core\\event\\user_updated","amp;component":"core","amp;action":"updated","amp;target":"user","amp;objecttable":"user","amp;objectid":3,"amp;crud":"u","amp;edulevel":0,"amp;contextid":25,"amp;contextlevel":30,"amp;contextinstanceid":3,"amp;userid":2,"amp;courseid":0,"amp;relateduserid":3,"amp;anonymous":0,"amp;timecreated":1633332727,"0":1633332727}]';
@@ -168,7 +153,6 @@ class Moodle extends CI_Controller
     public function pullbook($state = 1)
     {
         // papa Mega1java123!@# papa@gmail.com / papax@gmail.com  papay papata
-        // https://app.healthyentrepreneurs.nl/admin/tool/trigger/manage.php
         // testpost
         // jsonobject
         if ($state == 0) {
@@ -186,6 +170,4 @@ class Moodle extends CI_Controller
             echo "not event book ";
         }
     }
-    // define("GOLANGURL", "https://he-test-server.uc.r.appspot.com/moodlevent");
-    // define("GOLANGURL", "https://helper.healthyentrepreneurs.nl/moodle/pullbook/0");
 }

@@ -12,6 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
+//Joash Added
+defined('MOODLEAPP_DOMAIN')  OR define('MOODLEAPP_DOMAIN', 'http://localhost/moodle');
+defined('MOODLEAPP_ENDPOINT')  OR define('MOODLEAPP_ENDPOINT', 'http://localhost/moodle/webservice/rest/server.php');
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

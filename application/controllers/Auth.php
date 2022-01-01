@@ -142,9 +142,9 @@ class Auth extends CI_Controller
     public function check_database($password)
     {
         $passwordn = str_replace('#', '%23', $password);
+        // $passwordn = urldecode($password);
         $username = $this->input->post('username');
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $serverurl = $domainname . '/login/token.php';
+        $serverurl = MOODLEAPP_DOMAIN . '/login/token.php';
         $data = array(
             'username' => $username,
             'password' => $passwordn,
@@ -175,10 +175,8 @@ class Auth extends CI_Controller
     }
     public function get_userdetails_internal($username = null)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -187,7 +185,7 @@ class Auth extends CI_Controller
             'values[0]' => $username
 
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
@@ -595,8 +593,7 @@ class Auth extends CI_Controller
     }
     public function get_admin_token($show = 1)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
-        $serverurl = $domainname . '/login/token.php?';
+        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);

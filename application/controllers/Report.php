@@ -529,10 +529,9 @@ class Report extends CI_Controller
     }
     public function get_meuserdetails($user_id)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
+        $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -541,7 +540,7 @@ class Report extends CI_Controller
             'values[0]' => $user_id
 
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
@@ -917,9 +916,7 @@ class Report extends CI_Controller
     public function getbooksin_course()
     {
         $course_id = $this->input->post('courseid');
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_book_get_books_by_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $this->get_admin_token()['token'],
             'wsfunction' => $functionname,
@@ -927,7 +924,7 @@ class Report extends CI_Controller
             'moodlewsrestformat' => 'json'
 
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $plain_data = json_decode($server_output, true);
         $final_books = array();
         if (!empty($plain_data)) {
@@ -960,8 +957,7 @@ class Report extends CI_Controller
     #End of End
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
-        $serverurl = $domainname . '/login/token.php?';
+        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);

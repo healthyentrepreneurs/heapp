@@ -184,10 +184,8 @@ class Welcome extends CI_Controller
 
     public function getme_chort_details()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_get_cohorts';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -195,7 +193,7 @@ class Welcome extends CI_Controller
             'cohortids' => array(),
 
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
         // print_array($array_of_output);
@@ -225,10 +223,8 @@ class Welcome extends CI_Controller
     #Test Get User Details
     public function get_meuserdetails($user_id)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -237,7 +233,7 @@ class Welcome extends CI_Controller
             'values[0]' => $user_id
 
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         // $mamama = $this->session->userdata('logged_in_lodda');
         // return $array_of_output;
@@ -634,28 +630,25 @@ class Welcome extends CI_Controller
     }
     public function get_admin_token()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        //print_array($array_of_output);
         return $array_of_output;
     }
     public function get_all_avail_course()
     {
         //   core_course_get_courses
         //core_enrol_get_users_courses
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'core_course_get_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $this->get_admin_token()['token'],
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
 
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $jaja = json_decode($server_output, true);
         // cleanContent
         return $jaja;

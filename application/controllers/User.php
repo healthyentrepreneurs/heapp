@@ -63,17 +63,15 @@ class User extends CI_Controller
     ##End Courses
     public function get_list_courses_internal($user_id)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'core_enrol_get_users_courses';
         $token = $this->get_admin_token()['token'];
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'userid' => $user_id,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         if (array_key_exists('exception', $array_of_courses)) {
             // message
@@ -84,17 +82,14 @@ class User extends CI_Controller
     }
     public function get_details_percourse($_courseid, $token, $show = 1)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
-        $token_x = $this->get_admin_token()['token'];
         $functionname = 'core_course_get_contents';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
             'courseid' => $_courseid
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         // print_array($server_output);
         $array_of_courses = json_decode($server_output, true);
         if (array_key_exists('exception', $array_of_courses)) {
@@ -213,10 +208,7 @@ class User extends CI_Controller
     {
         if (is_array($_courseid)) {
             $string = implode(',', $_courseid);
-            $domainname = 'https://app.healthyentrepreneurs.nl';
-            // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
             $functionname = 'core_course_get_courses_by_field';
-            $serverurl = $domainname . '/webservice/rest/server.php';
             $data = array(
                 'wstoken' => $token,
                 'wsfunction' => $functionname,
@@ -224,7 +216,7 @@ class User extends CI_Controller
                 'field' => "ids",
                 'value' =>  $string
             );
-            $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+            $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
             // print_array($server_output);
             $array_of_courses = json_decode($server_output, true);
             if (array_key_exists('exception', $array_of_courses)) {
@@ -236,10 +228,8 @@ class User extends CI_Controller
         } elseif (!is_null($_courseid)) {
             $arry_ids[] = $_courseid;
             $string = implode(',', $arry_ids);
-            $domainname = 'https://app.healthyentrepreneurs.nl';
             // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
             $functionname = 'core_course_get_courses_by_field';
-            $serverurl = $domainname . '/webservice/rest/server.php';
             $data = array(
                 'wstoken' => $token,
                 'wsfunction' => $functionname,
@@ -247,7 +237,7 @@ class User extends CI_Controller
                 'field' => "ids",
                 'value' =>  $string
             );
-            $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+            $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
             // print_array($server_output);
             $array_of_courses = json_decode($server_output, true);
             if (array_key_exists('exception', $array_of_courses)) {
@@ -262,10 +252,10 @@ class User extends CI_Controller
     }
     public function set_newuser()
     {
-   //  $_POST['firstname']="silpa";
-//$_POST['lastname']="arwa";
- //$_POST['email']="onneckdlastKe9539@gmail.com";
-// $_POST['username']="Ke9539";
+        //  $_POST['firstname']="silpa";
+        //$_POST['lastname']="arwa";
+        //$_POST['email']="onneckdlastKe9539@gmail.com";
+        // $_POST['username']="Ke9539";
         if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['username'])) {
             $firstname     = $this->input->post('firstname');
             $lastname     = $this->input->post('lastname');
@@ -291,17 +281,15 @@ class User extends CI_Controller
             $array = json_decode(json_encode($users), true);
             // $params = array();
             //Call
-            $domainname = 'https://app.healthyentrepreneurs.nl';
             $token = $this->get_admin_token()['token'];
             $functionname = 'core_user_create_users';
-            $serverurl = $domainname . '/webservice/rest/server.php';
             $data = array(
                 'wstoken' => $token,
                 'wsfunction' => $functionname,
                 'moodlewsrestformat' => 'json',
                 'users' => $array
             );
-            $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+            $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
             $array_of_output = json_decode($server_output, true);
             // print_array($array_of_output);
             if (array_key_exists('exception', $array_of_output)) {
@@ -329,7 +317,6 @@ class User extends CI_Controller
     }
     public function addUserToCohorts($chortvalue, $username, $id_id)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_add_cohort_members';
         $member = new stdClass();
@@ -339,7 +326,6 @@ class User extends CI_Controller
         $member->usertype["value"] = $username;
         $members = array($member);
         // $par = array('members' => $members);
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -352,27 +338,25 @@ class User extends CI_Controller
             'password' => 'Newuser123!',
         );
         $this->universal_model->updateOnDuplicate('user', $data_copy);
-        echo curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        echo curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         // echo json_encode($par);
     }
     function enrol($user_id, $course_id)
     {
         $role_id = 5; //assign role to be Student
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'enrol_manual_enrol_users';
         $enrolment = array('roleid' => $role_id, 'userid' => $user_id, 'courseid' => $course_id);
         $enrolments = array($enrolment);
         // $params = array('enrolments' => $enrolments);
         $array = json_decode(json_encode($enrolments), true);
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
             'enrolments' => $array
         );
-        curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
     }
     // core_cohort_get_cohort_members
     public function getme_cohort_get_cohort_members($id_quetion, $returnformat = 0)
@@ -394,10 +378,8 @@ class User extends CI_Controller
             $cohortids = array($cohortids);
         }
         $cohortids = array_unique($cohortids);
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_cohort_get_cohort_members';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -405,7 +387,7 @@ class User extends CI_Controller
             'cohortids' => $cohortids,
 
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         $cohort_allowed_id = array();
         // print_array($array_of_output);
@@ -450,9 +432,7 @@ class User extends CI_Controller
     public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)
     {
         // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_book_view_book';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -461,7 +441,7 @@ class User extends CI_Controller
             'chapterid' => $chapter_id
 
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $date_received = $this->input->get('dateTime');
         $more_data = $this->extract_books_data($course_id, $token, $book_id, $chapter_id, $date_received);
         //Add User Details 
@@ -495,18 +475,6 @@ class User extends CI_Controller
         //https://docs.moodle.org/dev/Core_APIs#Data_manipulation_API_.28dml.29
         $mama = $this->viwedbook(104, 268, 'b536dbacaab00ab6924ddd9798a1a611');
         print_array($mama);
-        // $domainname = 'https://app.healthyentrepreneurs.nl';
-        // $functionname = 'mod_book_get_books_by_courses';
-        // $serverurl = $domainname . '/webservice/rest/server.php';
-        // $data = array(
-        //     'wstoken' => "b536dbacaab00ab6924ddd9798a1a611",
-        //     'wsfunction' => $functionname,
-        //     'courseids[0]' => 2,
-        //     'moodlewsrestformat' => 'json'
-
-        // );
-        // $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
-        // print_array($server_output);
     }
     public function extract_books_data($_courseid, $token, $book_id, $chapter_id, $date_inserted)
     {
@@ -576,7 +544,7 @@ class User extends CI_Controller
     }
     public function get_admin_token($show = 0)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
@@ -641,16 +609,14 @@ class User extends CI_Controller
     }
     public  function get_allcourse($show = 0)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = $this->get_admin_token()['token'];
         $functionname = 'core_course_get_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         $array_elm = array();
         foreach ($array_of_output as $key_elm => $value_elm) {
@@ -705,15 +671,13 @@ class User extends CI_Controller
     }
     public function get_token_mobile($show = 0)
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl/login/token.php?username=mega&password=Walah123!@%23CMaw&service=moodle_mobile_app';
-        $serverurl = $domainname . '/login/token.php?';
+        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?service=moodle_mobile_app';
         $data = array(
             'username' => "mega",
             'password' => 'Walah123!@#CMaw'
         );
         $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
-        // print_array($array_of_output);
         if ($show == 0) {
             return $array_of_output;
         } else {

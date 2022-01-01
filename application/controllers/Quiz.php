@@ -23,17 +23,15 @@ class Quiz extends CI_Controller
     }
     public function quiz_get_quiz_required_qtypes()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quiz_required_qtypes';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
@@ -42,33 +40,29 @@ class Quiz extends CI_Controller
     public function quiz_get_quizzes_by_courses()
     {
         # mod_quiz_get_quizzes_by_courses
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quizzes_by_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'courseids[0]' => 2,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
     public  function get_courseresources()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_resource_get_resources_by_courses';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'courseids[0]' => 2,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
 
@@ -76,27 +70,23 @@ class Quiz extends CI_Controller
     public function quiz_view_quiz()
     {
         # mod_quiz_view_quiz
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_view_quiz';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
     public function quiz_start_attempt($quizid = null, $token)
     {
         # mod_quiz_start_attempt
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_quiz_start_attempt';
         // preflightdata
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'forcenew' => 1,
             'preflightdata[0][name]' => 'quizpassword',
@@ -106,7 +96,7 @@ class Quiz extends CI_Controller
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         // print_array($array_of_courses);
         if (empty($array_of_courses)) {
@@ -162,10 +152,7 @@ class Quiz extends CI_Controller
     //Helper Function
     public function quiz_get_attempt_data($attemptid = null, $page = 0, $token)
     {
-        // https://app.healthyentrepreneurs.nl/webservice/rest/server.php?moodlewsrestformat=json&quizid=3&wsfunction=mod_quiz_get_attempt_access_information&wstoken=f84bf33b56e86a4664284d8a3dfb5280
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $functionname = 'mod_quiz_get_attempt_data';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'attemptid' => $attemptid,
             'page' => $page,
@@ -175,41 +162,37 @@ class Quiz extends CI_Controller
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         // echo empty_response("Quiz Loaded .. ", 200, $array_of_courses);
         return $array_of_courses;
     }
     public function get_user_attempts()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_user_attempts';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
 //Helper Function
     public function quiz_get_quiz_access_information()
     {
-        $domainname = 'https://app.healthyentrepreneurs.nl';
         $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quiz_access_information';
-        $serverurl = $domainname . '/webservice/rest/server.php';
         $data = array(
             'quizid' => 7,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
         );
-        $server_output = curl_request($serverurl, $data, "post", array('App-Key: 123456'));
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
@@ -300,14 +283,14 @@ class Quiz extends CI_Controller
 
     public function getquizimage_moodleapi($url_image)
     {
-        $URL_GET_IMAGES="https://app.healthyentrepreneurs.nl/moodleapi/api/get_file_url";
+        $URL_GET_IMAGES=MOODLEAPP_DOMAIN+"/moodleapi/api/get_file_url";
         $imagecountarray=explode("/",$url_image);
         $image=$imagecountarray[count($imagecountarray)-1];
         if ($image!="unflagged") {
             $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
             $array_of_output = json_decode($server_output, true);
             if($array_of_output['status']==0){
-                return "https://app.healthyentrepreneurs.nl/moodleapi/quizimages/image_error.jpeg";
+                return MOODLEAPP_DOMAIN+"/moodleapi/quizimages/image_error.jpeg";
             }else {
                 return $array_of_output['image_url'];
             }
