@@ -79,7 +79,6 @@ class Welcome extends CI_Controller
                 $courses = array();
             }
             $data['courses'] = $courses;
-            // print_array($server_output);
             switch ($var) {
                 case 0:
                     $data['content_admin'] = 'pages/admin/admin_content';
@@ -87,7 +86,7 @@ class Welcome extends CI_Controller
                     $this->load->view('pages/hometwo', $data);
                     break;
                 case 1:
-                    $data['icon_image'] = 'https://picsum.photos/200/300';
+                    $data['icon_image'] = base_url('uploadscustome/placeholdericon.jpeg');
                     $data['content_admin'] = 'pages/admin/admin_quiz';
                     $this->load->view('pages/hometwo', $data);
                     break;
@@ -155,7 +154,6 @@ class Welcome extends CI_Controller
                     break;
                 case 9:
                     $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
-                    // $data['cohorts'] = $this->getme_chort_details();
                     $data['users'] = $attempt_d_n_n;
                     $data['content_admin'] = 'pages/admin/cohortsdownload';
                     $this->load->view('pages/hometwo', $data);

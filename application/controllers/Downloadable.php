@@ -1,5 +1,4 @@
 <?php
-// ini_set('max_execution_time', '6000');
 set_time_limit(0);
 ignore_user_abort(true);
 defined('BASEPATH') or exit('No direct script access allowed');
@@ -14,23 +13,34 @@ class Downloadable extends CI_Controller
         parent::__construct();
         $this->load->model('universal_model');
         $this->load->model('user_model', '', TRUE);
-        //Downloadable Walah
     }
 
     public function index()
     {
         echo "<h1>Downloadable Api ..</h1>";
     }
-    public function create_contentx()
+    public function create_content()
     {
+        $cohort_object = $this->input->post('cohort_object');
+        $our_values = explode('@', $cohort_object);
+        $usercred = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
+        if(empty($usercred)){
+            $this->session->set_flashdata('downdstatus', "2");
+            $this->session->set_flashdata('downdmsg', "User Should Login HE app atleast once");
+            redirect(base_url('welcome/admin/9'));
+        }else{
+            $objectcred=array_shift($usercred);
+            $this->session->set_flashdata('downdstatus', "1");
+            $this->session->set_flashdata('iduser', $objectcred['id_id']);
+            $this->session->set_flashdata('downdmsg', "Download for  ".$objectcred['username'].' Ready ');
+            curl_request(MOODAPI.'/ziperapi/downluser', $objectcred, "post", array('App-Key: 123456'));
+            //https://stackoverflow.com/questions/7263923/how-to-force-file-download-with-php
+            redirect(base_url('welcome/admin/9'));
+        }
 
-        // $hery = $this->universal_model->selectz('*', 'user', 'username', $our_values[1]);
-        // kenya_test
-        $hery = $this->universal_model->selectz('*', 'user', 'username', 'kenya_test');
-        $mma = array_merge($hery, $our_values);
-        echo json_encode($mma);
     }
-    public function create_content($cohorts_ng = '1@mega')
+
+    public function create_contentTemp($cohorts_ng = '1@mega')
     {
         $cohort_object = $this->input->post('cohort_object');
         if (empty($cohort_object)) {
@@ -406,19 +416,6 @@ class Downloadable extends CI_Controller
     }
 
 
-
-
-
-    public function videopic()
-    {
-        // https://github.com/PHP-FFMpeg/PHP-FFMpeg#extracting-image
-        //https://gist.github.com/jsturgis/3b19447b304616f18657
-        $ffmpeg = FFMpeg\FFMpeg::create();
-        $video = $ffmpeg->open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
-        $video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
-        $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))->save(FCPATH . 'excelfiles/' . 'frame.jpg');
-        // http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4
-    }
     public function book_course($user_id, $token, $id_course)
     {
         header('Content-Type: application/json');
@@ -437,27 +434,5 @@ class Downloadable extends CI_Controller
         $server_output = curl_request($domainname, array(), "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
-    }
-    public function book_download()
-    {
-        $data_copy = array(
-            'user_id' => 101,
-            'update_id' => 101,
-            'update_type' => 'chag',
-            'dateaction' => '2021-05-17 17:03:51'
-        );
-        $this->universal_model->updateOnDuplicate('updatetract', $data_copy);
-        echo json_encode($data_copy);
-    }
-    public function course_download()
-    {
-        $data_copy = array(
-            'user_id' => 100,
-            'update_id' => 100,
-            'update_type' => 'cheng',
-            'dateaction' => '2021-05-17 17:03:51'
-        );
-        $this->universal_model->updateOnDuplicate('updatetract', $data_copy);
-        echo json_encode($data_copy);
     }
 }

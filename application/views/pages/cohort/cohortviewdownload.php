@@ -23,9 +23,28 @@ $ledger_per = $this->session->userdata('ledger_per');
                 <h4 class="panel-title">NOTE <span class="text-bold">USERS can Use the same download if they are closely related</span></h4>
             </div>
             <div class="panel-body">
-                <h5 class="help-inline">
-                    <font size="2" color="green"><?php echo $this->session->flashdata('cohort_success'); ?></font>
-                </h5>
+                <?php
+                if($this->session->flashdata('downdstatus')){
+                    $status=$this->session->flashdata('downdstatus');
+                    if($status=="1"){
+                        ?>
+                        <h5 class="help-inline">
+                            <font size="3" color="green"><?php echo $this->session->flashdata('downdmsg'); ?></font>
+<!--                            http://localhost/moodle/moodleapi/userdownloads/3HE_Health.zip-->
+                            <a href="<?=MOODAPI.'/userdownloads/'.$this->session->flashdata('iduser').'HE_Health.zip' ?>" download>click here to download</a>
+                        </h5>
+                        <?php
+                    }
+                    if($status=="2"){
+                        ?>
+                        <h5 class="help-inline">
+                            <font size="2" color="red"><?php echo $this->session->flashdata('downdmsg'); ?></font>
+                        </h5>
+                        <?php
+                    }
+                }
+                ?>
+<!--                Circling Back-->
                 <form id="add_cohort" method="post" class="form-horizontal" role="form" action="<?= base_url('downloadable/create_content') ?>">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="form-field-1">

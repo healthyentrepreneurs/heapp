@@ -43,8 +43,9 @@ class Survey extends CI_Controller
             if (file_exists("uploadscustome/" . $this->input->post('image_old'))) {
                 unlink("uploadscustome/" . $this->input->post('image_old'));
             }
+            $surveyid=$this->input->post('survey_id');
             $user_add = array(
-                'id' => $this->input->post('survey_id'),
+                'id' => $surveyid,
                 'image' => $this->input->post('image_big'),
                 'image_url_small' => $this->input->post('image_url_small'),
                 'createdby' => 1,
@@ -56,6 +57,7 @@ class Survey extends CI_Controller
                 'status' => 1,
                 'message' => "Successfully Updated Image Of Survey"
             );
+            $this->go_surveyaddupdate($surveyid, "surveyupdate");
             echo json_encode($array_n);
         } else {
             // $_POST['original'] = $this->input->post('original');
@@ -65,6 +67,7 @@ class Survey extends CI_Controller
                 'status' => 0,
                 'message' => "Update Image For This Survey"
             );
+
             echo json_encode($array_n);
         }
     }
@@ -85,7 +88,6 @@ class Survey extends CI_Controller
         $this->go_surveyaddupdate($id, "surveyupdate");
         echo json_encode($array_survey);
     }
-
     public function addsurvey()
     {
         // surveydesc
@@ -103,19 +105,7 @@ class Survey extends CI_Controller
         }
         // echo json_encode($_POST);
     }
-    // public function test_survey()
-    // {
-    //     $user_add = array(
-    //         'name' => "TEST SURVEY",
-    //         'surveydesc' => "This is the first test of survey designers",
-    //         'surveyjson' => 'Mammmmm  sksksksksksk',
-    //         'image' => "600_user_profile_picK6h.png",
-    //         'image_url_small' => "50_user_profile_picK6h.png",
-    //         'createdby' => 1,
-    //     );
-    //     $id=$this->universal_model->insertz('survey', $user_add);
-    //     print_array($id);
-    // }
+
     function addemployee_subfunc()
     {
         if ($this->validate_image("user_profile_pic" . getToken(3))) {
@@ -157,12 +147,10 @@ class Survey extends CI_Controller
             );
             echo json_encode($array_n);
         } else {
-            // $_POST['original'] = $this->input->post('original');
-            // redirect(base_url('welcome/admin/1'));
             # code...
             $array_n = array(
                 'status' => 0,
-                'message' => "Upload Image For This Survey"
+                'message' => $this->session->flashdata('validate_image')
             );
             echo json_encode($array_n);
         }
@@ -170,7 +158,7 @@ class Survey extends CI_Controller
     public function validate_image($generatedname)
     {
         $config['overwrite'] = TRUE;
-        // $config['upload_path']          = APPPATH.'datamine/';
+        // $config['upload_path']          = APPPATH . 'uploadscustome/';
         $config['upload_path'] = './uploadscustome/';
         $config['allowed_types'] = 'gif|jpeg|jpg|png';
         $config['max_size'] = '10000';
@@ -183,11 +171,9 @@ class Survey extends CI_Controller
             $error = array(
                 'error' => $this->upload->display_errors()
             );
-            // print_array($error);
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
                 $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
                 $this->session->set_flashdata('validate_image', "Please Select An Image Icon");
-                // print_array("You did not select a file to uploads");
                 return FALSE;
             }
             if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
@@ -229,18 +215,6 @@ class Survey extends CI_Controller
             return TRUE;
         }
     }
-    // public function create_thumbnailccc($width, $height, $new_image, $image_source)
-    // {
-    //     $config['image_library'] = 'gd2';
-    //     $config['source_image'] = $image_source;
-    //     $config['create_thumb'] = TRUE;
-    //     $config['maintain_ratio'] = TRUE;
-    //     $config['width'] = $width;
-    //     $config['height'] = $height;
-    //     $config['new_image'] = $new_image;
-    //     $this->image_lib->initialize($config);
-    //     $this->image_lib->resize();
-    // }
     public function create_thumbnail($width, $height, $new_image, $image_source)
     {
         $image = new ImageResize($image_source);
@@ -249,26 +223,32 @@ class Survey extends CI_Controller
     }
     public function deletesurvey()
     {
-        // unlink("uploadscustome/" . $name_file['file_name']);
         $surveyid = $this->input->post('surveyid');
-        // public function deletez($table_name, $variable_1, $value_1)
-        $this->universal_model->deletez('survey', 'id', $surveyid);
+        //Order Matters
+        $surveyimages = $this->universal_model->selectzunique('id', 'survey', 'id', $surveyid);
+        deleteimages(array_shift($surveyimages));
         $this->go_surveyaddupdate($surveyid, "surveydelete");
+        $this->universal_model->deletez('survey', 'id', $surveyid);
         echo json_encode($_POST);
     }
     public function getnexlink($id, $format = 0)
     {
         header('Content-Type: application/json');
         $attempt_d_n_n = $this->universal_model->selectz('*', 'survey', 'id', $id);
-        $json_en_values = $this->survey_custom_values($attempt_d_n_n);
-        $json_en = array_shift($json_en_values);
-        $array_objects_pages = $json_en['surveyjson'];
-        if ($format == 0) {
-            echo json_encode($array_objects_pages);
+        if (!empty($attempt_d_n_n)) {
+            $json_en_values = $this->survey_custom_values($attempt_d_n_n);
+            $json_en = array_shift($json_en_values);
+            $array_objects_pages = $json_en['surveyjson'];
+            if ($format == 0) {
+                echo json_encode($array_objects_pages);
+            } else {
+                $msms = array_shift($attempt_d_n_n);
+                $msms['surveyjson'] = json_encode($array_objects_pages);
+                return $msms;
+            }
         } else {
-            $msms = array_shift($attempt_d_n_n);
-            $msms['surveyjson'] = json_encode($array_objects_pages);
-            return $msms;
+            $msms['surveyjson'] = "";
+            echo json_encode($msms);
         }
 
         // print_array($attempt_d_n_n);
@@ -476,7 +456,7 @@ class Survey extends CI_Controller
     public function go_surveyaddupdate($survey_id, $message)
     {
         // $_REMOTEGO = "http://localhost:8080/".$message;
-        $_REMOTEGO = "https://he-test-server.uc.r.appspot.com/" . $message;
+        $_REMOTEGO = REMOTE_GO . $message;
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
         curl_request_json($_REMOTEGO, $json_nand);

@@ -14,7 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 //Joash Added
 defined('MOODLEAPP_DOMAIN')  OR define('MOODLEAPP_DOMAIN', 'http://localhost/moodle');
+defined('MOODAPI')  OR define('MOODAPI', 'http://localhost/moodle/moodleapi');
 defined('MOODLEAPP_ENDPOINT')  OR define('MOODLEAPP_ENDPOINT', 'http://localhost/moodle/webservice/rest/server.php');
+defined('REMOTE_GO') OR define('REMOTE_GO','http://localhost:5051/');
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

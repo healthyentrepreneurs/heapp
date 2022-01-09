@@ -17,7 +17,7 @@ class User extends CI_Controller
     {
         echo "<h1>Api Users Api .....</h1>";
     }
-    public function get_moodle_courses($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3)
+    public function get_moodle_courses($token, $user_id)
     {
         header('Content-Type: application/json');
         $merge_sanitized_courses = $this->get_moodle_course_inter($token, $user_id);
@@ -41,8 +41,8 @@ class User extends CI_Controller
             $courses['next_link'] = base_url('user/get_details_percourse/' . $courses['id'] . '/' . $token);
             $courses_overviewfiles = $courses['overviewfiles'];
             if (empty($courses_overviewfiles)) {
-                $courses['image_url_small'] = "https://picsum.photos/100/100";
-                $courses['image_url'] = "https://picsum.photos/200/300";
+                $courses['image_url_small'] = base_url('uploadscustome/placeholdericon.jpeg');
+                $courses['image_url'] = base_url('uploadscustome/placeholdericon.jpeg');
             } else {
                 $courses['image_url_small'] = array_shift($courses_overviewfiles)['fileurl'] . '?token=' . $token;
                 $courses['image_url'] = $courses['image_url_small'];
@@ -183,7 +183,6 @@ class User extends CI_Controller
                             //End 
                             array_push($new_content, $content_value);
                         }
-
                         $_filter_modules['contents'] = $new_content;
                         array_push($array_modules, $_filter_modules);
                     }

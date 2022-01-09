@@ -55,13 +55,13 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
     // curl_close ($ch);
     // print_array($server_output);
 }
-function curl_request_json($url,$data)
+function curl_request_json($url, $data)
 {
     $ch = curl_init($url);
     // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
     $result = curl_exec($ch);
@@ -1139,69 +1139,72 @@ function cleanContent($content)
     $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
     return trim(strip_tags($content));
 }
+function deleteimages($array_images, $pathtodelete = "uploadscustome/")
+{
+    if (!empty($array_images)) {
+        $image_original = $array_images['image'];
+        $profile_image = str_replace("600_", "", $image_original);
+        unlink($pathtodelete . $array_images['image_url_small']);
+        unlink($pathtodelete . $array_images['image']);
+        unlink($pathtodelete . $profile_image);
+    }
+}
+function multi_thread_curl($urlArray, $optionArray, $nThreads)
+{
 
-function multi_thread_curl($urlArray, $optionArray, $nThreads) {
+    //Group your urls into groups/threads.
+    $curlArray = array_chunk($urlArray, $nThreads, $preserve_keys = true);
 
-  //Group your urls into groups/threads.
-  $curlArray = array_chunk($urlArray, $nThreads, $preserve_keys = true);
+    //Iterate through each batch of urls.
+    $ch = 'ch_';
+    foreach ($curlArray as $threads) {
 
-  //Iterate through each batch of urls.
-  $ch = 'ch_';
-  foreach($curlArray as $threads) {      
+        //Create your cURL resources.
+        foreach ($threads as $thread => $value) {
 
-      //Create your cURL resources.
-      foreach($threads as $thread=>$value) {
+            ${$ch . $thread} = curl_init();
 
-      ${$ch . $thread} = curl_init();
-
-        curl_setopt_array(${$ch . $thread}, $optionArray); //Set your main curl options.
-        curl_setopt(${$ch . $thread}, CURLOPT_URL, $value); //Set url.
+            curl_setopt_array(${$ch . $thread}, $optionArray); //Set your main curl options.
+            curl_setopt(${$ch . $thread}, CURLOPT_URL, $value); //Set url.
 
         }
 
-      //Create the multiple cURL handler.
-      $mh = curl_multi_init();
+        //Create the multiple cURL handler.
+        $mh = curl_multi_init();
 
-      //Add the handles.
-      foreach($threads as $thread=>$value) {
+        //Add the handles.
+        foreach ($threads as $thread => $value) {
 
-      curl_multi_add_handle($mh, ${$ch . $thread});
+            curl_multi_add_handle($mh, ${$ch . $thread});
+        }
 
-      }
+        $active = null;
 
-      $active = null;
+        //execute the handles.
+        do {
 
-      //execute the handles.
-      do {
+            $mrc = curl_multi_exec($mh, $active);
+        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
 
-      $mrc = curl_multi_exec($mh, $active);
+        while ($active && $mrc == CURLM_OK) {
 
-      } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            if (curl_multi_select($mh) != -1) {
+                do {
 
-      while ($active && $mrc == CURLM_OK) {
+                    $mrc = curl_multi_exec($mh, $active);
+                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            }
+        }
 
-          if (curl_multi_select($mh) != -1) {
-              do {
+        //Get your data and close the handles.
+        foreach ($threads as $thread => $value) {
 
-                  $mrc = curl_multi_exec($mh, $active);
+            $results[$thread] = curl_multi_getcontent(${$ch . $thread});
 
-              } while ($mrc == CURLM_CALL_MULTI_PERFORM);
-          }
-
-      }
-
-      //Get your data and close the handles.
-      foreach($threads as $thread=>$value) {
-
-      $results[$thread] = curl_multi_getcontent(${$ch . $thread});
-
-      curl_multi_remove_handle($mh, ${$ch . $thread});
-
-      }
-      //Close the multi handle exec.
-      curl_multi_close($mh);
-
-  }
-  return $results;
-
-} 
+            curl_multi_remove_handle($mh, ${$ch . $thread});
+        }
+        //Close the multi handle exec.
+        curl_multi_close($mh);
+    }
+    return $results;
+}

@@ -17,6 +17,7 @@
                 <div id="surveyContainer">
                     <div id="creatorElement"></div>
                 </div>
+               <!-- Now Currently Njovu -->
                 <form id="imageUploadForm" method="post" class="form-horizontal" action="<?= base_url("survey/addsurvey") ?>" enctype="multipart/form-data" role="form">
                     <div class="form-group">
                         <br>
@@ -24,7 +25,7 @@
                             <b>Upload</b>
                         </label>
                         <div class="col-sm-11">
-                            <img id="uploadPreview" src="<?= $icon_image ?>" onclick="Call_Uploader()" width="300" height="200" />
+                            <img id="uploadPreview" src="<?= $icon_image ?>" onclick="Call_Uploader()" width="300" height="300" />
                             <br><br>
                             <!-- <div class="control-group error">
                                 <h6 class="help-inline">
@@ -150,23 +151,18 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
+                    // console.log('joash now '+JSON.stringify(data));
                     if (data.status == 1) {
                         $('#imageUploadForm')[0].reset();
                         foo();
                         $("#sucess_message_now").text(data.message);
-                        // creator.text = defaultJSON;
-                        // console.log(data.status);
-                        // foo();
                     } else {
-                        // document.getElementById("error_message_now").value = "Shit Ehhhh?";
                         $("#error_message_now").text(data.message);
                         console.log(data.message)
                     }
-                    // console.log("success");
-
                 },
                 error: function(data) {
-                    console.log("error");
+                    console.log('error '+JSON.stringify(data));
                 }
             });
         }));
@@ -179,7 +175,7 @@
     function foo() {
         // alert("hello");
         // onclick="document.getElementById('resetbuttonid').click()"
-        document.getElementById("uploadPreview").value = 'https://picsum.photos/200/300';
+        document.getElementById("uploadPreview").value = '<?=base_url('uploadscustome/placeholdericon.jpeg')?>';
         // document.getElementById("myImg").src = "https://picsum.photos/200/300";
         // document.getElementById("surveyjson").value = creator.text;
         creator.text = "";
