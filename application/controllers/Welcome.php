@@ -159,10 +159,11 @@ class Welcome extends CI_Controller
                     $this->load->view('pages/hometwo', $data);
                     break;
                 case 10:
+                    #New
                     // books_reportindex.php
                     // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
-                    // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
-                    $course_content = $this->universal_model->book_select_uniqu_by(array('course_id', 'course_shortname'), array('viewtable.course_id'));
+                    $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
+                    $course_content = $this->universal_model->book_select_uniqu_by(array('course_id'), array('viewtable.course_id'));
                     //These should be returned by AJAX not a hack
                     $books_content = $this->universal_model->book_select_uniqu_by(array('book_id', 'book_name'), array('viewtable.book_name'));
                     $data['all_courses'] = $this->get_all_avail_course();

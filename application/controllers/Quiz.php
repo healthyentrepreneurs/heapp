@@ -21,12 +21,11 @@ class Quiz extends CI_Controller
     {
         echo "<h1>Quiz Api ...</h1>";
     }
-    public function quiz_get_quiz_required_qtypes()
+    public function quiz_get_quiz_required_qtypes($quizid, $token)
     {
-        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quiz_required_qtypes';
         $data = array(
-            'quizid' => 7,
+            'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -37,13 +36,12 @@ class Quiz extends CI_Controller
     }
 
     #The Real Begining Of Quiz
-    public function quiz_get_quizzes_by_courses()
+    public function quiz_get_quizzes_by_courses($courseid, $token)
     {
         # mod_quiz_get_quizzes_by_courses
-        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_get_quizzes_by_courses';
         $data = array(
-            'courseids[0]' => 2,
+            'courseids[0]' => $courseid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -52,12 +50,11 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
-    public  function get_courseresources()
+    public  function get_courseresources($courseid, $token)
     {
-        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_resource_get_resources_by_courses';
         $data = array(
-            'courseids[0]' => 2,
+            'courseids[0]' => $courseid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -65,15 +62,13 @@ class Quiz extends CI_Controller
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
-
     }
-    public function quiz_view_quiz()
+    public function quiz_view_quiz($quizid, $token)
     {
         # mod_quiz_view_quiz
-        $token = '01bd8b1e707671384445694d743f6ba8';
         $functionname = 'mod_quiz_view_quiz';
         $data = array(
-            'quizid' => 7,
+            'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -89,8 +84,8 @@ class Quiz extends CI_Controller
         // preflightdata
         $data = array(
             'forcenew' => 1,
-            'preflightdata[0][name]' => 'quizpassword',
-            'preflightdata[0][value]' => '123!@#',
+            // 'preflightdata[0][name]' => 'quizpassword',
+            // 'preflightdata[0][value]' => '123!@#',
             'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -99,6 +94,9 @@ class Quiz extends CI_Controller
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         // print_array($array_of_courses);
+        if ($quizid == null) {
+            return array();
+        }
         if (empty($array_of_courses)) {
             return array();
             // echo empty_response("No Quiz Started .. ");
@@ -111,7 +109,6 @@ class Quiz extends CI_Controller
     //This is it
     public function get_quiz_em($quizid, $page = 0, $token)
     {
-
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
 
         if (array_key_exists('exception', $check_start_quiz)) {
@@ -144,7 +141,7 @@ class Quiz extends CI_Controller
             array_push($formatter_clean, $next_array);
         }
         unset_post($attempt_data_now, 'questions');
-        $attempt_data_now['questions']=$formatter_clean;
+        $attempt_data_now['questions'] = $formatter_clean;
         echo empty_response("Quiz Loaded .. ", 200, $attempt_data_now);
         // print_array($questions_n1);
         // echo json_encode($attempt_data_now);
@@ -156,8 +153,8 @@ class Quiz extends CI_Controller
         $data = array(
             'attemptid' => $attemptid,
             'page' => $page,
-            'preflightdata[0][name]' => 'quizpassword',
-            'preflightdata[0][value]' => '123!@#',
+            // 'preflightdata[0][name]' => 'quizpassword',
+            // 'preflightdata[0][value]' => '123!@#',
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -167,12 +164,12 @@ class Quiz extends CI_Controller
         // echo empty_response("Quiz Loaded .. ", 200, $array_of_courses);
         return $array_of_courses;
     }
-    public function get_user_attempts()
+    public function get_user_attempts($token, $quizid)
     {
-        $token = '01bd8b1e707671384445694d743f6ba8';
+        // $token = 'f9b2e4982182be83dbb7deae187a30c2';
         $functionname = 'mod_quiz_get_user_attempts';
         $data = array(
-            'quizid' => 7,
+            'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -181,13 +178,13 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
-//Helper Function
-    public function quiz_get_quiz_access_information()
+    //Helper Function
+    public function quiz_get_quiz_access_information($token, $quizid)
     {
-        $token = '01bd8b1e707671384445694d743f6ba8';
+        // $token = 'f9b2e4982182be83dbb7deae187a30c2';
         $functionname = 'mod_quiz_get_quiz_access_information';
         $data = array(
-            'quizid' => 7,
+            'quizid' => $quizid,
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
@@ -196,76 +193,141 @@ class Quiz extends CI_Controller
         $array_of_courses = json_decode($server_output, true);
         print_array($array_of_courses);
     }
-    
+
     //This is it
     public function get_quiz_em_test($quizid, $page = 0, $token)
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
         if (array_key_exists('exception', $check_start_quiz)) {
-            $array_arror=array(
-                'code'=>"400",
-                'message'=>limit_words($check_start_quiz['message'],20),
-                'data'=>null
+            $array_arror = array(
+                'code' => "400",
+                'message' => limit_words($check_start_quiz['message'], 20),
+                'data' => null
             );
             echo json_encode($array_arror);
             return;
-        } 
+        }
         $check_start_quiz['attempt']['token'] = $token;
         $attempdata = $check_start_quiz['attempt']['id'];
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         if (array_key_exists('exception', $attempt_data_now)) {
-            $array_arror=array(
-                'code'=>"400",
-                'message'=>$attempt_data_now['message'],
-                'data'=>null
+            $array_arror = array(
+                'code' => "400",
+                'message' => $attempt_data_now['message'],
+                'data' => null
             );
             echo json_encode($array_arror);
             return;
-        } 
+        }
         print_array($attempt_data_now);
     }
-    public function get_quiz_em_format($quizid, $page = 0, $token)
+    public function get_quiz_all_array($quizid, $page = 0, $token)
     {
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
         if (array_key_exists('exception', $check_start_quiz)) {
-            $array_arror=array(
-                'code'=>"400",
-                'message'=>limit_words($check_start_quiz['message'],25),
-                'data'=>null
+            $array_arror = array(
+                'code' => "400",
+                'message' => limit_words($check_start_quiz['message'], 25),
+                'data' => null
             );
             echo json_encode($array_arror);
             return;
-        } 
+        }
         $check_start_quiz['attempt']['token'] = $token;
         $attempdata = $check_start_quiz['attempt']['id'];
         $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
         // print_array($attempt_data_now);
         if (array_key_exists('exception', $attempt_data_now)) {
-            $array_arror=array(
-                'code'=>"400",
-                'message'=>$attempt_data_now['message'],
-                'data'=>null
+            $array_arror = array(
+                'code' => "400",
+                'message' => $attempt_data_now['message'],
+                'data' => null
             );
             echo json_encode($array_arror);
             return;
-        } 
+        }
         $questions_n1 = $attempt_data_now['questions'];
         $array_questions = array();
-        $html_string="";
+        $html_string = "";
         foreach ($questions_n1 as $key => $value) {
             // $questions_n1[$key]['html']=base64_encode($value['html']);
-            $htmlscriptarray=explode("<script",$value['html']);
-            $html_string=$htmlscriptarray[0]."".$html_string;
+            $htmlscriptarray = explode("<script", $value['html']);
+            $html_string = $htmlscriptarray[0] . "" . $html_string;
         }
-        $image_handler=$this->checkdom($html_string);
-        $array_questions['html']=base64_encode($image_handler);
-        $array_questions['layout']=count(explode(",0",$attempt_data_now['attempt']['layout']))-1;
-        $array_questions['currentpage']=$questions_n1[0]['page'];
+        $image_handler = $this->checkdom($html_string);
+        $array_questions['html'] = base64_encode($image_handler);
+        $array_questions['layout'] = count(explode(",0", $attempt_data_now['attempt']['layout'])) - 1;
+        $array_questions['currentpage'] = $questions_n1[0]['page'];
         // $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
-        $array_questions['state']=$attempt_data_now['attempt']['state'];
+        $array_questions['state'] = $attempt_data_now['attempt']['state'];
         // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
         // [state] => inprogress
-        $array_questions['nextpage']=$attempt_data_now['nextpage'];
+        $array_questions['nextpage'] = $attempt_data_now['nextpage'];
+        // return $array_questions;
+        // header('Content-Type: application/json');
+        // echo json_encode($array_questions);
+
+        return $array_questions;
+    }
+    public function getmeallquizsection($quizid, $page = 0, $token)
+    {
+        $quizore = $this->get_quiz_all_array($quizid, $page, $token);
+        // $array_questions = $this->get_quiz_all_array($quizid, $page, $token);
+        $allsections_quiz = array();
+        array_push($allsections_quiz, $quizore);
+        for ($i = 0; $i < $quizore['layout']; $i++) {
+            if ($i > 0) {
+                $quiziz = $this->get_quiz_all_array($quizid, $i, $token);
+                array_push($allsections_quiz, $quiziz);
+            }
+        }
+        header('Content-Type: application/json');
+        echo json_encode($allsections_quiz);
+    }
+    //For Online Use
+    public function get_quiz_em_format($quizid, $page = 0, $token)
+    {
+        $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
+        if (array_key_exists('exception', $check_start_quiz)) {
+            $array_arror = array(
+                'code' => "400",
+                'message' => limit_words($check_start_quiz['message'], 25),
+                'data' => null
+            );
+            echo json_encode($array_arror);
+            return;
+        }
+        $check_start_quiz['attempt']['token'] = $token;
+        $attempdata = $check_start_quiz['attempt']['id'];
+        $attempt_data_now = $this->quiz_get_attempt_data($attempdata, $page, $token);
+        // print_array($attempt_data_now);
+        if (array_key_exists('exception', $attempt_data_now)) {
+            $array_arror = array(
+                'code' => "400",
+                'message' => $attempt_data_now['message'],
+                'data' => null
+            );
+            echo json_encode($array_arror);
+            return;
+        }
+        $questions_n1 = $attempt_data_now['questions'];
+        $array_questions = array();
+        $html_string = "";
+        foreach ($questions_n1 as $key => $value) {
+            // $questions_n1[$key]['html']=base64_encode($value['html']);
+            $htmlscriptarray = explode("<script", $value['html']);
+            $html_string = $htmlscriptarray[0] . "" . $html_string;
+        }
+        $image_handler = $this->checkdom($html_string);
+        $array_questions['html'] = base64_encode($image_handler);
+        $array_questions['layout'] = count(explode(",0", $attempt_data_now['attempt']['layout'])) - 1;
+        $array_questions['currentpage'] = $questions_n1[0]['page'];
+        // $array_questions['currentpage']=$attempt_data_now['attempt']['currentpage'];
+        $array_questions['state'] = $attempt_data_now['attempt']['state'];
+        // $questions_n1['layout']=$attempt_data_now['attempt']['layout'];
+        // [state] => inprogress
+        $array_questions['nextpage'] = $attempt_data_now['nextpage'];
+        header('Content-Type: application/json');
         echo json_encode($array_questions);
     }
     public function checkdom($quizhtmlimage)
@@ -273,30 +335,34 @@ class Quiz extends CI_Controller
         $dom = new Dom;
         $dom->loadStr($quizhtmlimage);
         $images = $dom->find('img');
-        foreach($images as $link){
+        foreach ($images as $link) {
             $src = $link->getAttribute('src');
-            $newsrc=$this->getquizimage_moodleapi($src);
-            $link->setAttribute('src',$newsrc);
+            $newsrc = $this->getquizimage_moodleapi($src);
+            $link->setAttribute('src', $newsrc);
         }
         return $dom;
     }
 
     public function getquizimage_moodleapi($url_image)
     {
-        $URL_GET_IMAGES=MOODLEAPP_DOMAIN+"/moodleapi/api/get_file_url";
-        $imagecountarray=explode("/",$url_image);
-        $image=$imagecountarray[count($imagecountarray)-1];
-        if ($image!="unflagged") {
-            $server_output = curl_request($URL_GET_IMAGES, array('file_name'=>$image), "post", array('App-Key: 123456'));
+        $URL_GET_IMAGES = MOODLEAPP_DOMAIN . "/moodleapi/api/get_file_url";
+        $imagecountarray = explode("/", $url_image);
+        $image = $imagecountarray[count($imagecountarray) - 1];
+        if ($image != "unflagged") {
+            $server_output = curl_request($URL_GET_IMAGES, array('file_name' => $image), "post", array('App-Key: 123456'));
             $array_of_output = json_decode($server_output, true);
-            if($array_of_output['status']==0){
-                return MOODLEAPP_DOMAIN+"/moodleapi/quizimages/image_error.jpeg";
-            }else {
+            if ($array_of_output['status'] == 0) {
+                return base_url('uploadicons/60_placeholdericon.jpeg');
+                // return MOODLEAPP_DOMAIN+"/moodleapi/quizimages/image_error.jpeg";
+            } else {
                 return $array_of_output['image_url'];
             }
-        }else {
-             return $url_image;
+        } else {
+            return $url_image;
         }
-        
+    }
+    public function testImage()
+    {
+        echo base_url('uploadicons/60_placeholdericon.jpeg');
     }
 }

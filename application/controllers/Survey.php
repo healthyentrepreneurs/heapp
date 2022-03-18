@@ -43,7 +43,7 @@ class Survey extends CI_Controller
             if (file_exists("uploadscustome/" . $this->input->post('image_old'))) {
                 unlink("uploadscustome/" . $this->input->post('image_old'));
             }
-            $surveyid=$this->input->post('survey_id');
+            $surveyid = $this->input->post('survey_id');
             $user_add = array(
                 'id' => $surveyid,
                 'image' => $this->input->post('image_big'),
@@ -453,6 +453,7 @@ class Survey extends CI_Controller
         );
         echo json_encode($array_n);
     }
+    //API
     public function go_surveyaddupdate($survey_id, $message)
     {
         // $_REMOTEGO = "http://localhost:8080/".$message;
@@ -482,8 +483,12 @@ class Survey extends CI_Controller
         echo json_encode(array('nana' => "papa"));
     }
     //Reflect Users Added, Deleted
-    public function testdarmphp()
-    {
-        echo json_encode(array('name' => 'praisexxx'));
+
+    // API
+    public function getallsurveys()
+    {   
+        header('Content-Type: application/json');
+        $surveys = $this->universal_model->selectall('*', 'survey');
+        echo json_encode($surveys);
     }
 }
