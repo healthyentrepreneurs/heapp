@@ -5,7 +5,6 @@ date_default_timezone_set("Africa/Nairobi");
 require_once FCPATH . 'vendor/autoload.php';
 class Nops extends CI_Controller
 {
-    //She confess Now
     public function __construct()
     {
         parent::__construct();
@@ -179,40 +178,11 @@ class Nops extends CI_Controller
         }
         echo json_encode($messag_je);
     }
-
-    public function datagenerate()
+    public function testsynchaptername()
     {
-        // $date_array = getDatesFromRange('15-12-2021', '31-12-2021');
-        // FAPPATH
-        $filecsv = FCPATH . 'uploads_clientapp/output.sql';
-        // $csv = array_map('str_getcsv', file($filecsv));
-        // array_shift($csv);
-        // foreach ($csv as $keycsv => $valuecsv) {
-        //     $stringanod=$valuecsv[$keycsv];
-        //     // $parts = preg_split('/\s+/', $stringanod);
-        //     $parts=preg_split('/\s+/', $stringanod, -1, PREG_SPLIT_NO_EMPTY);
-        //     print_array($parts);
-        //     break;
-        // }
-        // echo $date_array[array_rand($date_array)];
-        // $rows   = array_map('str_getcsv', file($filecsv));
-        // $header = array_shift($rows);
-        // $csv    = array();
-        // foreach ($rows as $row) {
-        //     $csv[] = array_combine($header, $row);
-        // }
-        // print_array($csv);
-        $rownum = 0;
-        $importarray = array_shift($rows);
-        while (($row = fgetcsv($filecsv, 1000, ',')) !== FALSE) {
-            if ($rownum > 0) {
-                $row = array_combine($importarray[0], $row);
-            }
-            array_push($importarray, $row);
-            $rownum++;
-        }
-        array_shift($importarray);
+        $chapter_books = $this->universal_model->selectmissingchapsuni(array('course_id', 'book_id'));
+        echo json_encode($chapter_books);
+        // $missing_name_books = $this->universal_model->selectmissingbooksuni(array('id', 'course_id', 'book_id'));
     }
 }
 
-// https://phpmyadmin-dot-he-test-server.uc.r.appspot.com/index.php
