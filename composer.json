@@ -21,7 +21,8 @@
 		"halaxa/json-machine": "^0.6.0",
 		"php-ffmpeg/php-ffmpeg": "^0.18.0",
 		"llagerlof/moodlerest": "^2.4",
-		"grpc/grpc": "^1.13.0"
+		"grpc/grpc": "^1.13.0",
+		"paquettg/php-html-parser": "^3.1"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

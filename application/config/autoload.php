@@ -65,9 +65,9 @@ $autoload['libraries'] = array(
     'session',
     'database',
     'image_lib',
-    'pagination'
+    'pagination',
+    // 'googleserviceforms'
 );
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Drivers

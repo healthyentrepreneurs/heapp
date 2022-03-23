@@ -23,7 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/heapp';
+$config['base_url'] = 'http://192.168.0.26/heapp/';
+// $config['base_url'] = 'http://192.168.0.26/heapp/';
+// 192.168.0.26
 //$config['base_url'] = 'https://ab7f7565c56f.ngrok.io/tracker';
 /*
 |--------------------------------------------------------------------------

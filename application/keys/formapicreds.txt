@@ -1,0 +1,20 @@
+API Key Webform:
+{AIzaSyAATEWuKHWStRTwGdiZXp16dUDEHPUmaqc}
+@Use this key in your application by passing it with the key=API_KEY parameter.
+
+
+OAuth client created:
+Client ID: {352431774637-6hhjfd0ehfd7ndat3jgctgsj1c0s0gbq.apps.googleusercontent.com}
+Client Secret: {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}
+
+Sample
+https://forms.googleapis.com/$discovery/rest?version=v1beta&key=AIzaSyAATEWuKHWStRTwGdiZXp16dUDEHPUmaqc&labels=FORMS_BETA_TESTERS
+
+Form Api Service:
+https://developers.google.com/apps-script/reference/forms/
+
+Get A List Of Forms:
+https://stackoverflow.com/questions/38601016/how-do-you-programmatically-get-a-list-of-google-forms-with-ids-using-google-f
+
+Example Of Using Google Forms:
+https://zapier.com/blog/how-to-use-google-forms/

@@ -23,10 +23,11 @@ class User extends CI_Controller
         $merge_sanitized_courses = $this->get_moodle_course_inter($token, $user_id);
         $array_object = $this->getme_cohort_get_cohort_members($user_id);
         $njovu = array_merge($merge_sanitized_courses, $array_object);
+        // print_array($njovu);
         echo json_encode($njovu);
     }
     ##Get Courses Authorised Users 
-    public function get_moodle_course_inter($token = "de81bb4eb4e8303a15b00a5c61554e2a", $user_id = 3, $returnformat = 0)
+    public function get_moodle_course_inter($token, $user_id, $returnformat = 0)
     {
         // Njovu
         $_courses = $this->get_list_courses_internal($user_id);
@@ -126,7 +127,11 @@ class User extends CI_Controller
                     //     array_push($array_modules, $_filter_modules);
                     // }
                     $new_content = array();
-                    if ($_filter_modules['modname'] == "book") {
+                    if ($_filter_modules['modname'] == "quiz") {
+                        //    echo $$_filter_modules['instance'];
+                        // print_array($_filter_modules);
+                        array_push($array_modules, $_filter_modules);
+                    } elseif ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
                         //Array Search Manipulation
                         $contents_dub = $contents;
@@ -149,7 +154,7 @@ class User extends CI_Controller
                                             $value_n['chapter_id'] = str_replace("/index.html", "", $value_n['href']);
                                             // $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
                                             array_push($cleaner_content, $value_n);
-                                            // print_array($value_n);
+                                            break;
                                         }
                                     }
                                 }

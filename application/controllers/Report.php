@@ -790,6 +790,9 @@ class Report extends CI_Controller
         // $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
+        if (!is_array($persial_survey)) {
+            $persial_survey = array();
+        }
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
             $city = $item['book_id'];
             if (array_key_exists($city, $carry)) {

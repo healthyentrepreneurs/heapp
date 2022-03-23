@@ -11,6 +11,11 @@
             </a>
         </li>
         <li>
+            <a data-toggle="tab" href="#surveynineth">
+                Book/Chapters User Report
+            </a>
+        </li>
+        <li>
             <a data-toggle="tab" href="#surveyfith">
                 Book Views
             </a>
@@ -32,6 +37,9 @@
         </div>
         <div id="surveyfour" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/reportsumusers', '', TRUE); ?>
+        </div>
+        <div id="surveynineth" class="tab-pane padding-bottom-5">
+            <?php echo $this->load->view('report/reportsumusersdetails', '', TRUE); ?>
         </div>
         <div id="surveyfith" class="tab-pane padding-bottom-5">
             <?php echo $this->load->view('report/report_viewbybook', '', TRUE); ?>

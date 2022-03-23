@@ -444,6 +444,8 @@ class Universal_model extends CI_Model
     }
     public function book_select_uniqu_by($array_table_n, $array_order_by)
     {
+        // https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html
+        // https://www.percona.com/blog/2019/05/13/solve-query-failures-regarding-only_full_group_by-sql-mode/
         $this->db->select($array_table_n);
         $this->db->from('viewtable');
         // $this->db->where('DATE(viewtable.date_inserted) >=', date('Y-m-d', strtotime($from_from)));
@@ -463,7 +465,8 @@ class Universal_model extends CI_Model
         $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
         $this->db->order_by("viewtable.user_id", "asc");
         $query = $this->db->get()->result_array();
-        return $query;
+        return $this->db->last_query();
+        // return $query;
     }
     public function get_value_max($user_id)
     {
@@ -480,6 +483,31 @@ class Universal_model extends CI_Model
         $this->db->select($array_data);
         $this->db->from('viewtable');
         $this->db->where('user_id', $value_1);
+        // $this->db->order_by("token",'desc');
+        $this->db->group_by("book_id");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
+
+    //TEMP FIX Missing Names Chapters
+    public function selectmissingchapsuni($array_data)
+    {
+        $this->db->select($array_data);
+        $this->db->from('viewtable');
+        $this->db->where('view_id', '');
+        // $this->db->order_by("token",'desc');
+        $this->db->group_by("book_id");
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
+    //TEMP Fix Missing BOOK Names
+    public function selectmissingbooksuni($array_data)
+    {
+        $this->db->select($array_data);
+        $this->db->from('viewtable');
+        $this->db->where('book_name', '');
         // $this->db->order_by("token",'desc');
         $this->db->group_by("book_id");
         $query = $this->db->get()->result_array();
