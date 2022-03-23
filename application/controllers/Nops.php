@@ -5,6 +5,7 @@ date_default_timezone_set("Africa/Nairobi");
 require_once FCPATH . 'vendor/autoload.php';
 class Nops extends CI_Controller
 {
+    //She confess Now
     public function __construct()
     {
         parent::__construct();
