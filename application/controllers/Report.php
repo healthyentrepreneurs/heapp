@@ -548,83 +548,84 @@ class Report extends CI_Controller
     }
 
 
-    public function report_perbooks()
-    {
-        $startdate = $this->input->post('startdate');
-        $enddate = $this->input->post('enddate');
-        $persial_survey = $this->sum_book_data($startdate, $enddate);
-        if (empty($persial_survey)) {
-            $json_return = array(
-                'report' => "No Report Found For This Book",
-                'status' => 0,
-            );
-            echo json_encode($json_return);
-        } else {
-            //Modified Data
-            $table_data['survey_reportdata'] = $persial_survey;
-            $table_data['startdate'] = $startdate;
-            $table_data['enddate'] = $enddate;
-            $table_data['controller'] = $this;
-            $table_data['taskname'] = "Summery Book Report";
-            $table_data['table_survey_url'] = 'pages/table/bookschapter_table';
-            $json_return = array(
-                'report' => "Report in Range" . $startdate . '  To ' . $enddate,
-                'status' => 1,
-                'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
-                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls'
-            );
-            $ara = array(
-                'BOOK NAME',
-                'COURSE',
-                'BOOKS VIEWED',
-                'CHAPTERS VIEWED',
-                'UNIQUE USERS VIEWED'
-            );
-            $htmlString = $this->xxxxtimePerClientReport($persial_survey, $ara);
-            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
-            $spreadsheet = $reader->loadFromString($htmlString);
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-            $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls');
-            echo json_encode($json_return);
-        }
-    }
+	    public function report_perbooks()
+	    {
+		$startdate = $this->input->post('startdate');
+		$enddate = $this->input->post('enddate');
+		$persial_survey = $this->sum_book_data($startdate, $enddate);
+		if (empty($persial_survey)) {
+		    $json_return = array(
+			'report' => "No Report Found For This Book",
+			'status' => 0,
+		    );
+		    echo json_encode($json_return);
+		} else {
+		    //Modified Data
+		    $table_data['survey_reportdata'] = $persial_survey;
+		    $table_data['startdate'] = $startdate;
+		    $table_data['enddate'] = $enddate;
+		    $table_data['controller'] = $this;
+		    $table_data['taskname'] = "Summery Book Report";
+		    $table_data['table_survey_url'] = 'pages/table/bookschapter_table';
+		    $json_return = array(
+			'report' => "Report in Range" . $startdate . '  To ' . $enddate,
+			'status' => 1,
+			'data' => $this->load->view('pages/cohort/book_chaptertemp', $table_data, true),
+			'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls'
+		    );
+		    $ara = array(
+			'BOOK NAME',
+			'COURSE',
+			'BOOKS VIEWED',
+			'CHAPTERS VIEWED',
+			'UNIQUE USERS VIEWED'
+		    );
+		    $htmlString = $this->xxxxtimePerClientReport($persial_survey, $ara);
+                    $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
+		    $htmlString=preg_replace("/&(?!\S+;)/", "&amp;", $htmlString);
+                    $spreadsheet = $reader->loadFromString($htmlString);
+                    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
+		    $writer->save(FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'booksgeneral' . 'write.xls');
+                    echo json_encode($json_return);
+		}
+	    }
 
-    public function books_reportdetails()
-    {
-        $courseid = $this->input->post('courseid');
-        $bookid = $this->input->post('bookid');
-        $startdate = $this->input->post('startdate');
-        $enddate = $this->input->post('enddate');
-        $persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'user_id', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
-        // echo json_encode($_POST);
-        if (empty($persial_survey)) {
-            $json_return = array(
-                'report' => "No Report Found For This Range",
-                'status' => 0,
-            );
-            echo json_encode($json_return);
-        } else {
-            //Modified Data
-            $table_data['survey_reportdata'] = $persial_survey;
-            $table_data['startdate'] = $startdate;
-            $table_data['enddate'] = $enddate;
-            $table_data['controller'] = $this;
-            $table_data['taskname'] = "Books | Chapters";
-            $table_data['table_survey_url'] = 'pages/table/chapterchapter_table';
-            $json_return = array(
-                'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
-                'status' => 1,
-                'data' => $this->load->view('pages/cohort/chapter_chaptertemp', $table_data, true),
-                'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'
-            );
-            $arrayexcel = array();
-            foreach ($persial_survey as $key => $value_header) {
-                unset_post($value_header, 'modicon_chapter');
-                array_push($arrayexcel, $value_header);
-            }
-            $ara = array(
-                'FULL NAME',
-                'USERNAME',
+	    public function books_reportdetails()
+	    {
+		$courseid = $this->input->post('courseid');
+		$bookid = $this->input->post('bookid');
+		$startdate = $this->input->post('startdate');
+		$enddate = $this->input->post('enddate');
+		$persial_survey = $this->universal_model->books_reports_chapter(array('he_names', 'user_id', 'course_shortname', 'book_name', 'chaptername', 'modicon_chapter', 'date_inserted'), $startdate, $enddate, $courseid, $bookid);
+		// echo json_encode($_POST);
+		if (empty($persial_survey)) {
+		    $json_return = array(
+			'report' => "No Report Found For This Range",
+			'status' => 0,
+		    );
+		    echo json_encode($json_return);
+		} else {
+		    //Modified Data
+		    $table_data['survey_reportdata'] = $persial_survey;
+		    $table_data['startdate'] = $startdate;
+		    $table_data['enddate'] = $enddate;
+		    $table_data['controller'] = $this;
+		    $table_data['taskname'] = "Books | Chapters";
+		    $table_data['table_survey_url'] = 'pages/table/chapterchapter_table';
+		    $json_return = array(
+			'report' => "Report For Viewed Books in Range" . $startdate . '  To ' . $enddate,
+			'status' => 1,
+			'data' => $this->load->view('pages/cohort/chapter_chaptertemp', $table_data, true),
+			'path' => FCPATH . 'excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'
+		    );
+		    $arrayexcel = array();
+		    foreach ($persial_survey as $key => $value_header) {
+			unset_post($value_header, 'modicon_chapter');
+			array_push($arrayexcel, $value_header);
+		    }
+		    $ara = array(
+			'FULL NAME',
+			'USERNAME',
                 'COURSE',
                 'BOOK NAME',
                 'CHAPTER',
@@ -790,9 +791,6 @@ class Report extends CI_Controller
         // $enddate = "30-04-2021";
         $persial_survey = $this->universal_model->book_query_two_model(array('user_id', 'course_shortname', 'name_course', 'book_name', 'book_id', 'chaptername', 'date_inserted'), $startdate, $enddate);
         // print_array($persial_survey);
-        if (!is_array($persial_survey)) {
-            $persial_survey = array();
-        }
         $output = array_reduce($persial_survey, function (array $carry, array $item) {
             $city = $item['book_id'];
             if (array_key_exists($city, $carry)) {

@@ -131,7 +131,7 @@ class User extends CI_Controller
                         //    echo $$_filter_modules['instance'];
                         // print_array($_filter_modules);
                         array_push($array_modules, $_filter_modules);
-                    } elseif ($_filter_modules['modname'] == "book") {
+                    } else if ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
                         //Array Search Manipulation
                         $contents_dub = $contents;
