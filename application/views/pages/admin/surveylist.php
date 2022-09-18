@@ -1,3 +1,4 @@
+<!-- Step Two -->
 <div class="row">
     <div class="col-md-12">
         <!-- WALAH CRAP -->
@@ -94,7 +95,7 @@
 <script>
     $(document).ready(function() {
         $('#mysurveytable').DataTable({
-            "pageLength": 4
+            // "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
             //            "info": false

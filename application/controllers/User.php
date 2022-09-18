@@ -126,17 +126,21 @@ class User extends CI_Controller
                     //     // $_filter_modules['modname'] == "forum" || 
                     //     array_push($array_modules, $_filter_modules);
                     // }
+                    #Hey
                     $new_content = array();
                     if ($_filter_modules['modname'] == "quiz") {
                         //    echo $$_filter_modules['instance'];
                         // print_array($_filter_modules);
+                        // $_filter_modules['contentsinfo'] = json_encode(array());
+                        $_filter_modules['contentsinfo'] = json_encode($arrayName = array('' => '',));
+                        $_filter_modules['contents'] = array();
                         array_push($array_modules, $_filter_modules);
                     } else if ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
                         //Array Search Manipulation
                         $contents_dub = $contents;
                         unset_post($contents_dub, 0);
-                        //End Array Search Manipulation
+                        // End Array Search Manipulation
                         // unset_post($filter_modules, 'contents');
                         unset_post($_filter_modules, 'contents');
                         foreach ($contents as $keyn => $content_value) {
@@ -435,7 +439,7 @@ class User extends CI_Controller
     #Test Get User Details
     public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)
     {
-        // http://localhost/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
+        // http://192.168.43.88/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
         $functionname = 'mod_book_view_book';
         $data = array(
             'wstoken' => $token,

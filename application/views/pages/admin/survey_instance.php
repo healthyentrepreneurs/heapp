@@ -62,7 +62,7 @@
 <script>
     $(document).ready(function() {
         $('#instance_survey').DataTable({
-            "pageLength": 4
+            // "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
             //            "info": false

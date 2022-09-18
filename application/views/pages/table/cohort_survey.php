@@ -51,7 +51,7 @@
 <script>
     $(document).ready(function() {
         $('#list_surveycohorts').DataTable({
-            "pageLength": 4
+            // "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
             //            "info": false

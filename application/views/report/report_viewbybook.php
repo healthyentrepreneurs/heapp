@@ -1,7 +1,4 @@
 <div class="panel-body" id="viewbybook">
-    <?php
-    // print_array($all_courses);
-    ?>
     <div class="row">
         <form id="formviewbybook" method="post" class="form-horizontal" role="form">
             <div class="form-group">
@@ -29,7 +26,7 @@
                     Course
                 </label>
                 <div class="col-sm-7">
-                    <select id="availaba_course" name="availaba_course" class="form-control" placeholder="Select Course">
+                    <select id="availaba_course" name="availaba_course" class="form-control lengthselect select2" placeholder="Select Course">
                         <option value="">--Mandatory--</option>
                         <?php
                         foreach ($all_courses as $value) {
@@ -46,7 +43,7 @@
                     Book
                 </label>
                 <div class="col-sm-7">
-                    <select id="bookby_id" name="bookby_id" class="form-control" placeholder="Select Book">
+                    <select id="bookby_id" name="bookby_id" class="form-control lengthselect select2" placeholder="Select Book">
                     </select>
                 </div>
                 <div class="col-sm-1">
@@ -79,7 +76,7 @@
     var getmereportviewbybook = "<?php echo base_url('report/reportby_booksid'); ?>";
     var getbooks = "<?php echo base_url('report/getbooksin_course'); ?>";
     $(document).ready(function() {
-        // $('.select2').select2();
+        $('.select2').select2();
         $('#dateragestarttimebook')
             .datepicker({
                 format: 'dd-mm-yyyy'

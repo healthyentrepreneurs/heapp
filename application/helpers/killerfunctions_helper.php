@@ -47,7 +47,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
             'App-Secret: 1233'
         )*/
     // $ch = curl_init();
-    // curl_setopt($ch, CURLOPT_URL, "http://localhost/heapp/login");
+    // curl_setopt($ch, CURLOPT_URL, "http://192.168.43.88/heapp/login");
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#')));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -453,7 +453,7 @@ function unset_post(&$post, $name)
 // Inspired By dompdf
 function change_url_image($data, $url)
 {
-    $str = $url; // for example "http://localhost/yoursite/";
+    $str = $url; // for example "http://192.168.43.88/yoursite/";
     $str2 = str_replace($str, "", $data);
     return $str2;
 }

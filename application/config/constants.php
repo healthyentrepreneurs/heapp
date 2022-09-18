@@ -13,10 +13,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
 //Joash Added
-defined('MOODLEAPP_DOMAIN')  OR define('MOODLEAPP_DOMAIN', 'http://192.168.0.26/moodle');
-defined('MOODAPI')  OR define('MOODAPI', 'http://192.168.0.26/moodle/moodleapi');
-defined('MOODLEAPP_ENDPOINT')  OR define('MOODLEAPP_ENDPOINT', 'http://192.168.0.26/moodle/webservice/rest/server.php');
-defined('REMOTE_GO') OR define('REMOTE_GO','http://192.168.0.26:5051/');
+defined('MOODLEAPP_DOMAIN')  OR define('MOODLEAPP_DOMAIN', 'http://192.168.43.88/moodle');
+defined('MOODAPI')  OR define('MOODAPI', 'http://192.168.43.88/moodle/moodleapi');
+defined('MOODLEAPP_ENDPOINT')  OR define('MOODLEAPP_ENDPOINT', 'http://192.168.43.88/moodle/webservice/rest/server.php');
+defined('REMOTE_GO') OR define('REMOTE_GO','http://192.168.43.88:5051/');
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

@@ -210,7 +210,7 @@ class Universal_model extends CI_Model
     }
 
     #New nSpe 23 2021
-    public function select_byid_maxone($variable, $value,$table_name)
+    public function select_byid_maxone($variable, $value, $table_name)
     {
         $this->db->select('*');
         $this->db->from($table_name);
@@ -455,7 +455,7 @@ class Universal_model extends CI_Model
         $query = $this->db->get()->result_array();
         return $query;
     }
-
+    //Tem Fix Query
     public function book_query_two_model($array_table_n, $from_from, $to_to)
     {
         $this->db->select($array_table_n);
@@ -465,8 +465,8 @@ class Universal_model extends CI_Model
         $this->db->group_by(array("viewtable.user_id", "viewtable.course_shortname", "viewtable.book_name", "viewtable.date_inserted"));
         $this->db->order_by("viewtable.user_id", "asc");
         $query = $this->db->get()->result_array();
-        return $this->db->last_query();
-        // return $query;
+        // return $this->db->last_query();
+        return $query;
     }
     public function get_value_max($user_id)
     {
@@ -525,16 +525,46 @@ class Universal_model extends CI_Model
         // $this->db->group_by("book_id");
         // $query = $this->db->get()->result_array();
         // return $query;
-        $querym="SELECT name,couseid,bookid, COUNT(bookid) FROM icon_table GROUP BY name,couseid,bookid HAVING COUNT(bookid)>1";
-        $query=$this->db->query($querym)->result_array();
+        $querym = "SELECT name,couseid,bookid, COUNT(bookid) FROM icon_table GROUP BY name,couseid,bookid HAVING COUNT(bookid)>1";
+        $query = $this->db->query($querym)->result_array();
         // $query = $this->db->get()->result_array();
         return $query;
-        
     }
     public function deletedubs()
     {
-       $querym="DELETE t1 FROM icon_table t1 INNER JOIN icon_table t2 WHERE t1.id>t2.id AND t1.name=t2.name AND t1.couseid=t2.couseid AND t1.bookid=t2.bookid";
-       $query=$this->db->query($querym);
-       return $query;
+        $_query = "DELETE t1 FROM icon_table t1 INNER JOIN icon_table t2 WHERE t1.id>t2.id AND t1.name=t2.name AND t1.couseid=t2.couseid AND t1.bookid=t2.bookid";
+        $query = $this->db->query($_query);
+        return $query;
+    }
+
+    public function sleep_selectchapterbook($datestart, $dateend, $courseid, $userid)
+    {
+        $_query = "SELECT he_names,book_name,chaptername,book_id,view_id,user_id,course_shortname,course_id,date_inserted,COUNT(view_id) AS chaptercount,total.bookcount FROM viewtable
+        ,(SELECT book_id as book_idin,COUNT(book_id) as bookcount from viewtable WHERE user_id='" . $userid . "' and course_id='" . $courseid . "' GROUP BY book_id) as total WHERE viewtable.book_id = total.book_idin and `user_id`='" . $userid . "' and DATE(viewtable.date_inserted)>='" . date('Y-m-d', strtotime($datestart)) . "' and DATE(viewtable.date_inserted)<='" . date('Y-m-d', strtotime($dateend)) . "' GROUP BY view_id";
+        $detailsviewchapter = $this->db->query($_query)->result_array();
+        return $detailsviewchapter;
+        // echo $_query;
+    }
+
+    public function selectchapterbook($datestart, $dateend, $courseid, $bookid, $userid)
+    {
+        $_query = "SELECT id,he_names,book_name,chaptername,book_id,view_id,
+        user_id,course_shortname,course_id,date_inserted,COUNT(view_id) AS chaptercount FROM viewtable WHERE viewtable.course_id = '" . $courseid . "'  and viewtable.book_id = '" . $bookid . "'  and
+         `user_id`='" . $userid . "' and DATE(viewtable.date_inserted)>='" . date('Y-m-d', strtotime($datestart)) . "' 
+        and DATE(viewtable.date_inserted)<='" . date('Y-m-d', strtotime($dateend)) . "' GROUP BY view_id ";
+        $detailsviewchapter = $this->db->query($_query)->result_array();
+        return $detailsviewchapter;
+        // echo $_query;
+    }
+
+    public function selectbookviews($datestart, $dateend, $courseid, $userid)
+    {
+        $_query = "SELECT id,he_names,book_name,book_id,user_id,course_shortname,course_id,date_inserted,COUNT(book_id) AS bookcount 
+        FROM viewtable WHERE user_id='" . $userid . "' and course_id='" . $courseid . "' 
+        and DATE(viewtable.date_inserted)>='" . date('Y-m-d', strtotime($datestart)) . "' 
+        and DATE(viewtable.date_inserted)<='" . date('Y-m-d', strtotime($dateend)) . "' 
+        GROUP BY book_id ";
+        return $this->db->query($_query)->result_array();
+        // echo $_query;
     }
 }

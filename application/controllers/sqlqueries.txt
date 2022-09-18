@@ -288,3 +288,12 @@ END$$
  Note: #1003 /* select#1 */ select `u`.`username` AS `username`,concat(`u`.`firstname`,' ',`u`.`lastname`) AS `fullname`,`c`.`id` AS `id`,`s`.`id` AS `surveyid`,`c`.`userid` AS `userid`,`c`.`survey_id` AS `survey_id`,`c`.`dateadded` AS `dateadded`,`s`.`name` AS `name`,`c`.`surveyobject` AS `surveyobject`,`s`.`surveyjson` AS `surveyjson`,`s`.`surveydesc` AS `surveydesc`,`s`.`slug` AS `slug`,`c`.`dateadded` AS `dateaddedsurvey`,`s`.`image_url_small` AS `image_url_small` from `db_helper`.`survey_report` `c` left join `db_helper`.`survey` `s` on((`s`.`id` = `c`.`survey_id`)) left join `db_helper`.`mdl_user` `u` on((`u`.`id` = `c`.`userid`)) where 1
 
  CREATE VIEW `mama_nam` AS select `u`.`username` AS `username`,concat(`u`.`firstname`,' ',`u`.`lastname`) AS `fullname`,`c`.`id` AS `id`,`s`.`id` AS `surveyid`,`c`.`userid` AS `userid`,`c`.`survey_id` AS `survey_id`,`c`.`imageifany` AS `imageifany`,`c`.`dateadded` AS `dateadded`,`s`.`name` AS `name`,`c`.`surveyobject` AS `surveyobject`,`s`.`surveyjson` AS `surveyjson`,`s`.`surveydesc` AS `surveydesc`,`s`.`slug` AS `slug`,`c`.`dateadded` AS `dateaddedsurvey`,`s`.`image_url_small` AS `image_url_small` from `db_helper`.`survey_report` `c` inner join `db_helper`.`survey` `s` on((`s`.`id` = `c`.`survey_id`)) inner join `db_helper`.`mdl_user` `u` on((`u`.`id` = `c`.`userid`))
+
+
+
+BOOK COUNT:
+SELECT `he_names`,`book_name`,`chaptername`,`book_id`,`view_id`,`user_id`,`course_shortname`,`course_id`,`date_inserted`,COUNT(`view_id`) AS chaptercount,total.bookcount FROM viewtable,( SELECT `book_id` as book_idin,COUNT(`book_id`) as bookcount from viewtable WHERE `user_id`='testuserluo' and course_id='5' GROUP BY book_id ) as total WHERE viewtable.book_id = total.book_idin and `user_id`='testuserluo' GROUP BY view_id
+
+ SELECT   
+    (SELECT COUNT(`book_id`) AS bookcount FROM viewtable WHERE `user_id`='testuserluo' and course_id='5' and book_id='6') As Table1Count,   
+    (SELECT COUNT(`view_id`) AS chaptercount FROM viewtable WHERE `user_id`='testuserluo' and course_id='5' and book_id='6' and view_id='27') As Table2Count; 

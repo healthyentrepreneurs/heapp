@@ -8,7 +8,7 @@
  *   phantomjs runner.js [url-of-your-qunit-testsuite]
  *
  * e.g.
- *   phantomjs runner.js http://localhost/qunit/test/index.html
+ *   phantomjs runner.js http://192.168.43.88/qunit/test/index.html
  */
 
 /*global phantom:false, require:false, console:false, window:false, QUnit:false */

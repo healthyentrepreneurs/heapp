@@ -29,7 +29,7 @@
                     Course
                 </label>
                 <div class="col-sm-7">
-                    <select id="availaba_coursechap" name="availaba_coursechap" class="form-control" placeholder="Select Course">
+                    <select id="availaba_coursechap" name="availaba_coursechap" class="form-control lengthselect select2" placeholder="Select Course">
                         <option value="">--Mandatory--</option>
                         <?php
                         foreach ($all_courses as $value) {
@@ -46,7 +46,7 @@
                     Book
                 </label>
                 <div class="col-sm-7">
-                    <select id="bookby_id_chap" name="bookby_id_chap" class="form-control" placeholder="Select Book">
+                    <select id="bookby_id_chap" name="bookby_id_chap" class="form-control lengthselect select2" placeholder="Select Book">
                     </select>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     Chapter
                 </label>
                 <div class="col-sm-7">
-                    <select id="chapter_id_chap" name="chapter_id_chap" class="form-control" placeholder="Select Chapter">
+                    <select id="chapter_id_chap" name="chapter_id_chap" class="form-control lengthselect select2" placeholder="Select Chapter">
                     </select>
                 </div>
                 <div class="col-sm-1">

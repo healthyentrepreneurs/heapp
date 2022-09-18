@@ -1,3 +1,4 @@
+<!-- Step 3 -->
 <!DOCTYPE html>
 <!-- Template Name: Rapido - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.0 Author: ClipTheme -->
 <!--[if IE 8]><html class="ie8" lang="en"><![endif]-->

@@ -18,7 +18,7 @@
 <script>
     $(document).ready(function() {
         $('#detalschaptable').DataTable({
-            "pageLength": 4
+            // "pageLength": 4
             //            "paging": false,
             //            "ordering": false,
             //            "info": false
@@ -26,30 +26,15 @@
     });
 
     // function gotoreport(id) {
-    //     window.location.replace("http://localhost/heapp/welcome/admin/6?id=" + id);
+    //     window.location.replace("http://192.168.43.88/heapp/welcome/admin/6?id=" + id);
     // }
 
     function removedetailschap() {
-        var tble = document.getElementById('detalschaptable');
-        var row = tble.rows; // Getting the rows 
-        for (var i = 0; i < row[0].cells.length; i++) {
-            // Getting the text of columnName 
-            var str = row[0].cells[i].innerHTML;
-
-            // If 'Geek_id' matches with the columnName  
-            if (str == "") {
-                for (var j = 0; j < row.length; j++) {
-
-                    // Deleting the ith cell of each row 
-                    row[j].deleteCell(i);
-                }
-            }
+        if ($.fn.dataTable.isDataTable('#detalschaptable')) {
+            table = $('#detalschaptable').DataTable();
+            table.destroy();
+            // console.log("njovou");
         }
-        // $('#mysurveytable_n').DataTable({
-        //     "paging": false,
-        //     "ordering": false,
-        //     "info": false
-        // });
         printJS({
             printable: 'detalschapplane',
             type: 'html',

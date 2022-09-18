@@ -174,7 +174,7 @@ grunt test
 #### start local server for developing summernote.
 run local server with connect and watch.
 ```bash
-# this will open a browser on http://localhost:3000.
+# this will open a browser on http://192.168.43.88:3000.
 grunt server
 # If you change source code, automatically reload your page.
 ```

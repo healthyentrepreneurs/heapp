@@ -112,7 +112,7 @@ class Quiz extends CI_Controller
         $check_start_quiz = $this->quiz_start_attempt($quizid, $token);
 
         if (array_key_exists('exception', $check_start_quiz)) {
-            $attempdata = 0;
+            $attempdata = 654;
         } else {
             $check_start_quiz['attempt']['token'] = $token;
             $attempdata = $check_start_quiz['attempt']['id'];

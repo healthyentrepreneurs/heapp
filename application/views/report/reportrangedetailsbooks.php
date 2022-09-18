@@ -1,6 +1,4 @@
 <div class="panel-body" id="client_one">
-    <?php
-    ?>
     <div class="row">
         <form id="formdetailschap" method="post" class="form-horizontal" role="form">
             <div class="form-group">
@@ -28,7 +26,7 @@
                     Course
                 </label>
                 <div class="col-sm-7">
-                    <select id="client_iddet" name="client_iddet" class="form-control" placeholder="Select Course">
+                    <select id="client_iddet" name="client_iddet" class="form-control lengthselect select2" placeholder="Select Course">
                         <option value="non">--Select Optional--</option>
                         <?php
                         foreach ($course_content as $value) {
@@ -45,7 +43,7 @@
                     Book
                 </label>
                 <div class="col-sm-7">
-                    <select id="book_id" name="book_id" class="form-control" placeholder="Select Book">
+                    <select id="book_id" name="book_id" class="form-control lengthselect select2" placeholder="Select Book">
                         <option value="non">--Select Optional--</option>
                         <?php
                         foreach ($books_content as $value) {
@@ -70,7 +68,7 @@
                             <li><a href="#" id="exportpdfdet" onclick="removedetailschap()">
                                     Save as PDF </a></li>
                             <li>
-                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] .'chapter'. 'write.xls'); ?>" download>Export to Excel</a>
+                                <a href="<?= base_url('excelfiles/' . $this->session->userdata('logged_in_lodda')['id'] . 'chapter' . 'write.xls'); ?>" download>Export to Excel</a>
                             </li>
                         </ul>
                     </div>
@@ -85,7 +83,7 @@
 <script>
     var getmereportclientcostdet = "<?php echo base_url('report/books_reportdetails'); ?>";
     $(document).ready(function() {
-        // $('.select2').select2();
+        $('.select2').select2();
         $('#dateragestarttimedet')
             .datepicker({
                 format: 'dd-mm-yyyy'

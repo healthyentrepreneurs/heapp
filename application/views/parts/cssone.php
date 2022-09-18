@@ -13,9 +13,12 @@
 <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/toastr/toastr.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/bootstrap-select/bootstrap-select.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
-<link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/DataTables/media/css/DT_bootstrap.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap.min.css" integrity="sha512-BMbq2It2D3J17/C7aRklzOODG1IQ3+MHw3ifzBHMBwGO/0yUqYmsStgBjI0z5EYlaDEFnvYV7gNYdD3vFLRKsA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css" integrity="sha512-1k7mWiTNoyx2XtmI96o+hdjP8nn0f3Z2N4oF/9ZZRgijyV4omsKOXEnqL1gKQNPy2MTSP9rIEWGcH/CInulptA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.css">
 <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css">
+<!-- https://datatables.net/examples/api/add_row.html -->
+<!-- https://cdnjs.com/libraries/datatables -->
 <!-- end: CSS REQUIRED FOR THIS SUBVIEW CONTENTS-->
 <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
 <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->

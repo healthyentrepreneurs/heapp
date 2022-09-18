@@ -91,7 +91,7 @@ class Welcome extends CI_Controller
                     $this->load->view('pages/hometwo', $data);
                     break;
                 case 2:
-                    // public function selectz($array_table_n, $table_n, $variable_1, $value_1)
+                    #Lets see
                     $attempt_n_n = $this->universal_model->selectz('*', 'survey', 'slug', 1);
                     $data['content_admin'] = 'pages/admin/surveylist';
                     $data['surveydatas'] = $attempt_n_n;
@@ -123,7 +123,7 @@ class Welcome extends CI_Controller
                     $this->load->view('pages/hometwo', $data);
                     break;
                 case 7:
-                    // http://localhost/heapp/welcome/admin/7/211/10?userid=2&name=Workflow:%20Family%20Planning
+                    // http://192.168.43.88/heapp/welcome/admin/7/211/10?userid=2&name=Workflow:%20Family%20Planning
                     // $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
                     $persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
                     $final_array = $this->report_surveydetails_data($persial_survey, $idnn);
@@ -163,9 +163,10 @@ class Welcome extends CI_Controller
                     // books_reportindex.php
                     // $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
                     $attempt_d_n_n = $this->universal_model->selectall(array('username', 'id', 'firstname', 'lastname'), 'mdl_user');
-                    $course_content = $this->universal_model->book_select_uniqu_by(array('course_id'), array('viewtable.course_id'));
+                    $course_content = $this->universal_model->book_select_uniqu_by(array('course_id', 'course_shortname'), array('viewtable.course_id'));
                     //These should be returned by AJAX not a hack
                     $books_content = $this->universal_model->book_select_uniqu_by(array('book_id', 'book_name'), array('viewtable.book_name'));
+                    $data['users'] = $attempt_d_n_n;
                     $data['all_courses'] = $this->get_all_avail_course();
                     $data['course_content'] = $course_content;
                     $data['books_content'] = $books_content;
@@ -629,7 +630,7 @@ class Welcome extends CI_Controller
     }
     public function get_admin_token()
     {
-        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));

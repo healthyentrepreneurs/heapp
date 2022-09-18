@@ -1,3 +1,4 @@
+<!-- Step 4 -->
 <head>
 	<title>HE</title>
 	<!-- start: META -->
@@ -19,6 +20,6 @@
 	<?php echo $this->load->view('parts/cssone', '', TRUE); ?>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 	<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-	<script src="<?= base_url() ?>/assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!-- end: CORE CSS -->
 </head>

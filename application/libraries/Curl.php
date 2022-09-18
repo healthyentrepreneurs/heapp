@@ -245,8 +245,8 @@ class curl {
      * <code>
      * $c = new curl;
      * $c->download(array(
-     *              array('url'=>'http://localhost/', 'file'=>fopen('a', 'wb')),
-     *              array('url'=>'http://localhost/20/', 'file'=>fopen('b', 'wb'))
+     *              array('url'=>'http://192.168.43.88/', 'file'=>fopen('a', 'wb')),
+     *              array('url'=>'http://192.168.43.88/20/', 'file'=>fopen('b', 'wb'))
      *              ));
      * </code>
      *

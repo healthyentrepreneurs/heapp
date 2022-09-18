@@ -110,7 +110,7 @@
 <script>
     $(document).ready(function() {
         $('#employees_list_admin').DataTable({
-            "pageLength": 4
+            // "pageLength": 4
 //            "paging": false,
 //            "ordering": false,
 //            "info": false

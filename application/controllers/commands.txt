@@ -1,0 +1,10 @@
+https://www.cyberciti.biz/faq/copy-folder-linux-command-line/
+cp -avr /home/vivek/letters /usb/backup
+
+Show Numbers Vim:
+:set number
+
+ dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
