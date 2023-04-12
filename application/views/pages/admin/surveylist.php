@@ -68,11 +68,6 @@
                                                     <i class="fa fa-pencil fa-fw"></i> Update Image
                                                 </a>
                                             </li>
-                                            <!-- <li>
-                                                <a role="menuitem" tabindex="-1" href="#" onclick="gotoreport(<?= $value_in_sub['id'] ?>);">
-                                                    <i class="fa fa-file-excel-o"></i> Reports
-                                                </a>
-                                            </li> -->
                                             <li>
                                                 <a role="menuitem" tabindex="-1" href="#">
                                                     <i class="fa fa-minus"></i> Delete
@@ -96,10 +91,22 @@
     $(document).ready(function() {
         $('#mysurveytable').DataTable({
             // "pageLength": 4
-            //            "paging": false,
-            //            "ordering": false,
-            //            "info": false
+            // "paging": false,
+            // "ordering": false,
+            // "info": false
         });
+
+        // Event delegation for handling click event on Edit/View button
+        $('#mysurveytable').on('click', '.btn-green', function(event) {
+            event.preventDefault();
+            var target = $(event.target);
+            if (target.hasClass('fa-share') || target.parent().hasClass('fa-share')) {
+                // Get the corresponding 'href' value from the anchor tag
+                var link = target.closest('a').attr('href');
+                window.location.href = link;
+            }
+        });
+
     });
 
     function heyhey(id) {

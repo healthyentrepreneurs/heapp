@@ -1,4 +1,5 @@
 <?php
+
 /**
  * cURL class
  *
@@ -23,7 +24,8 @@
  * @author     Dongsheng Cai <dongsheng@moodle.com> - https://github.com/dongsheng/cURL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
-class curl {
+class curl
+{
     /** @var bool */
     public  $cache    = false;
     public  $proxy    = false;
@@ -46,7 +48,8 @@ class curl {
     /**
      * @param array $options
      */
-    public function __construct($options = array()){
+    public function __construct($options = array())
+    {
         if (!function_exists('curl_init')) {
             $this->error = 'cURL module must be enabled!';
             trigger_error($this->error, E_USER_ERROR);
@@ -57,8 +60,8 @@ class curl {
         if (!empty($options['debug'])) {
             $this->debug = true;
         }
-        if(!empty($options['cookie'])) {
-            if($options['cookie'] === true) {
+        if (!empty($options['cookie'])) {
+            if ($options['cookie'] === true) {
                 $this->cookie = 'curl_cookie.txt';
             } else {
                 $this->cookie = $options['cookie'];
@@ -73,7 +76,8 @@ class curl {
     /**
      * Resets the CURL options that have already been set
      */
-    public function resetopt(){
+    public function resetopt()
+    {
         $this->options = array();
         $this->options['CURLOPT_USERAGENT']         = 'MoodleBot/1.0';
         // True to include the header in the output
@@ -98,7 +102,8 @@ class curl {
     /**
      * Reset Cookie
      */
-    public function resetcookie() {
+    public function resetcookie()
+    {
         if (!empty($this->cookie)) {
             if (is_file($this->cookie)) {
                 $fp = fopen($this->cookie, 'w');
@@ -116,11 +121,12 @@ class curl {
      * reset the options to default value.
      *
      */
-    public function setopt($options = array()) {
+    public function setopt($options = array())
+    {
         if (is_array($options)) {
-            foreach($options as $name => $val){
+            foreach ($options as $name => $val) {
                 if (stripos($name, 'CURLOPT_') === false) {
-                    $name = strtoupper('CURLOPT_'.$name);
+                    $name = strtoupper('CURLOPT_' . $name);
                 }
                 $this->options[$name] = $val;
             }
@@ -130,7 +136,8 @@ class curl {
      * Reset http method
      *
      */
-    public function cleanopt(){
+    public function cleanopt()
+    {
         unset($this->options['CURLOPT_HTTPGET']);
         unset($this->options['CURLOPT_POST']);
         unset($this->options['CURLOPT_POSTFIELDS']);
@@ -145,8 +152,9 @@ class curl {
      * @param array $headers
      *
      */
-    public function setHeader($header) {
-        if (is_array($header)){
+    public function setHeader($header)
+    {
+        if (is_array($header)) {
             foreach ($header as $v) {
                 $this->setHeader($v);
             }
@@ -158,7 +166,8 @@ class curl {
      * Set HTTP Response Header
      *
      */
-    public function getResponse(){
+    public function getResponse()
+    {
         return $this->response;
     }
     /**
@@ -176,7 +185,7 @@ class curl {
             list($key, $value) = explode(" ", rtrim($header, "\r\n"), 2);
             $key = rtrim($key, ':');
             if (!empty($this->response[$key])) {
-                if (is_array($this->response[$key])){
+                if (is_array($this->response[$key])) {
                     $this->response[$key][] = $value;
                 } else {
                     $tmp = $this->response[$key];
@@ -197,14 +206,16 @@ class curl {
      * @param array $options
      * @return object The curl handle
      */
-    private function apply_opt($curl, $options) {
+    private function apply_opt($curl, $options)
+    {
         // Clean up
         $this->cleanopt();
         // set cookie
         if (!empty($this->cookie) || !empty($options['cookie'])) {
-            $this->setopt(array('cookiejar'=>$this->cookie,
-                            'cookiefile'=>$this->cookie
-                             ));
+            $this->setopt(array(
+                'cookiejar' => $this->cookie,
+                'cookiefile' => $this->cookie
+            ));
         }
         // set proxy
         if (!empty($this->proxy) || !empty($options['proxy'])) {
@@ -212,24 +223,24 @@ class curl {
         }
         $this->setopt($options);
         // reset before set options
-        curl_setopt($curl, CURLOPT_HEADERFUNCTION, array(&$this,'formatHeader'));
+        curl_setopt($curl, CURLOPT_HEADERFUNCTION, array(&$this, 'formatHeader'));
         // set headers
-        if (empty($this->header)){
+        if (empty($this->header)) {
             $this->setHeader(array(
                 'User-Agent: MoodleBot/1.0',
                 'Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7',
                 'Connection: keep-alive'
-                ));
+            ));
         }
         curl_setopt($curl, CURLOPT_HTTPHEADER, $this->header);
-        if ($this->debug){
+        if ($this->debug) {
             echo '<h1>Options</h1>';
             var_dump($this->options);
             echo '<h1>Header</h1>';
             var_dump($this->header);
         }
         // set options
-        foreach($this->options as $name => $val) {
+        foreach ($this->options as $name => $val) {
             if (is_string($name)) {
                 $name = constant(strtoupper($name));
             }
@@ -245,8 +256,8 @@ class curl {
      * <code>
      * $c = new curl;
      * $c->download(array(
-     *              array('url'=>'http://192.168.43.88/', 'file'=>fopen('a', 'wb')),
-     *              array('url'=>'http://192.168.43.88/20/', 'file'=>fopen('b', 'wb'))
+     *              array('url'=>'http://192.168.100.4/', 'file'=>fopen('a', 'wb')),
+     *              array('url'=>'http://192.168.100.4/20/', 'file'=>fopen('b', 'wb'))
      *              ));
      * </code>
      *
@@ -254,7 +265,8 @@ class curl {
      * @param array $options An array of options to set
      * @return array An array of results
      */
-    public function download($requests, $options = array()) {
+    public function download($requests, $options = array())
+    {
         $options['CURLOPT_BINARYTRANSFER'] = 1;
         $options['RETURNTRANSFER'] = false;
         return $this->multi($requests, $options);
@@ -267,14 +279,15 @@ class curl {
      * @param array $options An array of options to set
      * @return array An array of results
      */
-    protected function multi($requests, $options = array()) {
+    protected function multi($requests, $options = array())
+    {
         $count   = count($requests);
         $handles = array();
         $results = array();
         $main    = curl_multi_init();
         for ($i = 0; $i < $count; $i++) {
             $url = $requests[$i];
-            foreach($url as $n=>$v){
+            foreach ($url as $n => $v) {
                 $options[$n] = $url[$n];
             }
             $handles[$i] = curl_init($url['url']);
@@ -284,7 +297,7 @@ class curl {
         $running = 0;
         do {
             curl_multi_exec($main, $running);
-        } while($running > 0);
+        } while ($running > 0);
         for ($i = 0; $i < $count; $i++) {
             if (!empty($options['CURLOPT_RETURNTRANSFER'])) {
                 $results[] = true;
@@ -303,7 +316,8 @@ class curl {
      * @param array $options
      * @return bool
      */
-    protected function request($url, $options = array()){
+    protected function request($url, $options = array())
+    {
         // create curl instance
         $curl = curl_init($url);
         $options['url'] = $url;
@@ -318,7 +332,7 @@ class curl {
         }
         $this->info  = curl_getinfo($curl);
         $this->error = curl_error($curl);
-        if ($this->debug){
+        if ($this->debug) {
             echo '<h1>Return Data</h1>';
             var_dump($ret);
             echo '<h1>Info</h1>';
@@ -327,7 +341,7 @@ class curl {
             var_dump($this->error);
         }
         curl_close($curl);
-        if (empty($this->error)){
+        if (empty($this->error)) {
             return $ret;
         } else {
             return $this->error;
@@ -344,13 +358,14 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function head($url, $options = array()){
+    public function head($url, $options = array())
+    {
         $options['CURLOPT_HTTPGET'] = 0;
         $options['CURLOPT_HEADER']  = 1;
         $options['CURLOPT_NOBODY']  = 1;
         return $this->request($url, $options);
     }
-    
+
     /**
      * Recursive function formating an array in POST parameter
      * @param array $arraydata - the array that we are going to format and add into &$data array
@@ -358,17 +373,18 @@ class curl {
      *                when finish, it's assign to $data under this format: name[keyname][][]...[]='value'
      * @param array $data - the final data array containing all POST parameters : 1 row = 1 parameter
      */
-    function format_array_postdata_for_curlcall($arraydata, $currentdata, &$data) {
-        foreach ($arraydata as $k=>$v) {
+    function format_array_postdata_for_curlcall($arraydata, $currentdata, &$data)
+    {
+        foreach ($arraydata as $k => $v) {
             $newcurrentdata = $currentdata;
             if (is_object($v)) {
                 $v = (array) $v;
             }
             if (is_array($v)) { //the value is an array, call the function recursively
-                $newcurrentdata = $newcurrentdata.'['.urlencode($k).']';
+                $newcurrentdata = $newcurrentdata . '[' . urlencode($k) . ']';
                 $this->format_array_postdata_for_curlcall($v, $newcurrentdata, $data);
-            }  else { //add the POST parameter to the $data array
-                $data[] = $newcurrentdata.'['.urlencode($k).']='.urlencode($v);
+            } else { //add the POST parameter to the $data array
+                $data[] = $newcurrentdata . '[' . urlencode($k) . ']=' . urlencode($v);
             }
         }
     }
@@ -378,20 +394,21 @@ class curl {
      * @param array $postdata
      * @return array containing all POST parameters  (1 row = 1 POST parameter)
      */
-    function format_postdata_for_curlcall($postdata) {
+    function format_postdata_for_curlcall($postdata)
+    {
         if (is_object($postdata)) {
             $postdata = (array) $postdata;
         }
         $data = array();
-        foreach ($postdata as $k=>$v) {
+        foreach ($postdata as $k => $v) {
             if (is_object($v)) {
                 $v = (array) $v;
             }
             if (is_array($v)) {
                 $currentdata = urlencode($k);
                 $this->format_array_postdata_for_curlcall($v, $currentdata, $data);
-            }  else {
-                $data[] = urlencode($k).'='.urlencode($v);
+            } else {
+                $data[] = urlencode($k) . '=' . urlencode($v);
             }
         }
         $convertedpostdata = implode('&', $data);
@@ -405,11 +422,12 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function post($url, $params = '', $options = array()){
+    public function post($url, $params = '', $options = array())
+    {
         $options['CURLOPT_POST']       = 1;
         if (is_array($params)) {
             $params = $this->format_postdata_for_curlcall($params);
-        } 
+        }
         $options['CURLOPT_POSTFIELDS'] = $params;
         return $this->request($url, $options);
     }
@@ -421,9 +439,10 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function get($url, $params = array(), $options = array()){
+    public function get($url, $params = array(), $options = array())
+    {
         $options['CURLOPT_HTTPGET'] = 1;
-        if (!empty($params)){
+        if (!empty($params)) {
             $url .= (stripos($url, '?') !== false) ? '&' : '?';
             $url .= http_build_query($params, '', '&');
         }
@@ -437,9 +456,10 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function put($url, $params = array(), $options = array()){
+    public function put($url, $params = array(), $options = array())
+    {
         $file = $params['file'];
-        if (!is_file($file)){
+        if (!is_file($file)) {
             return null;
         }
         $fp   = fopen($file, 'r');
@@ -447,8 +467,8 @@ class curl {
         $options['CURLOPT_PUT']        = 1;
         $options['CURLOPT_INFILESIZE'] = $size;
         $options['CURLOPT_INFILE']     = $fp;
-        if (!isset($this->options['CURLOPT_USERPWD'])){
-            $this->setopt(array('CURLOPT_USERPWD'=>'anonymous: noreply@moodle.org'));
+        if (!isset($this->options['CURLOPT_USERPWD'])) {
+            $this->setopt(array('CURLOPT_USERPWD' => 'anonymous: noreply@moodle.org'));
         }
         $ret = $this->request($url, $options);
         fclose($fp);
@@ -462,7 +482,8 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function delete($url, $param = array(), $options = array()){
+    public function delete($url, $param = array(), $options = array())
+    {
         $options['CURLOPT_CUSTOMREQUEST'] = 'DELETE';
         if (!isset($options['CURLOPT_USERPWD'])) {
             $options['CURLOPT_USERPWD'] = 'anonymous: noreply@moodle.org';
@@ -477,7 +498,8 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function trace($url, $options = array()){
+    public function trace($url, $options = array())
+    {
         $options['CURLOPT_CUSTOMREQUEST'] = 'TRACE';
         $ret = $this->request($url, $options);
         return $ret;
@@ -489,12 +511,14 @@ class curl {
      * @param array $options
      * @return bool
      */
-    public function options($url, $options = array()){
+    public function options($url, $options = array())
+    {
         $options['CURLOPT_CUSTOMREQUEST'] = 'OPTIONS';
         $ret = $this->request($url, $options);
         return $ret;
     }
-    public function get_info() {
+    public function get_info()
+    {
         return $this->info;
     }
 }
@@ -512,7 +536,8 @@ class curl {
  * @copyright  1999 onwards Martin Dougiamas  {@link http://moodle.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class curl_cache {
+class curl_cache
+{
     /** @var string */
     public $dir = '';
     /**
@@ -520,7 +545,8 @@ class curl_cache {
      * @param string @module which module is using curl_cache
      *
      */
-    function __construct() {
+    function __construct()
+    {
         $this->dir = '/tmp/';
         if (!file_exists($this->dir)) {
             mkdir($this->dir, 0700, true);
@@ -533,17 +559,17 @@ class curl_cache {
      * @param mixed $param
      * @return bool|string
      */
-    public function get($param){
+    public function get($param)
+    {
         $this->cleanup($this->ttl);
-        $filename = 'u_'.md5(serialize($param));
-        if(file_exists($this->dir.$filename)) {
-            $lasttime = filemtime($this->dir.$filename);
-            if(time()-$lasttime > $this->ttl)
-            {
+        $filename = 'u_' . md5(serialize($param));
+        if (file_exists($this->dir . $filename)) {
+            $lasttime = filemtime($this->dir . $filename);
+            if (time() - $lasttime > $this->ttl) {
                 return false;
             } else {
-                $fp = fopen($this->dir.$filename, 'r');
-                $size = filesize($this->dir.$filename);
+                $fp = fopen($this->dir . $filename, 'r');
+                $size = filesize($this->dir . $filename);
                 $content = fread($fp, $size);
                 return unserialize($content);
             }
@@ -556,9 +582,10 @@ class curl_cache {
      * @param mixed $param
      * @param mixed $val
      */
-    public function set($param, $val){
-        $filename = 'u_'.md5(serialize($param));
-        $fp = fopen($this->dir.$filename, 'w');
+    public function set($param, $val)
+    {
+        $filename = 'u_' . md5(serialize($param));
+        $fp = fopen($this->dir . $filename, 'w');
         fwrite($fp, serialize($val));
         fclose($fp);
     }
@@ -567,13 +594,14 @@ class curl_cache {
      *
      * @param int $expire The number os seconds before expiry
      */
-    public function cleanup($expire){
-        if($dir = opendir($this->dir)){
+    public function cleanup($expire)
+    {
+        if ($dir = opendir($this->dir)) {
             while (false !== ($file = readdir($dir))) {
-                if(!is_dir($file) && $file != '.' && $file != '..') {
-                    $lasttime = @filemtime($this->dir.$file);
-                    if(time() - $lasttime > $expire){
-                        @unlink($this->dir.$file);
+                if (!is_dir($file) && $file != '.' && $file != '..') {
+                    $lasttime = @filemtime($this->dir . $file);
+                    if (time() - $lasttime > $expire) {
+                        @unlink($this->dir . $file);
                     }
                 }
             }
@@ -583,18 +611,16 @@ class curl_cache {
      * delete current user's cache file
      *
      */
-    public function refresh(){
-        if($dir = opendir($this->dir)){
+    public function refresh()
+    {
+        if ($dir = opendir($this->dir)) {
             while (false !== ($file = readdir($dir))) {
-                if(!is_dir($file) && $file != '.' && $file != '..') {
-                    if(strpos($file, 'u_')!==false){
-                        @unlink($this->dir.$file);
+                if (!is_dir($file) && $file != '.' && $file != '..') {
+                    if (strpos($file, 'u_') !== false) {
+                        @unlink($this->dir . $file);
                     }
                 }
             }
         }
     }
 }
-
-?>
-

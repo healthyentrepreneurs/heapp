@@ -9,6 +9,7 @@ replace <?= base_url() ?>assets/surveyjs/1.9.48 with <?= base_url() ?>assets/sur
 
 survey.ko.min.js survey-creator.min.js
 
+### Folder Structure supposed to be 1.8.9 not 1.9.48
 
 <link href="<?= base_url() ?>assets/surveyjs/1.9.48/survey.analytics.datatables.min.css" type="text/css" rel="stylesheet" />
 <script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.analytics.datatables.min.js"></script>

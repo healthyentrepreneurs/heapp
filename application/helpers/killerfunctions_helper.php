@@ -47,7 +47,7 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
             'App-Secret: 1233'
         )*/
     // $ch = curl_init();
-    // curl_setopt($ch, CURLOPT_URL, "http://192.168.43.88/heapp/login");
+    // curl_setopt($ch, CURLOPT_URL, "http://192.168.100.4/heapp/login");
     // curl_setopt($ch, CURLOPT_POST, 1);
     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#')));
     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -453,7 +453,7 @@ function unset_post(&$post, $name)
 // Inspired By dompdf
 function change_url_image($data, $url)
 {
-    $str = $url; // for example "http://192.168.43.88/yoursite/";
+    $str = $url; // for example "http://192.168.100.4/yoursite/";
     $str2 = str_replace($str, "", $data);
     return $str2;
 }
@@ -1207,4 +1207,53 @@ function multi_thread_curl($urlArray, $optionArray, $nThreads)
         curl_multi_close($mh);
     }
     return $results;
+}
+
+function getImageTypeFromBase64($base64)
+{
+    $decodedData = base64_decode($base64);
+
+    $fileSignature = substr($decodedData, 0, 8);
+    $pngSignature = "\x89PNG\x0d\x0a\x1a\x0a";
+    $jpegSignature1 = "\xff\xd8\xff\xe0";
+    $jpegSignature2 = "\xff\xd8\xff\xe1";
+
+    if (substr($fileSignature, 0, 8) == $pngSignature) {
+        return 'data:image/png;base64,';
+    } elseif (substr($fileSignature, 0, 4) == $jpegSignature1 || substr($fileSignature, 0, 4) == $jpegSignature2) {
+        return 'data:image/jpeg;base64,';
+    } else {
+        return null;
+    }
+}
+
+function get_admin_token($show = 0)
+{
+    $domainname = MOODLEAPP_DOMAIN . MOODLEAPP_ADMIN;
+    $serverurl = $domainname . '/login/token.php?';
+    $data = array();
+    $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
+    $array_of_output = json_decode($server_output, true);
+    if ($show == 0) {
+        return $array_of_output;
+    } else {
+        print_array($array_of_output);
+    }
+}
+
+function post_get_token_mobile($_username,$_password)
+{
+    $domainname = MOODLEAPP_DOMAIN . '/login/token.php?service=moodle_mobile_app';
+    $data = array(
+        'username' => $_username,
+        'password' => $_password
+    );
+    $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
+    $array_of_output = json_decode($server_output, true);
+    return $array_of_output;
+    // if ($show == 0) {
+    //     return $array_of_output;
+    // } else {
+    //     print_array($array_of_output);
+    // }
 }

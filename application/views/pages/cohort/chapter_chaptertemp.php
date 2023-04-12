@@ -8,7 +8,7 @@
     <div class="panel-body">
         <div class="table-responsive" id="detalschapplane">
             <p>
-                <b>Chapters  Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
+                <b>Chapters Report In Range <h4> <?= converttodate($startdate, 'F jS, Y') ?> TO <?= converttodate($enddate, 'F jS, Y') ?></b></h4>
             </p>
             <?php echo $this->load->view($table_survey_url, '', TRUE); ?>
         </div>
@@ -26,7 +26,7 @@
     });
 
     // function gotoreport(id) {
-    //     window.location.replace("http://192.168.43.88/heapp/welcome/admin/6?id=" + id);
+    //     window.location.replace("http://192.168.100.4/heapp/welcome/admin/6?id=" + id);
     // }
 
     function removedetailschap() {

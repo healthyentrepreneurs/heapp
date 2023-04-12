@@ -1,5 +1,5 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.ko.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js" type="text/javascript"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.ko.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.10/ace.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.10/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
 <!-- Uncomment to enable Select2 <script src="https://unpkg.com/jquery"></script> <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> -->
@@ -22,7 +22,7 @@
                 <div id="surveyContainer">
                     <div id="creatorElement"></div>
                 </div>
-               <!-- Now Currently Njovu -->
+                <!-- Now Currently Njovu -->
                 <form id="imageUploadForm" method="post" class="form-horizontal" action="<?= base_url("survey/addsurvey") ?>" enctype="multipart/form-data" role="form">
                     <div class="form-group">
                         <br>
@@ -156,7 +156,7 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                    // console.log('joash now '+JSON.stringify(data));
+                    console.log('joash now ' + JSON.stringify(data));
                     if (data.status == 1) {
                         $('#imageUploadForm')[0].reset();
                         foo();
@@ -167,7 +167,7 @@
                     }
                 },
                 error: function(data) {
-                    console.log('error '+JSON.stringify(data));
+                    console.log('error ' + JSON.stringify(data));
                 }
             });
         }));
@@ -180,7 +180,7 @@
     function foo() {
         // alert("hello");
         // onclick="document.getElementById('resetbuttonid').click()"
-        document.getElementById("uploadPreview").value = '<?=base_url('uploadscustome/placeholdericon.jpeg')?>';
+        document.getElementById("uploadPreview").value = '<?= base_url('uploadscustome/placeholdericon.jpeg') ?>';
         // document.getElementById("myImg").src = "https://picsum.photos/200/300";
         // document.getElementById("surveyjson").value = creator.text;
         creator.text = "";

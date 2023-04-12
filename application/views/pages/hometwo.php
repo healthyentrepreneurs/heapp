@@ -91,7 +91,7 @@
                                         if (empty($user_profile)) {
                                             echo "Dashboard";
                                         } else {
-                                            echo $user_profile['username'] . " " . $user_profile['firstname']. " " . $user_profile['lastname'];
+                                            echo $user_profile['username'] . " " . $user_profile['firstname'] . " " . $user_profile['lastname'];
                                             // print_array($user_profile);
                                         }
                                         ?>

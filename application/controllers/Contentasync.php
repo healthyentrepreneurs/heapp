@@ -243,7 +243,7 @@
                     }
                     public function get_admin_token()
                     {
-                        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+                        $domainname = MOODLEAPP_DOMAIN . MOODLEAPP_ADMIN;
                         $data = array();
                         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
                         $array_of_output = json_decode($server_output, true);

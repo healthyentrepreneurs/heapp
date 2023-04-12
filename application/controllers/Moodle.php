@@ -20,12 +20,6 @@ class Moodle extends CI_Controller
     }
     public function login($var = null)
     {
-        // $_POST['username'] = "admin";
-        // $_POST['password'] = "Thijs123!@#";
-        // $_POST['username'] = "mega";
-        // $_POST['password'] = "Mega1java123!@#";
-        // $_POST['username'] = "7290";
-        // $_POST['password'] = "123456";
         if (isset($_POST['username']) && isset($_POST['password'])) {
             $username = str_replace(' ', '', $this->input->post('username'));
             $password = str_replace('#', '%23', $this->input->post('password'));
@@ -63,7 +57,7 @@ class Moodle extends CI_Controller
     }
     public function get_userdetails_internal($username = null)
     {
-        $token =  $token = $this->get_admin_token()['token'];
+        $token =  get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $data = array(
             'wstoken' => $token,
@@ -79,7 +73,7 @@ class Moodle extends CI_Controller
     }
     public function get_userdetails_internal_todelete($username = null)
     {
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $data = array(
             'wstoken' => $token,
@@ -93,14 +87,7 @@ class Moodle extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-    public function get_admin_token()
-    {
-        $domainname = MOODLEAPP_DOMAIN.'/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
-        $data = array();
-        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        return $array_of_output;
-    }
+    
     //User Api Moodle
     public function pullfrommod($state = 1)
     {

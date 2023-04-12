@@ -26,7 +26,7 @@
     });
 
     // function gotoreport(id) {
-    //     window.location.replace("http://192.168.43.88/heapp/welcome/admin/6?id=" + id);
+    //     window.location.replace("http://192.168.100.4/heapp/welcome/admin/6?id=" + id);
     // }
 
     function removesumusertab() {

@@ -49,7 +49,7 @@ module.exports = function (grunt) {
 
     // qunit: javascript unit test.
     qunit: {
-      all: [ 'test/*.html' ]
+      all: ['test/*.html']
     },
 
     // uglify: minify javascript
@@ -83,7 +83,7 @@ module.exports = function (grunt) {
               connect.directory(options.base)  // make empty directories browsable
             ]);
           },
-          open: 'http://192.168.43.88:3000'
+          open: 'http://192.168.100.4/:3000'
         }
       }
     },

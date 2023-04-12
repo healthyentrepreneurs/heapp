@@ -31,8 +31,9 @@ class Quiz extends CI_Controller
             'moodlewsrestformat' => 'json'
         );
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
-        $array_of_courses = json_decode($server_output, true);
-        print_array($array_of_courses);
+        // $array_of_courses = json_decode($server_output, true);
+        echo $server_output;
+        // print_array($array_of_courses);
     }
 
     #The Real Begining Of Quiz
@@ -74,8 +75,9 @@ class Quiz extends CI_Controller
             'moodlewsrestformat' => 'json'
         );
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
-        $array_of_courses = json_decode($server_output, true);
-        print_array($array_of_courses);
+        echo $server_output;
+        // $array_of_courses = json_decode($server_output, true);
+        // print_array($array_of_courses);
     }
     public function quiz_start_attempt($quizid = null, $token)
     {
@@ -99,7 +101,7 @@ class Quiz extends CI_Controller
         }
         if (empty($array_of_courses)) {
             return array();
-            // echo empty_response("No Quiz Started .. ");
+            echo empty_response("No Quiz Started .. ");
         } else {
             unset_post($array_of_courses, 'warnings');
             // print_array($array_of_courses);
@@ -162,7 +164,8 @@ class Quiz extends CI_Controller
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
         $array_of_courses = json_decode($server_output, true);
         // echo empty_response("Quiz Loaded .. ", 200, $array_of_courses);
-        return $array_of_courses;
+        // return $array_of_courses;
+        print_array($array_of_courses);
     }
     public function get_user_attempts($token, $quizid)
     {

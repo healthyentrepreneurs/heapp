@@ -101,6 +101,18 @@ class Welcome extends CI_Controller
                 case 3:
                     $id = $this->input->get('id');
                     $attempt_n_n_one = $this->universal_model->selectzy('*', 'survey', 'slug', 1, 'id', $id);
+                    $pattern = '/\[(removed)\]([^\s,]+)/';
+                    foreach ($attempt_n_n_one as $key => $value) {
+                        $attempt_n_n_one[$key] = preg_replace_callback($pattern, function ($matches) {
+                            if ($matches[1] === 'removed') {
+                                $imageType = getImageTypeFromBase64($matches[2]);
+                                return '"' . $imageType . $matches[2];
+                                // return '"' . $matches[2] . '"';
+                            } else {
+                                return $matches[0];
+                            }
+                        }, $value);
+                    }
                     // print_array($attempt_n_n_one);
                     $data['content_admin'] = 'pages/admin/surveyinstance';
                     $data['surveydataone'] = array_shift($attempt_n_n_one);
@@ -123,7 +135,7 @@ class Welcome extends CI_Controller
                     $this->load->view('pages/hometwo', $data);
                     break;
                 case 7:
-                    // http://192.168.43.88/heapp/welcome/admin/7/211/10?userid=2&name=Workflow:%20Family%20Planning
+                    // http://192.168.100.4/heapp/welcome/admin/7/211/10?userid=2&name=Workflow:%20Family%20Planning
                     // $persial_surveynn = $this->universal_model->join_suv_reportspecifi($id, $id_two);
                     $persial_survey = $this->universal_model->join_suv_report_details($id_twonn, $idnn);
                     $final_array = $this->report_surveydetails_data($persial_survey, $idnn);
@@ -184,7 +196,7 @@ class Welcome extends CI_Controller
 
     public function getme_chort_details()
     {
-        $token = $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_cohort_get_cohorts';
         $data = array(
             'wstoken' => $token,
@@ -223,7 +235,7 @@ class Welcome extends CI_Controller
     #Test Get User Details
     public function get_meuserdetails($user_id)
     {
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $data = array(
             'wstoken' => $token,
@@ -628,22 +640,32 @@ class Welcome extends CI_Controller
         $content = preg_replace('#(?:<br\s*/?>\s*?){2,}#', ' ', $content);
         return trim(strip_tags($content));
     }
-    public function get_admin_token()
+
+    public function showme_get_admin_token()
     {
-        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+        $domainname = MOODLEAPP_DOMAIN . MOODLEAPP_ADMIN;
         $serverurl = $domainname . '/login/token.php?';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
+        print_array($array_of_output);
         return $array_of_output;
     }
+
+    public function test_individual_tokens()
+    {
+        $_username = $_POST['username'];
+        $_password = $_POST['password'];
+        echo post_get_token_mobile($_username, $_password);
+    }
+
     public function get_all_avail_course()
     {
         //   core_course_get_courses
         //core_enrol_get_users_courses
         $functionname = 'core_course_get_courses';
         $data = array(
-            'wstoken' => $this->get_admin_token()['token'],
+            'wstoken' => get_admin_token()['token'],
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json'
 

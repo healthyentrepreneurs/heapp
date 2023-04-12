@@ -528,7 +528,7 @@ class Report extends CI_Controller
     public function get_meuserdetails($user_id)
     {
         // $token = 'f84bf33b56e86a4664284d8a3dfb5280';
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $data = array(
             'wstoken' => $token,
@@ -978,7 +978,7 @@ class Report extends CI_Controller
     {
         $functionname = 'mod_book_get_books_by_courses';
         $data = array(
-            'wstoken' => $this->get_admin_token()['token'],
+            'wstoken' => get_admin_token()['token'],
             'wsfunction' => $functionname,
             'courseids[0]' => $course_id,
             'moodlewsrestformat' => 'json'
@@ -1010,7 +1010,7 @@ class Report extends CI_Controller
         $course_id = $this->input->post('courseid');
         $functionname = 'mod_book_get_books_by_courses';
         $data = array(
-            'wstoken' => $this->get_admin_token()['token'],
+            'wstoken' => get_admin_token()['token'],
             'wsfunction' => $functionname,
             'courseids[0]' => $course_id,
             'moodlewsrestformat' => 'json'
@@ -1049,7 +1049,7 @@ class Report extends CI_Controller
     #End of End
     public function get_admin_token()
     {
-        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
+        $domainname = MOODLEAPP_DOMAIN . MOODLEAPP_ADMIN;
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);

@@ -93,7 +93,7 @@ class Survey extends CI_Controller
         // surveydesc
         $this->form_validation->set_rules('surveydesc', 'Survey Description', 'trim|required|xss_clean');
         $this->form_validation->set_rules('surveyname', 'Survey Name', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('surveyjson', 'Survey Object', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('surveyjson', 'Survey Object', 'trim|required');
         if ($this->form_validation->run() == FALSE) {
             $array_n = array(
                 'status' => 0,
@@ -102,6 +102,7 @@ class Survey extends CI_Controller
             echo json_encode($array_n);
         } else {
             $this->addemployee_subfunc();
+            // echo json_encode($_POST);
         }
         // echo json_encode($_POST);
     }
@@ -456,7 +457,7 @@ class Survey extends CI_Controller
     //API
     public function go_surveyaddupdate($survey_id, $message)
     {
-        // $_REMOTEGO = "http://192.168.43.88:8080/".$message;
+        // $_REMOTEGO = "http://192.168.100.4/:8080/".$message;
         $_REMOTEGO = REMOTE_GO . $message;
         $getnextline = $this->getnexlink($survey_id, 1);
         $json_nand = json_encode($getnextline);
@@ -486,7 +487,7 @@ class Survey extends CI_Controller
 
     // API
     public function getallsurveys()
-    {   
+    {
         header('Content-Type: application/json');
         $surveys = $this->universal_model->selectall('*', 'survey');
         echo json_encode($surveys);

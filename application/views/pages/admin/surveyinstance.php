@@ -1,15 +1,15 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.ko.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js" type="text/javascript"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.ko.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.10/ace.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.10/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
 <!-- Uncomment to enable Select2 <script src="https://unpkg.com/jquery"></script> <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> -->
 <link href="<?= base_url() ?>assets/surveyjs/1.9.48/survey-creator.min.css" type="text/css" rel="stylesheet" />
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey-creator.min.js"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey-creator.min.js" type="text/javascript" charset="utf-8"></script>
 <link href="<?= base_url() ?>assets/surveyjs/1.9.48/survey.analytics.datatables.min.css" type="text/css" rel="stylesheet" />
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.analytics.datatables.min.js"></script>
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.core.min.js"></script>
-<script src="<?= base_url() ?>assets/surveyjs/1.9.48/surveyjs-widgets.min.js"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.analytics.datatables.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/survey.core.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?= base_url() ?>assets/surveyjs/1.9.48/surveyjs-widgets.min.js" type="text/javascript" charset="utf-8"></script>
 <div class="row">
     <!-- WALAH CRAP -->
     <div class="col-lg-12 col-md-12">
@@ -60,28 +60,28 @@
         creator.rightContainerActiveItem("toolbox");
         document.getElementsByClassName('svd_commercial_product')[0].style.visibility = 'hidden';
         document.getElementsByClassName('svd-svg-icon')[0].style.visibility = 'hidden';
-        // creator.saveSurveyFunc = function(saveNo, callback) {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: url_updatesurvey,
-        //         data: {
-        //             surveyname: document.getElementById("survey_name").value,
-        //             surveyid: document.getElementById("survey_id").value,
-        //             surveydesc:document.getElementById("surveydesc").value,
-        //             surveyobj: creator.text,
-        //         },
-        //         success: function(result) {
-        //             // console.log(result);
-        //             var notyf = new Notyf();
-        //             // notyf.success('Your changes have been successfully saved!');
-        //             notyf.success('Changed Disabled Because They Affect existing Data!');
-        //         },
-        //         error: function() {
-        //             alert('Some error found. Please try again!');
-        //         }
-        //     });
-        //     callback(saveNo, true);
-        // }
+        creator.saveSurveyFunc = function(saveNo, callback) {
+            $.ajax({
+                type: 'POST',
+                url: url_updatesurvey,
+                data: {
+                    surveyname: document.getElementById("survey_name").value,
+                    surveyid: document.getElementById("survey_id").value,
+                    surveydesc: document.getElementById("surveydesc").value,
+                    surveyobj: creator.text,
+                },
+                success: function(result) {
+                    // console.log(result);
+                    var notyf = new Notyf();
+                    notyf.success('Your changes have been successfully saved!');
+                    // notyf.success('Changed Disabled Because They Affect existing Data!');
+                },
+                error: function() {
+                    alert('Some error found. Please try again!');
+                }
+            });
+            callback(saveNo, true);
+        }
         var defaultJSON = <?php echo $surveydataone['surveyjson']; ?>;
         // console.log(defaultJSON);
         creator.text = JSON.stringify(defaultJSON);

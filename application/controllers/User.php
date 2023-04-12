@@ -65,7 +65,7 @@ class User extends CI_Controller
     public function get_list_courses_internal($user_id)
     {
         $functionname = 'core_enrol_get_users_courses';
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
@@ -289,7 +289,7 @@ class User extends CI_Controller
             $array = json_decode(json_encode($users), true);
             // $params = array();
             //Call
-            $token = $this->get_admin_token()['token'];
+            $token = get_admin_token()['token'];
             $functionname = 'core_user_create_users';
             $data = array(
                 'wstoken' => $token,
@@ -325,7 +325,7 @@ class User extends CI_Controller
     }
     public function addUserToCohorts($chortvalue, $username, $id_id)
     {
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_cohort_add_cohort_members';
         $member = new stdClass();
         $member->cohorttype["type"] = 'idnumber';
@@ -352,7 +352,7 @@ class User extends CI_Controller
     function enrol($user_id, $course_id)
     {
         $role_id = 5; //assign role to be Student
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'enrol_manual_enrol_users';
         $enrolment = array('roleid' => $role_id, 'userid' => $user_id, 'courseid' => $course_id);
         $enrolments = array($enrolment);
@@ -370,6 +370,10 @@ class User extends CI_Controller
     public function getme_cohort_get_cohort_members($id_quetion, $returnformat = 0)
     {
         $value_check = $this->universal_model->join_suv_cohot();
+        //Just incase they miss align
+        if (empty($value_check)) {
+            return array();
+        }
         $array_ids_cohort = array();
         foreach ($value_check as $key => $value_ids) {
             $array_en_p = array(
@@ -386,7 +390,7 @@ class User extends CI_Controller
             $cohortids = array($cohortids);
         }
         $cohortids = array_unique($cohortids);
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_cohort_get_cohort_members';
         $data = array(
             'wstoken' => $token,
@@ -439,7 +443,7 @@ class User extends CI_Controller
     #Test Get User Details
     public function viwedbook($book_id, $chapter_id, $token, $username = 0, $course_id = 0)
     {
-        // http://192.168.43.88/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
+        // http://192.168.100.4/m/stable_master/webservice/rest/server.php?moodlewsrestformat=json' --data 'bookid=1&chapterid=1&wsfunction=mod_book_view_book&wstoken=a70d553bbaf6d9b260a9e5c701b3c46e
         $functionname = 'mod_book_view_book';
         $data = array(
             'wstoken' => $token,
@@ -550,19 +554,6 @@ class User extends CI_Controller
         return $array_data;
         #End Correction
     }
-    public function get_admin_token($show = 0)
-    {
-        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=Walah123!@%23CMaw&service=addusers';
-        $data = array();
-        $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        // print_array($array_of_output);
-        if ($show == 0) {
-            return $array_of_output;
-        } else {
-            print_array($array_of_output);
-        }
-    }
     public function get_chapters_perbookcourse()
     {
         $_courseid = $this->input->post('courseid');
@@ -571,7 +562,7 @@ class User extends CI_Controller
         // $token = '2cedf0d2bd87e32db7e9b57fc6ec9a34';
         // $book_id = '4';
         // $chapter_id = '8';
-        $data_analysis = $this->get_details_percourse($_courseid, $this->get_admin_token()['token'], 0);
+        $data_analysis = $this->get_details_percourse($_courseid, get_admin_token()['token'], 0);
         #Correct Wrong
         $stop_search = false;
         $contents_array = array();
@@ -617,7 +608,7 @@ class User extends CI_Controller
     }
     public  function get_allcourse($show = 0)
     {
-        $token = $this->get_admin_token()['token'];
+        $token = get_admin_token()['token'];
         $functionname = 'core_course_get_courses';
         $data = array(
             'wstoken' => $token,
