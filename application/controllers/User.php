@@ -81,6 +81,21 @@ class User extends CI_Controller
             return $array_of_courses;
         }
     }
+
+    public function get_details_percourse_lets($_courseid, $token, $show = 1)
+    {
+        $functionname = 'core_course_get_contents';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'courseid' => $_courseid
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        // print_array($server_output);
+        // $array_of_courses = json_decode($server_output, true);
+        echo $server_output;
+    }
     public function get_details_percourse($_courseid, $token, $show = 1)
     {
         $functionname = 'core_course_get_contents';
@@ -111,7 +126,6 @@ class User extends CI_Controller
                 foreach ($_submodules['modules'] as $key => $_filter_modules) {
                     $book_id = $_filter_modules['id'];
                     $type_book = $_filter_modules['modname'];
-                    // public function select_bytwo_limit($variable, $value, $variable1, $value1, $table_name)
                     $value_check = $this->universal_model->select_bytwo_limit('bookid', $book_id, 'couseid', $course_id, 'type', $type_book);
                     // $value_check = $this->universal_model->selectzx('*', 'icon_table', 'original_one', $_filter_modules['modicon'], 'name', $_filter_modules['name'], 'type', $_filter_modules['modname']);
                     if (!empty($value_check)) {
@@ -119,23 +133,17 @@ class User extends CI_Controller
                         $_filter_modules['modicon'] = base_url('uploadicons/' . $url_icon);
                         // print_array($_filter_modules);
                     }
-                    // if ($_filter_modules['modname'] == "quiz") {
-                    //     $_filter_modules['next_link'] = base_url('quiz/get_quiz_em/' . $_filter_modules['instance']);
-                    // }
-                    // if ($_filter_modules['modname'] == "book" || $_filter_modules['modname'] == "quiz") {
-                    //     // $_filter_modules['modname'] == "forum" || 
-                    //     array_push($array_modules, $_filter_modules);
-                    // }
                     #Hey
                     $new_content = array();
-                    if ($_filter_modules['modname'] == "quiz") {
-                        //    echo $$_filter_modules['instance'];
-                        // print_array($_filter_modules);
-                        // $_filter_modules['contentsinfo'] = json_encode(array());
-                        $_filter_modules['contentsinfo'] = json_encode($arrayName = array('' => '',));
-                        $_filter_modules['contents'] = array();
-                        array_push($array_modules, $_filter_modules);
-                    } else if ($_filter_modules['modname'] == "book") {
+                    // if ($_filter_modules['modname'] == "quiz") {
+                    //     //    echo $$_filter_modules['instance'];
+                    //     // print_array($_filter_modules);
+                    //     // $_filter_modules['contentsinfo'] = json_encode(array());
+                    //     $_filter_modules['contentsinfo'] = json_encode($arrayName = array('' => '',));
+                    //     $_filter_modules['contents'] = array();
+                    //     array_push($array_modules, $_filter_modules);
+                    // } else 
+                    if ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
                         //Array Search Manipulation
                         $contents_dub = $contents;
@@ -193,6 +201,10 @@ class User extends CI_Controller
                             array_push($new_content, $content_value);
                         }
                         $_filter_modules['contents'] = $new_content;
+                        array_push($array_modules, $_filter_modules);
+                    } else if ($_filter_modules['modname'] == "h5pactivity") {
+                        $_filter_modules['contentsinfo'] = json_encode($arrayName = array('' => '',));
+                        $_filter_modules['contents'] = array();
                         array_push($array_modules, $_filter_modules);
                     }
                     // print_array($value_check);

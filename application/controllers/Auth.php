@@ -7,7 +7,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('universal_model');
-        $this->load->model('user_model', '', TRUE);
+        $this->load->model('user_model', '', true);
     }
 
     public function index()
@@ -24,7 +24,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('category', 'Driver Category', 'trim|required|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'required|callback_password_spec');
         $this->form_validation->set_rules('repassword', 'Retype Password', 'required|matches[password]');
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('phonenumber', form_error('phonenumber'));
             $this->session->set_flashdata('firstname', form_error('firstname'));
             $this->session->set_flashdata('secondname', form_error('secondname'));
@@ -53,15 +53,13 @@ class Auth extends CI_Controller
         // elseif (preg_match("/[a-z]/i", $password)) {
         //     $this->form_validation->set_message('password_spec', 'Minimum Characters 6');
         //     return false;
-        // } 
+        // }
         else {
-            return TRUE;
+            return true;
         }
     }
 
-
-
-    function lockscreen()
+    public function lockscreen()
     {
         //        $myid = $this->session->userdata('logged_in')['id'];
         //        print_array($array);
@@ -84,24 +82,23 @@ class Auth extends CI_Controller
             'validated' => '',
             'supervisedby' => '',
             'data_added' => '',
-            'gender' => ''
+            'gender' => '',
         );
         $this->session->unset_userdata($newdata);
         $this->session->sess_destroy();
         $this->load->view('part/outer/lockscreen', $data);
     }
 
-    function unlock()
+    public function unlock()
     {
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == false) {
             $this->session->set_flashdata('password', form_error('password'));
             redirect(base_url('authentication/lockscreen'));
         } else {
             $this->login();
         }
     }
-
     public function login()
     {
         if ($this->session->userdata('logged_in_lodda')) {
@@ -109,7 +106,7 @@ class Auth extends CI_Controller
         } else {
             $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
-            if ($this->form_validation->run() == FALSE) {
+            if ($this->form_validation->run() == false) {
                 $this->session->set_flashdata('username', form_error('username'));
                 $this->session->set_flashdata('password', form_error('password'));
                 redirect(base_url('welcome/landing/2'));
@@ -119,7 +116,7 @@ class Auth extends CI_Controller
         }
     }
 
-    function logout()
+    public function logout()
     {
         $this->session->unset_userdata('logged_in_lodda');
         $this->session->sess_destroy();
@@ -131,7 +128,7 @@ class Auth extends CI_Controller
     {
         $array_userpass = array(
             'user_id',
-            'password'
+            'password',
         );
         $result = $this->universal_model->selectz($array_userpass, 'users', 'id', $id);
         return $result;
@@ -148,7 +145,7 @@ class Auth extends CI_Controller
         $data = array(
             'username' => $username,
             'password' => $passwordn,
-            'service' => 'moodle_mobile_app'
+            'service' => 'moodle_mobile_app',
         );
         $server_output = curl_request($serverurl, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
@@ -165,24 +162,24 @@ class Auth extends CI_Controller
                 $data_copy = array(
                     'id_id' => $details_user[0]['id'],
                     'password' => $password,
-                    'username' => $details_user[0]['username']
+                    'username' => $details_user[0]['username'],
                 );
                 $this->universal_model->updateOnDuplicate('user', $data_copy);
                 $this->session->set_userdata('logged_in_lodda', $token_details);
-                return TRUE;
+                return true;
             }
         }
     }
     public function get_userdetails_internal($username = null)
     {
-        $token = get_admin_token()['token'];
+        $token = $this->get_admin_token()['token'];
         $functionname = 'core_user_get_users_by_field';
         $data = array(
             'wstoken' => $token,
             'wsfunction' => $functionname,
             'moodlewsrestformat' => 'json',
             'field' => 'username',
-            'values[0]' => $username
+            'values[0]' => $username,
 
         );
         $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
@@ -228,16 +225,16 @@ class Auth extends CI_Controller
             'smtp_pass' => 'SMTP Password',
             'smtp_timeout' => '4',
             'mailtype' => 'html',
-            'charset' => 'iso-8859-1'
+            'charset' => 'iso-8859-1',
         );
         $this->load->library('email', $config);
         $this->email->set_newline("\r\n");
 
         $this->email->from($email_source, $title_email);
-        $this->email->to($email_desitination);  // replace it with receiver mail id
-        $this->email->subject($sub_title); // replace it with relevant subject 
+        $this->email->to($email_desitination); // replace it with receiver mail id
+        $this->email->subject($sub_title); // replace it with relevant subject
         //        $this->load->view('part/outer/login', $data, TRUE);
-        $body = $this->load->view($email_html, $data_array, TRUE);
+        $body = $this->load->view($email_html, $data_array, true);
         $this->email->message($body);
         $this->email->send();
     }
@@ -298,7 +295,7 @@ class Auth extends CI_Controller
             $this->updateprofile_subfunc($ararra);
             $json_return = array(
                 'report' => "Editted Successfully",
-                'status' => 2
+                'status' => 2,
             );
 
             //$this->session->unset_userdata('logged_in');
@@ -327,7 +324,7 @@ class Auth extends CI_Controller
                         'data_added' => $row->data_added,
                         'add_by' => $row->add_by,
                         'supervisedby' => $row->supervisedby,
-                        'gender' => $row->gender
+                        'gender' => $row->gender,
                     );
                 }
                 $this->session->set_userdata('logged_in', $sess_array);
@@ -341,13 +338,13 @@ class Auth extends CI_Controller
             if ($variabone !== "") {
                 $json_return = array(
                     'report' => $variabone,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             } else if ($variabtwo !== "") {
                 $json_return = array(
                     'report' => $variabtwo,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             }
@@ -364,7 +361,7 @@ class Auth extends CI_Controller
         } else if ($this->input->post('phone') !== $this->session->userdata('logged_in')['contact']) {
             $this->form_validation->set_rules('phone', 'Phone number', 'required|is_unique[users.contact]');
         }
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == false) {
             $issue_one = form_error("email_value");
             $issue_two = form_error("phone");
             $variabone = strip_tags($issue_one, "<b><i>");
@@ -372,13 +369,13 @@ class Auth extends CI_Controller
             if ($variabone !== "") {
                 $json_return = array(
                     'report' => $variabone,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             } else if ($variabtwo !== "") {
                 $json_return = array(
                     'report' => $variabtwo,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             }
@@ -406,7 +403,7 @@ class Auth extends CI_Controller
             $this->updateprofile_subfunc($ararra);
             $json_return = array(
                 'report' => "Editted Successfully",
-                'status' => 2
+                'status' => 2,
             );
 
             //$this->session->unset_userdata('logged_in');
@@ -435,7 +432,7 @@ class Auth extends CI_Controller
                         'data_added' => $row->data_added,
                         'add_by' => $row->add_by,
                         'supervisedby' => $row->supervisedby,
-                        'gender' => $row->gender
+                        'gender' => $row->gender,
                     );
                 }
                 $this->session->set_userdata('logged_in', $sess_array);
@@ -481,7 +478,7 @@ class Auth extends CI_Controller
 
     public function validate_image($generatedname)
     {
-        $config['overwrite'] = TRUE;
+        $config['overwrite'] = true;
         $config['upload_path'] = './upload/';
         $config['allowed_types'] = 'gif|jpg|png';
         $config['max_size'] = '10000';
@@ -493,18 +490,18 @@ class Auth extends CI_Controller
         if (!$this->upload->do_upload('user_profile_pic')) {
             $error = array('error' => $this->upload->display_errors());
             //            print_array($error);
-            if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
+            if (strpos($error['error'], "You did not select a file to upload.") !== false) {
                 $this->form_validation->set_message('validate_image', 'Please Select Profile Picture');
                 //                $this->session->set_flashdata('user_profile_pic_', "Please Select Profile Picture");
                 //                redirect(base_url() . "admin/admin/admin/2");
-            } elseif (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
+            } elseif (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== false) {
                 //                $this->session->set_flashdata('user_profile_pic_', "");
                 //                redirect(base_url() . "admin/admin/admin/2");
                 $this->form_validation->set_message('validate_image', 'Profile Picture exceeds the required image size');
             }
-            return FALSE;
+            return false;
         } else {
-            return TRUE;
+            return true;
         }
     }
 
@@ -512,7 +509,7 @@ class Auth extends CI_Controller
     {
         $config['image_library'] = 'gd2';
         $config['source_image'] = $image_source;
-        $config['maintain_ratio'] = TRUE;
+        $config['maintain_ratio'] = true;
         $config['width'] = $width;
         $config['height'] = $height;
         $config['new_image'] = $new_image;
@@ -521,7 +518,7 @@ class Auth extends CI_Controller
         $this->image_lib->resize();
     }
 
-    function edittabledatatwo()
+    public function edittabledatatwo()
     {
         $_POST['check'] = "one";
         $this->form_validation->set_rules('check', 'Check', 'required');
@@ -531,7 +528,7 @@ class Auth extends CI_Controller
         if ($this->input->post('phone_number_old') !== $this->input->post('phone_number')) {
             $this->form_validation->set_rules('phone_number', ' Phone Number', 'required|is_unique[users.contact]');
         }
-        if ($this->form_validation->run() == FALSE) {
+        if ($this->form_validation->run() == false) {
             $issue_one = form_error("employee_email");
             $issue_two = form_error("phone_number");
             $variabone = strip_tags($issue_one, "<b><i>");
@@ -539,13 +536,13 @@ class Auth extends CI_Controller
             if ($variabone !== "") {
                 $json_return = array(
                     'report' => $variabone,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             } else if ($variabtwo !== "") {
                 $json_return = array(
                     'report' => $variabtwo,
-                    'status' => 1
+                    'status' => 1,
                 );
                 echo json_encode($json_return);
             }
@@ -562,7 +559,7 @@ class Auth extends CI_Controller
                 'contact' => $this->input->post('phone_number'),
                 'occupation' => $this->input->post('occupation_employee'),
                 'supervisedby' => $this->input->post('supervisor_employee'),
-                'category' => $this->input->post('usertype')
+                'category' => $this->input->post('usertype'),
             );
             //        unset_post($ararra, 'hshs');
             if ($this->input->post('password') == "") {
@@ -580,7 +577,7 @@ class Auth extends CI_Controller
             $this->updateprofile_subfunc($ararra);
             $json_return = array(
                 'report' => "Editted Successfully",
-                'status' => 2
+                'status' => 2,
             );
             echo json_encode($json_return);
         }
@@ -593,7 +590,7 @@ class Auth extends CI_Controller
     }
     public function get_admin_token($show = 1)
     {
-        $domainname = MOODLEAPP_DOMAIN.MOODLEAPP_ADMIN;
+        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?username=mega&password=PapaWembaJ123!@%23CMaw&service=na';
         $data = array();
         $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
         $array_of_output = json_decode($server_output, true);
@@ -605,3 +602,5 @@ class Auth extends CI_Controller
         }
     }
 }
+// Walah123!@#CMaw   Walah123!@%23CMaw
+//Walah123!@%23CMaw

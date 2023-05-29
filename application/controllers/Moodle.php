@@ -87,7 +87,7 @@ class Moodle extends CI_Controller
         $array_of_output = json_decode($server_output, true);
         return $array_of_output;
     }
-    
+
     //User Api Moodle
     public function pullfrommod($state = 1)
     {

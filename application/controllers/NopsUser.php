@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
 date_default_timezone_set("Africa/Nairobi");
 require_once FCPATH . 'vendor/autoload.php';
-class NopsUser extends CI_Controller
+class Nopsuser extends CI_Controller
 {
     public function __construct()
     {
@@ -69,7 +69,7 @@ class NopsUser extends CI_Controller
                         }
                         $modules_values['contents'] = $formatedModuleContents;
                         array_push($formatedModules, $modules_values);
-                    } elseif ($modules_values['modname'] == "quiz") {
+                    } elseif ($modules_values['modname'] == "h5pactivity") {
                         array_push($formatedModules, $modules_values);
                     }
                 }
