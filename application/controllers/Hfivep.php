@@ -34,6 +34,7 @@ class Hfivep extends CI_Controller
 
     public function get_trusted_h5p_file()
     {
+        //Hey Hey
         // Get POST data
         $url = $this->input->post('url');
         $token = $this->input->post('wstoken');
