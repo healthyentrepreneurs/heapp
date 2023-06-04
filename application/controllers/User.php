@@ -648,7 +648,7 @@ class User extends CI_Controller
     }
     public function get_allmoodle_course_inter($returnformat = 0)
     {
-        $token = $this->get_token_mobile()['token'];
+        $token = get_admin_token()['token'];
         $_courses = $this->get_allcourse(1);
         $_courses_n = array_value_recursive('id', $_courses);
         $_courses_n_array = $this->get_course_get_courses_by_ids($_courses_n, $token);
@@ -680,19 +680,19 @@ class User extends CI_Controller
             echo json_encode($merge_sanitized_courses);
         }
     }
-    public function get_token_mobile($show = 0)
-    {
-        $domainname = MOODLEAPP_DOMAIN . '/login/token.php?service=moodle_mobile_app';
-        $data = array(
-            'username' => "mega",
-            'password' => 'Walah123!@#CMaw'
-        );
-        $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
-        $array_of_output = json_decode($server_output, true);
-        if ($show == 0) {
-            return $array_of_output;
-        } else {
-            print_array($array_of_output);
-        }
-    }
+    // public function get_token_mobile($show = 0)
+    // {
+    //     $domainname = MOODLEAPP_DOMAIN . '/login/token.php?service=moodle_mobile_app';
+    //     $data = array(
+    //         'username' => "mega",
+    //         'password' => 'Walah123!@#CMaw'
+    //     );
+    //     $server_output = curl_request($domainname, $data, "post", array('App-Key: 123456'));
+    //     $array_of_output = json_decode($server_output, true);
+    //     if ($show == 0) {
+    //         return $array_of_output;
+    //     } else {
+    //         print_array($array_of_output);
+    //     }
+    // }
 }

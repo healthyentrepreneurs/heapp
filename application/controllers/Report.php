@@ -974,37 +974,7 @@ class Report extends CI_Controller
         return $array_mega;
         // print_array($array_mega);
     }
-    public function v2_getmecoursesection($course_id, $bookid)
-    {
-        $functionname = 'mod_book_get_books_by_courses';
-        $data = array(
-            'wstoken' => get_admin_token()['token'],
-            'wsfunction' => $functionname,
-            'courseids[0]' => $course_id,
-            'moodlewsrestformat' => 'json'
 
-        );
-        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
-        $plain_data = json_decode($server_output, true);
-        if (!empty($plain_data)) {
-            $plain_data_1 = $plain_data['books'];
-            foreach ($plain_data_1 as $key => $value) {
-                if ($value['id'] == $bookid) {
-                    $array_section = array(
-                        'section' => $value['section'],
-                        'bookid' => $value['id']
-                    );
-                    echo json_encode($array_section);
-                    return;
-                }
-            }
-        }
-        $array_section = array(
-            'section' => "none",
-            'bookid' => $value['id']
-        );
-        echo json_encode($array_section);
-    }
     public function getbooksin_course()
     {
         $course_id = $this->input->post('courseid');

@@ -81,8 +81,121 @@ class Nopsuser extends CI_Controller
             echo empty_response("course sections loaded", 200, $formatedCoursecontent);
         }
     }
-    #Test Get User Details
 
+    public function get_chapterto_update($_courseid, $_section, $_instance, $_contextid)
+    {
+        $token = get_admin_token()['token'];
+        $functionname = 'core_course_get_contents';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'courseid' => $_courseid
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        $array_of_courses = json_decode($server_output, true);
+        if (array_key_exists('exception', $array_of_courses)) {
+            // message
+            header('Content-Type: application/json');
+            echo empty_response("No Existent course and details", 400);
+            return;
+        } else {
+            $generalicons = array();
+            $content_needs = array();
+            $section_of_interest = $array_of_courses[$_section];
+            if (!empty($section_of_interest)) {
+                $books_to_search = $section_of_interest['modules'];
+                // print_array($books_to_search);
+                foreach ($books_to_search as $key => $value) {
+                    if ($value['instance'] == $_instance && $value['contextid'] == $_contextid) {
+                        // $content_needs = $value['contents'];
+                        $arrayicons = array(
+                            'type' => 'book',
+                            'value' => $value['modicon']
+                        );
+                        $this->addifempty($generalicons, $arrayicons);
+                        $value['modicon'] = $this->onlineUrlReturner($_courseid, $value['modicon'], $value['id'], $value['modname']);
+                        $content_needs = $value;
+                        break;
+                    }
+                }
+            }
+            //Above uni arrays
+
+        }
+        header('Content-Type: application/json');
+        echo empty_response("course sections loaded", 200, $content_needs);
+        // print_array($content_needs);
+    }
+    #Test Get User Details
+    public function get_coursemodule_update($_courseid, $_section)
+    {
+        $token = get_admin_token()['token'];
+        $functionname = 'core_course_get_contents';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'courseid' => $_courseid
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        $array_of_courses = json_decode($server_output, true);
+        $array_output = array(); // We have to keep the format consistent, Array format
+        if (array_key_exists('exception', $array_of_courses)) {
+            // message
+            header('Content-Type: application/json');
+            echo empty_response("No Existent course and details", 400);
+            return;
+        } else {
+            $generalicons = array();
+            $section_of_interest = $array_of_courses[$_section];
+            array_push($array_output, $section_of_interest);
+            // print_array($array_output);
+
+        }
+        header('Content-Type: application/json');
+        echo empty_response("course sections loaded", 200, $array_output);
+        // print_array($content_needs);
+    }
+    public  function get_sectionid_bycontextid($_contextid)
+    {
+        // core_course_get_course_content_items NOT HELPFULL
+        // core_course_get_course_module **
+        // core_course_get_course_module_by_instance
+        // core_course_get_module
+
+        $token = get_admin_token()['token'];
+        $functionname = 'core_course_get_course_module';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json',
+            'cmid' => $_contextid
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        $array_of_courses = json_decode($server_output, true);
+        $array_output = array();
+        if (array_key_exists('exception', $array_of_courses)) {
+            // message
+            header('Content-Type: application/json');
+            echo empty_response("No Existent course and details", 400);
+            return;
+        } else {
+            $array_output = $array_of_courses['cm'];
+            // An array with the keys you want to keep
+            $keys_to_keep = array_flip(['id', 'course', 'module', 'name', 'modname', 'instance', 'section', 'sectionnum']);
+
+            // Use array_intersect_key to keep only the desired keys
+            $filtered_array = array_intersect_key($array_output, $keys_to_keep);
+
+            // Now $filtered_array only contains the keys you specified
+
+        }
+        header('Content-Type: application/json');
+        echo empty_response("course sections loaded", 200, $filtered_array);
+        // print_array($array_output);
+        // 
+    }
     //HELPER FUNCTIONS
     public function addifempty(&$array, &$stringurl)
     {

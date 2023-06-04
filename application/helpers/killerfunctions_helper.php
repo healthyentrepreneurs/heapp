@@ -1230,7 +1230,6 @@ function getImageTypeFromBase64($base64)
 function get_admin_token($show = 0)
 {
     $domainname = MOODLEAPP_DOMAIN . MOODLEAPP_ADMIN;
-    $serverurl = $domainname . '/login/token.php?';
     $data = array();
     $server_output = curl_request($domainname, $data, "get", array('App-Key: 123456'));
     $array_of_output = json_decode($server_output, true);
