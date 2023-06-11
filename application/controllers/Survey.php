@@ -25,7 +25,8 @@ class Survey extends CI_Controller
 
     function edit_survayimage()
     {
-        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+        $result = $this->validate_image("user_profile_pic" . getToken(3));
+        if ($result['success']) {
             $data = array(
                 'upload_data' => $this->upload->data()
             );
@@ -60,14 +61,11 @@ class Survey extends CI_Controller
             $this->go_surveyaddupdate($surveyid, "surveyupdate");
             echo json_encode($array_n);
         } else {
-            // $_POST['original'] = $this->input->post('original');
-            // redirect(base_url('welcome/admin/1'));
             # code...
             $array_n = array(
                 'status' => 0,
-                'message' => "Update Image For This Survey"
+                'message' => $result['message']
             );
-
             echo json_encode($array_n);
         }
     }
@@ -109,7 +107,8 @@ class Survey extends CI_Controller
 
     function addemployee_subfunc()
     {
-        if ($this->validate_image("user_profile_pic" . getToken(3))) {
+        $result =  $this->validate_image("user_profile_pic" . getToken(3));
+        if ($result['success']) {
             $data = array(
                 'upload_data' => $this->upload->data()
             );
@@ -151,7 +150,7 @@ class Survey extends CI_Controller
             # code...
             $array_n = array(
                 'status' => 0,
-                'message' => $this->session->flashdata('validate_image')
+                'message' => $result['message']
             );
             echo json_encode($array_n);
         }
@@ -172,48 +171,35 @@ class Survey extends CI_Controller
             $error = array(
                 'error' => $this->upload->display_errors()
             );
+
             if (strpos($error['error'], "You did not select a file to upload.") !== FALSE) {
-                $this->form_validation->set_message('validate_image', 'Please Select An Image Icon');
                 $this->session->set_flashdata('validate_image', "Please Select An Image Icon");
-                return FALSE;
-            }
-            if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
-                $this->form_validation->set_message('validate_image', 'The filetype you are attempting to upload is not allowed');
+                return ['success' => FALSE, 'message' => 'Please Select An Image Icon'];
+            } else if (strpos($error['error'], "The filetype you are attempting to upload is not allowed.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The filetype you are attempting to upload is not allowed");
-                // print_array("The filetype you are attempting to upload is not allowed");
-                return FALSE;
-            }
-            if (strpos($error['error'], "The image you are attempting to upload doesn't fit into the allowed dimensions.") !== FALSE) {
-                $this->form_validation->set_message('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
+                return ['success' => FALSE, 'message' => 'The filetype you are attempting to upload is not allowed'];
+            } else if (strpos($error['error'], "The image you are attempting to upload doesn't fit into the allowed dimensions.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', 'The image you are attempting to upload doesn\'t fit into the allowed dimensions');
-                // print_array("The filetype you are attempting to upload is not allowed");
-                return FALSE;
-            }
-            if (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
-                $this->session->set_flashdata('validate_image', "The uploaded file exceeds the maximum allowed");
-                // print_array("The uploaded file exceeds the maximum allowed size in your");
-                $this->form_validation->set_message('validate_image', 'Icon Image exceeds the required image size');
-                return FALSE;
-            }
-            if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
+                return ['success' => FALSE, 'message' => 'The image you are attempting to upload doesn\'t fit into the allowed dimensions'];
+            } else if (strpos($error['error'], "The uploaded file exceeds the maximum allowed size in your PHP configuration file.") !== FALSE) {
+                $this->session->set_flashdata('validate_image', "The uploaded file exceeds the maximum allowed size");
+                return ['success' => FALSE, 'message' => 'Icon Image exceeds the required image size'];
+            } else if (strpos($error['error'], "The upload path does not appear to be valid.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The upload path does not appear to be valid.");
-                // print_array("The upload path does not appear to be valid.");
-                $this->form_validation->set_message('validate_image', 'The upload path is not valid');
-                return FALSE;
-            }
-            if (strpos($error['error'], "The upload destination folder does not appear to be writable.") !== FALSE) {
+                return ['success' => FALSE, 'message' => 'The upload path is not valid'];
+            } else if (strpos($error['error'], "The upload destination folder does not appear to be writable.") !== FALSE) {
                 $this->session->set_flashdata('validate_image', "The upload destination folder does not appear to be writable.");
-                // print_array("The upload destination folder does not appear to be writable.");
-                $this->form_validation->set_message('validate_image', 'Distination Folder Not writtable');
-                return FALSE;
+                return ['success' => FALSE, 'message' => 'Destination Folder Not writable'];
+            } else {
+                $errorMessage = $error['error'];
+                $this->session->set_flashdata('validate_image', $errorMessage);
+                return ['success' => FALSE, 'message' => $errorMessage];
             }
-            //The upload destination folder does not appear to be writable
-            // The upload path does not appear to be valid.
-            // if()
         } else {
             $this->session->set_flashdata('validate_image_success', "Successfully Uploaded");
             // print_array("Mamama");
-            return TRUE;
+            // return TRUE;
+            return ['success' => TRUE, 'message' => 'Successfully Uploaded'];
         }
     }
     public function create_thumbnail($width, $height, $new_image, $image_source)
@@ -491,5 +477,9 @@ class Survey extends CI_Controller
         header('Content-Type: application/json');
         $surveys = $this->universal_model->selectall('*', 'survey');
         echo json_encode($surveys);
+    }
+    public function getonesurvey()
+    {
+        # code...
     }
 }

@@ -97,15 +97,30 @@
         });
 
         // Event delegation for handling click event on Edit/View button
+        // $('#mysurveytable').on('click', '.btn-green', function(event) {
+        //     event.preventDefault();
+        //     var target = $(event.target);
+        //     if (target.hasClass('fa-share') || target.parent().hasClass('fa-share')) {
+        //         // Get the corresponding 'href' value from the anchor tag
+        //         var link = target.closest('a').attr('href');
+        //         window.location.href = link;
+        //     }
+        // });
+        // Event delegation for handling click event on Edit/View/Update Image button
         $('#mysurveytable').on('click', '.btn-green', function(event) {
             event.preventDefault();
             var target = $(event.target);
-            if (target.hasClass('fa-share') || target.parent().hasClass('fa-share')) {
+
+            // If the clicked button is either the Edit/View button or the Update Image button.
+            if (target.hasClass('fa-share') || target.parent().hasClass('fa-share') ||
+                target.hasClass('fa-pencil fa-fw') || target.parent().hasClass('fa-pencil fa-fw')) {
+
                 // Get the corresponding 'href' value from the anchor tag
                 var link = target.closest('a').attr('href');
                 window.location.href = link;
             }
         });
+
 
     });
 

@@ -204,10 +204,10 @@ class Nopsuser extends CI_Controller
             'data' => null
         ]);
     }
-
-    public  function get_book($_courseid)
+    // for files --> intrance into file syncs | synce in firestore, then download zip | then sync zip
+    public function get_h5p_byh5pcontext($_courseid)
     {
-        $functionname = 'mod_book_get_books_by_courses';
+        $functionname = 'mod_h5pactivity_get_h5pactivities_by_courses';
         $data = array(
             'wstoken' => get_admin_token()['token'],
             'wsfunction' => $functionname,
@@ -221,7 +221,54 @@ class Nopsuser extends CI_Controller
     }
 
 
+    public function get_sectionid_by_coursemoduleid($_coursemodule_instance)
+    {
+        // core_course_get_course_module_by_instance
+        // core_course_get_module
+        // core_course_get_updates_since
 
+        # code...
+        $functionname = 'core_course_get_course_module';
+        $data = array(
+            'wstoken' => get_admin_token()['token'],
+            'wsfunction' => $functionname,
+            'cmid' => $_coursemodule_instance,
+            'moodlewsrestformat' => 'json'
+
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        $plain_data = json_decode($server_output, true);
+        if (array_key_exists('exception', $plain_data)) {
+            // message
+            // header('Content-Type: application/json');
+            // echo empty_response("No Existent course and details", 400);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'exists' => false,
+                'data' => 'No Data found.'
+            ]);
+            return;
+        } else {
+            if (isset($plain_data['cm'])) {
+                $processed_data = [
+                    'section' => $plain_data['cm']['section'],
+                    'name' => $plain_data['cm']['name']
+                ];
+
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'exists' => true,
+                    'data' => $processed_data
+                ]);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'exists' => false,
+                    'data' => 'No Data found.'
+                ]);
+            }
+        }
+    }
     //HELPER FUNCTIONS
     public function addifempty(&$array, &$stringurl)
     {
