@@ -72,7 +72,7 @@ class Imagemanager extends CI_Controller
         $couseid = $this->input->get('couseid');
         $bookid = $this->input->get('bookid');
         $next_link_course = decryptValue($_link_content);
-        // echo $type;
+        // echo $type; Nana
         if ($this->session->userdata('logged_in_lodda')) {
             $data['header'] = 'parts/header';
             $data['name'] = $name;
@@ -127,6 +127,7 @@ class Imagemanager extends CI_Controller
                 );
                 // print_array($user_add);
                 // print_array("Success");
+                $this->go_bookh5picon($user_add);
                 $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             } else {
                 $_original = array_shift($value_check)['original_one'];
@@ -143,6 +144,7 @@ class Imagemanager extends CI_Controller
                 );
                 // print_array($user_add);
                 // print_array("Success X");
+                $this->go_bookh5picon($user_add);
                 $this->universal_model->updateOnDuplicate('icon_table', $user_add);
             }
         } else {
@@ -151,6 +153,49 @@ class Imagemanager extends CI_Controller
             # code...
         }
     }
+
+    public function go_bookh5picon($user_add)
+    {
+        $_REMOTEGO = REMOTE_GO . "bookhfiveiconadded";
+        $json_nand = json_encode($user_add);  // convert the user_add array to a JSON string
+        curl_request_json($_REMOTEGO, $json_nand);
+    }
+
+    public function loadcourseicons()
+    {
+        // Define an array with all the fields of the 'user_add'
+        $array_table_n = array(
+            'name',
+            'type',
+            'bookid',
+            'couseid',
+            'original',
+            'original_one',
+            'image_small',
+            'image_medium',
+            'image_big'
+        );
+
+        // Get all records from 'icon_table'
+        $records = $this->universal_model->selectall($array_table_n, 'icon_table');
+
+        // Check if any record exists
+        if (!empty($records)) {
+            // Loop through each record
+            foreach ($records as $record) {
+                // print_array($record);
+                // Call go_bookh5picon with the record
+                $this->go_bookh5picon($record);
+            }
+            // All records have been processed
+            // header('Content-Type: application/json');
+            echo empty_response("Icons are loaded", 200);
+        } else {
+            echo empty_response("No records found", 400);
+        }
+    }
+
+
     public function validate_image($generatedname)
     {
         $config['overwrite'] = TRUE;
@@ -213,18 +258,7 @@ class Imagemanager extends CI_Controller
             return TRUE;
         }
     }
-    // public function create_thumbnail($width, $height, $new_image, $image_source)
-    // {
-    //     $config['image_library'] = 'gd2';
-    //     $config['source_image'] = $image_source;
-    //     $config['maintain_ratio'] = TRUE;
-    //     $config['width'] = $width;
-    //     $config['height'] = $height;
-    //     $config['new_image'] = $new_image;
-    //     $this->load->library('image_lib');
-    //     $this->image_lib->initialize($config);
-    //     $this->image_lib->resize();
-    // }
+
     public function create_thumbnail($width, $height, $new_image, $image_source)
     {
         $image = new ImageResize($image_source);
@@ -261,6 +295,47 @@ class Imagemanager extends CI_Controller
         } else {
             $pwapa = $this->universal_model->deletedubs();
             print_array($pwapa);
+        }
+    }
+
+    public function downloadicons()
+    {
+        // Load the url helper
+        $this->load->helper('url');
+
+        // Define an array with the 'original' field
+        $array_table_n = array('original');
+
+        // Get all records from 'icon_table'
+        $records = $this->universal_model->selectall($array_table_n, 'icon_table');
+
+        // Check if any record exists
+        if (!empty($records)) {
+            // Loop through each record
+            foreach ($records as $record) {
+                // Get the image URL
+                $url = $record['original'];
+
+                // Extract image name from URL
+                $image_name = extract_image_name($url);
+
+                // Define the path where the image will be saved
+                $img_path = FCPATH . 'uploadicons/' . $image_name;
+
+                // Check if the image data can be fetched
+                if ($img_data = @file_get_contents($url)) {
+                    // Save the image data to a file, overwriting any existing file
+                    file_put_contents($img_path, $img_data);
+                } else {
+                    // Log a message if the image data couldn't be fetched
+                    error_log("Could not fetch image data from URL: $url");
+                }
+            }
+
+            // All records have been processed
+            echo "Images have been downloaded.";
+        } else {
+            echo "No records found in the 'icon_table'.";
         }
     }
 }

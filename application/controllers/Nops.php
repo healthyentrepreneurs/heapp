@@ -15,7 +15,7 @@ class Nops extends CI_Controller
     }
     public function index($var = null)
     {
-        echo "<h1>Api Users Api .....</h1>";
+        echo "<h1> Nops Api .....</h1>";
     }
     public function login()
     {

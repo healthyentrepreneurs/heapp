@@ -136,7 +136,40 @@ class Moodle extends CI_Controller
             echo json_encode(array('id' => "none", 'added' => 'no user action done user'));
         }
     }
+    public function nanini()
+{
+    $products = array($_POST);
 
+    // Extract courseid and contextinstanceid
+    $courseid = isset($products[0]['amp;courseid']) ? $products[0]['amp;courseid'] : null;
+    $contextinstanceid = isset($products[0]['amp;contextinstanceid']) ? $products[0]['amp;contextinstanceid'] : null;
+
+    // Continue only if both values are available
+    if ($courseid && $contextinstanceid) {
+        $url = "http://192.168.100.4/heapp/nopsuser/get_coursemodule_update/{$courseid}/89/{$contextinstanceid}";
+
+        // No data is sent in the request so this is null
+        $data = null;
+
+        // Send the request and save the result
+        $result = curl_request($url, $data, 'get');
+
+        // Write the result to file
+        $filecsv = FCPATH . 'uploads_clientapp/letswalah.txt';
+        file_put_contents($filecsv, $result);
+    }
+
+    // Optionally, you may want to write to the 'letssee.txt' file regardless of whether the request was sent or not
+    $filecsv = FCPATH . 'uploads_clientapp/letssee.txt';
+
+    // Convert array to string
+    $products_string = print_r($products, true);
+
+    // Write string to file
+    file_put_contents($filecsv, $products_string);
+}
+
+    
     public function pullbook($state = 1)
     {
         // papa Mega1java123!@# papa@gmail.com / papax@gmail.com  papay papata

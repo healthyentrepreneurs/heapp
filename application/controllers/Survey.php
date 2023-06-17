@@ -22,7 +22,7 @@ class Survey extends CI_Controller
         // surveytestadd
         echo "<h1>Survey Api ..</h1>";
     }
-
+    // edit_survayimage
     function edit_survayimage()
     {
         $result = $this->validate_image("user_profile_pic" . getToken(3));
@@ -445,14 +445,14 @@ class Survey extends CI_Controller
     {
         // $_REMOTEGO = "http://192.168.100.4/:8080/".$message;
         $_REMOTEGO = REMOTE_GO . $message;
-        $getnextline = $this->getnexlink($survey_id, 1);
-        $json_nand = json_encode($getnextline);
-        curl_request_json($_REMOTEGO, $json_nand);
-        // $jajama = array(
-        //     'actionon' => "surveys",
-        //     'message' => $message
-        // );
-        // echo json_encode($jajama);
+        if ($message == "surveydelete") {
+            $json_nand = json_encode(array('surveyid' => $survey_id));
+            curl_request_json($_REMOTEGO, $json_nand);
+        } else {
+            $getnextline = $this->getnexlink($survey_id, 1);
+            $json_nand = json_encode($getnextline);
+            curl_request_json($_REMOTEGO, $json_nand);
+        }
     }
     public function test_create_survey($survey_id)
     {
@@ -478,8 +478,9 @@ class Survey extends CI_Controller
         $surveys = $this->universal_model->selectall('*', 'survey');
         echo json_encode($surveys);
     }
-    public function getonesurvey()
+
+    public  function testing_surveys_fire()
     {
-        # code...
+        echo json_encode(array('surveyid' => "12"));
     }
 }

@@ -13,10 +13,51 @@ function mssql_escape($str)
     $str = stripslashes($str);
     return str_replace("'", "''", $str);
 }
-function curl_request($url, array $data = null, $method, array $app_auth = null)
+// function curl_request($url, array $data = null, $method, array $app_auth = null)
+// {
+//     $ch = curl_init($url);
+//     // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+//     switch ($method) {
+//         case 'get':
+//             array_walk($data, function (&$a, $b) {
+//                 $a = "$b=$a";
+//             });
+//             $query = join("&", array_values($data));
+//             curl_setopt($ch, CURLOPT_URL, "$url?$query");
+//             break;
+//         default:
+//             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+//             break;
+//     }
+//     //More Reading
+//     // https://stackoverflow.com/questions/49510311/aw-snap-something-went-while-displaying-this-webpage
+//     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, $app_auth);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     $result = curl_exec($ch);
+//     // if ($result === FALSE) {
+//     //     die(curl_error($ch));
+//     //  }
+//     curl_close($ch);
+//     return $result;
+//     //$app_auth can include
+//     /* array(
+//             'Content-Type:application/json',
+//             'App-Key: 123456',
+//             'App-Secret: 1233'
+//         )*/
+//     // $ch = curl_init();
+//     // curl_setopt($ch, CURLOPT_URL, "http://192.168.100.4/heapp/login");
+//     // curl_setopt($ch, CURLOPT_POST, 1);
+//     // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#')));
+//     // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     // $server_output = curl_exec($ch);
+//     // curl_close ($ch);
+//     // print_array($server_output);
+// }
+function curl_request($url, array $data = null, $method, $app_auth = null)
 {
     $ch = curl_init($url);
-    // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
     switch ($method) {
         case 'get':
             array_walk($data, function (&$a, $b) {
@@ -29,31 +70,30 @@ function curl_request($url, array $data = null, $method, array $app_auth = null)
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
             break;
     }
-    //More Reading
-    // https://stackoverflow.com/questions/49510311/aw-snap-something-went-while-displaying-this-webpage
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $app_auth);
+
+    // Setting the timeout for the request
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+    // Set HTTP headers to prevent caching
+    $headers = array(
+        "Cache-Control: no-store, no-cache, must-revalidate, max-age=0",
+        "Cache-Control: post-check=0, pre-check=0",
+        "Pragma: no-cache",
+        "Expires: 0",
+        "Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"
+    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
     $result = curl_exec($ch);
-    // if ($result === FALSE) {
-    //     die(curl_error($ch));
-    //  }
+
+    // Adding error handling
+    if (curl_errno($ch)) {
+        throw new Exception(curl_error($ch));
+    }
+
     curl_close($ch);
     return $result;
-    //$app_auth can include
-    /* array(
-            'Content-Type:application/json',
-            'App-Key: 123456',
-            'App-Secret: 1233'
-        )*/
-    // $ch = curl_init();
-    // curl_setopt($ch, CURLOPT_URL, "http://192.168.100.4/heapp/login");
-    // curl_setopt($ch, CURLOPT_POST, 1);
-    // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('email' => 'megasega91@gmail.com', 'password' => 'Mega1java123!@#')));
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // $server_output = curl_exec($ch);
-    // curl_close ($ch);
-    // print_array($server_output);
 }
 function curl_request_json($url, $data)
 {
@@ -1240,7 +1280,7 @@ function get_admin_token($show = 0)
     }
 }
 
-function post_get_token_mobile($_username,$_password)
+function post_get_token_mobile($_username, $_password)
 {
     $domainname = MOODLEAPP_DOMAIN . '/login/token.php?service=moodle_mobile_app';
     $data = array(

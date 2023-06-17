@@ -135,14 +135,6 @@ class User extends CI_Controller
                     }
                     #Hey
                     $new_content = array();
-                    // if ($_filter_modules['modname'] == "quiz") {
-                    //     //    echo $$_filter_modules['instance'];
-                    //     // print_array($_filter_modules);
-                    //     // $_filter_modules['contentsinfo'] = json_encode(array());
-                    //     $_filter_modules['contentsinfo'] = json_encode($arrayName = array('' => '',));
-                    //     $_filter_modules['contents'] = array();
-                    //     array_push($array_modules, $_filter_modules);
-                    // } else 
                     if ($_filter_modules['modname'] == "book") {
                         $contents = $_filter_modules['contents'];
                         //Array Search Manipulation
@@ -164,7 +156,6 @@ class User extends CI_Controller
                                         if (strpos($value_check['filepath'], $value_search[0]) !== false && strpos($value_check['filename'], $value_search[1]) !== false) {
                                             $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
                                             $value_n['chapter_id'] = str_replace("/index.html", "", $value_n['href']);
-                                            // $value_n['filefullpath'] = $value_check['fileurl'] . "?token=" . $token;
                                             array_push($cleaner_content, $value_n);
                                             break;
                                         }

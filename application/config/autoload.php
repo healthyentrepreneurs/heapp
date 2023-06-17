@@ -106,6 +106,7 @@ $autoload['helper'] = array(
     'date',
     // 'ckeditor_helper',
     // 'image_helper',
+    'urlhe',
     'killerfunctions',
     'security'
 );
