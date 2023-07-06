@@ -360,23 +360,36 @@ class Nopsuser extends CI_Controller
         ]);
     }
     // for files --> intrance into file syncs | synce in firestore, then download zip | then sync zip
-    // public function get_h5p_byh5pcontext($_courseid)
-    // {
-    //     $functionname = 'mod_h5pactivity_get_h5pactivities_by_courses';
-    //     $data = array(
-    //         'wstoken' => get_admin_token()['token'],
-    //         'wsfunction' => $functionname,
-    //         'courseids[0]' => $_courseid,
-    //         'moodlewsrestformat' => 'json'
+    public function get_h5p_byh5pcontextseea($_courseid)
+    {
+        $functionname = 'mod_h5pactivity_get_h5pactivities_by_courses';
+        $data = array(
+            'wstoken' => get_admin_token()['token'],
+            'wsfunction' => $functionname,
+            'courseids[0]' => $_courseid,
+            'moodlewsrestformat' => 'json'
 
-    //     );
-    //     $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "get", array('App-Key: 123456'));
 
-    //     // header('Content-Type: application/json');
-    //     // echo $server_output;
-    //     $plain_data = json_decode($server_output, true);
-    //     print_array($plain_data);
-    // }
+        // header('Content-Type: application/json');
+        // echo $server_output;
+        $plain_data = json_decode($server_output, true);
+        print_array($plain_data);
+    }
+    public function clear_cache()
+    {
+        $token = get_admin_token()['token'];
+        $functionname = 'local_hello_purge_caches';
+        $data = array(
+            'wstoken' => $token,
+            'wsfunction' => $functionname,
+            'moodlewsrestformat' => 'json'
+        );
+        $server_output = curl_request(MOODLEAPP_ENDPOINT, $data, "post", array('App-Key: 123456'));
+        echo $server_output;
+    }
+
     public function get_h5p_byh5pcontext($_courseid, $coursemodule, $id)
     {
         $functionname = 'mod_h5pactivity_get_h5pactivities_by_courses';
@@ -400,7 +413,6 @@ class Nopsuser extends CI_Controller
         if (!empty($filtered_data)) {
             $filtered_item = array_shift($filtered_data);
             unset($filtered_item['mimetype'], $filtered_item['timemodified'], $filtered_item['filepath'], $filtered_item['filesize']);
-            // print_array($filtered_item);
             return $filtered_item;
         } else {
             return array();
